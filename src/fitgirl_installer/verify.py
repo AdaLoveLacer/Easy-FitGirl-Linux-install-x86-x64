@@ -8,10 +8,15 @@ import hashlib
 import json
 import os
 import re
+import sys
 import tempfile
 import time
 from pathlib import Path
+
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from fitgirl_installer import i18n
 
 
 LINE = re.compile(r"^([0-9a-fA-F]{32})\s+[* ](.+)$")
@@ -59,6 +64,7 @@ def md5(path: Path) -> str:
 
 
 def main() -> int:
+    i18n.activate(os.environ.get("FITGIRL_LANGUAGE", "pt"))
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", required=True, type=Path)
     parser.add_argument("--manifest", required=True, type=Path)

@@ -24,4 +24,7 @@ O helper PE32 tem código e receita em `src/unarc_helper.c` e
 As versões binárias incluídas no pacote e seus hashes exatos aparecem em
 `THIRD-PARTY-BINARIES.json`. Bibliotecas Boost, bzip2, zlib-ng-compat e zstd têm
 licenças permissivas; seus avisos estão em `licenses/`. O binário `liblzma` tem
-código fornecido pelo sistema hospedeiro e não é redistribuído pelo pacote.
+código-fonte no source release oficial XZ Utils 5.8.4 em
+`source/xz/xz-5.8.4.tar.gz`. Execute `tools/build-liblzma.sh` para validar o
+SHA-256 e construir a biblioteca compartilhada incluída no pacote. Os avisos
+de licença do source release são entregues em `licenses/` e no arquivo-fonte.

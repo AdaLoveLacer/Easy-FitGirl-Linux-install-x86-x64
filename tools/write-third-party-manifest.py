@@ -12,7 +12,7 @@ root = Path(sys.argv[1])
 output = Path(sys.argv[2])
 license_by_prefix = {
     "libboost_": "BSL-1.0",
-    "liblzma": "LGPL-2.1-or-later; corresponding source included",
+    "liblzma": "0BSD (XZ Utils core); corresponding source included",
     "libz.so": "Zlib",
     "libbz2": "bzip2 BSD",
     "libzstd": "BSD-3-Clause (alternative GPL-2.0-only)",
@@ -28,6 +28,9 @@ for path in sorted((root / "libexec").iterdir()):
         license_name, origin = "GPL-2.0", "xredor/unarc commit adc333d"
     elif path.name == "unarc-helper.exe":
         license_name, origin = "Project source", "src/unarc_helper.c"
+    elif path.name.startswith("liblzma.so"):
+        license_name = "0BSD (XZ Utils core); see bundled COPYING files"
+        origin = "XZ Utils 5.8.4 source release; built by tools/build-liblzma.sh"
     else:
         license_name = next(
             (value for prefix, value in license_by_prefix.items() if path.name.startswith(prefix)),

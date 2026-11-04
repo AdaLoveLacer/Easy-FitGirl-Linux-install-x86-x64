@@ -89,7 +89,6 @@ def host_report() -> dict[str, Any]:
     libraries = {
         "libstdc++": ctypes.util.find_library("stdc++"),
         "libgcc_s": ctypes.util.find_library("gcc_s"),
-        "liblzma": ctypes.util.find_library("lzma"),
     }
     commands = {command: shutil.which(command) for command in REQUIRED_COMMANDS}
     optional_commands = {command: shutil.which(command) for command in OPTIONAL_COMMANDS}

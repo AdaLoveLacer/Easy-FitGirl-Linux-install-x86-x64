@@ -38,8 +38,9 @@ QuickSFV porque não há concessão explícita de redistribuição documentada.
 
 - Linux x86-64, glibc 2.38+, Python 3.12+, `libstdc++`, `libgcc_s` e Wine
   instalados no sistema.
-- O artefato traz `innoextract`, `unarc` e dependências não-base permissivas de
-  `innoextract`, com inventário de hashes e avisos. O sistema fornece `liblzma`.
+- O artefato traz `innoextract`, `unarc`, `liblzma` e dependências não-base de
+  `innoextract`, com inventário de hashes, fontes e avisos. O host ainda fornece
+  glibc, `libstdc++` e `libgcc_s`.
 - Debian 13, Ubuntu 24.04 e CachyOS rolling foram exercitados; demais
   distribuições precisam de validação própria.
 - `fitgirl doctor` verifica os requisitos globais e os comandos necessários.

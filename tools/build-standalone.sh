@@ -19,6 +19,14 @@ cp "$ROOT/libexec/fitgirl-extract" "$STAGE/libexec/fitgirl-extract"
 cp "$ROOT/libexec/innoextract" "$STAGE/libexec/innoextract"
 python3 "$ROOT/tools/copy-innoextract-libs.py" \
   --binary "$ROOT/libexec/innoextract" --destination "$STAGE/libexec"
+"$ROOT/tools/build-liblzma.sh"
+install -m 0755 "$ROOT/.work/build/liblzma.so.5" "$STAGE/libexec/liblzma.so.5"
+LZMA_RESOLUTION="$(LD_LIBRARY_PATH="$STAGE/libexec" ldd "$STAGE/libexec/innoextract" \
+  | awk '/liblzma\.so\.5 =>/ { print $3; exit }')"
+if [[ "$LZMA_RESOLUTION" != "$STAGE/libexec/liblzma.so.5" ]]; then
+  echo "innoextract não está usando a liblzma incluída: ${LZMA_RESOLUTION:-ausente}" >&2
+  exit 1
+fi
 cp "$ROOT/libexec/unarc" "$STAGE/libexec/unarc"
 cp "$ROOT/libexec/unarc-helper.exe" "$STAGE/libexec/unarc-helper.exe"
 python3 "$ROOT/tools/write-third-party-manifest.py" \

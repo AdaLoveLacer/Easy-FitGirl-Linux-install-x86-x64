@@ -379,7 +379,7 @@
     },
     {
       "title": "Publicação",
-      "status": "PREPARADA LOCALMENTE — SEM ENVIO/PUBLICAÇÃO EXTERNA",
+      "status": "COMMIT LOCAL CRIADO — ENVIO REMOTO PENDENTE",
       "items": [
         [
           true,
@@ -410,8 +410,12 @@
           "Inicializar Git localmente e preparar o pacote com fontes/licenças e checksum. Não foi configurado remoto nem enviado/publicado o artefato."
         ],
         [
+          true,
+          "Aplicar 0BSD ao material original do projeto; LICENSE criado, limites de terceiros explicitados e aviso incluído no pacote. A licença não relicencia dependências de terceiros."
+        ],
+        [
           false,
-          "Escolher e documentar licença para o código próprio antes de disponibilizar o repositório publicamente; ainda não existe arquivo LICENSE nem licença definida."
+          "Enviar a atualização licenciada e validada para origin/main; nenhuma alteração foi enviada ao repositório remoto."
         ]
       ]
     },
@@ -434,6 +438,24 @@
         [
           true,
           "Confirmar que nenhum processo usa os caminhos e registrar o espaço recuperado; 19,12 GiB liberados em evidence/cleanup-2026-11-03.json."
+        ]
+      ]
+    },
+    {
+      "title": "Interface bilíngue",
+      "status": "IMPLEMENTADA — PORTUGUÊS E INGLÊS",
+      "items": [
+        [
+          true,
+          "Perguntar o idioma no início de cada execução interativa e propagar a escolha para prompts, interface, erros e monitoramento; FITGIRL_LANGUAGE permite automação."
+        ],
+        [
+          true,
+          "Publicar README.md em inglês e README.pt-BR.md em português, com conteúdo conciso e links entre as versões."
+        ],
+        [
+          true,
+          "Incluir licença 0BSD e os dois READMEs no ZIP standalone, mantendo avisos de componentes de terceiros separados."
         ]
       ]
     },
@@ -486,5 +508,13 @@
     "Correção de bloqueio semântico: chamadas Exec2 para {uninstallexe} /VERYSILENT agora geram efeito crítico e MISMATCH; semantic_blockers são persistidos e recusados pelo CLI. Atualizados os três drafts existentes no cache. Não se executou nenhum instalador. Ver evidence/semantic-guard-audit-2026-11-04.json.",
     "Preparação de publicação em 2026-11-04: Wine privado e QuickSFV removidos do pacote; fontes/licenças de innoextract, unarc e liblzma incluídas, hashes dos binários inventariados. Git inicializado localmente; pacote dist/FitGirlInstaller-Linux-x86_64.zip preparado e checksum verificado. Nenhum envio externo foi feito.",
     "Pacote de publicação final em 2026-11-04: SHA-256 f89cfd45fc64ec440cb4af9f5f83974b36b38fcc21f48bf052d931794d1a60f9, 15 arquivos, 2,125,782 bytes; executável standalone SHA-256 7bc921bd090b60e282273799117c046f94906dc3fed0ae8ff9a0cb757e27c578; source bundle SHA-256 bf7c25d394b38764d8a6b6228476643ddfdf0cfb3b3a34e16212ea0244e2edef. Hashes e fontes registrados em evidence/release-preparation-2026-11-04.json."
+  ],
+  "history": [
+    "Atualização 2026-11-04: empacotamento de liblzma corrigido para incluir liblzma.so.5 compilada de XZ Utils 5.8.4, com source release SHA-256 0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9, avisos e receita de build. Validação do artefato pendente nesta execução.",
+    "Validação do bundle de liblzma em 2026-11-04: build standalone passou com verificação de que ldd resolve liblzma.so.5 de dentro de libexec; fitgirl doctor passou com LD_LIBRARY_PATH removido do ambiente; innoextract --version executou. ZIP íntegro e checksums internos válidos. Evidência: evidence/liblzma-bundling-2026-11-04.json.",
+    "Licenciamento em 2026-11-04: a pedido do usuário, 0BSD aplicada ao material original do projeto, sem exigência de atribuição; LICENSE e README/docs atualizados, componentes de terceiros excluídos do escopo da licença do projeto. O pacote passa a carregar LICENSE. origin/main ainda aponta para o commit anterior; atualização local não foi enviada.",
+    "Em 2026-11-04, a pedido do usuário: adicionado LICENSE 0BSD ao material original, excluindo componentes de terceiros; README.md em inglês e README.pt-BR.md em português; seletor de idioma no início do CLI interativo e FITGIRL_LANGUAGE para automação. O pacote inclui LICENSE e ambos os READMEs. Commit solicitado ainda será criado localmente; sem envio remoto nesta etapa.",
+    "Em 2026-11-04, validação final do README bilíngue e seletor de idioma: pacote standalone recompilado, ZIP íntegro e checksums internos aprovados; --help funciona em inglês. Commit local preparado nesta execução; envio para origin/main permanece pendente.",
+    "Commit local criado em 2026-11-04: 6e6dc6e Add bilingual interface and bundle liblzma. Commit contém README bilíngue, seletor de idioma, licença do material próprio e liblzma compilada de fonte incluída; nenhuma publicação remota foi feita."
   ]
 }

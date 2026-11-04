@@ -11,6 +11,8 @@ SOURCE_ARCHIVE="$PACKAGE/SOURCE-CODE.tar.gz"
 rm -rf "$RELEASE_ROOT"
 mkdir -p "$PACKAGE/LICENSES"
 cp "$ROOT/dist/fitgirl" "$PACKAGE/fitgirl"
+cp "$ROOT/LICENSE" "$PACKAGE/LICENSE"
+cp "$ROOT/README.md" "$ROOT/README.pt-BR.md" "$PACKAGE/"
 cp "$ROOT/dist/THIRD-PARTY-BINARIES.json" "$PACKAGE/THIRD-PARTY-BINARIES.json"
 cp "$ROOT/docs/THIRD_PARTY.md" "$PACKAGE/THIRD_PARTY.md"
 cp "$ROOT/third_party/licenses/"* "$PACKAGE/LICENSES/"
@@ -39,6 +41,11 @@ O setup.exe não é executado. Planos não comprovados são recusados.
 O diretório LICENSES e THIRD_PARTY.md identificam binários, bibliotecas,
 licenças, avisos e origens. SOURCE-CODE.tar.gz contém os fontes correspondentes
 aos componentes de terceiros redistribuídos e suas receitas de build.
+LICENSE aplica 0BSD apenas ao material original do projeto; componentes de
+terceiros mantêm suas licenças próprias.
+README.md e README.pt-BR.md documentam o projeto em inglês e português.
+O launcher pergunta o idioma na inicialização interativa; FITGIRL_LANGUAGE
+define o idioma em execuções automatizadas.
 QuickSFV e Wine FitGirl não são incluídos.
 TXT
 

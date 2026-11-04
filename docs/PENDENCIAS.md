@@ -119,7 +119,7 @@ Estado: **CONCLUÍDO — SELEÇÃO INTERATIVA VALIDADA**
 
 ## 10. Publicação
 
-Estado: **PREPARADA LOCALMENTE — SEM ENVIO/PUBLICAÇÃO EXTERNA**
+Estado: **COMMIT LOCAL CRIADO — ENVIO REMOTO PENDENTE**
 
 - [x] Fechar a revisão de redistribuição: fontes/avisos dos componentes mantidos foram incluídos; Wine FitGirl e QuickSFV sem grant explícito foram retirados do artefato. Ver docs/THIRD_PARTY.md e third_party/.
 - [x] Auditar o pacote de publicação: sem payloads de jogos, volumes FitGirl, DLLs de codec, QuickSFV ou Wine FitGirl; inventário em THIRD-PARTY-BINARIES.json.
@@ -128,7 +128,8 @@ Estado: **PREPARADA LOCALMENTE — SEM ENVIO/PUBLICAÇÃO EXTERNA**
 - [x] Fixar commits/releases, checksums, fontes e instruções de build dos componentes de terceiros mantidos; THIRD-PARTY-BINARIES.json inventaria os hashes exatos do pacote.
 - [x] Revisar nomes e arquivos para publicação; manter .work/ e dist/ ignorados pelo Git.
 - [x] Inicializar Git localmente e preparar o pacote com fontes/licenças e checksum. Não foi configurado remoto nem enviado/publicado o artefato.
-- [ ] Escolher e documentar licença para o código próprio antes de disponibilizar o repositório publicamente; ainda não existe arquivo LICENSE nem licença definida.
+- [x] Aplicar 0BSD ao material original do projeto; LICENSE criado, limites de terceiros explicitados e aviso incluído no pacote. A licença não relicencia dependências de terceiros.
+- [ ] Enviar a atualização licenciada e validada para origin/main; nenhuma alteração foi enviada ao repositório remoto.
 
 ## 11. Limpeza final
 
@@ -139,7 +140,15 @@ Estado: **CONCLUÍDO**
 - [x] Inventariar e remover targets parciais, arquivos vazios, stagings, prefixos e caches obsoletos; 25 entradas removidas.
 - [x] Confirmar que nenhum processo usa os caminhos e registrar o espaço recuperado; 19,12 GiB liberados em evidence/cleanup-2026-11-03.json.
 
-## 12. Interface simplificada, teste real e pacote de teste
+## 12. Interface bilíngue
+
+Estado: **IMPLEMENTADA — PORTUGUÊS E INGLÊS**
+
+- [x] Perguntar o idioma no início de cada execução interativa e propagar a escolha para prompts, interface, erros e monitoramento; FITGIRL_LANGUAGE permite automação.
+- [x] Publicar README.md em inglês e README.pt-BR.md em português, com conteúdo conciso e links entre as versões.
+- [x] Incluir licença 0BSD e os dois READMEs no ZIP standalone, mantendo avisos de componentes de terceiros separados.
+
+## 13. Interface simplificada, teste real e pacote de teste
 
 Estado: **CONCLUÍDO — INSTALAÇÃO REAL VALIDADA**
 

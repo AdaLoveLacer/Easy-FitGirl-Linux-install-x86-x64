@@ -26,6 +26,16 @@
       "source": "project source",
       "source_path": "src/native/unarc_helper.c",
       "build_recipe": "tools/build-unarc-helper.sh"
+    },
+    {
+      "name": "liblzma",
+      "version": "5.8.4",
+      "source": "https://github.com/tukaani-project/xz/releases/tag/v5.8.4",
+      "source_archive": "third_party/source/xz/xz-5.8.4.tar.gz",
+      "source_archive_sha256": "0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9",
+      "license": "0BSD core; other source files retain their upstream licenses",
+      "binary_path": "libexec/liblzma.so.5",
+      "build_recipe": "tools/build-liblzma.sh"
     }
   ]
 }

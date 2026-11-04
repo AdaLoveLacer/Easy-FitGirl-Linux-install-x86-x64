@@ -18,7 +18,7 @@ antes de iniciar prompts ou instalação. Wine precisa estar instalado pelo
 usuário para carregar DLLs e codecs Windows do repack.
 
 O código Python usa somente a biblioteca padrão. O host fornece glibc, loader
-ELF, `libstdc++`, `libgcc_s` e `liblzma`. O artefato inclui as bibliotecas Boost,
+ELF, `libstdc++` e `libgcc_s`. O artefato inclui `liblzma` e as bibliotecas Boost,
 bzip2, zlib e zstd exigidas pelo `innoextract`, com avisos e inventário de hashes
 no ZIP. Wine não é empacotado; `fitgirl doctor` procura Wine ou
 Proton no PATH, nos locais usuais do Steam e em `FITGIRL_WINE_BIN`. Os demais comandos de sistema exigidos pela interface e

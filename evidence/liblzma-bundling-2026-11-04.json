@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-04",
+  "component": "liblzma.so.5",
+  "source_release": "XZ Utils 5.8.4",
+  "source_archive": "third_party/source/xz/xz-5.8.4.tar.gz",
+  "source_archive_sha256": "0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9",
+  "binary_sha256": "0ed4e39d8b6a136d22906cd5f1db553e1a5884bc74377f7d304ac1ed4c53420c",
+  "license": "0BSD core; all COPYING notices and complete source release included in package",
+  "validation": {
+    "release_build": "passed; build script asserts ldd resolves the staged liblzma path",
+    "doctor": "passed with LD_LIBRARY_PATH unset; host check no longer requires liblzma",
+    "innoextract_version": "passed using extracted standalone runtime",
+    "runtime_resolution": "ldd maps liblzma.so.5 to runtime/libexec/liblzma.so.5",
+    "zip_integrity": "passed: unzip -t and all SHA256SUMS entries",
+    "package_sha256": "861c7198252b794d76325660ff72c7b5e015563519ca23aff89e5c89b496cf75",
+    "standalone_sha256": "45b82e04c4c99001a4cc697187eaa883e5e67de8dabe89e995780076645a4add",
+    "package_size_bytes": 5106830,
+    "package_file_count": 21,
+    "source_bundle_sha256": "f6307cd8bb4246f8c923f47a85f3fc830668947f2cb7850c9be00ac3fba85e01",
+    "glibc_symbol_max": "GLIBC_2.34 (within the documented glibc 2.38 minimum floor)",
+    "xz_upstream_security_review": "XZ Utils advisory confirms the 5.8.4 release fixes GHSA-5qpq-xqfv-j9pg"
+  },
+  "scope_limit": "Validated on CachyOS x86-64; no clean-install test on another distribution was run."
+}
