@@ -4,7 +4,7 @@
 > `status/project-status.json` e execute `./tools/sync-docs.py --write`.
 
 Última atualização declarada: 2026-11-04  
-Suíte automatizada descoberta: **98/98 testes**.
+Suíte automatizada descoberta: **100/100 testes**.
 
 ## 1. Monitoramento da ordem em produção
 
@@ -58,7 +58,7 @@ Estado: **PROVA ESTÁTICA AMPLIADA — EQUIVALÊNCIA COMPLETA PENDENTE**
 - [x] Alegação de compatibilidade universal permanece removida; somente setups/planos auditados e empiricamente instalados são suportados.
 - [x] Provar a ordem das chamadas mutantes reconhecidas em Star Trucker (19), Children of Morta (43) e Subnautica (28): todas em CurStepChanged, sequências de manifest coincidentes, CFG sem ciclos após dobra conservadora de condição constante; drafts continuam review_required. Evidência em evidence/interprocedural-action-order-2026-11-04.json.
 - [x] Provar guardas de evento/checkbox e semântica da máscara de seleção nos três drafts; analisar ISExec e Exec2 pela DLL exata: CurComponent respeita a máscara, ISExec retorna false para componente ignorado e falha e Exec2 aguarda processo e devolve flag de estado, não exit code. Evidência em evidence/semantic-guard-audit-2026-11-04.json; helpers e equivalência completa seguem pendentes.
-- [ ] Completar a prova dos efeitos de ISDoneInit/PrecompInit/FileSearchInit/ChangeLanguage/ISDoneStop e dos escritores indiretos da flag de Exec2 durante callbacks. A tentativa detectada de desinstalação silenciosa já está bloqueada por MISMATCH/semantic_blockers; isso não prova equivalência dos demais efeitos nem elimina esses limites da auditoria.
+- [x] Concluir a auditoria estática dos efeitos de ISDoneInit, PrecompInit, FileSearchInit, ChangeLanguage e ISDoneStop; inventariar escritores internos da flag Exec2 e auditar os callbacks IFPS dos três setups. Concluído para a DLL hash c652b4b5…; progress callback não chama Exec2. Reentrada por janela nativa e resultados runtime registrados como limites; drafts continuam bloqueados pelos três efeitos externos. Evidência: evidence/semantic-guard-audit-2026-11-04.json.
 - [x] Recusar planos gerados cujo fluxo interprocedural não foi provado: draft/review_required é bloqueado antes da instalação; cobertura em tests/test_plan_generator.py e tests/test_plan_audit.py.
 - [x] Adicionar verificação global de compatibilidade: Linux x86-64, glibc 2.38+, Python 3.12+, libstdc++/libgcc_s e comandos essenciais; fornecer `fitgirl doctor` sem espalhar tratamento por try/catch.
 - [x] Bloquear o efeito Exec2({uninstallexe}, /VERYSILENT): a auditoria agora reporta MISMATCH, persiste semantic_blockers no draft e o CLI recusa antes da instalação. Aplicado aos drafts existentes de Star Trucker, Children of Morta e Subnautica.
@@ -119,7 +119,7 @@ Estado: **CONCLUÍDO — SELEÇÃO INTERATIVA VALIDADA**
 
 ## 10. Publicação
 
-Estado: **COMMIT LOCAL CRIADO — ENVIO REMOTO PENDENTE**
+Estado: **PUBLICADO EM origin/main — 4bfc238**
 
 - [x] Fechar a revisão de redistribuição: fontes/avisos dos componentes mantidos foram incluídos; Wine FitGirl e QuickSFV sem grant explícito foram retirados do artefato. Ver docs/THIRD_PARTY.md e third_party/.
 - [x] Auditar o pacote de publicação: sem payloads de jogos, volumes FitGirl, DLLs de codec, QuickSFV ou Wine FitGirl; inventário em THIRD-PARTY-BINARIES.json.
@@ -129,7 +129,7 @@ Estado: **COMMIT LOCAL CRIADO — ENVIO REMOTO PENDENTE**
 - [x] Revisar nomes e arquivos para publicação; manter .work/ e dist/ ignorados pelo Git.
 - [x] Inicializar Git localmente e preparar o pacote com fontes/licenças e checksum. Não foi configurado remoto nem enviado/publicado o artefato.
 - [x] Aplicar 0BSD ao material original do projeto; LICENSE criado, limites de terceiros explicitados e aviso incluído no pacote. A licença não relicencia dependências de terceiros.
-- [ ] Enviar a atualização licenciada e validada para origin/main; nenhuma alteração foi enviada ao repositório remoto.
+- [x] Publicar a atualização licenciada e validada em origin/main; commit 4bfc238 confirmado no remoto em 2026-11-04.
 
 ## 11. Limpeza final
 

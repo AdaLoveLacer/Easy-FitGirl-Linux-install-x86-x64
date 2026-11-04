@@ -461,8 +461,9 @@ def semantic_guard_report(disassembly: Path) -> dict[str, Any]:
     critical_external_effects = []
     for call in external_calls:
         literals = [str(value).casefold() for value in call["nearby_string_literals_heuristic"]]
+        call_name = call["call"].casefold()
         if (
-            "!exec2" in call["call"].casefold()
+            "!exec2" in call_name
             and any("{uninstallexe}" in value for value in literals)
             and any("/verysilent" in value for value in literals)
         ):
@@ -476,6 +477,37 @@ def semantic_guard_report(disassembly: Path) -> dict[str, Any]:
                 "modeled_by_native_plan": False,
                 "blocks_audit_acceptance": True,
                 "evidence_basis": "IFPS external-call frame literals; review the exact caller branch before interpreting reachability.",
+                "detail": "A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance.",
+            })
+        elif "!precompinit" in call_name:
+            critical_external_effects.append({
+                "kind": "unmodeled_precomp_ini_write",
+                "call_address": call["address"],
+                "procedure": call["procedure"],
+                "severity": "critical",
+                "modeled_by_native_plan": False,
+                "blocks_audit_acceptance": True,
+                "evidence_basis": (
+                    "The exact ISDone.dll binary shared by the audited setups calls "
+                    "WritePrivateProfileStringA for the Precomp section (Memory and TempPath) "
+                    "from PrecompInit; the native action inventory does not model this export."
+                ),
+                "detail": "PrecompInit writes the Precomp Memory and TempPath keys to CLS.ini; that external configuration change is absent from the native plan.",
+            })
+        elif "!isdonestop" in call_name:
+            critical_external_effects.append({
+                "kind": "unmodeled_conditional_records_file_deletion",
+                "call_address": call["address"],
+                "procedure": call["procedure"],
+                "severity": "critical",
+                "modeled_by_native_plan": False,
+                "blocks_audit_acceptance": True,
+                "evidence_basis": (
+                    "The exact ISDone.dll binary shared by the audited setups conditionally "
+                    "calls DeleteFileA on the records path retained by ISDoneInit; the native "
+                    "action inventory does not model this export or prove its guard unreachable."
+                ),
+                "detail": "ISDoneStop can delete the records.inf path retained by ISDoneInit when its internal cleanup guards pass; the native plan does not model or disprove that deletion.",
             })
     return {
         "callback": callback.name,
@@ -631,7 +663,7 @@ def audit_plan(
             "kind": effect["kind"],
             "call_address": effect["call_address"],
             "procedure": effect["procedure"],
-            "detail": "A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance.",
+            "detail": effect.get("detail", "An external ISDone.dll effect is absent from the native plan and must be resolved before review acceptance."),
         })
 
     cfg = ifps_ir.cfg_report(disassembly)

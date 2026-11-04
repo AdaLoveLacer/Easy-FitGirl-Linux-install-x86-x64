@@ -441,7 +441,7 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
             ),
         )
         blockers = [
-            f"{effect['kind']} em {effect['call_address']}: tentativa condicional de desinstalação silenciosa"
+            f"{effect['kind']} em {effect['call_address']}: {effect.get('detail', 'efeito externo crítico não modelado')}"
             for effect in report.get("semantic_guards", {}).get("critical_external_effects", [])
             if effect.get("blocks_audit_acceptance") is True
         ]
@@ -751,9 +751,10 @@ def target_work_id(target: Path, setup_hash: str) -> str:
 
 def format_size(size: int) -> str:
     value = float(size)
+    decimal_separator = "." if i18n.LANGUAGE == "en" else ","
     for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
         if value < 1024 or unit == "TiB":
-            return f"{value:.2f} {unit}".replace(".", ",")
+            return f"{value:.2f} {unit}".replace(".", decimal_separator)
         value /= 1024
     raise AssertionError("unreachable")
 

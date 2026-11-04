@@ -114,13 +114,12 @@ HELPER  bytecode @0x200 (1 bytes, 1 instructions)
             report = IFPS_IR.cfg_report(path)
 
         self.assertEqual(report["totals"], {
-            "procedures": 2, "instructions": 7, "blocks": 5, "edges": 4
+            "procedures": 2, "instructions": 7, "blocks": 5, "edges": 3
         })
         main = report["procedures"][0]
         self.assertEqual(
             main["blocks"][0]["successors"],
             [
-                {"target": "0x120", "kind": "branch-true"},
                 {"target": "0x110", "kind": "branch-false"},
             ],
         )

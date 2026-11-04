@@ -21,6 +21,28 @@ _TEXT = {
     "Informe um número inteiro.": "Enter a whole number.",
     "CPUs permitidas para todo o trabalho": "CPUs available for all tasks",
     "Escolher outro caminho": "Choose another path",
+    "Destino": "Destination",
+    "Desempenho": "Performance",
+    "Revisar e iniciar": "Review and start",
+    "Origem:": "Source:",
+    "Arquivos compactados:": "Compressed files:",
+    "Espaço declarado pelo instalador:": "Installer-declared space:",
+    "O setup e o jogo não serão executados.": "The setup and game will not be run.",
+    "Jogo:": "Game:",
+    "Destino:": "Destination:",
+    "Conteúdo:": "Content:",
+    "Dados selecionados:": "Selected data:",
+    "Recursos:": "Resources:",
+    "Validação:": "Verification:",
+    "Espaço declarado pelo repack:": "Repack-declared space:",
+    "somente arquivos principais": "main files only",
+    "há volumes ausentes": "some volumes are missing",
+    "Automático (recomendado)": "Automatic (recommended)",
+    "Personalizado": "Custom",
+    " — obrigatório": " — required",
+    ": indisponível (arquivo ausente)": ": unavailable (file missing)",
+    "A pasta de destino já existe; confira se é a instalação pretendida.":
+        "The destination folder already exists; make sure it is the intended installation.",
     "Opção inválida.": "Invalid option.",
     "Plano de instalação validado.": "Installation plan validated.",
     "Componentes:": "Components:",
@@ -141,10 +163,16 @@ _MONITOR_PATTERN_NAMES = {
 }
 
 _PATTERNS: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], ...] = (
-    (re.compile(r"Etapa (\d+) de 4  \|  (.*)"), r"Step \1 of 4  |  \2"),
+    (re.compile(r"Etapa (\d+) de 4  \|  (.*)"), lambda m: f"Step {m.group(1)} of 4  |  {translate(m.group(2))}"),
+    (re.compile(r"^Origem: (.*)$"), r"Source: \1"),
+    (re.compile(r"^Arquivos compactados: (.*)$"), r"Compressed files: \1"),
+    (re.compile(r"^Espaço declarado pelo instalador: (.*)$"), r"Installer-declared space: \1"),
+    (re.compile(r"^  (\d+\. )Escolher outro caminho$"), r"  \1Choose another path"),
+    (re.compile(r"^  (.*) — obrigatório$"), r"  \1 — required"),
+    (re.compile(r"^  (.*): indisponível \(arquivo ausente\)$"), r"  \1: unavailable (file missing)"),
     (re.compile(r"^(.+) \[(S/n|s/N)\] $"), lambda m: f"{translate(m.group(1))} [{'Y/n' if m.group(2) == 'S/n' else 'y/N'}] "),
     (re.compile(r"^(.+?)( \[.*?\])?: $"), lambda m: f"{translate(m.group(1))}{translate(m.group(2) or '')}: "),
-    (re.compile(r"  Incluir (.*)\? \[(S/n|s/N)\] "), r"  Include \1? [\2] "),
+    (re.compile(r"  Incluir (.*)\? \[(S/n|s/N)\] "), lambda m: f"  Include {translate(m.group(1))}? [{'Y/n' if m.group(2) == 'S/n' else 'y/N'}] "),
     (re.compile(r"Destino \(número ou caminho\) \[1\]: "), "Destination (number or path) [1]: "),
     (re.compile(r"\nOnde instalar\? \(fora do prefixo Wine\)"), "\nWhere should the game be installed? (outside the Wine prefix)"),
     (re.compile(r"Destino indisponível: (.*)"), r"Destination unavailable: \1"),
@@ -334,9 +362,9 @@ def _localized_input(prompt: str = "") -> str:
     return _ORIGINAL_INPUT(translate(prompt))
 
 
-def activate(language: str) -> tuple[Any, Any, str | None]:
+def activate(language: str) -> tuple[Any, Any, str | None, str]:
     global LANGUAGE
-    previous = (builtins.print, builtins.input, os.environ.get("FITGIRL_LANGUAGE"))
+    previous = (builtins.print, builtins.input, os.environ.get("FITGIRL_LANGUAGE"), LANGUAGE)
     LANGUAGE = "en" if language == "en" else "pt"
     os.environ["FITGIRL_LANGUAGE"] = LANGUAGE
     builtins.print = _localized_print
@@ -344,8 +372,9 @@ def activate(language: str) -> tuple[Any, Any, str | None]:
     return previous
 
 
-def restore(previous: tuple[Any, Any, str | None]) -> None:
-    builtins.print, builtins.input, old_language = previous
+def restore(previous: tuple[Any, Any, str | None, str]) -> None:
+    global LANGUAGE
+    builtins.print, builtins.input, old_language, LANGUAGE = previous
     if old_language is None:
         os.environ.pop("FITGIRL_LANGUAGE", None)
     else:

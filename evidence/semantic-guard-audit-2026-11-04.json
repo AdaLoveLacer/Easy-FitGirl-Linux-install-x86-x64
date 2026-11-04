@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "validated_on": "2026-11-04",
-  "status": "PARTIAL_SEMANTIC_PROOF",
+  "status": "STATIC_AUDIT_COMPLETE_WITH_RUNTIME_LIMITS",
   "basis": {
     "event_callback": "Inno Setup declares CurStepChanged(CurStep: TSetupStep); exact enum order is in Shared.SetupSteps.pas. Standard Pascal enum ordinals begin at zero. Official event docs define when ssPostInstall occurs. IFPS branch polarity is cross-checked against Inno Setup’s bundled uPSRuntime.pas.",
     "sources": [
@@ -11,7 +11,7 @@
       "https://github.com/jrsoftware/issrc/blob/main/Components/UniPs/Source/uPSRuntime.pas"
     ]
   },
-  "method": "Analyze the exact compiled-code-bound disassemblies. Recognize only direct equality of CurStep parameter s-1 to a literal TSetupStep ordinal, followed by set-flag not and IFPS flag-goto; report the true-branch action addresses. Recover checkbox-guarded INI writes and component-selection bit construction separately. Inventory all external ISDone.dll calls not represented by planner action APIs.",
+  "method": "Analyze the exact compiled-code-bound disassemblies. Recognize only direct equality of CurStep parameter s-1 to a literal TSetupStep ordinal, followed by set-flag not and IFPS flag-goto; report the true-branch action addresses. Recover checkbox-guarded INI writes and component-selection bit construction separately. Inventory all external ISDone.dll calls not represented by planner action APIs. For ISDone.dll, hash-identical extracted PE images were fully disassembled and all references to the Exec2 result byte/pointer slot were searched; API imports/callers were statically traced. No Windows DLL execution was performed. The registered IFPS progress callback was separately inspected in each of the three compiled scripts, including all Exec2 callsites.",
   "candidates": [
     {
       "candidate": "Star Trucker",
@@ -342,7 +342,8 @@
         "limitations": [
           "The event enum mapping uses Inno Setup's TSetupStep declaration and standard zero-based Pascal enum ordinals.",
           "The report inventories external DLL calls; it does not prove the side effects of calls omitted by the native plan.",
-          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa."
+          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa.",
+          "O callback IFPS passado à ISDoneInit foi auditado e só atualiza progresso/UI; a reentrada por procedimento de janela nativo continua fora da evidência estática."
         ],
         "sources": {
           "inno_setup_step_enum": "https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas",
@@ -367,6 +368,26 @@
         },
         "critical_external_effects": [
           {
+            "kind": "unmodeled_precomp_ini_write",
+            "call_address": "0x10aed",
+            "procedure": "CURSTEPCHANGED",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "The exact ISDone.dll binary shared by the audited setups calls WritePrivateProfileStringA for the Precomp section (Memory and TempPath) from PrecompInit; the native action inventory does not model this export.",
+            "detail": "PrecompInit writes the Precomp Memory and TempPath keys to CLS.ini; that external configuration change is absent from the native plan."
+          },
+          {
+            "kind": "unmodeled_conditional_records_file_deletion",
+            "call_address": "0x11f17",
+            "procedure": "CURSTEPCHANGED",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "The exact ISDone.dll binary shared by the audited setups conditionally calls DeleteFileA on the records path retained by ISDoneInit; the native action inventory does not model this export or prove its guard unreachable.",
+            "detail": "ISDoneStop can delete the records.inf path retained by ISDoneInit when its internal cleanup guards pass; the native plan does not model or disprove that deletion."
+          },
+          {
             "kind": "unmodeled_silent_uninstaller_launch",
             "call_address": "0x12053",
             "procedure": "CURSTEPCHANGED",
@@ -374,7 +395,9 @@
             "arguments_literal": "/VERYSILENT",
             "severity": "critical",
             "modeled_by_native_plan": false,
-            "blocks_audit_acceptance": true
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "IFPS external-call frame literals; review the exact caller branch before interpreting reachability.",
+            "detail": "A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance."
           }
         ]
       },
@@ -396,12 +419,26 @@
         "status": "MISMATCH",
         "consistent": false,
         "blocking_issue_kinds": [
+          "unmodeled_precomp_ini_write",
+          "unmodeled_conditional_records_file_deletion",
           "unmodeled_silent_uninstaller_launch"
         ],
         "manifest_semantic_blockers": [
-          "unmodeled_silent_uninstaller_launch em 0x12053: tentativa condicional de desinstalação silenciosa"
+          "unmodeled_precomp_ini_write em 0x10aed: PrecompInit writes the Precomp Memory and TempPath keys to CLS.ini; that external configuration change is absent from the native plan.",
+          "unmodeled_conditional_records_file_deletion em 0x11f17: ISDoneStop can delete the records.inf path retained by ISDoneInit when its internal cleanup guards pass; the native plan does not model or disprove that deletion.",
+          "unmodeled_silent_uninstaller_launch em 0x12053: A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance."
         ],
         "installer_refuses_manifest_with_semantic_blockers": true
+      },
+      "semantic_effects_proven_for_shared_dll_hash": true,
+      "exec2_internal_writers_fully_inventoried": true,
+      "exec2_external_callback_reentry_excluded": false,
+      "registered_callback_audit": {
+        "procedure": "PROGRESSCALLBACK",
+        "exec2_calls": 0,
+        "effect": "UI progress/taskbar/label updates only, based on static IFPS body.",
+        "exec2_call_site_outside_callback": "0x12053",
+        "external_window_procedure_reentry_excluded": false
       }
     },
     {
@@ -911,7 +948,8 @@
         "limitations": [
           "The event enum mapping uses Inno Setup's TSetupStep declaration and standard zero-based Pascal enum ordinals.",
           "The report inventories external DLL calls; it does not prove the side effects of calls omitted by the native plan.",
-          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa."
+          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa.",
+          "O callback IFPS passado à ISDoneInit foi auditado e só atualiza progresso/UI; a reentrada por procedimento de janela nativo continua fora da evidência estática."
         ],
         "sources": {
           "inno_setup_step_enum": "https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas",
@@ -936,6 +974,26 @@
         },
         "critical_external_effects": [
           {
+            "kind": "unmodeled_precomp_ini_write",
+            "call_address": "0x10c9b",
+            "procedure": "CURSTEPCHANGED",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "The exact ISDone.dll binary shared by the audited setups calls WritePrivateProfileStringA for the Precomp section (Memory and TempPath) from PrecompInit; the native action inventory does not model this export.",
+            "detail": "PrecompInit writes the Precomp Memory and TempPath keys to CLS.ini; that external configuration change is absent from the native plan."
+          },
+          {
+            "kind": "unmodeled_conditional_records_file_deletion",
+            "call_address": "0x146dd",
+            "procedure": "CURSTEPCHANGED",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "The exact ISDone.dll binary shared by the audited setups conditionally calls DeleteFileA on the records path retained by ISDoneInit; the native action inventory does not model this export or prove its guard unreachable.",
+            "detail": "ISDoneStop can delete the records.inf path retained by ISDoneInit when its internal cleanup guards pass; the native plan does not model or disprove that deletion."
+          },
+          {
             "kind": "unmodeled_silent_uninstaller_launch",
             "call_address": "0x14819",
             "procedure": "CURSTEPCHANGED",
@@ -943,7 +1001,9 @@
             "arguments_literal": "/VERYSILENT",
             "severity": "critical",
             "modeled_by_native_plan": false,
-            "blocks_audit_acceptance": true
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "IFPS external-call frame literals; review the exact caller branch before interpreting reachability.",
+            "detail": "A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance."
           }
         ]
       },
@@ -965,12 +1025,26 @@
         "status": "MISMATCH",
         "consistent": false,
         "blocking_issue_kinds": [
+          "unmodeled_precomp_ini_write",
+          "unmodeled_conditional_records_file_deletion",
           "unmodeled_silent_uninstaller_launch"
         ],
         "manifest_semantic_blockers": [
-          "unmodeled_silent_uninstaller_launch em 0x14819: tentativa condicional de desinstalação silenciosa"
+          "unmodeled_precomp_ini_write em 0x10c9b: PrecompInit writes the Precomp Memory and TempPath keys to CLS.ini; that external configuration change is absent from the native plan.",
+          "unmodeled_conditional_records_file_deletion em 0x146dd: ISDoneStop can delete the records.inf path retained by ISDoneInit when its internal cleanup guards pass; the native plan does not model or disprove that deletion.",
+          "unmodeled_silent_uninstaller_launch em 0x14819: A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance."
         ],
         "installer_refuses_manifest_with_semantic_blockers": true
+      },
+      "semantic_effects_proven_for_shared_dll_hash": true,
+      "exec2_internal_writers_fully_inventoried": true,
+      "exec2_external_callback_reentry_excluded": false,
+      "registered_callback_audit": {
+        "procedure": "PROGRESSCALLBACK",
+        "exec2_calls": 0,
+        "effect": "UI progress/taskbar/label updates only, based on static IFPS body.",
+        "exec2_call_site_outside_callback": "0x14819",
+        "external_window_procedure_reentry_excluded": false
       }
     },
     {
@@ -1344,7 +1418,8 @@
         "limitations": [
           "The event enum mapping uses Inno Setup's TSetupStep declaration and standard zero-based Pascal enum ordinals.",
           "The report inventories external DLL calls; it does not prove the side effects of calls omitted by the native plan.",
-          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa."
+          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa.",
+          "O callback IFPS passado à ISDoneInit foi auditado e só atualiza progresso/UI; a reentrada por procedimento de janela nativo continua fora da evidência estática."
         ],
         "sources": {
           "inno_setup_step_enum": "https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas",
@@ -1369,6 +1444,26 @@
         },
         "critical_external_effects": [
           {
+            "kind": "unmodeled_precomp_ini_write",
+            "call_address": "0x108b0",
+            "procedure": "CURSTEPCHANGED",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "The exact ISDone.dll binary shared by the audited setups calls WritePrivateProfileStringA for the Precomp section (Memory and TempPath) from PrecompInit; the native action inventory does not model this export.",
+            "detail": "PrecompInit writes the Precomp Memory and TempPath keys to CLS.ini; that external configuration change is absent from the native plan."
+          },
+          {
+            "kind": "unmodeled_conditional_records_file_deletion",
+            "call_address": "0x12e8d",
+            "procedure": "CURSTEPCHANGED",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "The exact ISDone.dll binary shared by the audited setups conditionally calls DeleteFileA on the records path retained by ISDoneInit; the native action inventory does not model this export or prove its guard unreachable.",
+            "detail": "ISDoneStop can delete the records.inf path retained by ISDoneInit when its internal cleanup guards pass; the native plan does not model or disprove that deletion."
+          },
+          {
             "kind": "unmodeled_silent_uninstaller_launch",
             "call_address": "0x12fc9",
             "procedure": "CURSTEPCHANGED",
@@ -1376,7 +1471,9 @@
             "arguments_literal": "/VERYSILENT",
             "severity": "critical",
             "modeled_by_native_plan": false,
-            "blocks_audit_acceptance": true
+            "blocks_audit_acceptance": true,
+            "evidence_basis": "IFPS external-call frame literals; review the exact caller branch before interpreting reachability.",
+            "detail": "A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance."
           }
         ]
       },
@@ -1398,19 +1495,34 @@
         "status": "MISMATCH",
         "consistent": false,
         "blocking_issue_kinds": [
+          "unmodeled_precomp_ini_write",
+          "unmodeled_conditional_records_file_deletion",
           "unmodeled_silent_uninstaller_launch"
         ],
         "manifest_semantic_blockers": [
-          "unmodeled_silent_uninstaller_launch em 0x12fc9: tentativa condicional de desinstalação silenciosa"
+          "unmodeled_precomp_ini_write em 0x108b0: PrecompInit writes the Precomp Memory and TempPath keys to CLS.ini; that external configuration change is absent from the native plan.",
+          "unmodeled_conditional_records_file_deletion em 0x12e8d: ISDoneStop can delete the records.inf path retained by ISDoneInit when its internal cleanup guards pass; the native plan does not model or disprove that deletion.",
+          "unmodeled_silent_uninstaller_launch em 0x12fc9: A conditional silent-uninstaller launch is absent from the native plan and must be resolved before review acceptance."
         ],
         "installer_refuses_manifest_with_semantic_blockers": true
+      },
+      "semantic_effects_proven_for_shared_dll_hash": true,
+      "exec2_internal_writers_fully_inventoried": true,
+      "exec2_external_callback_reentry_excluded": false,
+      "registered_callback_audit": {
+        "procedure": "PROGRESSCALLBACK",
+        "exec2_calls": 0,
+        "effect": "UI progress/taskbar/label updates only, based on static IFPS body.",
+        "exec2_call_site_outside_callback": "0x12fc9",
+        "external_window_procedure_reentry_excluded": false
       }
     }
   ],
   "remaining_limits": [
-    "The three audited scripts can attempt {uninstallexe} /VERYSILENT during ssPostInstall when their status global remains set after ISExec. Although the direct Exec2 flag writer (CreateProcessA failure) and its caller effect are now traced, indirect callback writers and complete reachability/predicate semantics remain unresolved; these drafts must stay review-required.",
-    "Actions and effects outside the recognized APIs and audited event handler are not proven.",
-    "This evidence is limited to these three exact setups and does not prove all FitGirl installers."
+    "Exec2 pumps messages with TranslateMessage, DispatchMessageA and PeekMessageA. The registered IFPS progress callback is proven not to call Exec2 or access its flag, but the host/window procedure is external to the audited bytecode and DLL; host-side recursive re-entry cannot be excluded statically.",
+    "ISDoneStop deletion is conditional on the exact source records path, record count, and internal cleanup state. The three scripts pass {src}\\records.inf after separately extracting records.inf to {tmp}; static artifacts do not establish the runtime existence/state of the source path at cleanup.",
+    "PrecompInit writes [Precomp] Memory and TempPath through WritePrivateProfileStringA to a DLL-constructed CLS.ini path. The setup also writes its own [Srep]/[mtx]/other entries to {tmp}\\CLS.ini. Static evidence does not establish the final resolved DLL path or profile API outcome for a runtime install.",
+    "No Windows execution of the DLL or full installers was performed. The audit applies only to the exact shared DLL hash and three compiled setup scripts; it does not establish full semantic equivalence or universal FitGirl compatibility."
   ],
   "isdone_binary_analysis": {
     "sha256": "c652b4b564b3c85c399155cbb45c6fb5a9f56f074e566bfd20f01da6e0412c74",
@@ -1424,42 +1536,42 @@
       {
         "export": "ISDoneInit",
         "rva": "0xF438",
-        "finding": "Initializes extensive DLL-global state. It copies arguments 2–4 into three 32-bit component masks at globals 0x45DD54/58/5C; ISArcExtract reads those masks. Remaining callback, UI, and worker initialization effects are not reconstructed."
-      },
-      {
-        "export": "ISArcExtract",
-        "rva": "0x1B138",
-        "finding": "First argument is CurComponent. Helper 0x40F3D0 checks it against three 32-bit masks. Index 0 is unconditional; indices 1–32 use mask1 bit index-1, 33–64 mask2 bit index-33, 65–96 mask3 bit index-65. A component that is not selected returns success without entering extraction."
-      },
-      {
-        "export": "ISExec",
-        "rva": "0x1ED64",
-        "finding": "Returns true on an executed path when its internal failure flag remains clear. It returns false both for a component that is not selected and for internal execution/process failure, so the Boolean alone cannot distinguish skip from failure."
-      },
-      {
-        "export": "Exec2",
-        "rva": "0x1E884",
-        "finding": "Starts a process through CreateProcessA, waits while polling GetExitCodeProcess for STILL_ACTIVE (0x103), pumps internal callbacks, and closes handles. It resets shared byte 0x45C504 before launch and sets it to 1 when CreateProcessA fails. The flag is checked in a termination path and returned; the child exit code itself is not returned. Possible indirect flag writes during callbacks remain unresolved."
-      },
-      {
-        "export": "ISDoneStop",
-        "rva": "0x0FB7C",
-        "finding": "Runs a broad shutdown/cleanup path that releases DLL-owned state/resources and conditionally handles active UI/progress state. Exact worker synchronization, callback order, and caller-visible effects remain unresolved."
-      },
-      {
-        "export": "ChangeLanguage",
-        "rva": "0x1957C",
-        "finding": "Looks up localized text and updates DLL-owned strings used by progress/error UI; string data flow has not been exhaustively traced."
+        "finding": "Reads/validates the records path, initializes DLL global state, three component selection masks (0x45DD54/58/5C), callback/UI/worker state and counters. If the input records file is absent or invalid, sets 0x45DD40=1, retains the path at 0x45DDF8 and uses a fallback record count; otherwise sets 0x45DD40=0. Also resets Exec2 result byte 0x45DDAA to 0 and initializes FileSearchInit byte 0x45DD82 to 1. ISArcExtract consumes the three masks. Exact runtime worker scheduling and external callback behavior are not dynamically verified."
       },
       {
         "export": "PrecompInit",
         "rva": "0x125E0",
-        "finding": "Initializes precompression-related state from caller arguments and invokes setup helpers; exact configuration and effects are not fully established."
+        "finding": "Validates the precomp selector against supported executable markers (precomp038/040/041/042); invalid values show an initialization error. Clamps/defaults the memory argument (audited callers pass 256; selector 0.0 uses the common configuration path). Calls WritePrivateProfileStringA twice to write [Precomp] Memory and TempPath in CLS.ini. It does not launch a process in this routine. Final target path is path-state dependent."
       },
       {
         "export": "FileSearchInit",
         "rva": "0x0F424",
-        "finding": "Stores its byte argument in global 0x45DD82 and returns true. ISDoneInit also initializes this global to 1. No direct reads of 0x45DD82 were found; indirect consumers or external use remain unresolved."
+        "finding": "Stores its byte argument in global 0x45DD82 and returns true. ISDoneInit also initializes this global to 1. Complete DLL cross-reference search finds no read/consumer; this export has no demonstrated internal effect beyond storing the configuration byte."
+      },
+      {
+        "export": "ChangeLanguage",
+        "rva": "0x1957C",
+        "finding": "Constructs the requested language INI path, opens it read-only, reads and parses localized strings into DLL-owned UI/error state, and closes the file. Missing/read failures display MessageBoxA errors and return failure. It does not write the language file. Audited callers first extract English.ini."
+      },
+      {
+        "export": "ISDoneStop",
+        "rva": "0x0FB7C",
+        "finding": "Clears the progress window text, releases/finishes DLL-owned records and cleanup state, and returns a completion Boolean. Conditional deletion: if ISDoneInit recorded missing/invalid records path (0x45DD40 nonzero), retained path 0x45DDF8 is nonempty, record count >1, and flags 0x45DDA5, 0x45DDA3, 0x45C480, 0x45DDA2 and 0x45DDA4 are all zero, checks that the path is a regular file and calls DeleteFileA. Exact reachability is runtime-state dependent."
+      },
+      {
+        "export": "Exec2",
+        "rva": "0x1E884",
+        "finding": "Creates process through CreateProcessA, pumps Win32 messages while waiting and closes process/thread handles. A static pointer at 0x45C504 points to returned byte 0x45DDAA. ISDoneInit and Exec2 reset it to 0; Exec2 sets it to 1 on CreateProcessA failure; it is checked by the termination path and returned. Full DLL has no other internal writer. The child exit code is not returned. Since DispatchMessageA invokes external window procedures, external callback re-entry cannot be excluded statically."
+      },
+      {
+        "export": "ISArcExtract",
+        "rva": "0x1B138",
+        "finding": "First argument is CurComponent. Helper 0x40F3D0 checks it against three masks populated by ISDoneInit. Index 0 is unconditional; indices 1–32, 33–64, and 65–96 use the corresponding mask bit. Unselected component returns success without extraction."
+      },
+      {
+        "export": "ISExec",
+        "rva": "0x1ED64",
+        "finding": "Returns true on selected execution path with internal failure flag clear. Returns false for unselected component and internal execution/process failure; the Boolean does not distinguish skip from failure."
       }
     ],
     "component_selection_semantics_proven": true,
@@ -1471,20 +1583,51 @@
     "helper_semantics_partially_proven": true,
     "isexec_boolean_semantics_partially_proven": true,
     "exec2_state_flag_trace": {
-      "global": "0x45C504",
-      "reset_at": "0x41E935",
-      "explicit_set_at": "0x41E802",
-      "setter_condition": "CreateProcessA wrapper returns zero at 0x41E7A8-0x41E7AF",
-      "read_for_termination": "0x41E7BD; a true flag triggers TerminateProcess at 0x41E7CD",
-      "returned_at": "0x41E96F-0x41E977",
-      "process_wait": "WaitForSingleObject wrapper at 0x41E7DA; GetExitCodeProcess wrapper at 0x41E7EE polls 0x103 (STILL_ACTIVE)",
+      "pointer_slot": "0x45C504",
+      "pointer_target_byte": "0x45DDAA",
+      "reset_sites": [
+        "ISDoneInit 0x40F616",
+        "Exec2 0x41E935"
+      ],
+      "explicit_set_sites": [
+        {
+          "address": "0x41E802",
+          "condition": "CreateProcessA wrapper returns zero",
+          "value": 1
+        }
+      ],
+      "read_sites": [
+        "0x41E7BD (termination decision)",
+        "0x41E96F-0x41E977 (returned value)"
+      ],
+      "callback_message_pump": [
+        "TranslateMessage",
+        "DispatchMessageA",
+        "PeekMessageA"
+      ],
+      "complete_dll_internal_writer_finding": "No other internal writer/reference to this target byte was found in complete DLL disassembly; direct static write is ISDoneInit reset, and Exec2 writes through the pointer for reset/failure-set.",
+      "external_reentry_excluded": false,
+      "limitation": "DispatchMessageA enters external window procedures. No host/IFPS runtime trace proves whether those callbacks can re-enter Exec2 and mutate the shared global.",
       "child_exit_code_returned": false,
-      "callback_or_indirect_writer_excluded": false,
-      "meaning_of_confirmed_direct_set": "CreateProcessA launch failure in the Exec2 worker",
+      "direct_flag_write_sites": [
+        {
+          "address": "0x40F616",
+          "export": "ISDoneInit",
+          "effect": "reset 0"
+        },
+        {
+          "address": "0x41E935",
+          "export": "Exec2",
+          "effect": "reset 0"
+        },
+        {
+          "address": "0x41E802",
+          "export": "Exec2",
+          "effect": "set 1 on process creation failure"
+        }
+      ],
       "caller_effect": "All three audited callers conditionally attempt {uninstallexe} /VERYSILENT on ssPostInstall when their status global remains nonzero.",
-      "caller_checks_exec2_return": false,
-      "direct_static_write_sites_found": 2,
-      "nonzero_failure_setter_sites_found": 1
+      "caller_checks_exec2_return": false
     },
     "isexec_result_semantics": {
       "true": "Selected execution path whose internal failure flag remained clear.",
@@ -1503,12 +1646,79 @@
   },
   "implementation_fix": {
     "audit_schema": 2,
-    "behavior": "The audit marks matching Exec2({uninstallexe}, /VERYSILENT) effects as critical, emits MISMATCH, persists semantic_blockers in generated draft manifests, and the CLI refuses manifests carrying these blockers before installation.",
+    "behavior": "The audit now classifies Exec2 silent-uninstaller attempts, PrecompInit CLS.ini writes, and ISDoneStop conditional records-file deletion as critical external effects. It emits MISMATCH, persists effect-specific semantic_blockers in draft manifests, and the CLI refuses blocked manifests before installation. The registered progress callback was statically verified not to call Exec2; external effects remain blocked pending native modeling/reachability proof.",
     "applied_to_existing_cached_drafts": true,
     "applied_candidates": [
       "Star Trucker",
       "Children of Morta",
       "Subnautica"
-    ]
+    ],
+    "note": "All three cached drafts and plan-audit.json reports were refreshed from the exact cached ISS/disassembly/compiled-code inputs; each now has three semantic blockers."
+  },
+  "registered_callback_audit": {
+    "scope": "All three exact compiled-code-bound setup disassemblies.",
+    "callback_argument_to_ISDoneInit": "The argument is a procedure pointer to PROGRESSCALLBACK (proc #279 in Star Trucker and Children of Morta; proc #281 in Subnautica).",
+    "callback_effects": "Updates the progress bar, taskbar progress state/value, and progress labels using the reported percentage and filename/time values.",
+    "exec2_calls_in_registered_callback": 0,
+    "exec2_call_sites_in_each_setup": [
+      "Star Trucker: 0x12053 in CURSTEPCHANGED",
+      "Children of Morta: 0x14819 in CURSTEPCHANGED",
+      "Subnautica: 0x12FC9 in CURSTEPCHANGED"
+    ],
+    "conclusion": "The callback passed to ISDoneInit does not call Exec2 or otherwise access ISDone.dll globals; therefore it cannot write the Exec2 result flag through its audited IFPS body. The only IFPS Exec2 call in each compiled setup is the separate CurStepChanged postinstall uninstaller branch.",
+    "evidence_limit": "Exec2 also pumps Win32 messages. The host window procedure is outside the compiled script and ISDone.dll images; recursive host-side re-entry cannot be excluded by these artifacts."
+  },
+  "audit_completion": {
+    "static_scope_complete": true,
+    "completed": "Export effects and return behavior for ISDoneInit, PrecompInit, FileSearchInit, ChangeLanguage, ISDoneStop; all in-DLL writers/readers to the Exec2 flag; and the registered IFPS progress callback and all IFPS Exec2 callsites in the three exact setups.",
+    "runtime_equivalence_proven": false,
+    "final_disposition": "Static audit is complete for the exact sampled DLL and setup bytecode. Native-plan acceptance remains blocked by the three critical effects recorded per candidate. External window-procedure reentry and runtime path/guard outcomes remain outside this static proof."
+  },
+  "isdone_call_arguments_by_setup": {
+    "Star Trucker": {
+      "ISDoneInit_records_path": "{src}\\records.inf",
+      "ISDoneInit_callback": "PROGRESSCALLBACK (proc #279)",
+      "ChangeLanguage": "English",
+      "PrecompInit": [
+        "{app}",
+        256,
+        0.0
+      ],
+      "FileSearchInit": 1,
+      "Exec2_call_sites": [
+        "0x12053, CURSTEPCHANGED(ssPostInstall)"
+      ],
+      "ISDoneStop": "cleanup branch after extraction loop"
+    },
+    "Children of Morta": {
+      "ISDoneInit_records_path": "{src}\\records.inf",
+      "ISDoneInit_callback": "PROGRESSCALLBACK (proc #279)",
+      "ChangeLanguage": "English",
+      "PrecompInit": [
+        "{app}",
+        256,
+        0.0
+      ],
+      "FileSearchInit": 1,
+      "Exec2_call_sites": [
+        "0x14819, CURSTEPCHANGED(ssPostInstall)"
+      ],
+      "ISDoneStop": "cleanup branch after extraction loop"
+    },
+    "Subnautica": {
+      "ISDoneInit_records_path": "{src}\\records.inf",
+      "ISDoneInit_callback": "PROGRESSCALLBACK (proc #281)",
+      "ChangeLanguage": "English",
+      "PrecompInit": [
+        "{app}",
+        256,
+        0.0
+      ],
+      "FileSearchInit": 1,
+      "Exec2_call_sites": [
+        "0x12FC9, CURSTEPCHANGED(ssPostInstall)"
+      ],
+      "ISDoneStop": "cleanup branch after extraction loop"
+    }
   }
 }

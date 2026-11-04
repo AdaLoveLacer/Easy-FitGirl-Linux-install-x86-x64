@@ -15,6 +15,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INSTALLER = ROOT / "fitgirl"
+sys.path.insert(0, str(ROOT / "src"))
+
+from fitgirl_installer.resource_limits import detect_limits
 
 
 def digest(path: Path, algorithm: str) -> str:
@@ -321,13 +324,18 @@ class OrchestratorIntegrationTests(unittest.TestCase):
         self.assertIn("eng.fgpack.x5", result.stdout)
 
     def test_cgroup_limits_are_explicit_in_dry_run(self):
+        limits = detect_limits()
+        if limits.memory_budget_mib < 512:
+            self.skipTest("host memory budget is below the minimum supported cgroup limit")
+        memory_max = max(512, min(1024, limits.memory_budget_mib - 256))
+        memory_high = max(512, min(1024, memory_max))
         result = self.run_installer(
             self.root / "cgroup-work", "--dry-run",
-            "--memory-high", "1024", "--memory-max", "2048",
+            "--memory-high", str(memory_high), "--memory-max", str(memory_max),
         )
         self.assertEqual(result.returncode, 0, result.stdout)
-        self.assertIn("MemoryHigh=1024M", result.stdout)
-        self.assertIn("MemoryMax=2048M", result.stdout)
+        self.assertIn(f"MemoryHigh={memory_high}M", result.stdout)
+        self.assertIn(f"MemoryMax={memory_max}M", result.stdout)
         self.assertIn("teto rígido", result.stdout)
 
     def test_verify_step_dry_run_does_not_require_extracted_manifest(self):
