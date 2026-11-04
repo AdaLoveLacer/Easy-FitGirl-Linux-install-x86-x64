@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "release_policy": "Do not include Wine or QuickSFV; distribute source and notices for bundled open components.",
+  "components": [
+    {
+      "name": "innoextract",
+      "version": "1.10-dev",
+      "source": "https://github.com/dscharrer/innoextract",
+      "commit": "6e9e34ed0876014fdb46e684103ef8c3605e382e",
+      "license": "Zlib",
+      "binary_sha256": "3bdd7896a38e3e99ab3661e56a2d8773e9c51c050070485d04eacdd77a691d03",
+      "source_path": "third_party/source/innoextract"
+    },
+    {
+      "name": "unarc",
+      "version": "upstream snapshot",
+      "source": "https://github.com/xredor/unarc",
+      "commit": "adc333d6cdd76d72da254cc80d766fbbcc683c95",
+      "based_on": "FreeArc, GPL-2.0",
+      "license": "GPL-2.0",
+      "binary_sha256": "20df4dc785b76dddb5d7265def469b515632ba114485f52cb7019a283e68c347",
+      "source_path": "third_party/source/unarc"
+    },
+    {
+      "name": "unarc-helper.exe",
+      "source": "project source",
+      "source_path": "src/native/unarc_helper.c",
+      "build_recipe": "tools/build-unarc-helper.sh"
+    }
+  ]
+}

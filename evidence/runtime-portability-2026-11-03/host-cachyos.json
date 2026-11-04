@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-03",
+  "host": {
+    "distribution": "CachyOS Linux (rolling; ID cachyos; ID_LIKE arch)",
+    "architecture": "x86_64",
+    "kernel": "7.3.1-1-cachyos",
+    "glibc": "2.44",
+    "python": "3.14.9"
+  },
+  "runtime": {
+    "version": "11.14-fitgirl-amd64",
+    "archive_sha256": "de504c1f6f407bf619040fccfe1f7a32de8c3384fe97c061efea8c3d368d6db5",
+    "host_ldd": {
+      "wine_loader": "all ELF dependencies resolved",
+      "wineserver": "all ELF dependencies resolved",
+      "innoextract": "all ELF dependencies resolved; host provides Boost 1.92, liblzma, zlib, bzip2, zstd, libstdc++ and glibc",
+      "unarc": "all ELF dependencies resolved; host provides libstdc++ and glibc"
+    }
+  },
+  "result": "PASS_LOCAL_DEPENDENCY_LINKING_ONLY",
+  "limitations": [
+    "Only the current CachyOS x86_64 host was inspected.",
+    "ldd checks ELF startup dependencies, not libraries loaded later with dlopen or codec-specific runtime behavior.",
+    "No other Linux distribution or architecture was tested.",
+    "This evidence does not authorize redistribution."
+  ]
+}

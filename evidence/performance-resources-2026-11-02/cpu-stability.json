@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "tool": "stress-ng",
+  "workers": 12,
+  "method": "matrixprod",
+  "cpu_load_percent": 100,
+  "duration_seconds": 300,
+  "verify": true,
+  "passed_workers": 12,
+  "failed_workers": 0,
+  "metrics_untrustworthy": 0,
+  "result": "PASS",
+  "log": "cpu-stability.log"
+}

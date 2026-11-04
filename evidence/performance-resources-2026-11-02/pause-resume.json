@@ -1,0 +1,292 @@
+{
+  "schema": 1,
+  "command": [
+    "/usr/bin/python3",
+    "-m",
+    "fitgirl_installer.cli",
+    "install",
+    "--source",
+    "/mnt/SOURCE_DISK/Torrent/Games/Mirage 7 [FitGirl Repack]",
+    "--target",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-pause-resume-20261102/target",
+    "--scratch",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-pause-resume-20261102/scratch",
+    "--manifest",
+    "$PROJECT_ROOT/manifests/mirage-7.json",
+    "--wine",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/private-runtime-validation/user-data/fitgirl-installer/runtimes/wine-de504c1f6f407bf6/bin/wine",
+    "--prefix",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-pause-resume-20261102/scratch/wine-prefix",
+    "--monitor-interval",
+    "5",
+    "--bzip3-threads",
+    "12"
+  ],
+  "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-pause-resume-20261102/target",
+  "scratch": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-pause-resume-20261102/scratch",
+  "load_before_pause": {
+    "before": {
+      "pgid": 55899,
+      "processes": [
+        {
+          "pid": 55899,
+          "name": "bash",
+          "state": "S"
+        },
+        {
+          "pid": 59441,
+          "name": "winemenubuilder",
+          "state": "D"
+        },
+        {
+          "pid": 59528,
+          "name": "python3",
+          "state": "S"
+        },
+        {
+          "pid": 59530,
+          "name": "start.exe",
+          "state": "S"
+        },
+        {
+          "pid": 59531,
+          "name": "tee",
+          "state": "S"
+        },
+        {
+          "pid": 59548,
+          "name": "unarc-helper.ex",
+          "state": "S"
+        },
+        {
+          "pid": 59568,
+          "name": "cls-magic2_x64.",
+          "state": "S"
+        }
+      ],
+      "cpu_ticks": 57,
+      "read_bytes": 34938880,
+      "write_bytes": 11247616
+    },
+    "after_3s": {
+      "pgid": 55899,
+      "processes": [
+        {
+          "pid": 55899,
+          "name": "bash",
+          "state": "S"
+        },
+        {
+          "pid": 59528,
+          "name": "python3",
+          "state": "S"
+        },
+        {
+          "pid": 59530,
+          "name": "start.exe",
+          "state": "S"
+        },
+        {
+          "pid": 59531,
+          "name": "tee",
+          "state": "S"
+        },
+        {
+          "pid": 59548,
+          "name": "unarc-helper.ex",
+          "state": "S"
+        },
+        {
+          "pid": 59568,
+          "name": "cls-magic2_x64.",
+          "state": "S"
+        }
+      ],
+      "cpu_ticks": 174,
+      "read_bytes": 346091520,
+      "write_bytes": 11075584
+    }
+  },
+  "target_bytes_before_pause": 0,
+  "pause_command": {
+    "returncode": 0,
+    "output": "[INFO] sinal SIGSTOP enviado ao grupo 55899"
+  },
+  "paused_20s": {
+    "start": {
+      "pgid": 55899,
+      "processes": [
+        {
+          "pid": 55899,
+          "name": "bash",
+          "state": "T"
+        },
+        {
+          "pid": 59528,
+          "name": "python3",
+          "state": "T"
+        },
+        {
+          "pid": 59530,
+          "name": "start.exe",
+          "state": "T"
+        },
+        {
+          "pid": 59531,
+          "name": "tee",
+          "state": "T"
+        },
+        {
+          "pid": 59548,
+          "name": "unarc-helper.ex",
+          "state": "T"
+        },
+        {
+          "pid": 59568,
+          "name": "cls-magic2_x64.",
+          "state": "T"
+        }
+      ],
+      "cpu_ticks": 183,
+      "read_bytes": 349810688,
+      "write_bytes": 11075584
+    },
+    "end": {
+      "pgid": 55899,
+      "processes": [
+        {
+          "pid": 55899,
+          "name": "bash",
+          "state": "T"
+        },
+        {
+          "pid": 59528,
+          "name": "python3",
+          "state": "T"
+        },
+        {
+          "pid": 59530,
+          "name": "start.exe",
+          "state": "T"
+        },
+        {
+          "pid": 59531,
+          "name": "tee",
+          "state": "T"
+        },
+        {
+          "pid": 59548,
+          "name": "unarc-helper.ex",
+          "state": "T"
+        },
+        {
+          "pid": 59568,
+          "name": "cls-magic2_x64.",
+          "state": "T"
+        }
+      ],
+      "cpu_ticks": 183,
+      "read_bytes": 349810688,
+      "write_bytes": 11075584
+    },
+    "target_bytes_start": 0,
+    "target_bytes_end": 0,
+    "cpu_ticks_delta": 0,
+    "read_bytes_delta": 0,
+    "write_bytes_delta": 0,
+    "target_bytes_delta": 0,
+    "all_processes_stopped": true
+  },
+  "resume_command": {
+    "returncode": 0,
+    "output": "[INFO] sinal SIGCONT enviado ao grupo 55899"
+  },
+  "after_resume_5s": {
+    "before": {
+      "pgid": 55899,
+      "processes": [
+        {
+          "pid": 55899,
+          "name": "bash",
+          "state": "S"
+        },
+        {
+          "pid": 59528,
+          "name": "python3",
+          "state": "S"
+        },
+        {
+          "pid": 59530,
+          "name": "start.exe",
+          "state": "S"
+        },
+        {
+          "pid": 59531,
+          "name": "tee",
+          "state": "S"
+        },
+        {
+          "pid": 59548,
+          "name": "unarc-helper.ex",
+          "state": "S"
+        },
+        {
+          "pid": 59568,
+          "name": "cls-magic2_x64.",
+          "state": "S"
+        }
+      ],
+      "cpu_ticks": 189,
+      "read_bytes": 360566784,
+      "write_bytes": 11083776
+    },
+    "after": {
+      "pgid": 55899,
+      "processes": [
+        {
+          "pid": 55899,
+          "name": "bash",
+          "state": "S"
+        },
+        {
+          "pid": 59528,
+          "name": "python3",
+          "state": "S"
+        },
+        {
+          "pid": 59530,
+          "name": "start.exe",
+          "state": "S"
+        },
+        {
+          "pid": 59531,
+          "name": "tee",
+          "state": "S"
+        },
+        {
+          "pid": 59548,
+          "name": "unarc-helper.ex",
+          "state": "S"
+        },
+        {
+          "pid": 59568,
+          "name": "cls-magic2_x64.",
+          "state": "S"
+        }
+      ],
+      "cpu_ticks": 1247,
+      "read_bytes": 818606080,
+      "write_bytes": 11104256
+    }
+  },
+  "returncode": 0,
+  "elapsed_seconds": 234.437,
+  "target_bytes_final": 2500274725,
+  "completed_steps": [
+    "001:game-01",
+    "002:game-02",
+    "003:verify-game-files"
+  ],
+  "active_final": null,
+  "result": "PASS"
+}

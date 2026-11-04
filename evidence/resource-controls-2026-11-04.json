@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-04",
+  "memory_max": {
+    "implementation": "src/fitgirl_installer/cli.py command_prefix() usa systemd-run --user --scope com MemoryMax; a chamada é usada para envolver o processo de extração.",
+    "test": "systemd-run --user --scope -p MemoryMax=768M iniciou processo Python que leu o próprio cgroup v2.",
+    "observed_cgroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/run-p1791743-i6005139.scope",
+    "memory_max_bytes": 805306368,
+    "result": "PASS: o cgroup ativo expôs exatamente 768 MiB. Isso valida a aplicação do teto, não estabilidade nem extração completa sob OOM."
+  },
+  "cpu_affinity": {
+    "evidence": "evidence/performance-resources-2026-11-02/affinity-0-1.json",
+    "result": "96 amostras, todas cpus=0-1; workers observados: unarc-helper.exe, cls-magic2_x64.exe, CLS-srep_x64.exe, xtool.exe; extração completa e validação final passaram."
+  },
+  "scope": "Os resultados comprovam o caminho/corpus observado, sem alegar todos os codecs, workers ou repacks existentes."
+}

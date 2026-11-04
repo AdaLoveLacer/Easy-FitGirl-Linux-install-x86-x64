@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "date": "2026-11-04",
+  "status": "IMPLEMENTED_HOST_GATE_WITH_STATIC_REQUIREMENT_EVIDENCE",
+  "supported_platform": {
+    "os": "Linux",
+    "architecture": "x86_64",
+    "minimum_glibc": "2.38",
+    "minimum_python": "3.12",
+    "reason": "Highest observed GLIBC symbol version among pinned ELF artifacts is GLIBC_2.38."
+  },
+  "elf_symbol_requirements": {
+    "libexec/unarc": "2.38",
+    "wine-11.14-fitgirl-amd64/bin/wineserver": "2.38",
+    "wine-11.14-fitgirl-amd64/lib/wine/x86_64-unix/ntdll.so": "2.38",
+    "libexec/innoextract": "2.34",
+    "wine-11.14-fitgirl-amd64/bin/wine": "2.34"
+  },
+  "host_libraries": {
+    "required": [
+      "glibc and ELF loader",
+      "libstdc++.so.6",
+      "libgcc_s.so.1"
+    ],
+    "bundled_in_standalone": [
+      "Boost shared libraries used by innoextract",
+      "liblzma",
+      "zlib",
+      "bzip2",
+      "zstd",
+      "private Wine runtime"
+    ]
+  },
+  "required_commands": [
+    "python3",
+    "bash",
+    "tar",
+    "gzip",
+    "awk",
+    "tail",
+    "readlink",
+    "mktemp",
+    "grep",
+    "sed",
+    "cat",
+    "cp",
+    "mv",
+    "rm",
+    "mkdir",
+    "tr",
+    "tee",
+    "chmod",
+    "dirname",
+    "basename",
+    "env"
+  ],
+  "optional_commands": [
+    "taskset",
+    "nice",
+    "findmnt"
+  ],
+  "empirically_validated": [
+    "Debian 13 x86_64",
+    "Ubuntu 24.04 LTS x86_64",
+    "CachyOS rolling x86_64"
+  ],
+  "host_observation": {
+    "distribution": "Linux-7.3.1-1-cachyos-x86_64-with-glibc2.44",
+    "architecture": "x86_64",
+    "python": "3.14.9",
+    "glibc": "2.44",
+    "libstdc++": "libstdc++.so.6",
+    "libgcc_s": "libgcc_s.so.1",
+    "commands": {
+      "python3": "/usr/bin/python3",
+      "bash": "/usr/bin/bash",
+      "tar": "/usr/bin/tar",
+      "gzip": "/usr/bin/gzip",
+      "awk": "/usr/bin/awk",
+      "tail": "/usr/bin/tail",
+      "readlink": "/usr/bin/readlink",
+      "mktemp": "/usr/bin/mktemp",
+      "grep": "/usr/bin/grep",
+      "sed": "/usr/bin/sed",
+      "cat": "/usr/bin/cat",
+      "cp": "/usr/bin/cp",
+      "mv": "/usr/bin/mv",
+      "rm": "/usr/bin/rm",
+      "mkdir": "/usr/bin/mkdir",
+      "tr": "/usr/bin/tr",
+      "tee": "/usr/bin/tee",
+      "chmod": "/usr/bin/chmod",
+      "dirname": "/usr/bin/dirname",
+      "basename": "/usr/bin/basename",
+      "env": "/usr/bin/env"
+    },
+    "optional_commands": {
+      "taskset": "/usr/bin/taskset",
+      "nice": "/usr/bin/nice",
+      "findmnt": "/usr/bin/findmnt"
+    }
+  },
+  "limitations": [
+    "The standalone runtime itself was not rebuilt or booted in this task.",
+    "The preflight does not inspect every dynamically loaded Wine library or every codec path.",
+    "Distributions outside the three listed hosts meet a technical minimum only if doctor passes; they are not empirically validated."
+  ]
+}

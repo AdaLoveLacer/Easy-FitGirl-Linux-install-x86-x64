@@ -1,0 +1,1036 @@
+{
+  "schema": 1,
+  "name": "The Darkness 2",
+  "setup_sha256": [
+    "84c42df2b7fb1776ec51def4262d39057d7353c15257607dded85ecf32b79930"
+  ],
+  "components": {
+    "text": {
+      "description": "Main game files",
+      "default": true,
+      "required": true
+    },
+    "local\\eng": {
+      "description": "English",
+      "default": true,
+      "available_if": "fg-selective-english.bin"
+    },
+    "local\\rus": {
+      "description": "Russian",
+      "default": false,
+      "available_if": "fg-selective-russian.bin"
+    },
+    "local\\esp": {
+      "description": "Spanish",
+      "default": false,
+      "available_if": "fg-selective-spanish.bin"
+    },
+    "local\\ger": {
+      "description": "German",
+      "default": false,
+      "available_if": "fg-selective-german.bin"
+    },
+    "local\\fra": {
+      "description": "French",
+      "default": false,
+      "available_if": "fg-selective-french.bin"
+    },
+    "local\\ita": {
+      "description": "Italian",
+      "default": false,
+      "available_if": "fg-selective-italian.bin"
+    },
+    "local\\jap": {
+      "description": "Japanese",
+      "default": false,
+      "available_if": "fg-selective-japanese.bin"
+    },
+    "directx": {
+      "description": "Update DirectX (recognized; post-install not automated)",
+      "default": false
+    },
+    "vc_2008_sp1_x86": {
+      "description": "Visual C++ 2008 SP1 x86 (recognized; post-install not automated)",
+      "default": false
+    },
+    "vc_2008_sp1_x64": {
+      "description": "Visual C++ 2008 SP1 x64 (recognized; post-install not automated)",
+      "default": false
+    }
+  },
+  "steps": [
+    {
+      "id": "game-01",
+      "type": "extract",
+      "description": "Extrair fg-01.bin",
+      "archive": "fg-01.bin",
+      "destination": "app",
+      "md5": "486dc1ca50a995b1a10c5fae900d0dc3"
+    },
+    {
+      "id": "selective-eng",
+      "type": "extract",
+      "description": "Extrair pacote inglês",
+      "archive": "fg-selective-english.bin",
+      "destination": "app",
+      "md5": "d80ba3c4399eb02c6e13d05b7cda877d",
+      "if_component": "local\\eng"
+    },
+    {
+      "id": "postprocess-eng",
+      "type": "exec",
+      "description": "Reconstruir pacote inglês com X5",
+      "executable_root": "tmp",
+      "executable": "x5.exe",
+      "cwd": "app",
+      "args": [
+        "-s-1g",
+        "000.fgpack",
+        "eng.fgpack.x5",
+        "eng.fgpack"
+      ],
+      "delete_after": [
+        "eng.fgpack.x5"
+      ],
+      "if_component": "local\\eng"
+    },
+    {
+      "id": "install-eng",
+      "type": "extract",
+      "description": "Instalar pacote inglês reconstruído",
+      "archive_root": "app",
+      "archive": "eng.fgpack",
+      "destination": "app",
+      "archive_workdir": "temp-fitgirl",
+      "delete_archive_after": true,
+      "if_component": "local\\eng"
+    },
+    {
+      "id": "selective-rus",
+      "type": "extract",
+      "description": "Extrair pacote russo",
+      "archive": "fg-selective-russian.bin",
+      "destination": "app",
+      "md5": "c70b8fc756f89d351f47c6790105c8e8",
+      "if_component": "local\\rus"
+    },
+    {
+      "id": "postprocess-rus",
+      "type": "exec",
+      "description": "Reconstruir pacote russo com X5",
+      "executable_root": "tmp",
+      "executable": "x5.exe",
+      "cwd": "app",
+      "args": [
+        "-s-1g",
+        "000.fgpack",
+        "rus.fgpack.x5",
+        "rus.fgpack"
+      ],
+      "delete_after": [
+        "rus.fgpack.x5"
+      ],
+      "if_component": "local\\rus"
+    },
+    {
+      "id": "install-rus",
+      "type": "extract",
+      "description": "Instalar pacote russo reconstruído",
+      "archive_root": "app",
+      "archive": "rus.fgpack",
+      "destination": "app",
+      "archive_workdir": "temp-fitgirl",
+      "delete_archive_after": true,
+      "if_component": "local\\rus"
+    },
+    {
+      "id": "selective-esp",
+      "type": "extract",
+      "description": "Extrair pacote espanhol",
+      "archive": "fg-selective-spanish.bin",
+      "destination": "app",
+      "md5": "4c7b87c94843379ba83ff276a01cedff",
+      "if_component": "local\\esp"
+    },
+    {
+      "id": "postprocess-esp",
+      "type": "exec",
+      "description": "Reconstruir pacote espanhol com X5",
+      "executable_root": "tmp",
+      "executable": "x5.exe",
+      "cwd": "app",
+      "args": [
+        "-s-1g",
+        "000.fgpack",
+        "esp.fgpack.x5",
+        "esp.fgpack"
+      ],
+      "delete_after": [
+        "esp.fgpack.x5"
+      ],
+      "if_component": "local\\esp"
+    },
+    {
+      "id": "install-esp",
+      "type": "extract",
+      "description": "Instalar pacote espanhol reconstruído",
+      "archive_root": "app",
+      "archive": "esp.fgpack",
+      "destination": "app",
+      "archive_workdir": "temp-fitgirl",
+      "delete_archive_after": true,
+      "if_component": "local\\esp"
+    },
+    {
+      "id": "selective-ger",
+      "type": "extract",
+      "description": "Extrair pacote alemão",
+      "archive": "fg-selective-german.bin",
+      "destination": "app",
+      "md5": "029235ad1afa66dd54f9e5bc57f61607",
+      "if_component": "local\\ger"
+    },
+    {
+      "id": "postprocess-ger",
+      "type": "exec",
+      "description": "Reconstruir pacote alemão com X5",
+      "executable_root": "tmp",
+      "executable": "x5.exe",
+      "cwd": "app",
+      "args": [
+        "-s-1g",
+        "000.fgpack",
+        "ger.fgpack.x5",
+        "ger.fgpack"
+      ],
+      "delete_after": [
+        "ger.fgpack.x5"
+      ],
+      "if_component": "local\\ger"
+    },
+    {
+      "id": "install-ger",
+      "type": "extract",
+      "description": "Instalar pacote alemão reconstruído",
+      "archive_root": "app",
+      "archive": "ger.fgpack",
+      "destination": "app",
+      "archive_workdir": "temp-fitgirl",
+      "delete_archive_after": true,
+      "if_component": "local\\ger"
+    },
+    {
+      "id": "selective-fra",
+      "type": "extract",
+      "description": "Extrair pacote francês",
+      "archive": "fg-selective-french.bin",
+      "destination": "app",
+      "md5": "539bf693952dfca5023504a866a00116",
+      "if_component": "local\\fra"
+    },
+    {
+      "id": "postprocess-fra",
+      "type": "exec",
+      "description": "Reconstruir pacote francês com X5",
+      "executable_root": "tmp",
+      "executable": "x5.exe",
+      "cwd": "app",
+      "args": [
+        "-s-1g",
+        "000.fgpack",
+        "fra.fgpack.x5",
+        "fra.fgpack"
+      ],
+      "delete_after": [
+        "fra.fgpack.x5"
+      ],
+      "if_component": "local\\fra"
+    },
+    {
+      "id": "install-fra",
+      "type": "extract",
+      "description": "Instalar pacote francês reconstruído",
+      "archive_root": "app",
+      "archive": "fra.fgpack",
+      "destination": "app",
+      "archive_workdir": "temp-fitgirl",
+      "delete_archive_after": true,
+      "if_component": "local\\fra"
+    },
+    {
+      "id": "selective-ita",
+      "type": "extract",
+      "description": "Extrair pacote italiano",
+      "archive": "fg-selective-italian.bin",
+      "destination": "app",
+      "md5": "fd28aaa47356eb0c060a39d1a912e963",
+      "if_component": "local\\ita"
+    },
+    {
+      "id": "postprocess-ita",
+      "type": "exec",
+      "description": "Reconstruir pacote italiano com X5",
+      "executable_root": "tmp",
+      "executable": "x5.exe",
+      "cwd": "app",
+      "args": [
+        "-s-1g",
+        "000.fgpack",
+        "ita.fgpack.x5",
+        "ita.fgpack"
+      ],
+      "delete_after": [
+        "ita.fgpack.x5"
+      ],
+      "if_component": "local\\ita"
+    },
+    {
+      "id": "install-ita",
+      "type": "extract",
+      "description": "Instalar pacote italiano reconstruído",
+      "archive_root": "app",
+      "archive": "ita.fgpack",
+      "destination": "app",
+      "archive_workdir": "temp-fitgirl",
+      "delete_archive_after": true,
+      "if_component": "local\\ita"
+    },
+    {
+      "id": "selective-jap",
+      "type": "extract",
+      "description": "Extrair pacote japonês",
+      "archive": "fg-selective-japanese.bin",
+      "destination": "app",
+      "md5": "ba11b1bcfe4535c26bedde380d500a77",
+      "if_component": "local\\jap"
+    },
+    {
+      "id": "postprocess-jap",
+      "type": "exec",
+      "description": "Reconstruir pacote japonês com X5",
+      "executable_root": "tmp",
+      "executable": "x5.exe",
+      "cwd": "app",
+      "args": [
+        "-s-1g",
+        "000.fgpack",
+        "jap.fgpack.x5",
+        "jap.fgpack"
+      ],
+      "delete_after": [
+        "jap.fgpack.x5"
+      ],
+      "if_component": "local\\jap"
+    },
+    {
+      "id": "install-jap",
+      "type": "extract",
+      "description": "Instalar pacote japonês reconstruído",
+      "archive_root": "app",
+      "archive": "jap.fgpack",
+      "destination": "app",
+      "archive_workdir": "temp-fitgirl",
+      "delete_archive_after": true,
+      "if_component": "local\\jap"
+    },
+    {
+      "id": "game-02",
+      "type": "extract",
+      "description": "Extrair fg-02.bin",
+      "archive": "fg-02.bin",
+      "destination": "app",
+      "md5": "f65d90d0679c3b116f9623479e77bd13"
+    },
+    {
+      "id": "game-03",
+      "type": "extract",
+      "description": "Extrair fg-03.bin",
+      "archive": "fg-03.bin",
+      "destination": "app",
+      "md5": "4aee3c6eaa341547e47baa26b7fc9d1f"
+    },
+    {
+      "id": "game-04",
+      "type": "extract",
+      "description": "Extrair fg-04.bin",
+      "archive": "fg-04.bin",
+      "destination": "app",
+      "md5": "2b4bbf7e93f67b8e9280dbd88b594350"
+    },
+    {
+      "id": "tools-eng",
+      "type": "extract",
+      "description": "Extrair configurações de idioma de fg-05.bin",
+      "archive": "fg-05.bin",
+      "destination": "scratch",
+      "destination_suffix": "language-config",
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "if_component": "local\\eng"
+    },
+    {
+      "id": "config-eng",
+      "type": "copy",
+      "description": "Ativar configuração inglesa",
+      "source_root": "scratch",
+      "source": "language-config/eng/steam_api.ini",
+      "destination_root": "app",
+      "destination": "Tools/steam_api.ini",
+      "if_component": "local\\eng"
+    },
+    {
+      "id": "tools-rus",
+      "type": "extract",
+      "description": "Extrair configurações de idioma de fg-05.bin",
+      "archive": "fg-05.bin",
+      "destination": "scratch",
+      "destination_suffix": "language-config",
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "if_component": "local\\rus"
+    },
+    {
+      "id": "config-rus",
+      "type": "copy",
+      "description": "Ativar configuração russa",
+      "source_root": "scratch",
+      "source": "language-config/rus/steam_api.ini",
+      "destination_root": "app",
+      "destination": "Tools/steam_api.ini",
+      "if_component": "local\\rus"
+    },
+    {
+      "id": "tools-esp",
+      "type": "extract",
+      "description": "Extrair configurações de idioma de fg-05.bin",
+      "archive": "fg-05.bin",
+      "destination": "scratch",
+      "destination_suffix": "language-config",
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "if_component": "local\\esp"
+    },
+    {
+      "id": "config-esp",
+      "type": "copy",
+      "description": "Ativar configuração espanhola",
+      "source_root": "scratch",
+      "source": "language-config/esp/steam_api.ini",
+      "destination_root": "app",
+      "destination": "Tools/steam_api.ini",
+      "if_component": "local\\esp"
+    },
+    {
+      "id": "tools-ger",
+      "type": "extract",
+      "description": "Extrair configurações de idioma de fg-05.bin",
+      "archive": "fg-05.bin",
+      "destination": "scratch",
+      "destination_suffix": "language-config",
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "if_component": "local\\ger"
+    },
+    {
+      "id": "config-ger",
+      "type": "copy",
+      "description": "Ativar configuração alemã",
+      "source_root": "scratch",
+      "source": "language-config/ger/steam_api.ini",
+      "destination_root": "app",
+      "destination": "Tools/steam_api.ini",
+      "if_component": "local\\ger"
+    },
+    {
+      "id": "tools-fra",
+      "type": "extract",
+      "description": "Extrair configurações de idioma de fg-05.bin",
+      "archive": "fg-05.bin",
+      "destination": "scratch",
+      "destination_suffix": "language-config",
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "if_component": "local\\fra"
+    },
+    {
+      "id": "config-fra",
+      "type": "copy",
+      "description": "Ativar configuração francesa",
+      "source_root": "scratch",
+      "source": "language-config/fra/steam_api.ini",
+      "destination_root": "app",
+      "destination": "Tools/steam_api.ini",
+      "if_component": "local\\fra"
+    },
+    {
+      "id": "tools-ita",
+      "type": "extract",
+      "description": "Extrair configurações de idioma de fg-05.bin",
+      "archive": "fg-05.bin",
+      "destination": "scratch",
+      "destination_suffix": "language-config",
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "if_component": "local\\ita"
+    },
+    {
+      "id": "config-ita",
+      "type": "copy",
+      "description": "Ativar configuração italiana",
+      "source_root": "scratch",
+      "source": "language-config/ita/steam_api.ini",
+      "destination_root": "app",
+      "destination": "Tools/steam_api.ini",
+      "if_component": "local\\ita"
+    },
+    {
+      "id": "tools-jap",
+      "type": "extract",
+      "description": "Extrair configurações de idioma de fg-05.bin",
+      "archive": "fg-05.bin",
+      "destination": "scratch",
+      "destination_suffix": "language-config",
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "if_component": "local\\jap"
+    },
+    {
+      "id": "config-jap",
+      "type": "copy",
+      "description": "Ativar configuração japonesa",
+      "source_root": "scratch",
+      "source": "language-config/jap/steam_api.ini",
+      "destination_root": "app",
+      "destination": "Tools/steam_api.ini",
+      "if_component": "local\\jap"
+    },
+    {
+      "id": "verify-core",
+      "type": "verify",
+      "description": "Validar arquivos principais",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/fitgirl.md5",
+      "root": "app"
+    },
+    {
+      "id": "verify-eng",
+      "type": "verify",
+      "description": "Validar arquivos ingleses",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/eng.addon",
+      "root": "app",
+      "if_component": "local\\eng"
+    },
+    {
+      "id": "verify-rus",
+      "type": "verify",
+      "description": "Validar arquivos russos",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/rus.addon",
+      "root": "app",
+      "if_component": "local\\rus"
+    },
+    {
+      "id": "verify-esp",
+      "type": "verify",
+      "description": "Validar arquivos espanhóis",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/esp.addon",
+      "root": "app",
+      "if_component": "local\\esp"
+    },
+    {
+      "id": "verify-ger",
+      "type": "verify",
+      "description": "Validar arquivos alemães",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/ger.addon",
+      "root": "app",
+      "if_component": "local\\ger"
+    },
+    {
+      "id": "verify-fra",
+      "type": "verify",
+      "description": "Validar arquivos franceses",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/fra.addon",
+      "root": "app",
+      "if_component": "local\\fra"
+    },
+    {
+      "id": "verify-ita",
+      "type": "verify",
+      "description": "Validar arquivos italianos",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/ita.addon",
+      "root": "app",
+      "if_component": "local\\ita"
+    },
+    {
+      "id": "verify-jap",
+      "type": "verify",
+      "description": "Validar arquivos japoneses",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/jap.addon",
+      "root": "app",
+      "if_component": "local\\jap"
+    }
+  ],
+  "temporary_payload_coverage": {
+    "relevant_calls": 39,
+    "planned_calls": 39,
+    "unique_files": 37,
+    "missing_arguments": 0,
+    "missing_from_iss": [],
+    "complete": true
+  },
+  "temporary_payload_files": [
+    {
+      "name": "Bass.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "BASS_INIT",
+          "argument_address": "0x8794",
+          "call_address": "0x87ab"
+        },
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf31a",
+          "call_address": "0xf331"
+        }
+      ]
+    },
+    {
+      "name": "callbackctrl.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "BASS_INIT",
+          "argument_address": "0x8817",
+          "call_address": "0x8836"
+        },
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf5ad",
+          "call_address": "0xf5cc"
+        }
+      ]
+    },
+    {
+      "name": "wintb.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xd64f",
+          "call_address": "0xd667"
+        }
+      ]
+    },
+    {
+      "name": "cls-lollypop.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf33c",
+          "call_address": "0xf35b"
+        }
+      ]
+    },
+    {
+      "name": "cls-lollypop_x64.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf366",
+          "call_address": "0xf389"
+        }
+      ]
+    },
+    {
+      "name": "cls-lollypop_x86.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf394",
+          "call_address": "0xf3b7"
+        }
+      ]
+    },
+    {
+      "name": "cls-srep_x64.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf3c2",
+          "call_address": "0xf3e1"
+        }
+      ]
+    },
+    {
+      "name": "cls-srep_x86.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf3ec",
+          "call_address": "0xf40b"
+        }
+      ]
+    },
+    {
+      "name": "cls-magic2.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf416",
+          "call_address": "0xf433"
+        }
+      ]
+    },
+    {
+      "name": "cls-magic2_x64.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf43e",
+          "call_address": "0xf45f"
+        }
+      ]
+    },
+    {
+      "name": "cls-magic2_x86.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf46a",
+          "call_address": "0xf48b"
+        }
+      ]
+    },
+    {
+      "name": "cls-magic2l.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf496",
+          "call_address": "0xf4b4"
+        }
+      ]
+    },
+    {
+      "name": "cls-magic2l_x64.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf4bf",
+          "call_address": "0xf4e1"
+        }
+      ]
+    },
+    {
+      "name": "cls-magic2l_x86.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf4ec",
+          "call_address": "0xf50e"
+        }
+      ]
+    },
+    {
+      "name": "FlushFileCache.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf519",
+          "call_address": "0xf53a"
+        }
+      ]
+    },
+    {
+      "name": "cls-zstd.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf545",
+          "call_address": "0xf560"
+        }
+      ]
+    },
+    {
+      "name": "arc.ini",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf56b",
+          "call_address": "0xf581"
+        }
+      ]
+    },
+    {
+      "name": "CLS.ini",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf58c",
+          "call_address": "0xf5a2"
+        }
+      ]
+    },
+    {
+      "name": "botva2.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf5d7",
+          "call_address": "0xf5f0"
+        }
+      ]
+    },
+    {
+      "name": "MusicButton.png",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf5fb",
+          "call_address": "0xf619"
+        }
+      ]
+    },
+    {
+      "name": "music.mp3",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf624",
+          "call_address": "0xf63c"
+        }
+      ]
+    },
+    {
+      "name": "host.cmd",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf647",
+          "call_address": "0xf65e"
+        }
+      ]
+    },
+    {
+      "name": "hosts.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf669",
+          "call_address": "0xf681"
+        }
+      ]
+    },
+    {
+      "name": "nz.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf68c",
+          "call_address": "0xf6a1"
+        }
+      ]
+    },
+    {
+      "name": "x5.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "INITIALIZEWIZARD",
+          "argument_address": "0xf6ac",
+          "call_address": "0xf6c1"
+        }
+      ]
+    },
+    {
+      "name": "unarc.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x110ab",
+          "call_address": "0x110c3"
+        }
+      ]
+    },
+    {
+      "name": "CLS-precomp.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x110ce",
+          "call_address": "0x110ec"
+        }
+      ]
+    },
+    {
+      "name": "packjpg_dll.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x110f7",
+          "call_address": "0x11115"
+        }
+      ]
+    },
+    {
+      "name": "packjpg_dll1.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x11120",
+          "call_address": "0x1113f"
+        }
+      ]
+    },
+    {
+      "name": "precomp.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x1114a",
+          "call_address": "0x11164"
+        }
+      ]
+    },
+    {
+      "name": "zlib1.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x1116f",
+          "call_address": "0x11187"
+        }
+      ]
+    },
+    {
+      "name": "CLS-srep.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x11192",
+          "call_address": "0x111ad"
+        }
+      ]
+    },
+    {
+      "name": "CLS-MSC.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x111b8",
+          "call_address": "0x111d2"
+        }
+      ]
+    },
+    {
+      "name": "facompress.dll",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x111dd",
+          "call_address": "0x111fa"
+        }
+      ]
+    },
+    {
+      "name": "records.inf",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x11205",
+          "call_address": "0x1121f"
+        }
+      ]
+    },
+    {
+      "name": "precomp043.exe",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x1122a",
+          "call_address": "0x11247"
+        }
+      ]
+    },
+    {
+      "name": "English.ini",
+      "destination": "tmp",
+      "present_in_iss": true,
+      "calls": [
+        {
+          "procedure": "CURSTEPCHANGED",
+          "argument_address": "0x11252",
+          "call_address": "0x1126c"
+        }
+      ]
+    }
+  ]
+}

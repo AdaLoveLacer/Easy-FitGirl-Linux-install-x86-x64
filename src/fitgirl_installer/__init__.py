@@ -1,0 +1,1 @@
+"""FitGirl Installer internals."""

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "executable": "/mnt/SOURCE_DISK/Games/Directive 8020 native validation/Directive8020.exe",
+  "prefix": "/mnt/SOURCE_DISK/Games/.fitgirl-work/game-launch-validation/directive-8020-umu-prefix-2",
+  "proton": "$HOME/.local/share/Steam/compatibilitytools.d/UMU-Proton-10.0-4",
+  "command": [
+    "umu-run",
+    "/mnt/SOURCE_DISK/Games/Directive 8020 native validation/Directive8020.exe"
+  ],
+  "observation_seconds": 60,
+  "elapsed_seconds": 20.01,
+  "survived_observation_window": false,
+  "returncode_after_cleanup": 41,
+  "log": "$PROJECT_ROOT/evidence/game-launch-2026-11-02/directive-8020/umu.log",
+  "limitations": "Process survival does not prove rendering, input, audio or full gameplay."
+}

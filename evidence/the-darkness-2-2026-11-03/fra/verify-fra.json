@@ -1,0 +1,102 @@
+{
+  "files": {
+    "Cache.Windows/B.Misc_fr.cache": {
+      "actual": "1d4775c0fe8e9957ca3d68875a239b6d",
+      "expected": "1d4775c0fe8e9957ca3d68875a239b6d",
+      "mtime_ns": 1644844285000000000,
+      "size": 27564234
+    },
+    "Cache.Windows/B.Misc_fr.toc": {
+      "actual": "d825748b3d01696ed537ba8c35d4c5dc",
+      "expected": "d825748b3d01696ed537ba8c35d4c5dc",
+      "mtime_ns": 1644844133000000000,
+      "size": 953288
+    },
+    "Cache.Windows/B.Texture_fr.cache": {
+      "actual": "c485042e5a5fd85ddfa1fa6a360d5efb",
+      "expected": "c485042e5a5fd85ddfa1fa6a360d5efb",
+      "mtime_ns": 1644844115000000000,
+      "size": 279828
+    },
+    "Cache.Windows/B.Texture_fr.toc": {
+      "actual": "a6d0a3a454d3317059471be54f2d8cb5",
+      "expected": "a6d0a3a454d3317059471be54f2d8cb5",
+      "mtime_ns": 1644844113000000000,
+      "size": 3368
+    },
+    "Cache.Windows/F.Misc_fr.cache": {
+      "actual": "d31e5461bb908831ebc8947bf307cbe2",
+      "expected": "d31e5461bb908831ebc8947bf307cbe2",
+      "mtime_ns": 1644844304000000000,
+      "size": 210915519
+    },
+    "Cache.Windows/F.Misc_fr.toc": {
+      "actual": "acd886e402c63de92aa90be582d21484",
+      "expected": "acd886e402c63de92aa90be582d21484",
+      "mtime_ns": 1644844133000000000,
+      "size": 926408
+    },
+    "Cache.Windows/F.VideoTexture_fr.cache": {
+      "actual": "edbc724a7d22d95599ffe926e35ff11b",
+      "expected": "edbc724a7d22d95599ffe926e35ff11b",
+      "mtime_ns": 1644844317000000000,
+      "size": 169283040
+    },
+    "Cache.Windows/F.VideoTexture_fr.toc": {
+      "actual": "207b2801c7a8515a386998316ca7669d",
+      "expected": "207b2801c7a8515a386998316ca7669d",
+      "mtime_ns": 1644844113000000000,
+      "size": 680
+    },
+    "Cache.Windows/H.Misc_fr.cache": {
+      "actual": "1703bff955a6254fc7440d3abaeb311d",
+      "expected": "1703bff955a6254fc7440d3abaeb311d",
+      "mtime_ns": 1644844317000000000,
+      "size": 3419772
+    },
+    "Cache.Windows/H.Misc_fr.toc": {
+      "actual": "d08b59f0c7eb077e4d9b4667652bc7fc",
+      "expected": "d08b59f0c7eb077e4d9b4667652bc7fc",
+      "mtime_ns": 1644844134000000000,
+      "size": 953480
+    },
+    "Cache.Windows/H.Texture_fr.cache": {
+      "actual": "8ce27e66e0ca4f94433ba22441cf7430",
+      "expected": "8ce27e66e0ca4f94433ba22441cf7430",
+      "mtime_ns": 1644844114000000000,
+      "size": 4014
+    },
+    "Cache.Windows/H.Texture_fr.toc": {
+      "actual": "fe866eb05f95449d8a5f221eec78c179",
+      "expected": "fe866eb05f95449d8a5f221eec78c179",
+      "mtime_ns": 1644844113000000000,
+      "size": 3368
+    },
+    "Cache.Windows/H.VideoTextureSlow.cache": {
+      "actual": "4b35b4fc479b7f1cb58cf1a0ca03fb1b",
+      "expected": "4b35b4fc479b7f1cb58cf1a0ca03fb1b",
+      "mtime_ns": 1644844135000000000,
+      "size": 6163
+    },
+    "Cache.Windows/H.VideoTextureSlow.toc": {
+      "actual": "ba00a97a6eee0b7f92bd1fc397e73d0b",
+      "expected": "ba00a97a6eee0b7f92bd1fc397e73d0b",
+      "mtime_ns": 1644844135000000000,
+      "size": 6344
+    },
+    "Cache.Windows/H.VideoTexture_fr.cache": {
+      "actual": "3ea89062b68c4c5b52fb22fb23b5d83b",
+      "expected": "3ea89062b68c4c5b52fb22fb23b5d83b",
+      "mtime_ns": 1644844113000000000,
+      "size": 217
+    },
+    "Cache.Windows/H.VideoTexture_fr.toc": {
+      "actual": "789fe224d917f43fc9e118755cfefe26",
+      "expected": "789fe224d917f43fc9e118755cfefe26",
+      "mtime_ns": 1644844113000000000,
+      "size": 680
+    }
+  },
+  "manifest": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-fra-20261103-payload/scratch/setup-payload/app/_Redist/fra.addon",
+  "version": 1
+}

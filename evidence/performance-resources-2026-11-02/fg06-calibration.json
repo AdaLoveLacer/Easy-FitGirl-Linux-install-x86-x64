@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "archive": "/mnt/SOURCE_DISK/Torrent/Games/Forza Motorsport 7 [FitGirl Repack]/fg-06.bin",
+  "archive_bytes": 1851170,
+  "warm_elapsed_seconds": 6.246,
+  "output_files": 13,
+  "output_bytes": 8911707,
+  "returncode": 0,
+  "eta_assessment": "Volume curto demais para ETA estável; o monitor deve manter ETA desconhecida sem amostras suficientes.",
+  "result": "PASS"
+}

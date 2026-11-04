@@ -1,0 +1,1514 @@
+{
+  "schema": 1,
+  "validated_on": "2026-11-04",
+  "status": "PARTIAL_SEMANTIC_PROOF",
+  "basis": {
+    "event_callback": "Inno Setup declares CurStepChanged(CurStep: TSetupStep); exact enum order is in Shared.SetupSteps.pas. Standard Pascal enum ordinals begin at zero. Official event docs define when ssPostInstall occurs. IFPS branch polarity is cross-checked against Inno Setup’s bundled uPSRuntime.pas.",
+    "sources": [
+      "https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas",
+      "https://jrsoftware.org/ishelp/topic_scriptevents.htm",
+      "https://docwiki.embarcadero.com/RADStudio/Athens/en/Simple_Types",
+      "https://github.com/jrsoftware/issrc/blob/main/Components/UniPs/Source/uPSRuntime.pas"
+    ]
+  },
+  "method": "Analyze the exact compiled-code-bound disassemblies. Recognize only direct equality of CurStep parameter s-1 to a literal TSetupStep ordinal, followed by set-flag not and IFPS flag-goto; report the true-branch action addresses. Recover checkbox-guarded INI writes and component-selection bit construction separately. Inventory all external ISDone.dll calls not represented by planner action APIs.",
+  "candidates": [
+    {
+      "candidate": "Star Trucker",
+      "cache_key": "64db389224b83157e89dfae26e39daf1cf3152278671ab5f3f255243c6f2caa0",
+      "hashes": {
+        "iss_sha256": "d87f057861b5ad9ae5846cc0245944a856d84c852cc96a7188a08c13a3d8f27c",
+        "disassembly_sha256": "a7f7474400ef7ccd1aeba98aad150a88ddf64563aff0a6e920efd80e46069890",
+        "compiled_code_sha256": "6062290f0574b44e7bfdfab127665eaf2ff6cc55b1323a7212636e6f539e6a8f"
+      },
+      "report": {
+        "callback": "CURSTEPCHANGED",
+        "event_guards": [
+          {
+            "comparison_address": "0x10705",
+            "parameter": "s-1",
+            "ordinal": 2,
+            "event": "ssPostInstall",
+            "branch_address": "0x1071f",
+            "skip_target": "0x11f99",
+            "actions_in_true_branch": [
+              {
+                "address": "0x10bab",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10c51",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10cff",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10dae",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10e70",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10f40",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x1100c",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x110d9",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x111a6",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11274",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x1137d",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x1150b",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x116ce",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x117c4",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x11980",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x11a76",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x11c1e",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x11d14",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x11ec3",
+                "call": "dll:files:ISDone.dll!ISExec"
+              }
+            ],
+            "branch_polarity_proven": true
+          },
+          {
+            "comparison_address": "0x11f9e",
+            "parameter": "s-1",
+            "ordinal": 2,
+            "event": "ssPostInstall",
+            "branch_address": "0x11fce",
+            "skip_target": "0x1205d",
+            "actions_in_true_branch": [],
+            "branch_polarity_proven": true
+          }
+        ],
+        "recognized_actions": 19,
+        "all_recognized_actions_covered_by_proven_event_guard": true,
+        "component_selection": {
+          "bitmask_analysis": {
+            "accumulator": "s+1",
+            "weight_variable": "s+4",
+            "components": [
+              {
+                "component": "bonus",
+                "bit": 1,
+                "condition_call": "0x10903",
+                "add_address": "0x10917",
+                "join_address": "0x10923"
+              }
+            ],
+            "consumer_assignment": "0x109c3",
+            "consumer_call": "0x10a30",
+            "proven": true
+          },
+          "isarc_extract_calls": [
+            {
+              "archive": "fg-01.bin",
+              "call_address": "0x116ce",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-optional-bonus-content.bin",
+              "call_address": "0x11980",
+              "cur_component": 1,
+              "component_for_matching_bit": [
+                "bonus"
+              ],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-02.bin",
+              "call_address": "0x11c1e",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            }
+          ],
+          "external_cur_component_semantics_proven": true,
+          "external_semantics_evidence": "ISDone.dll exact binary SHA256 c652b4b564b3c85c399155cbb45c6fb5a9f56f074e566bfd20f01da6e0412c74; export ISArcExtract RVA 0x1B138 calls helper that tests the first argument against masks populated by ISDoneInit; zero is unconditional."
+        },
+        "checkbox_conditions": {
+          "ini_write_sites": [
+            {
+              "call_address": "0x10e70",
+              "file": "CLS.ini",
+              "section": "Srep",
+              "key": "Memory",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10de3",
+                "skip_target": "0x10e7b",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x10f40",
+              "file": "CLS.ini",
+              "section": "lollypop2",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10ea5",
+                "skip_target": "0x10f4b",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x1100c",
+              "file": "CLS.ini",
+              "section": "magic",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10f75",
+                "skip_target": "0x11017",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x110d9",
+              "file": "CLS.ini",
+              "section": "magicl",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x11041",
+                "skip_target": "0x110e4",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x111a6",
+              "file": "CLS.ini",
+              "section": "magic2",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x1110e",
+                "skip_target": "0x111b1",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11274",
+              "file": "CLS.ini",
+              "section": "magic2l",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x111db",
+                "skip_target": "0x1127f",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x1137d",
+              "file": "arc.ini",
+              "section": "External compressor:xt3dd",
+              "key": "unpackcmd",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x112a9",
+                "skip_target": "0x11388",
+                "when_checked": true,
+                "proven": true
+              }
+            }
+          ],
+          "all_reported_conditions_proven": true
+        },
+        "unmodeled_external_calls": [
+          {
+            "address": "0x10a30",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ISDoneInit",
+            "nearby_string_literals_heuristic": [
+              "{src}\\records.inf"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x10a76",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ChangeLanguage",
+            "nearby_string_literals_heuristic": [
+              "English"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x10aed",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!PrecompInit",
+            "nearby_string_literals_heuristic": [
+              "{app}"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x113a4",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!FileSearchInit",
+            "nearby_string_literals_heuristic": [],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x11f17",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ISDoneStop",
+            "nearby_string_literals_heuristic": [
+              "",
+              "{app}\\_Redist\\",
+              "/C ",
+              "copy /b fitgirl.md5+*.addon&&del *.addon",
+              "",
+              "{cmd}"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x12053",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!Exec2",
+            "nearby_string_literals_heuristic": [
+              "/VERYSILENT",
+              "{uninstallexe}"
+            ],
+            "modeled_by_plan_audit": false
+          }
+        ],
+        "limitations": [
+          "The event enum mapping uses Inno Setup's TSetupStep declaration and standard zero-based Pascal enum ordinals.",
+          "The report inventories external DLL calls; it does not prove the side effects of calls omitted by the native plan.",
+          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa."
+        ],
+        "sources": {
+          "inno_setup_step_enum": "https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas",
+          "inno_curstepchanged_event": "https://jrsoftware.org/ishelp/topic_scriptevents.htm",
+          "pascal_enum_ordinals": "https://docwiki.embarcadero.com/RADStudio/Athens/en/Simple_Types",
+          "ifps_flag_branch_runtime": "https://github.com/jrsoftware/issrc/blob/main/Components/UniPs/Source/uPSRuntime.pas"
+        },
+        "exec2_script_semantics": {
+          "component_flag": "g#29",
+          "initialized_true": "0x10942",
+          "cleared_on_true_isexec": "0x11ee9",
+          "postinstall_comparison": "0x11f9e",
+          "postinstall_branch": "0x11fce",
+          "exec2_call": "0x12053",
+          "condition": "CurStepChanged(ssPostInstall) AND component_flag remains nonzero",
+          "preceding_action": "ISExec runs {cmd} /C copy /b fitgirl.md5+*.addon&&del *.addon; the IFPS script clears component_flag when that call returns true.",
+          "action": "Call Exec2 with executable {uninstallexe} and argument /VERYSILENT; this is a conditional attempt to start the game uninstaller silently.",
+          "return_value_handled": false,
+          "return_value_evidence": "IFPS stores the result in a local output slot, pops it during cleanup, and returns without reading/testing it.",
+          "static_semantics_proven": true,
+          "safety_impact": "If the preceding ISExec result is false, the guard may launch the uninstaller after installation. The false value can indicate a skipped component or failure; the script does not distinguish them here."
+        },
+        "critical_external_effects": [
+          {
+            "kind": "unmodeled_silent_uninstaller_launch",
+            "call_address": "0x12053",
+            "procedure": "CURSTEPCHANGED",
+            "executable_literal": "{uninstallexe}",
+            "arguments_literal": "/VERYSILENT",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true
+          }
+        ]
+      },
+      "checks": {
+        "recognized_action_count_positive": true,
+        "all_recognized_actions_covered_by_sspostinstall_guard": true,
+        "all_reported_checkbox_conditions_proven": true,
+        "all_optional_cur_component_indexes_match_selected_bit_positions": true,
+        "opaque_isdone_dll_calls_reported": true,
+        "isdone_component_mask_semantics_proven": true,
+        "exec2_returns_state_flag_not_child_exit_code": true,
+        "isdone_binary_hash_matches_shared_sample": true,
+        "isexec_return_true_on_completed_path_and_false_on_skip_or_error": true,
+        "exec2_uninstaller_effect_identified": true,
+        "exec2_return_ignored_by_ifps_caller": true
+      },
+      "still_review_required": true,
+      "audit_acceptance": {
+        "status": "MISMATCH",
+        "consistent": false,
+        "blocking_issue_kinds": [
+          "unmodeled_silent_uninstaller_launch"
+        ],
+        "manifest_semantic_blockers": [
+          "unmodeled_silent_uninstaller_launch em 0x12053: tentativa condicional de desinstalação silenciosa"
+        ],
+        "installer_refuses_manifest_with_semantic_blockers": true
+      }
+    },
+    {
+      "candidate": "Children of Morta",
+      "cache_key": "3ca9bd39a13225f0601586deca6128f82480d19ca8a2aaeed1d937a716c5b321",
+      "hashes": {
+        "iss_sha256": "c0b77ec3fccc5bcf47863acefed95b3d6e08271519688aa8b05b0190523ad152",
+        "disassembly_sha256": "60901e426036ce5aacd2d5060ce16638d79a6ed8946e4482663796fabe616ef2",
+        "compiled_code_sha256": "e9a15c93135b2ca102cd6c34d2a567e95488aabd2437c8380393f59469868d9f"
+      },
+      "report": {
+        "callback": "CURSTEPCHANGED",
+        "event_guards": [
+          {
+            "comparison_address": "0x10862",
+            "parameter": "s-1",
+            "ordinal": 2,
+            "event": "ssPostInstall",
+            "branch_address": "0x1087c",
+            "skip_target": "0x1475f",
+            "actions_in_true_branch": [
+              {
+                "address": "0x10d59",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10dff",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10ead",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10f5c",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x1101e",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x110ee",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x111ba",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11287",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11354",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11422",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11528",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11628",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11729",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11829",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x11a1b",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x11b89",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x11d4c",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x11e42",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x11fea",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x120e0",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x1229d",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x12486",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x1265e",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x12847",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x12a1d",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x12bf5",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x12dde",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x12fb4",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x1318c",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x13375",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x13568",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x13781",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x13947",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x13a3d",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x13bf9",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x13cef",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x13ea8",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x13f9e",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x14146",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x1423c",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x143e4",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x144da",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x14689",
+                "call": "dll:files:ISDone.dll!ISExec"
+              }
+            ],
+            "branch_polarity_proven": true
+          },
+          {
+            "comparison_address": "0x14764",
+            "parameter": "s-1",
+            "ordinal": 2,
+            "event": "ssPostInstall",
+            "branch_address": "0x14794",
+            "skip_target": "0x14823",
+            "actions_in_true_branch": [],
+            "branch_polarity_proven": true
+          }
+        ],
+        "recognized_actions": 43,
+        "all_recognized_actions_covered_by_proven_event_guard": true,
+        "component_selection": {
+          "bitmask_analysis": {
+            "accumulator": "s+1",
+            "weight_variable": "s+4",
+            "components": [
+              {
+                "component": "fa",
+                "bit": 1,
+                "condition_call": "0x10a5d",
+                "add_address": "0x10a71",
+                "join_address": "0x10a7d"
+              },
+              {
+                "component": "bonus",
+                "bit": 2,
+                "condition_call": "0x10ab1",
+                "add_address": "0x10ac5",
+                "join_address": "0x10ad1"
+              }
+            ],
+            "consumer_assignment": "0x10b71",
+            "consumer_call": "0x10bde",
+            "proven": true
+          },
+          "isarc_extract_calls": [
+            {
+              "archive": "fg-03.bin",
+              "call_address": "0x11d4c",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-02.bin",
+              "call_address": "0x11fea",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "inner.fgpack",
+              "call_address": "0x13947",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-optional-bonus-content.bin",
+              "call_address": "0x13bf9",
+              "cur_component": 2,
+              "component_for_matching_bit": [
+                "bonus"
+              ],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-optional-persian-vo.bin",
+              "call_address": "0x13ea8",
+              "cur_component": 1,
+              "component_for_matching_bit": [
+                "fa"
+              ],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-01.bin",
+              "call_address": "0x14146",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-04.bin",
+              "call_address": "0x143e4",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            }
+          ],
+          "external_cur_component_semantics_proven": true,
+          "external_semantics_evidence": "ISDone.dll exact binary SHA256 c652b4b564b3c85c399155cbb45c6fb5a9f56f074e566bfd20f01da6e0412c74; export ISArcExtract RVA 0x1B138 calls helper that tests the first argument against masks populated by ISDoneInit; zero is unconditional."
+        },
+        "checkbox_conditions": {
+          "ini_write_sites": [
+            {
+              "call_address": "0x1101e",
+              "file": "CLS.ini",
+              "section": "Srep",
+              "key": "Memory",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10f91",
+                "skip_target": "0x11029",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x110ee",
+              "file": "CLS.ini",
+              "section": "lollypop2",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x11053",
+                "skip_target": "0x110f9",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x111ba",
+              "file": "CLS.ini",
+              "section": "magic",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x11123",
+                "skip_target": "0x111c5",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11287",
+              "file": "CLS.ini",
+              "section": "magicl",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x111ef",
+                "skip_target": "0x11292",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11354",
+              "file": "CLS.ini",
+              "section": "magic2",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x112bc",
+                "skip_target": "0x1135f",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11422",
+              "file": "CLS.ini",
+              "section": "magic2l",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x11389",
+                "skip_target": "0x1142d",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11528",
+              "file": "arc.ini",
+              "section": "External compressor:xt3dd",
+              "key": "unpackcmd",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x11457",
+                "skip_target": "0x11533",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11628",
+              "file": "arc.ini",
+              "section": "External compressor:xt3azp",
+              "key": "unpackcmd",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x1155d",
+                "skip_target": "0x11633",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11729",
+              "file": "arc.ini",
+              "section": "External compressor:xt3azrp",
+              "key": "unpackcmd",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x1165d",
+                "skip_target": "0x11734",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x11829",
+              "file": "arc.ini",
+              "section": "External compressor:bz3s,bz3",
+              "key": "unpackcmd",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x1175e",
+                "skip_target": "0x11834",
+                "when_checked": true,
+                "proven": true
+              }
+            }
+          ],
+          "all_reported_conditions_proven": true
+        },
+        "unmodeled_external_calls": [
+          {
+            "address": "0x10bde",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ISDoneInit",
+            "nearby_string_literals_heuristic": [
+              "{src}\\records.inf"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x10c24",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ChangeLanguage",
+            "nearby_string_literals_heuristic": [
+              "English"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x10c9b",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!PrecompInit",
+            "nearby_string_literals_heuristic": [
+              "{app}"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x11850",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!FileSearchInit",
+            "nearby_string_literals_heuristic": [],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x146dd",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ISDoneStop",
+            "nearby_string_literals_heuristic": [
+              "",
+              "{app}\\_Redist\\",
+              "/C ",
+              "copy /b fitgirl.md5+*.addon&&del *.addon",
+              "",
+              "{cmd}"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x14819",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!Exec2",
+            "nearby_string_literals_heuristic": [
+              "/VERYSILENT",
+              "{uninstallexe}"
+            ],
+            "modeled_by_plan_audit": false
+          }
+        ],
+        "limitations": [
+          "The event enum mapping uses Inno Setup's TSetupStep declaration and standard zero-based Pascal enum ordinals.",
+          "The report inventories external DLL calls; it does not prove the side effects of calls omitted by the native plan.",
+          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa."
+        ],
+        "sources": {
+          "inno_setup_step_enum": "https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas",
+          "inno_curstepchanged_event": "https://jrsoftware.org/ishelp/topic_scriptevents.htm",
+          "pascal_enum_ordinals": "https://docwiki.embarcadero.com/RADStudio/Athens/en/Simple_Types",
+          "ifps_flag_branch_runtime": "https://github.com/jrsoftware/issrc/blob/main/Components/UniPs/Source/uPSRuntime.pas"
+        },
+        "exec2_script_semantics": {
+          "component_flag": "g#29",
+          "initialized_true": "0x10af0",
+          "cleared_on_true_isexec": "0x146af",
+          "postinstall_comparison": "0x14764",
+          "postinstall_branch": "0x14794",
+          "exec2_call": "0x14819",
+          "condition": "CurStepChanged(ssPostInstall) AND component_flag remains nonzero",
+          "preceding_action": "ISExec runs {cmd} /C copy /b fitgirl.md5+*.addon&&del *.addon; the IFPS script clears component_flag when that call returns true.",
+          "action": "Call Exec2 with executable {uninstallexe} and argument /VERYSILENT; this is a conditional attempt to start the game uninstaller silently.",
+          "return_value_handled": false,
+          "return_value_evidence": "IFPS stores the result in a local output slot, pops it during cleanup, and returns without reading/testing it.",
+          "static_semantics_proven": true,
+          "safety_impact": "If the preceding ISExec result is false, the guard may launch the uninstaller after installation. The false value can indicate a skipped component or failure; the script does not distinguish them here."
+        },
+        "critical_external_effects": [
+          {
+            "kind": "unmodeled_silent_uninstaller_launch",
+            "call_address": "0x14819",
+            "procedure": "CURSTEPCHANGED",
+            "executable_literal": "{uninstallexe}",
+            "arguments_literal": "/VERYSILENT",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true
+          }
+        ]
+      },
+      "checks": {
+        "recognized_action_count_positive": true,
+        "all_recognized_actions_covered_by_sspostinstall_guard": true,
+        "all_reported_checkbox_conditions_proven": true,
+        "all_optional_cur_component_indexes_match_selected_bit_positions": true,
+        "opaque_isdone_dll_calls_reported": true,
+        "isdone_component_mask_semantics_proven": true,
+        "exec2_returns_state_flag_not_child_exit_code": true,
+        "isdone_binary_hash_matches_shared_sample": true,
+        "isexec_return_true_on_completed_path_and_false_on_skip_or_error": true,
+        "exec2_uninstaller_effect_identified": true,
+        "exec2_return_ignored_by_ifps_caller": true
+      },
+      "still_review_required": true,
+      "audit_acceptance": {
+        "status": "MISMATCH",
+        "consistent": false,
+        "blocking_issue_kinds": [
+          "unmodeled_silent_uninstaller_launch"
+        ],
+        "manifest_semantic_blockers": [
+          "unmodeled_silent_uninstaller_launch em 0x14819: tentativa condicional de desinstalação silenciosa"
+        ],
+        "installer_refuses_manifest_with_semantic_blockers": true
+      }
+    },
+    {
+      "candidate": "Subnautica",
+      "cache_key": "5bc44d499563ed11931c8860923208b0eaf45c7d4815284ebc1f4aca3e4cc539",
+      "hashes": {
+        "iss_sha256": "6d1e648243bc542e7668963a161875e7f8f25d3d000d91b6998c871ab38e3293",
+        "disassembly_sha256": "93b3bc6c649d5959f0a04b1d3c34315750fc6a0f388a3636b7eeb3f75136407f",
+        "compiled_code_sha256": "dcb2e62e0e92ac346bfe689faab6f9ef99bc5c1b5e83285936440271f84c9d51"
+      },
+      "report": {
+        "callback": "CURSTEPCHANGED",
+        "event_guards": [
+          {
+            "comparison_address": "0x104c8",
+            "parameter": "s-1",
+            "ordinal": 2,
+            "event": "ssPostInstall",
+            "branch_address": "0x104e2",
+            "skip_target": "0x12f0f",
+            "actions_in_true_branch": [
+              {
+                "address": "0x1096e",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10a1c",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10acb",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10b8d",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10c5d",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10d29",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10df6",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10ec3",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x10f91",
+                "call": "SETINISTRING"
+              },
+              {
+                "address": "0x1111f",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x112e2",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x113d8",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x11580",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x11676",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x11866",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x11a2c",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x11b22",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x11cca",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x11dc0",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x1200d",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x122b1",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x124e1",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x12723",
+                "call": "dll:files:ISDone.dll!ISExec"
+              },
+              {
+                "address": "0x128e6",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x129dc",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x12b94",
+                "call": "dll:files:ISDone.dll!ISArcExtract"
+              },
+              {
+                "address": "0x12c8a",
+                "call": "DELTREE"
+              },
+              {
+                "address": "0x12e39",
+                "call": "dll:files:ISDone.dll!ISExec"
+              }
+            ],
+            "branch_polarity_proven": true
+          },
+          {
+            "comparison_address": "0x12f14",
+            "parameter": "s-1",
+            "ordinal": 2,
+            "event": "ssPostInstall",
+            "branch_address": "0x12f44",
+            "skip_target": "0x12fd3",
+            "actions_in_true_branch": [],
+            "branch_polarity_proven": true
+          }
+        ],
+        "recognized_actions": 28,
+        "all_recognized_actions_covered_by_proven_event_guard": true,
+        "component_selection": {
+          "bitmask_analysis": {
+            "accumulator": "s+1",
+            "weight_variable": "s+4",
+            "components": [
+              {
+                "component": "bonus",
+                "bit": 1,
+                "condition_call": "0x106c6",
+                "add_address": "0x106da",
+                "join_address": "0x106e6"
+              }
+            ],
+            "consumer_assignment": "0x10786",
+            "consumer_call": "0x107f3",
+            "proven": true
+          },
+          "isarc_extract_calls": [
+            {
+              "archive": "fg-04.bin",
+              "call_address": "0x112e2",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-02.bin",
+              "call_address": "0x11580",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "audio.fgpack",
+              "call_address": "0x11a2c",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-01.bin",
+              "call_address": "0x11cca",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-03.bin",
+              "call_address": "0x128e6",
+              "cur_component": 0,
+              "component_for_matching_bit": [],
+              "index_matches_selection_bit": true
+            },
+            {
+              "archive": "fg-optional-bonus-ost.bin",
+              "call_address": "0x12b94",
+              "cur_component": 1,
+              "component_for_matching_bit": [
+                "bonus"
+              ],
+              "index_matches_selection_bit": true
+            }
+          ],
+          "external_cur_component_semantics_proven": true,
+          "external_semantics_evidence": "ISDone.dll exact binary SHA256 c652b4b564b3c85c399155cbb45c6fb5a9f56f074e566bfd20f01da6e0412c74; export ISArcExtract RVA 0x1B138 calls helper that tests the first argument against masks populated by ISDoneInit; zero is unconditional."
+        },
+        "checkbox_conditions": {
+          "ini_write_sites": [
+            {
+              "call_address": "0x10b8d",
+              "file": "CLS.ini",
+              "section": "Srep",
+              "key": "Memory",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10b00",
+                "skip_target": "0x10b98",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x10c5d",
+              "file": "CLS.ini",
+              "section": "lollypop2",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10bc2",
+                "skip_target": "0x10c68",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x10d29",
+              "file": "CLS.ini",
+              "section": "magic",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10c92",
+                "skip_target": "0x10d34",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x10df6",
+              "file": "CLS.ini",
+              "section": "magicl",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10d5e",
+                "skip_target": "0x10e01",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x10ec3",
+              "file": "CLS.ini",
+              "section": "magic2",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10e2b",
+                "skip_target": "0x10ece",
+                "when_checked": true,
+                "proven": true
+              }
+            },
+            {
+              "call_address": "0x10f91",
+              "file": "CLS.ini",
+              "section": "magic2l",
+              "key": "MaxMemoryUsage",
+              "condition": {
+                "kind": "checkbox-checked",
+                "source": "g#10",
+                "option": "use2gb",
+                "branch_address": "0x10ef8",
+                "skip_target": "0x10f9c",
+                "when_checked": true,
+                "proven": true
+              }
+            }
+          ],
+          "all_reported_conditions_proven": true
+        },
+        "unmodeled_external_calls": [
+          {
+            "address": "0x107f3",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ISDoneInit",
+            "nearby_string_literals_heuristic": [
+              "{src}\\records.inf"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x10839",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ChangeLanguage",
+            "nearby_string_literals_heuristic": [
+              "English"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x108b0",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!PrecompInit",
+            "nearby_string_literals_heuristic": [
+              "{app}"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x10fb8",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!FileSearchInit",
+            "nearby_string_literals_heuristic": [],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x12e8d",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!ISDoneStop",
+            "nearby_string_literals_heuristic": [
+              "",
+              "{app}\\_Redist\\",
+              "/C ",
+              "copy /b fitgirl.md5+*.addon&&del *.addon",
+              "",
+              "{cmd}"
+            ],
+            "modeled_by_plan_audit": false
+          },
+          {
+            "address": "0x12fc9",
+            "procedure": "CURSTEPCHANGED",
+            "call": "dll:files:ISDone.dll!Exec2",
+            "nearby_string_literals_heuristic": [
+              "/VERYSILENT",
+              "{uninstallexe}"
+            ],
+            "modeled_by_plan_audit": false
+          }
+        ],
+        "limitations": [
+          "The event enum mapping uses Inno Setup's TSetupStep declaration and standard zero-based Pascal enum ordinals.",
+          "The report inventories external DLL calls; it does not prove the side effects of calls omitted by the native plan.",
+          "ISDone.dll foi analisada estaticamente no binário idêntico vinculado a este setup; a análise parcial não prova todos os efeitos dos exports nem equivalência completa."
+        ],
+        "sources": {
+          "inno_setup_step_enum": "https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas",
+          "inno_curstepchanged_event": "https://jrsoftware.org/ishelp/topic_scriptevents.htm",
+          "pascal_enum_ordinals": "https://docwiki.embarcadero.com/RADStudio/Athens/en/Simple_Types",
+          "ifps_flag_branch_runtime": "https://github.com/jrsoftware/issrc/blob/main/Components/UniPs/Source/uPSRuntime.pas"
+        },
+        "exec2_script_semantics": {
+          "component_flag": "g#30",
+          "initialized_true": "0x10705",
+          "cleared_on_true_isexec": "0x12e5f",
+          "postinstall_comparison": "0x12f14",
+          "postinstall_branch": "0x12f44",
+          "exec2_call": "0x12fc9",
+          "condition": "CurStepChanged(ssPostInstall) AND component_flag remains nonzero",
+          "preceding_action": "ISExec runs {cmd} /C copy /b fitgirl.md5+*.addon&&del *.addon; the IFPS script clears component_flag when that call returns true.",
+          "action": "Call Exec2 with executable {uninstallexe} and argument /VERYSILENT; this is a conditional attempt to start the game uninstaller silently.",
+          "return_value_handled": false,
+          "return_value_evidence": "IFPS stores the result in a local output slot, pops it during cleanup, and returns without reading/testing it.",
+          "static_semantics_proven": true,
+          "safety_impact": "If the preceding ISExec result is false, the guard may launch the uninstaller after installation. The false value can indicate a skipped component or failure; the script does not distinguish them here."
+        },
+        "critical_external_effects": [
+          {
+            "kind": "unmodeled_silent_uninstaller_launch",
+            "call_address": "0x12fc9",
+            "procedure": "CURSTEPCHANGED",
+            "executable_literal": "{uninstallexe}",
+            "arguments_literal": "/VERYSILENT",
+            "severity": "critical",
+            "modeled_by_native_plan": false,
+            "blocks_audit_acceptance": true
+          }
+        ]
+      },
+      "checks": {
+        "recognized_action_count_positive": true,
+        "all_recognized_actions_covered_by_sspostinstall_guard": true,
+        "all_reported_checkbox_conditions_proven": true,
+        "all_optional_cur_component_indexes_match_selected_bit_positions": true,
+        "opaque_isdone_dll_calls_reported": true,
+        "isdone_component_mask_semantics_proven": true,
+        "exec2_returns_state_flag_not_child_exit_code": true,
+        "isdone_binary_hash_matches_shared_sample": true,
+        "isexec_return_true_on_completed_path_and_false_on_skip_or_error": true,
+        "exec2_uninstaller_effect_identified": true,
+        "exec2_return_ignored_by_ifps_caller": true
+      },
+      "still_review_required": true,
+      "audit_acceptance": {
+        "status": "MISMATCH",
+        "consistent": false,
+        "blocking_issue_kinds": [
+          "unmodeled_silent_uninstaller_launch"
+        ],
+        "manifest_semantic_blockers": [
+          "unmodeled_silent_uninstaller_launch em 0x12fc9: tentativa condicional de desinstalação silenciosa"
+        ],
+        "installer_refuses_manifest_with_semantic_blockers": true
+      }
+    }
+  ],
+  "remaining_limits": [
+    "The three audited scripts can attempt {uninstallexe} /VERYSILENT during ssPostInstall when their status global remains set after ISExec. Although the direct Exec2 flag writer (CreateProcessA failure) and its caller effect are now traced, indirect callback writers and complete reachability/predicate semantics remain unresolved; these drafts must stay review-required.",
+    "Actions and effects outside the recognized APIs and audited event handler are not proven.",
+    "This evidence is limited to these three exact setups and does not prove all FitGirl installers."
+  ],
+  "isdone_binary_analysis": {
+    "sha256": "c652b4b564b3c85c399155cbb45c6fb5a9f56f074e566bfd20f01da6e0412c74",
+    "sampled_setups": [
+      "Star Trucker",
+      "Children of Morta",
+      "Subnautica"
+    ],
+    "identity": "The extracted ISDone.dll bytes are identical in all three exact setups.",
+    "static_findings": [
+      {
+        "export": "ISDoneInit",
+        "rva": "0xF438",
+        "finding": "Initializes extensive DLL-global state. It copies arguments 2–4 into three 32-bit component masks at globals 0x45DD54/58/5C; ISArcExtract reads those masks. Remaining callback, UI, and worker initialization effects are not reconstructed."
+      },
+      {
+        "export": "ISArcExtract",
+        "rva": "0x1B138",
+        "finding": "First argument is CurComponent. Helper 0x40F3D0 checks it against three 32-bit masks. Index 0 is unconditional; indices 1–32 use mask1 bit index-1, 33–64 mask2 bit index-33, 65–96 mask3 bit index-65. A component that is not selected returns success without entering extraction."
+      },
+      {
+        "export": "ISExec",
+        "rva": "0x1ED64",
+        "finding": "Returns true on an executed path when its internal failure flag remains clear. It returns false both for a component that is not selected and for internal execution/process failure, so the Boolean alone cannot distinguish skip from failure."
+      },
+      {
+        "export": "Exec2",
+        "rva": "0x1E884",
+        "finding": "Starts a process through CreateProcessA, waits while polling GetExitCodeProcess for STILL_ACTIVE (0x103), pumps internal callbacks, and closes handles. It resets shared byte 0x45C504 before launch and sets it to 1 when CreateProcessA fails. The flag is checked in a termination path and returned; the child exit code itself is not returned. Possible indirect flag writes during callbacks remain unresolved."
+      },
+      {
+        "export": "ISDoneStop",
+        "rva": "0x0FB7C",
+        "finding": "Runs a broad shutdown/cleanup path that releases DLL-owned state/resources and conditionally handles active UI/progress state. Exact worker synchronization, callback order, and caller-visible effects remain unresolved."
+      },
+      {
+        "export": "ChangeLanguage",
+        "rva": "0x1957C",
+        "finding": "Looks up localized text and updates DLL-owned strings used by progress/error UI; string data flow has not been exhaustively traced."
+      },
+      {
+        "export": "PrecompInit",
+        "rva": "0x125E0",
+        "finding": "Initializes precompression-related state from caller arguments and invokes setup helpers; exact configuration and effects are not fully established."
+      },
+      {
+        "export": "FileSearchInit",
+        "rva": "0x0F424",
+        "finding": "Stores its byte argument in global 0x45DD82 and returns true. ISDoneInit also initializes this global to 1. No direct reads of 0x45DD82 were found; indirect consumers or external use remain unresolved."
+      }
+    ],
+    "component_selection_semantics_proven": true,
+    "exec2_process_creation_proven_from_import_and_call_path": true,
+    "full_dll_api_equivalence_proven": false,
+    "method": "Static PE export/import inspection and x86 disassembly of the identical extracted DLL; no execution of the Windows DLL. Export return paths and calls were statically inspected; the Windows DLL was not run. Exec2 shared-flag cross-references and process API import thunks were traced across the complete identical DLL disassembly.",
+    "isexec_success_boolean_proven": false,
+    "exec2_does_not_return_child_exit_code_proven": true,
+    "helper_semantics_partially_proven": true,
+    "isexec_boolean_semantics_partially_proven": true,
+    "exec2_state_flag_trace": {
+      "global": "0x45C504",
+      "reset_at": "0x41E935",
+      "explicit_set_at": "0x41E802",
+      "setter_condition": "CreateProcessA wrapper returns zero at 0x41E7A8-0x41E7AF",
+      "read_for_termination": "0x41E7BD; a true flag triggers TerminateProcess at 0x41E7CD",
+      "returned_at": "0x41E96F-0x41E977",
+      "process_wait": "WaitForSingleObject wrapper at 0x41E7DA; GetExitCodeProcess wrapper at 0x41E7EE polls 0x103 (STILL_ACTIVE)",
+      "child_exit_code_returned": false,
+      "callback_or_indirect_writer_excluded": false,
+      "meaning_of_confirmed_direct_set": "CreateProcessA launch failure in the Exec2 worker",
+      "caller_effect": "All three audited callers conditionally attempt {uninstallexe} /VERYSILENT on ssPostInstall when their status global remains nonzero.",
+      "caller_checks_exec2_return": false,
+      "direct_static_write_sites_found": 2,
+      "nonzero_failure_setter_sites_found": 1
+    },
+    "isexec_result_semantics": {
+      "true": "Selected execution path whose internal failure flag remained clear.",
+      "false": [
+        "CurComponent not selected",
+        "internal execution/process failure"
+      ],
+      "consequence": "The bool alone cannot distinguish a skipped optional action from an execution failure.",
+      "basis": [
+        "component gate at 0x41EDF2-0x41EE00",
+        "failure flag set at 0x41EEFF, 0x41EF1C, and 0x41F07E-0x41F083",
+        "returned inverted byte at 0x41F104-0x41F17B"
+      ],
+      "installer_guard_impact": "The audited scripts use the false result as part of a later gate that can attempt a silent uninstall; it must not be treated as an informational Boolean."
+    }
+  },
+  "implementation_fix": {
+    "audit_schema": 2,
+    "behavior": "The audit marks matching Exec2({uninstallexe}, /VERYSILENT) effects as critical, emits MISMATCH, persists semantic_blockers in generated draft manifests, and the CLI refuses manifests carrying these blockers before installation.",
+    "applied_to_existing_cached_drafts": true,
+    "applied_candidates": [
+      "Star Trucker",
+      "Children of Morta",
+      "Subnautica"
+    ]
+  }
+}

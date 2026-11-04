@@ -1,0 +1,146 @@
+{
+  "date": "2026-11-04",
+  "status": "prepared_locally_not_published",
+  "artifact": {
+    "path": "dist/FitGirlInstaller-Linux-x86_64.zip",
+    "sha256": "f89cfd45fc64ec440cb4af9f5f83974b36b38fcc21f48bf052d931794d1a60f9",
+    "size_bytes": 2125782,
+    "member_count": 15,
+    "members": [
+      "LEIA-ME.txt",
+      "LICENSES/Boost-1.0.txt",
+      "LICENSES/GPL-2.0.txt",
+      "LICENSES/LGPL-2.1-only.txt",
+      "LICENSES/THIRD_PARTY.md",
+      "LICENSES/bzip2.txt",
+      "LICENSES/components.json",
+      "LICENSES/innoextract-zlib.txt",
+      "LICENSES/zlib-ng.txt",
+      "LICENSES/zstd.txt",
+      "SHA256SUMS",
+      "SOURCE-CODE.tar.gz",
+      "THIRD-PARTY-BINARIES.json",
+      "THIRD_PARTY.md",
+      "fitgirl"
+    ]
+  },
+  "standalone": {
+    "path": "dist/fitgirl",
+    "sha256": "7bc921bd090b60e282273799117c046f94906dc3fed0ae8ff9a0cb757e27c578",
+    "size_bytes": 1453745
+  },
+  "source_bundle": {
+    "path": "SOURCE-CODE.tar.gz",
+    "sha256": "bf7c25d394b38764d8a6b6228476643ddfdf0cfb3b3a34e16212ea0244e2edef",
+    "size_bytes": 648786
+  },
+  "third_party_binary_count": 11,
+  "third_party_binary_manifest": {
+    "schema": 1,
+    "files": [
+      {
+        "path": "libexec/innoextract",
+        "size_bytes": 831432,
+        "sha256": "3bdd7896a38e3e99ab3661e56a2d8773e9c51c050070485d04eacdd77a691d03",
+        "license": "Zlib",
+        "origin": "dscharrer/innoextract commit 6e9e34e"
+      },
+      {
+        "path": "libexec/libboost_container.so.1.92.0",
+        "size_bytes": 75848,
+        "sha256": "dc1d24448d3d134db3a2740a938cd031728abc16ccb5b4fc53d9d2bf59dae729",
+        "license": "BSL-1.0",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/libboost_filesystem.so.1.92.0",
+        "size_bytes": 182576,
+        "sha256": "be13372ae794cc4d3d879de30e9ca4296a5ad1378d4e349657346cc34c3d4efc",
+        "license": "BSL-1.0",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/libboost_iostreams.so.1.92.0",
+        "size_bytes": 96320,
+        "sha256": "ae500a75c4cd98c061d407dacd3911b1de4749bd6e0f9fe96ac7e0f691f41b4d",
+        "license": "BSL-1.0",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/libboost_program_options.so.1.92.0",
+        "size_bytes": 305360,
+        "sha256": "7557a5bb246fce65d492c0fb32a900e884773ea86d26bb5d51e99e26a16566ba",
+        "license": "BSL-1.0",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/libboost_random.so.1.92.0",
+        "size_bytes": 30848,
+        "sha256": "a0b3550dbc6028bba15b092ea9e802d2d868d0ba3692c127ec2f73eb81957dec",
+        "license": "BSL-1.0",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/libbz2.so.1.0",
+        "size_bytes": 74720,
+        "sha256": "c208e149de372d9aca88f752849b33dea032b8054d1718d662666bd3bad33f8b",
+        "license": "bzip2 BSD",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/libz.so.1",
+        "size_bytes": 223392,
+        "sha256": "63e814634983bfa53890b48cb56760ca38840fbcf91f66a51222eef85eaa08b7",
+        "license": "Zlib",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/libzstd.so.1",
+        "size_bytes": 1451976,
+        "sha256": "28305b9e5e67265edb2b72a6fbd1dcc501dab41816e650dec021a6644af59bbb",
+        "license": "BSD-3-Clause (alternative GPL-2.0-only)",
+        "origin": "shared dependency resolved from release builder"
+      },
+      {
+        "path": "libexec/unarc",
+        "size_bytes": 191768,
+        "sha256": "20df4dc785b76dddb5d7265def469b515632ba114485f52cb7019a283e68c347",
+        "license": "GPL-2.0",
+        "origin": "xredor/unarc commit adc333d"
+      },
+      {
+        "path": "libexec/unarc-helper.exe",
+        "size_bytes": 9728,
+        "sha256": "f243a739f47f6960ef1a3de7175203d03ecdc8669ac6c059add6cc1e55891662",
+        "license": "Project source",
+        "origin": "src/unarc_helper.c"
+      }
+    ]
+  },
+  "excluded_components": [
+    "Wine FitGirl 11.14: source/patch correspondence not verified; release requires system Wine/Proton",
+    "QuickSFV 2.36: no explicit redistribution grant found"
+  ],
+  "included_source_and_licenses": [
+    "innoextract commit 6e9e34ed0876014fdb46e684103ef8c3605e382e; Zlib license",
+    "xredor/unarc commit adc333d6cdd76d72da254cc80d766fbbcc683c95; FreeArc GPL-2.0 basis and embedded notices",
+    "Boost, bzip2, zlib-ng-compat, zstd license texts and exact binary hashes",
+    "project helper src/unarc_helper.c and build recipe",
+    "liblzma is provided by the host system and is not redistributed"
+  ],
+  "source_commits": {
+    "innoextract": "6e9e34ed0876014fdb46e684103ef8c3605e382e",
+    "unarc": "adc333d6cdd76d72da254cc80d766fbbcc683c95"
+  },
+  "checks": {
+    "zip_crc": "passed",
+    "internal_sha256sums": "passed",
+    "wine_in_embedded_runtime": false,
+    "quicksfv_in_embedded_runtime": false,
+    "liblzma_in_embedded_runtime": false
+  },
+  "publication_limits": [
+    "No remote configured or external upload performed.",
+    "Project-owned source license has not been selected."
+  ]
+}

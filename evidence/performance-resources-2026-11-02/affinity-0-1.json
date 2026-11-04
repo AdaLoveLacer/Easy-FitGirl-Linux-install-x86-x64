@@ -1,0 +1,20 @@
+{
+  "profile": "affinity-0-1",
+  "returncode": 0,
+  "timed_out": false,
+  "elapsed_seconds": 232.781,
+  "monitor_samples": 96,
+  "peak_rss_mib": 4181,
+  "peak_pss_mib": 4107,
+  "affinity_sets": [
+    "0-1"
+  ],
+  "workers": [
+    "CLS-srep_x64.exe",
+    "cls-magic2_x64.exe",
+    "unarc-helper.exe",
+    "xtool.exe"
+  ],
+  "output_bytes": 2432644838,
+  "final_success": true
+}

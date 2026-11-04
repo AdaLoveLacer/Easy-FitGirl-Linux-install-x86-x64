@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "target": "/mnt/SOURCE_DISK/Games/Directive 8020 native validation",
+  "policy": {
+    "setup_exe": "never_execute",
+    "redistributables": "preserve_but_never_execute",
+    "registry": "inventory_only_never_import",
+    "shortcuts": "not_created_without_validated_game_runner",
+    "private_wine": "codec_abi_only_never_game_runner"
+  },
+  "game_executable_candidates": [
+    "Directive8020.exe",
+    "SMG029UE5/Binaries/Win64/Directive8020-Win64-Shipping.exe",
+    "Engine/Binaries/Win64/EpicWebHelper.exe"
+  ],
+  "redistributables": [
+    "_Redist/QuickSFV.EXE"
+  ],
+  "registry_files": []
+}

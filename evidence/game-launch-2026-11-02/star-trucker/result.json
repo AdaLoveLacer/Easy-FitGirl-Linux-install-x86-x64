@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "executable": "/mnt/DESTINATION_DISK/Games/Star Trucker native validation/Star Trucker.exe",
+  "prefix": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/game-launch-validation/star-trucker-prefix",
+  "proton": "$HOME/.local/share/Steam/compatibilitytools.d/Proton-CachyOS-11",
+  "command": [
+    "umu-run",
+    "/mnt/DESTINATION_DISK/Games/Star Trucker native validation/Star Trucker.exe"
+  ],
+  "observation_seconds": 60,
+  "elapsed_seconds": 18.883,
+  "survived_observation_window": false,
+  "returncode_after_cleanup": 1,
+  "log": "$PROJECT_ROOT/evidence/game-launch-2026-11-02/star-trucker/umu.log",
+  "limitations": "Process survival does not prove rendering, input, audio or full gameplay."
+}

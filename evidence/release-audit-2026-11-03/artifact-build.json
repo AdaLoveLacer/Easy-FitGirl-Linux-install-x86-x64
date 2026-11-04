@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-03",
+  "command": "./tools/build-standalone.sh",
+  "result": "PASS",
+  "inputs": {
+    "wine_archive": ".work/downloads/wine-11.14-fitgirl-amd64.tar.xz",
+    "wine_archive_sha256": "de504c1f6f407bf619040fccfe1f7a32de8c3384fe97c061efea8c3d368d6db5",
+    "runtime_metadata_sha256": "75b78058c4c5797783f70ec46c41f060bc93f8279a024b7a173cfccaddd0ebbc"
+  },
+  "output": {
+    "path": "dist/fitgirl",
+    "sha256": "cbc1790b1ce5b4366854179c957fa5c9c4ac896100a728daec94f1bd51ba78ce",
+    "matches_recorded_baseline": true,
+    "archive_members": 26,
+    "private_wine_runtime_included": true
+  },
+  "content_audit": {
+    "fitgirl_game_payload": false,
+    "fg_archive_volumes": false,
+    "codec_payload_dlls": false,
+    "quicksfv": false
+  },
+  "limitations": [
+    "This proves byte-for-byte repeatability of the standalone packaging from the current pinned local inputs, not reproducible compilation of every bundled third-party binary.",
+    "The artifact still bundles innoextract, unarc and Wine while license/source obligations remain unresolved.",
+    "No release was published."
+  ]
+}

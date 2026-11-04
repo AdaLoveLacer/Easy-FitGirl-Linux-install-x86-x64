@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "name": "Forza Motorsport 7",
+  "setup_sha256": [
+    "7948bd2466db5db671ec7c978a4ed3e9febc0f27a70db1e8e1bdc6c41b0cb858"
+  ],
+  "components": {
+    "text": {
+      "description": "Main game files",
+      "default": true,
+      "required": true
+    },
+    "vid4k": {
+      "description": "Optional 4K Videos",
+      "default": false,
+      "available_if": "fg-optional-4K-videos.bin"
+    },
+    "directx": {
+      "description": "Update DirectX (recognized; post-install not automated)",
+      "default": false
+    },
+    "vc_2019_x86": {
+      "description": "Visual C++ 2015-2019 x86 (recognized; post-install not automated)",
+      "default": false
+    },
+    "vc_2019_x64": {
+      "description": "Visual C++ 2015-2019 x64 (recognized; post-install not automated)",
+      "default": false
+    }
+  },
+  "steps": [
+    {
+      "id": "bootstrap-codecs",
+      "type": "extract",
+      "description": "Extrair decodificadores xt3/xt4 para {tmp}",
+      "archive": "fg-06.bin",
+      "md5": "b2c9959d9a53156fcd0dcb0086f7057f",
+      "destination": "tmp"
+    },
+    {
+      "id": "game-01",
+      "type": "extract",
+      "description": "Extrair fg-01.bin para {app}",
+      "archive": "fg-01.bin",
+      "md5": "df5717aeff5496bb23aba6a5a22916b0",
+      "destination": "app"
+    },
+    {
+      "id": "game-02",
+      "type": "extract",
+      "description": "Extrair fg-02.bin para {app}",
+      "archive": "fg-02.bin",
+      "md5": "bdacfc2687abdbb3e2451cc6058fa9a5",
+      "destination": "app"
+    },
+    {
+      "id": "videos-4k",
+      "type": "extract",
+      "description": "Extrair vídeos 4K opcionais",
+      "archive": "fg-optional-4K-videos.bin",
+      "md5": "11cc224851c438117ce60459857de8dc",
+      "destination": "app",
+      "if_component": "vid4k"
+    },
+    {
+      "id": "video-fallback",
+      "type": "batch",
+      "description": "Reduplicar vídeos 1080p ausentes em 2160p",
+      "script_root": "tmp",
+      "script": "mover.bat",
+      "cwd": "app",
+      "cwd_suffix": "media/base/ui/videos"
+    },
+    {
+      "id": "game-03",
+      "type": "extract",
+      "description": "Extrair fg-03.bin para {app}",
+      "archive": "fg-03.bin",
+      "md5": "1ce246602746b0837ce3dc6e2204564e",
+      "destination": "app"
+    },
+    {
+      "id": "game-04",
+      "type": "extract",
+      "description": "Extrair fg-04.bin para {app}",
+      "archive": "fg-04.bin",
+      "md5": "06d88e6332bd632bfdf9e53706fe81de",
+      "destination": "app"
+    },
+    {
+      "id": "game-05",
+      "type": "extract",
+      "description": "Extrair fg-05.bin para {app}",
+      "archive": "fg-05.bin",
+      "md5": "1d2c9b24ff9571f992898ab913a9b563",
+      "destination": "app"
+    },
+    {
+      "id": "verify-game-files",
+      "type": "verify",
+      "description": "Validar instalação contra _Redist/fitgirl.md5",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/fitgirl.md5",
+      "root": "app"
+    }
+  ]
+}

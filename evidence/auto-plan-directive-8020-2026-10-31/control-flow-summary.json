@@ -1,0 +1,36 @@
+{
+  "action_coverage": {
+    "complete": true,
+    "missing": [],
+    "planned_actions": 43,
+    "relevant_calls": 43,
+    "unexpected": []
+  },
+  "application_payload_coverage": {
+    "active_entries": 4,
+    "complete": true,
+    "duplicates": 0,
+    "unique_files": 4
+  },
+  "compiler_version": 9,
+  "isexec_rollback_coverage": {
+    "complete": true,
+    "planned": 13,
+    "relevant": 13
+  },
+  "schema": 5,
+  "temporary_payload_coverage": {
+    "complete": true,
+    "missing_arguments": 0,
+    "missing_from_iss": [],
+    "planned_calls": 41,
+    "relevant_calls": 41,
+    "unique_files": 39
+  },
+  "totals": {
+    "blocks": 350,
+    "edges": 430,
+    "instructions": 10756,
+    "procedures": 60
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-03",
+  "game": "Forza Motorsport 7",
+  "source": "/mnt/SOURCE_DISK/Torrent/Games/Forza Motorsport 7 [FitGirl Repack]",
+  "setup_sha256": "7948bd2466db5db671ec7c978a4ed3e9febc0f27a70db1e8e1bdc6c41b0cb858",
+  "manifest": "manifests/forza-motorsport-7.json",
+  "interaction": {
+    "destination": ".work/menu-validation-20261103/Forza Motorsport 7",
+    "selected_components": [
+      "text",
+      "vid4k"
+    ],
+    "recognized_but_not_installed": [
+      "directx",
+      "vc_2019_x86",
+      "vc_2019_x64"
+    ],
+    "resource_limits": "automatic",
+    "quicksfv_x64_detected": "/mnt/DESTINATION_DISK/Games/Forza Motorsport 7/_Redist/QuickSFV.EXE",
+    "confirmation": "cancelled_before_install"
+  },
+  "result": "PASS_MENU_FLOW_ONLY",
+  "side_effects": {
+    "installation_started": false,
+    "destination_created": false,
+    "setup_executed": false
+  },
+  "limitations": [
+    "This validates the real interactive menu and selection only; it is not another extraction or manifest-validation run.",
+    "The QuickSFV executable was detected from an existing local game installation and was not executed."
+  ]
+}

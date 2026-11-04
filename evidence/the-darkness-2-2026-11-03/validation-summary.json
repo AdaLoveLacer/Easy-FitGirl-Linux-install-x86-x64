@@ -1,0 +1,176 @@
+{
+  "date": "2026-11-03",
+  "game": "The Darkness 2",
+  "manifest": "manifests/the-darkness-2.json",
+  "setup_sha256": "84c42df2b7fb1776ec51def4262d39057d7353c15257607dded85ecf32b79930",
+  "gate": "extração + pós-processamento + estrutura + MD5/CRC",
+  "languages": {
+    "esp": {
+      "label": "espanhol",
+      "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-esp-20261103-payload/target",
+      "components": [
+        "local\\esp",
+        "text"
+      ],
+      "completed_steps": [
+        "001:game-01",
+        "008:selective-esp",
+        "009:postprocess-esp",
+        "010:install-esp",
+        "023:game-02",
+        "024:game-03",
+        "025:game-04",
+        "030:tools-esp",
+        "031:config-esp",
+        "040:verify-core",
+        "043:verify-esp"
+      ],
+      "core": {
+        "expected": 146,
+        "present": 146,
+        "mismatch": 0
+      },
+      "addon": {
+        "expected": 16,
+        "present": 16,
+        "mismatch": 0
+      },
+      "rc": 0,
+      "result": "PASS"
+    },
+    "ger": {
+      "label": "alemão",
+      "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ger-20261103-payload/target",
+      "components": [
+        "local\\ger",
+        "text"
+      ],
+      "completed_steps": [
+        "001:game-01",
+        "011:selective-ger",
+        "012:postprocess-ger",
+        "013:install-ger",
+        "023:game-02",
+        "024:game-03",
+        "025:game-04",
+        "032:tools-ger",
+        "033:config-ger",
+        "040:verify-core",
+        "044:verify-ger"
+      ],
+      "core": {
+        "expected": 146,
+        "present": 146,
+        "mismatch": 0
+      },
+      "addon": {
+        "expected": 16,
+        "present": 16,
+        "mismatch": 0
+      },
+      "rc": 0,
+      "result": "PASS"
+    },
+    "fra": {
+      "label": "francês",
+      "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-fra-20261103-payload/target",
+      "components": [
+        "local\\fra",
+        "text"
+      ],
+      "completed_steps": [
+        "001:game-01",
+        "014:selective-fra",
+        "015:postprocess-fra",
+        "016:install-fra",
+        "023:game-02",
+        "024:game-03",
+        "025:game-04",
+        "034:tools-fra",
+        "035:config-fra",
+        "040:verify-core",
+        "045:verify-fra"
+      ],
+      "core": {
+        "expected": 146,
+        "present": 146,
+        "mismatch": 0
+      },
+      "addon": {
+        "expected": 16,
+        "present": 16,
+        "mismatch": 0
+      },
+      "rc": 0,
+      "result": "PASS"
+    },
+    "ita": {
+      "label": "italiano",
+      "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ita-20261103-payload/target",
+      "components": [
+        "local\\ita",
+        "text"
+      ],
+      "completed_steps": [
+        "001:game-01",
+        "017:selective-ita",
+        "018:postprocess-ita",
+        "019:install-ita",
+        "023:game-02",
+        "024:game-03",
+        "025:game-04",
+        "036:tools-ita",
+        "037:config-ita",
+        "040:verify-core",
+        "046:verify-ita"
+      ],
+      "core": {
+        "expected": 146,
+        "present": 146,
+        "mismatch": 0
+      },
+      "addon": {
+        "expected": 16,
+        "present": 16,
+        "mismatch": 0
+      },
+      "rc": 0,
+      "result": "PASS"
+    },
+    "jap": {
+      "label": "japonês",
+      "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-jap-20261103-payload/target",
+      "components": [
+        "local\\jap",
+        "text"
+      ],
+      "completed_steps": [
+        "001:game-01",
+        "020:selective-jap",
+        "021:postprocess-jap",
+        "022:install-jap",
+        "023:game-02",
+        "024:game-03",
+        "025:game-04",
+        "038:tools-jap",
+        "039:config-jap",
+        "040:verify-core",
+        "047:verify-jap"
+      ],
+      "core": {
+        "expected": 146,
+        "present": 146,
+        "mismatch": 0
+      },
+      "addon": {
+        "expected": 16,
+        "present": 16,
+        "mismatch": 0
+      },
+      "rc": 0,
+      "result": "PASS"
+    }
+  },
+  "manifest_sha256": "73d098dafeb3fd7bd71a812f13fed01c2c6eb0a6fe27d72897faa2393dcb440c",
+  "all_pass": true
+}

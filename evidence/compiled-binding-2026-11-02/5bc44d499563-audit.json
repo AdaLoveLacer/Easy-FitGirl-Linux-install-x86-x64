@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "status": "MATCH_REVIEW_REQUIRED",
+  "consistent": true,
+  "provenance_complete": true,
+  "sources": {
+    "iss_sha256": "6d1e648243bc542e7668963a161875e7f8f25d3d000d91b6998c871ab38e3293",
+    "disassembly_sha256": "93b3bc6c649d5959f0a04b1d3c34315750fc6a0f388a3636b7eeb3f75136407f",
+    "compiled_code_sha256": "dcb2e62e0e92ac346bfe689faab6f9ef99bc5c1b5e83285936440271f84c9d51"
+  },
+  "coverage": {
+    "relevant_calls": 28,
+    "planned_actions": 28,
+    "missing": [],
+    "unexpected": [],
+    "complete": true
+  },
+  "issues": [],
+  "control_flow_totals": {
+    "procedures": 61,
+    "instructions": 10124,
+    "blocks": 315,
+    "edges": 376
+  },
+  "semantic_equivalence_proven": false,
+  "binary_disassembly_verified": true,
+  "review_required": true,
+  "limitations": [
+    "Argument reconstruction shares the planner implementation; not an independent interpreter.",
+    "Disassembly was reproduced byte-for-byte from CompiledCode.bin with the configured tool.",
+    "Instruction order is not proven runtime order across branches, loops or procedures.",
+    "Component inference is checked for consistency, not proven for every execution path.",
+    "Archive MD5 values and runtime effects require separate empirical validation."
+  ]
+}

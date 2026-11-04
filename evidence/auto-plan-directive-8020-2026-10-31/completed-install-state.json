@@ -1,0 +1,392 @@
+{
+  "active": null,
+  "completed": {
+    "001:ini-rep-emp-ath": {
+      "finished_at": 1793499299.027752
+    },
+    "002:ini-mtx-mp-ath": {
+      "finished_at": 1793499299.1499825
+    },
+    "003:ini-magicl-ldmf-emp-ath": {
+      "finished_at": 1793499299.283301
+    },
+    "004:ini-magic2l-ldmf-emp-ath": {
+      "finished_at": 1793499299.3722072
+    },
+    "015:fnr-exe": {
+      "finished_at": 1793499416.8067176
+    },
+    "016:flushfilecache-exe": {
+      "finished_at": 1793499418.0681686
+    },
+    "017:fg-01-bin": {
+      "finished_at": 1793502619.113405
+    },
+    "018:delete-tree-temp-fitgirl": {
+      "finished_at": 1793502619.5573282
+    },
+    "019:fg-06-bin": {
+      "finished_at": 1793502624.9347773
+    },
+    "020:delete-tree-temp-fitgirl-2": {
+      "finished_at": 1793502625.070611
+    },
+    "021:x-exe": {
+      "finished_at": 1793502960.5240004
+    },
+    "022:x-exe-2": {
+      "finished_at": 1793503273.8132586
+    },
+    "023:fg-04-bin": {
+      "finished_at": 1793503390.0759907
+    },
+    "024:delete-tree-temp-fitgirl-3": {
+      "finished_at": 1793503390.2980835
+    },
+    "025:fg-03-bin": {
+      "finished_at": 1793503585.8690948
+    },
+    "026:delete-tree-temp-fitgirl-4": {
+      "finished_at": 1793503586.058728
+    },
+    "027:fg-07-bin": {
+      "finished_at": 1793503603.1017785,
+      "recovered_at": 1793520607.790908
+    },
+    "028:fart-exe": {
+      "finished_at": 1793520627.712158
+    },
+    "029:fart-exe-2": {
+      "finished_at": 1793520628.245536
+    },
+    "030:fart-exe-3": {
+      "finished_at": 1793520785.2100987
+    },
+    "031:fart-exe-4": {
+      "finished_at": 1793520785.951097
+    },
+    "032:fart-exe-5": {
+      "finished_at": 1793520787.38618
+    },
+    "033:fart-exe-6": {
+      "finished_at": 1793520788.1621354
+    },
+    "034:delete-file-fart-exe": {
+      "finished_at": 1793520788.462613
+    },
+    "035:build01-bat": {
+      "finished_at": 1793521766.367786
+    },
+    "036:x5n-exe": {
+      "finished_at": 1793522028.2467325
+    },
+    "037:inner-fgpack": {
+      "finished_at": 1793522205.731143
+    },
+    "038:delete-tree-temp-fitgirl-5": {
+      "finished_at": 1793522206.3938153
+    },
+    "039:del-inner-fgpack": {
+      "finished_at": 1793522298.155753
+    },
+    "040:fg-02-bin": {
+      "finished_at": 1793522544.2067935
+    },
+    "041:delete-tree-temp-fitgirl-6": {
+      "finished_at": 1793522544.9703186
+    },
+    "042:fg-05-bin": {
+      "finished_at": 1793522573.924965
+    },
+    "043:delete-tree-temp-fitgirl-7": {
+      "finished_at": 1793522574.0360594
+    },
+    "044:verify-game-files": {
+      "finished_at": 1793522945.5987346
+    },
+    "recovery:fnr-exe": {
+      "finished_at": 1793520605.957801,
+      "reason": "replay after legacy payload reconstruction"
+    }
+  },
+  "components": [
+    "directx",
+    "text",
+    "vc_2022_x64",
+    "vc_2022_x86"
+  ],
+  "created_at": 1793499298.326539,
+  "manifest_sha256": "9cd12a9afad94350a76d7d9a298fe5dde568c8c1d0fa68ac721de8eaa6a7e9ea",
+  "payload": {
+    "app_files": {
+      "_redist/dxwebsetup.exe": {
+        "path": "_Redist/dxwebsetup.exe",
+        "sha256": "ed79c8f65b02ed83d5db8c355328294a73dc447f08f657312bf8f3a5b40c7494",
+        "size": 299864
+      },
+      "_redist/fitgirl.md5": {
+        "path": "_Redist/fitgirl.md5",
+        "sha256": "a29b5a7d05adc627813c85ebf3048789f31a970e1067687fcc3d7d5e2eb94f8c",
+        "size": 29245
+      },
+      "_redist/quicksfv.exe": {
+        "path": "_Redist/QuickSFV.EXE",
+        "sha256": "a6371461da7439f4ef7008ed53331209747cba960b85c70a902d46451247a29c",
+        "size": 103424
+      },
+      "_redist/quicksfv.ini": {
+        "path": "_Redist/QuickSFV.ini",
+        "sha256": "74ca5a42469197eded04f5a0bf34ca251c72f7cc06a3416ac035230cb8e81629",
+        "size": 155
+      }
+    },
+    "app_materialized_at": 1793500434.8531563,
+    "files": {
+      "arc.ini": {
+        "name": "arc.ini",
+        "sha256": "089eb672e9fd18a31a244278ccd18a2be78a0f24adeee1be912a2640e58a7931",
+        "size": 4766
+      },
+      "bass.dll": {
+        "name": "bass.dll",
+        "sha256": "df9f56c4da160101567b0526845228ee481ee7d2f98391696fa27fe41f8acf15",
+        "size": 105528
+      },
+      "botva2.dll": {
+        "name": "botva2.dll",
+        "sha256": "450b9b0ba25bf068afbc2b23d252585a19e282939bf38326384ea9112dfd0105",
+        "size": 37888
+      },
+      "bzip3.exe": {
+        "name": "bzip3.exe",
+        "sha256": "9b52eb9b4a6293d1e554cf7bfc3f9dc14d53c4886c23cd4663330bf1e36dd66a",
+        "size": 876864
+      },
+      "callbackctrl.dll": {
+        "name": "CallbackCtrl.dll",
+        "sha256": "68f42a7823ed7ee88a5c59020ac52d4bbcadf1036611e96e470d986c8faa172d",
+        "size": 4096
+      },
+      "cls-lollypop.dll": {
+        "name": "cls-lollypop.dll",
+        "sha256": "f84677643d9977aa1e8a4aa8c85a12665d29a4e8292485a0b4df846dd161f824",
+        "size": 16384
+      },
+      "cls-lollypop_x64.exe": {
+        "name": "cls-lollypop_x64.exe",
+        "sha256": "2d32c4f4522bc62f63c7949313434f6ca0eaa6b65b44ee5aa8b6b877988b1aa8",
+        "size": 138240
+      },
+      "cls-lollypop_x86.exe": {
+        "name": "cls-lollypop_x86.exe",
+        "sha256": "724c6e07180e321298b4ea4405c3f7536c524d9826d24f5d6fc50bcb0ef8f723",
+        "size": 128000
+      },
+      "cls-magic2.dll": {
+        "name": "cls-magic2.dll",
+        "sha256": "87df573ac240e09ea4941e169fb2d15d5316a1b0e053446b8144e04b1154f061",
+        "size": 16384
+      },
+      "cls-magic2_x64.exe": {
+        "name": "cls-magic2_x64.exe",
+        "sha256": "d92f7c60256509f74e36d9b5aab041fe44999b1a3910d70aa83c9d01f062ea29",
+        "size": 343040
+      },
+      "cls-magic2_x86.exe": {
+        "name": "cls-magic2_x86.exe",
+        "sha256": "6ea07aa4f5565ac289402ade3b2e52bf8089ad6185e0ecf0e1f36cea39c091a9",
+        "size": 312320
+      },
+      "cls-magic2l.dll": {
+        "name": "cls-magic2l.dll",
+        "sha256": "87df573ac240e09ea4941e169fb2d15d5316a1b0e053446b8144e04b1154f061",
+        "size": 16384
+      },
+      "cls-magic2l_x64.exe": {
+        "name": "cls-magic2l_x64.exe",
+        "sha256": "d92f7c60256509f74e36d9b5aab041fe44999b1a3910d70aa83c9d01f062ea29",
+        "size": 343040
+      },
+      "cls-magic2l_x86.exe": {
+        "name": "cls-magic2l_x86.exe",
+        "sha256": "6ea07aa4f5565ac289402ade3b2e52bf8089ad6185e0ecf0e1f36cea39c091a9",
+        "size": 312320
+      },
+      "cls-srep.dll": {
+        "name": "CLS-srep.dll",
+        "sha256": "39c965edc8f577695dadd68d6d40ace4e1e17625ca4669e3f1321b6b26e470c7",
+        "size": 15872
+      },
+      "cls-srep_x64.exe": {
+        "name": "cls-srep_x64.exe",
+        "sha256": "ed8a485b9984997306ea6b5c6d98b5026a5b7903c1df4c229bf93bf113c78ee9",
+        "size": 271360
+      },
+      "cls-srep_x86.exe": {
+        "name": "cls-srep_x86.exe",
+        "sha256": "4004ba624f8ce381c61c82aba26e246d93e833357930c17cd4b02058ea31fad4",
+        "size": 169984
+      },
+      "cls.ini": {
+        "name": "CLS.ini",
+        "sha256": "e1d9eb90ef1ea9c9861726af8215a9825206759d0cd51bc21cf9ee33cf045ff7",
+        "size": 1074
+      },
+      "english.ini": {
+        "name": "English.ini",
+        "sha256": "e1b6f4dc9ba12e110b33d370e8f06f176228059c42754be5da7b92ab939ff38e",
+        "size": 15812
+      },
+      "facompress.dll": {
+        "name": "facompress.dll",
+        "sha256": "148fa9a255bfff3f7d8a74f25394944f20611af31f26ef9700cbc0edc19a3483",
+        "size": 168960
+      },
+      "flushfilecache.exe": {
+        "name": "FlushFileCache.exe",
+        "sha256": "a4cc6683393795f7b84d0b49eea2d7d7fbe1392bb7612cf39896af6832ffe0b8",
+        "size": 29696
+      },
+      "fnr.exe": {
+        "name": "fnr.exe",
+        "sha256": "699d99dd95425a15a12947bffa8205d8fa3feb86b8b3948995a29c9348b188d1",
+        "size": 4096
+      },
+      "host.cmd": {
+        "name": "host.cmd",
+        "sha256": "4500a02f7883a5f16b4b8dac6dfe7e3eb43bba8ac833258fb029c2a970d82855",
+        "size": 4706
+      },
+      "hosts.exe": {
+        "name": "hosts.exe",
+        "sha256": "49bdf4c437cf51ed0b369db9935d2f09883859d96a64593247c89c70e6840119",
+        "size": 32768
+      },
+      "music.mp3": {
+        "name": "music.mp3",
+        "sha256": "19a5466ab1834f9536622d9c540206a0766a7cd6d325d006c9242ed8ac6072f5",
+        "size": 1681583
+      },
+      "musicbutton.png": {
+        "name": "MusicButton.png",
+        "sha256": "7f4ad4d912cdabdfbb227387759db81434e20583687737f263d4f247326f0c1a",
+        "size": 1258
+      },
+      "oo2core_7_win64.dll": {
+        "name": "oo2core_7_win64.dll",
+        "sha256": "6f5d41a7892ea6b2db420f2458dad2f84a63901c9a93ce9497337b16c195f457",
+        "size": 637952
+      },
+      "oo2reck.exe": {
+        "name": "oo2reck.exe",
+        "sha256": "e3b6d931082d9eb9a5e9c66449884bdba44c9e64a63aa52294509a98b20950f6",
+        "size": 545222
+      },
+      "oo2recm.exe": {
+        "name": "oo2recm.exe",
+        "sha256": "6064b5bdc3afe18c4e94797d6f5da7151c7b99dbb240d88f46a69fd166146890",
+        "size": 545222
+      },
+      "razor.dll": {
+        "name": "razor.dll",
+        "sha256": "c3cd235fbdc232e2fed992521b3f7c8299aae45b76b6c12857715e4bc8c22e56",
+        "size": 398336
+      },
+      "records.inf": {
+        "name": "records.inf",
+        "sha256": "a3d8e816a73a1fbc751d0b6ef091049f915c6d9cdccb9f559ac2f9c6e9cc5cd0",
+        "size": 312
+      },
+      "rtool.exe": {
+        "name": "rtool.exe",
+        "sha256": "369764a04a83f6ffdd239b2e8828ceb5b599b3be7e24e3818297463fa8403db1",
+        "size": 3879936
+      },
+      "rz-1.03.7-stdio.exe": {
+        "name": "rz-1.03.7-stdio.exe",
+        "sha256": "a84ccbd5083f45bf2d085ad0942619033376d4c5ed17a9263a4f34826a14c550",
+        "size": 194048
+      },
+      "rz.exe": {
+        "name": "rz.exe",
+        "sha256": "4a4c7c3705b493944367d390a2256ba1f65a358a2411580fac28075caf934a0d",
+        "size": 188928
+      },
+      "rzw.exe": {
+        "name": "rzw.exe",
+        "sha256": "52c28d2f80b18bd237de3243fdbe326ab1bd278ba52026ee524431f16aa52905",
+        "size": 11264
+      },
+      "unarc.dll": {
+        "name": "unarc.dll",
+        "sha256": "7ded3fb8947e3b42c157de34ac8a6340c75cbea54bc44a949c4e5124c72f14bc",
+        "size": 358400
+      },
+      "wintb.dll": {
+        "name": "wintb.dll",
+        "sha256": "1910537aa95684142250ca0c7426a0b5f082e39f6fbdbdba649aecb179541435",
+        "size": 16384
+      },
+      "x.exe": {
+        "name": "x.exe",
+        "sha256": "09763ca90c09a5f815a94527399b1f2a88685e9de462e2ff1bc5648d320e707a",
+        "size": 317952
+      },
+      "x5n.exe": {
+        "name": "x5n.exe",
+        "sha256": "234168f765294a5db867163e639c9288f04f976976bdf80da29fbba9eae39917",
+        "size": 436736
+      }
+    },
+    "materialized_at": 1793500434.4743807,
+    "setup_sha256": "6a62f8e753a1b7f21718f3605d366e1d2d895563f8d83dc5429b4c9eb0015cc9"
+  },
+  "settings": {
+    "cpus": null,
+    "limit_2gb": false,
+    "nice": 0,
+    "srep_memory": null
+  },
+  "setup_sha256": "6a62f8e753a1b7f21718f3605d366e1d2d895563f8d83dc5429b4c9eb0015cc9",
+  "source": "/mnt/SOURCE_DISK/Torrent/Games/Directive 8020 [FitGirl Repack]",
+  "target": "/mnt/SOURCE_DISK/Games/Directive 8020 native validation",
+  "transactions": {},
+  "verified": {
+    "fg-01.bin": {
+      "md5": "71f2670682c40f20b035df47cb95d0d7",
+      "mtime_ns": 1778963380949856212,
+      "size": 15839761069
+    },
+    "fg-02.bin": {
+      "md5": "c1bce4801be2b08a4a5c80e04def9c74",
+      "mtime_ns": 1778964378631840109,
+      "size": 3431400026
+    },
+    "fg-03.bin": {
+      "md5": "0c84d2b811c4825daf9d555658b0dc99",
+      "mtime_ns": 1778965731919258895,
+      "size": 3165421311
+    },
+    "fg-04.bin": {
+      "md5": "154a9ea12454c83a55a98599ab4bd683",
+      "mtime_ns": 1778965986666890766,
+      "size": 797778116
+    },
+    "fg-05.bin": {
+      "md5": "d28cc02ae2e86f5b562aaf5b2d251574",
+      "mtime_ns": 1778965998620012393,
+      "size": 235078208
+    },
+    "fg-06.bin": {
+      "md5": "bbf981a9d11aa6f8e65703006c476833",
+      "mtime_ns": 1778965994693972460,
+      "size": 5846898
+    },
+    "fg-07.bin": {
+      "md5": "71c93e1f9d9cda39c1f4545b651dfd19",
+      "mtime_ns": 1778965995277978400,
+      "size": 190607
+    }
+  },
+  "version": 1
+}

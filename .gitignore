@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.log
+*.pid
+.monitor-stop
+.fitgirl-extract-work/
+setup-payload/
+.work/
+dist/
+

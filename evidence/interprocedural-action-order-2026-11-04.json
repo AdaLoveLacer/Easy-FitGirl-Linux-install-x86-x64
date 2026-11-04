@@ -1,0 +1,468 @@
+{
+  "schema": 1,
+  "validated_on": "2026-11-04",
+  "method": "Bounded scope: recognized installer mutation/ISDone calls, direct instruction order within CurStepChanged after the local literal 0/1 branch-fold rule in ifps_ir.build_cfg. Any CFG edge in that procedure must advance in address, so a path cannot reorder these calls or loop. Manifest entries are matched to call addresses in order.",
+  "result": "PASS_WITH_LIMITS",
+  "candidates": [
+    {
+      "candidate": "Star Trucker",
+      "cache_key": "64db389224b83157e89dfae26e39daf1cf3152278671ab5f3f255243c6f2caa0",
+      "hashes": {
+        "disassembly_sha256": "a7f7474400ef7ccd1aeba98aad150a88ddf64563aff0a6e920efd80e46069890",
+        "compiled_code_sha256": "6062290f0574b44e7bfdfab127665eaf2ff6cc55b1323a7212636e6f539e6a8f",
+        "iss_sha256": "d87f057861b5ad9ae5846cc0245944a856d84c852cc96a7188a08c13a3d8f27c",
+        "manifest_sha256": "6c102f4e0b37fc3cd643363d9f57d3f2f8042a275461f6f9b1e038643639c284"
+      },
+      "procedures": 60,
+      "action_procedures": [
+        "CURSTEPCHANGED"
+      ],
+      "recognized_action_count": 19,
+      "action_sequence": [
+        {
+          "address": "0x10bab",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10c51",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10cff",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10dae",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10e70",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10f40",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x1100c",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x110d9",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x111a6",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11274",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x1137d",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x1150b",
+          "export": "isexec"
+        },
+        {
+          "address": "0x116ce",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x117c4",
+          "export": "deltree"
+        },
+        {
+          "address": "0x11980",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x11a76",
+          "export": "deltree"
+        },
+        {
+          "address": "0x11c1e",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x11d14",
+          "export": "deltree"
+        },
+        {
+          "address": "0x11ec3",
+          "export": "isexec"
+        }
+      ],
+      "curstepchanged_basic_blocks": 47,
+      "curstepchanged_cfg_edges": 68,
+      "curstepchanged_backward_edges": [],
+      "indirect_call_var_count": 0,
+      "unresolved_cfg_targets": 0,
+      "checks": {
+        "all_recognized_actions_in_curstepchanged": true,
+        "manifest_action_sequence_matches_call_addresses": true,
+        "no_indirect_call_var_in_disassembly": true,
+        "no_unresolved_cfg_targets": true,
+        "curstepchanged_cfg_has_only_forward_edges": true,
+        "draft_still_requires_review": true
+      },
+      "draft_status": "review_required"
+    },
+    {
+      "candidate": "Children of Morta",
+      "cache_key": "3ca9bd39a13225f0601586deca6128f82480d19ca8a2aaeed1d937a716c5b321",
+      "hashes": {
+        "disassembly_sha256": "60901e426036ce5aacd2d5060ce16638d79a6ed8946e4482663796fabe616ef2",
+        "compiled_code_sha256": "e9a15c93135b2ca102cd6c34d2a567e95488aabd2437c8380393f59469868d9f",
+        "iss_sha256": "c0b77ec3fccc5bcf47863acefed95b3d6e08271519688aa8b05b0190523ad152",
+        "manifest_sha256": "40fac8c0919f309d71fc4393bd67553f203e1251b2caf87f0aebeab55d6094e3"
+      },
+      "procedures": 60,
+      "action_procedures": [
+        "CURSTEPCHANGED"
+      ],
+      "recognized_action_count": 43,
+      "action_sequence": [
+        {
+          "address": "0x10d59",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10dff",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10ead",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10f5c",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x1101e",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x110ee",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x111ba",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11287",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11354",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11422",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11528",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11628",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11729",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11829",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x11a1b",
+          "export": "isexec"
+        },
+        {
+          "address": "0x11b89",
+          "export": "isexec"
+        },
+        {
+          "address": "0x11d4c",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x11e42",
+          "export": "deltree"
+        },
+        {
+          "address": "0x11fea",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x120e0",
+          "export": "deltree"
+        },
+        {
+          "address": "0x1229d",
+          "export": "isexec"
+        },
+        {
+          "address": "0x12486",
+          "export": "isexec"
+        },
+        {
+          "address": "0x1265e",
+          "export": "isexec"
+        },
+        {
+          "address": "0x12847",
+          "export": "isexec"
+        },
+        {
+          "address": "0x12a1d",
+          "export": "isexec"
+        },
+        {
+          "address": "0x12bf5",
+          "export": "isexec"
+        },
+        {
+          "address": "0x12dde",
+          "export": "isexec"
+        },
+        {
+          "address": "0x12fb4",
+          "export": "isexec"
+        },
+        {
+          "address": "0x1318c",
+          "export": "isexec"
+        },
+        {
+          "address": "0x13375",
+          "export": "isexec"
+        },
+        {
+          "address": "0x13568",
+          "export": "isexec"
+        },
+        {
+          "address": "0x13781",
+          "export": "isexec"
+        },
+        {
+          "address": "0x13947",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x13a3d",
+          "export": "deltree"
+        },
+        {
+          "address": "0x13bf9",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x13cef",
+          "export": "deltree"
+        },
+        {
+          "address": "0x13ea8",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x13f9e",
+          "export": "deltree"
+        },
+        {
+          "address": "0x14146",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x1423c",
+          "export": "deltree"
+        },
+        {
+          "address": "0x143e4",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x144da",
+          "export": "deltree"
+        },
+        {
+          "address": "0x14689",
+          "export": "isexec"
+        }
+      ],
+      "curstepchanged_basic_blocks": 97,
+      "curstepchanged_cfg_edges": 143,
+      "curstepchanged_backward_edges": [],
+      "indirect_call_var_count": 0,
+      "unresolved_cfg_targets": 0,
+      "checks": {
+        "all_recognized_actions_in_curstepchanged": true,
+        "manifest_action_sequence_matches_call_addresses": true,
+        "no_indirect_call_var_in_disassembly": true,
+        "no_unresolved_cfg_targets": true,
+        "curstepchanged_cfg_has_only_forward_edges": true,
+        "draft_still_requires_review": true
+      },
+      "draft_status": "review_required"
+    },
+    {
+      "candidate": "Subnautica",
+      "cache_key": "5bc44d499563ed11931c8860923208b0eaf45c7d4815284ebc1f4aca3e4cc539",
+      "hashes": {
+        "disassembly_sha256": "93b3bc6c649d5959f0a04b1d3c34315750fc6a0f388a3636b7eeb3f75136407f",
+        "compiled_code_sha256": "dcb2e62e0e92ac346bfe689faab6f9ef99bc5c1b5e83285936440271f84c9d51",
+        "iss_sha256": "6d1e648243bc542e7668963a161875e7f8f25d3d000d91b6998c871ab38e3293",
+        "manifest_sha256": "4c0502d9a811a162d50b3aca446daf04beb4ed407224a63d627acde7548dad51"
+      },
+      "procedures": 61,
+      "action_procedures": [
+        "CURSTEPCHANGED"
+      ],
+      "recognized_action_count": 28,
+      "action_sequence": [
+        {
+          "address": "0x1096e",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10a1c",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10acb",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10b8d",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10c5d",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10d29",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10df6",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10ec3",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x10f91",
+          "export": "setinistring"
+        },
+        {
+          "address": "0x1111f",
+          "export": "isexec"
+        },
+        {
+          "address": "0x112e2",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x113d8",
+          "export": "deltree"
+        },
+        {
+          "address": "0x11580",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x11676",
+          "export": "deltree"
+        },
+        {
+          "address": "0x11866",
+          "export": "isexec"
+        },
+        {
+          "address": "0x11a2c",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x11b22",
+          "export": "deltree"
+        },
+        {
+          "address": "0x11cca",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x11dc0",
+          "export": "deltree"
+        },
+        {
+          "address": "0x1200d",
+          "export": "isexec"
+        },
+        {
+          "address": "0x122b1",
+          "export": "isexec"
+        },
+        {
+          "address": "0x124e1",
+          "export": "isexec"
+        },
+        {
+          "address": "0x12723",
+          "export": "isexec"
+        },
+        {
+          "address": "0x128e6",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x129dc",
+          "export": "deltree"
+        },
+        {
+          "address": "0x12b94",
+          "export": "isarcextract"
+        },
+        {
+          "address": "0x12c8a",
+          "export": "deltree"
+        },
+        {
+          "address": "0x12e39",
+          "export": "isexec"
+        }
+      ],
+      "curstepchanged_basic_blocks": 67,
+      "curstepchanged_cfg_edges": 98,
+      "curstepchanged_backward_edges": [],
+      "indirect_call_var_count": 0,
+      "unresolved_cfg_targets": 0,
+      "checks": {
+        "all_recognized_actions_in_curstepchanged": true,
+        "manifest_action_sequence_matches_call_addresses": true,
+        "no_indirect_call_var_in_disassembly": true,
+        "no_unresolved_cfg_targets": true,
+        "curstepchanged_cfg_has_only_forward_edges": true,
+        "draft_still_requires_review": true
+      },
+      "draft_status": "review_required"
+    }
+  ],
+  "scope_limits": [
+    "Does not interpret the semantic meaning of branch guards or prove which CurStepChanged event value reaches each branch.",
+    "Does not prove planner equivalence or runtime effects independently.",
+    "Only recognizes action APIs listed by planner.ISDONE_EXPORT and planner.MUTATING_CALLS; unmodeled side effects are outside scope.",
+    "Applies to these three bound drafts/disassemblies only; does not establish compatibility for arbitrary FitGirl installers.",
+    "All drafts remain review_required and blocked from automatic installation."
+  ]
+}

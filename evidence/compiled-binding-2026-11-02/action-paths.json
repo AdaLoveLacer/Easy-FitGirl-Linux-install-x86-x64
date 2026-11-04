@@ -1,0 +1,396 @@
+[
+  {
+    "game": "Star Trucker [FitGirl Repack]",
+    "procedures": [
+      {
+        "procedure": "CURSTEPCHANGED",
+        "sequence_count": 2177,
+        "sequence_set_sha256": "75773a0dc891d22862cf5ba1a8d36d717b2d76d7e419781fc1bcf8bd3ded13e9",
+        "action_sequence_samples": [
+          [],
+          [
+            "0x10bab:SETINISTRING",
+            "0x10c51:SETINISTRING",
+            "0x10cff:SETINISTRING",
+            "0x10dae:SETINISTRING"
+          ],
+          [
+            "0x10bab:SETINISTRING",
+            "0x10c51:SETINISTRING",
+            "0x10cff:SETINISTRING",
+            "0x10dae:SETINISTRING",
+            "0x10e70:SETINISTRING"
+          ],
+          [
+            "0x10bab:SETINISTRING",
+            "0x10c51:SETINISTRING",
+            "0x10cff:SETINISTRING",
+            "0x10dae:SETINISTRING",
+            "0x10e70:SETINISTRING",
+            "0x10f40:SETINISTRING"
+          ],
+          [
+            "0x10bab:SETINISTRING",
+            "0x10c51:SETINISTRING",
+            "0x10cff:SETINISTRING",
+            "0x10dae:SETINISTRING",
+            "0x10e70:SETINISTRING",
+            "0x10f40:SETINISTRING",
+            "0x1100c:SETINISTRING"
+          ],
+          [
+            "0x10bab:SETINISTRING",
+            "0x10c51:SETINISTRING",
+            "0x10cff:SETINISTRING",
+            "0x10dae:SETINISTRING",
+            "0x10e70:SETINISTRING",
+            "0x10f40:SETINISTRING",
+            "0x1100c:SETINISTRING",
+            "0x110d9:SETINISTRING"
+          ],
+          [
+            "0x10bab:SETINISTRING",
+            "0x10c51:SETINISTRING",
+            "0x10cff:SETINISTRING",
+            "0x10dae:SETINISTRING",
+            "0x10e70:SETINISTRING",
+            "0x10f40:SETINISTRING",
+            "0x1100c:SETINISTRING",
+            "0x110d9:SETINISTRING",
+            "0x111a6:SETINISTRING"
+          ],
+          [
+            "0x10bab:SETINISTRING",
+            "0x10c51:SETINISTRING",
+            "0x10cff:SETINISTRING",
+            "0x10dae:SETINISTRING",
+            "0x10e70:SETINISTRING",
+            "0x10f40:SETINISTRING",
+            "0x1100c:SETINISTRING",
+            "0x110d9:SETINISTRING",
+            "0x111a6:SETINISTRING",
+            "0x11274:SETINISTRING"
+          ]
+        ],
+        "cycles": [
+          {
+            "from": "0x11ee9",
+            "to": "0x10a50"
+          }
+        ],
+        "truncated": false,
+        "single_order": false
+      }
+    ],
+    "all_relevant_procedures_single_order": false
+  },
+  {
+    "game": "Children of Morta [FitGirl Repack]",
+    "procedures": [
+      {
+        "procedure": "CURSTEPCHANGED",
+        "sequence_count": 4096,
+        "sequence_set_sha256": "649e35ad2027c7e6afaa6f319e7c53504671025353403e5acda6a4b826382894",
+        "action_sequence_samples": [
+          [],
+          [
+            "0x10d59:SETINISTRING",
+            "0x10dff:SETINISTRING",
+            "0x10ead:SETINISTRING",
+            "0x10f5c:SETINISTRING"
+          ],
+          [
+            "0x10d59:SETINISTRING",
+            "0x10dff:SETINISTRING",
+            "0x10ead:SETINISTRING",
+            "0x10f5c:SETINISTRING",
+            "0x11528:SETINISTRING"
+          ],
+          [
+            "0x10d59:SETINISTRING",
+            "0x10dff:SETINISTRING",
+            "0x10ead:SETINISTRING",
+            "0x10f5c:SETINISTRING",
+            "0x11528:SETINISTRING",
+            "0x11628:SETINISTRING"
+          ],
+          [
+            "0x10d59:SETINISTRING",
+            "0x10dff:SETINISTRING",
+            "0x10ead:SETINISTRING",
+            "0x10f5c:SETINISTRING",
+            "0x11528:SETINISTRING",
+            "0x11628:SETINISTRING",
+            "0x11829:SETINISTRING",
+            "0x11a1b:dll:files:ISDone.dll!ISExec",
+            "0x11b89:dll:files:ISDone.dll!ISExec",
+            "0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "0x120e0:DELTREE",
+            "0x1229d:dll:files:ISDone.dll!ISExec",
+            "0x12486:dll:files:ISDone.dll!ISExec",
+            "0x1265e:dll:files:ISDone.dll!ISExec",
+            "0x12847:dll:files:ISDone.dll!ISExec",
+            "0x12a1d:dll:files:ISDone.dll!ISExec",
+            "0x12bf5:dll:files:ISDone.dll!ISExec",
+            "0x12dde:dll:files:ISDone.dll!ISExec",
+            "0x12fb4:dll:files:ISDone.dll!ISExec",
+            "0x1318c:dll:files:ISDone.dll!ISExec",
+            "0x13375:dll:files:ISDone.dll!ISExec",
+            "0x13568:dll:files:ISDone.dll!ISExec",
+            "0x13781:dll:files:ISDone.dll!ISExec",
+            "0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "0x13a3d:DELTREE",
+            "0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "0x13f9e:DELTREE",
+            "0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "0x1423c:DELTREE",
+            "0x143e4:dll:files:ISDone.dll!ISArcExtract",
+            "0x14689:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "0x10d59:SETINISTRING",
+            "0x10dff:SETINISTRING",
+            "0x10ead:SETINISTRING",
+            "0x10f5c:SETINISTRING",
+            "0x11528:SETINISTRING",
+            "0x11628:SETINISTRING",
+            "0x11829:SETINISTRING",
+            "0x11a1b:dll:files:ISDone.dll!ISExec",
+            "0x11b89:dll:files:ISDone.dll!ISExec",
+            "0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "0x120e0:DELTREE",
+            "0x1229d:dll:files:ISDone.dll!ISExec",
+            "0x12486:dll:files:ISDone.dll!ISExec",
+            "0x1265e:dll:files:ISDone.dll!ISExec",
+            "0x12847:dll:files:ISDone.dll!ISExec",
+            "0x12a1d:dll:files:ISDone.dll!ISExec",
+            "0x12bf5:dll:files:ISDone.dll!ISExec",
+            "0x12dde:dll:files:ISDone.dll!ISExec",
+            "0x12fb4:dll:files:ISDone.dll!ISExec",
+            "0x1318c:dll:files:ISDone.dll!ISExec",
+            "0x13375:dll:files:ISDone.dll!ISExec",
+            "0x13568:dll:files:ISDone.dll!ISExec",
+            "0x13781:dll:files:ISDone.dll!ISExec",
+            "0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "0x13a3d:DELTREE",
+            "0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "0x13f9e:DELTREE",
+            "0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "0x143e4:dll:files:ISDone.dll!ISArcExtract"
+          ],
+          [
+            "0x10d59:SETINISTRING",
+            "0x10dff:SETINISTRING",
+            "0x10ead:SETINISTRING",
+            "0x10f5c:SETINISTRING",
+            "0x11528:SETINISTRING",
+            "0x11628:SETINISTRING",
+            "0x11829:SETINISTRING",
+            "0x11a1b:dll:files:ISDone.dll!ISExec",
+            "0x11b89:dll:files:ISDone.dll!ISExec",
+            "0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "0x120e0:DELTREE",
+            "0x1229d:dll:files:ISDone.dll!ISExec",
+            "0x12486:dll:files:ISDone.dll!ISExec",
+            "0x1265e:dll:files:ISDone.dll!ISExec",
+            "0x12847:dll:files:ISDone.dll!ISExec",
+            "0x12a1d:dll:files:ISDone.dll!ISExec",
+            "0x12bf5:dll:files:ISDone.dll!ISExec",
+            "0x12dde:dll:files:ISDone.dll!ISExec",
+            "0x12fb4:dll:files:ISDone.dll!ISExec",
+            "0x1318c:dll:files:ISDone.dll!ISExec",
+            "0x13375:dll:files:ISDone.dll!ISExec",
+            "0x13568:dll:files:ISDone.dll!ISExec",
+            "0x13781:dll:files:ISDone.dll!ISExec",
+            "0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "0x13a3d:DELTREE",
+            "0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "0x13f9e:DELTREE",
+            "0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "0x143e4:dll:files:ISDone.dll!ISArcExtract",
+            "0x144da:DELTREE",
+            "0x14689:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "0x10d59:SETINISTRING",
+            "0x10dff:SETINISTRING",
+            "0x10ead:SETINISTRING",
+            "0x10f5c:SETINISTRING",
+            "0x11528:SETINISTRING",
+            "0x11628:SETINISTRING",
+            "0x11829:SETINISTRING",
+            "0x11a1b:dll:files:ISDone.dll!ISExec",
+            "0x11b89:dll:files:ISDone.dll!ISExec",
+            "0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "0x120e0:DELTREE",
+            "0x1229d:dll:files:ISDone.dll!ISExec",
+            "0x12486:dll:files:ISDone.dll!ISExec",
+            "0x1265e:dll:files:ISDone.dll!ISExec",
+            "0x12847:dll:files:ISDone.dll!ISExec",
+            "0x12a1d:dll:files:ISDone.dll!ISExec",
+            "0x12bf5:dll:files:ISDone.dll!ISExec",
+            "0x12dde:dll:files:ISDone.dll!ISExec",
+            "0x12fb4:dll:files:ISDone.dll!ISExec",
+            "0x1318c:dll:files:ISDone.dll!ISExec",
+            "0x13375:dll:files:ISDone.dll!ISExec",
+            "0x13568:dll:files:ISDone.dll!ISExec",
+            "0x13781:dll:files:ISDone.dll!ISExec",
+            "0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "0x13a3d:DELTREE",
+            "0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "0x13f9e:DELTREE",
+            "0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "0x143e4:dll:files:ISDone.dll!ISArcExtract",
+            "0x14689:dll:files:ISDone.dll!ISExec"
+          ]
+        ],
+        "cycles": [
+          {
+            "from": "0x146af",
+            "to": "0x10bfe"
+          }
+        ],
+        "truncated": true,
+        "single_order": false
+      }
+    ],
+    "all_relevant_procedures_single_order": false
+  },
+  {
+    "game": "Subnautica [FitGirl Repack]",
+    "procedures": [
+      {
+        "procedure": "CURSTEPCHANGED",
+        "sequence_count": 4096,
+        "sequence_set_sha256": "df0a8d14ef7187dbf25a241909de8a0c3632429e82a4ca4818340f02f93f8bae",
+        "action_sequence_samples": [
+          [],
+          [
+            "0x1096e:SETINISTRING",
+            "0x10a1c:SETINISTRING",
+            "0x10acb:SETINISTRING"
+          ],
+          [
+            "0x1096e:SETINISTRING",
+            "0x10a1c:SETINISTRING",
+            "0x10acb:SETINISTRING",
+            "0x10c5d:SETINISTRING"
+          ],
+          [
+            "0x1096e:SETINISTRING",
+            "0x10a1c:SETINISTRING",
+            "0x10acb:SETINISTRING",
+            "0x10c5d:SETINISTRING",
+            "0x10df6:SETINISTRING",
+            "0x1111f:dll:files:ISDone.dll!ISExec",
+            "0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "0x113d8:DELTREE",
+            "0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "0x11676:DELTREE",
+            "0x11866:dll:files:ISDone.dll!ISExec",
+            "0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "0x1200d:dll:files:ISDone.dll!ISExec",
+            "0x122b1:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "0x1096e:SETINISTRING",
+            "0x10a1c:SETINISTRING",
+            "0x10acb:SETINISTRING",
+            "0x10c5d:SETINISTRING",
+            "0x10df6:SETINISTRING",
+            "0x1111f:dll:files:ISDone.dll!ISExec",
+            "0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "0x113d8:DELTREE",
+            "0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "0x11676:DELTREE",
+            "0x11866:dll:files:ISDone.dll!ISExec",
+            "0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "0x1200d:dll:files:ISDone.dll!ISExec",
+            "0x122b1:dll:files:ISDone.dll!ISExec",
+            "0x124e1:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "0x1096e:SETINISTRING",
+            "0x10a1c:SETINISTRING",
+            "0x10acb:SETINISTRING",
+            "0x10c5d:SETINISTRING",
+            "0x10df6:SETINISTRING",
+            "0x1111f:dll:files:ISDone.dll!ISExec",
+            "0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "0x113d8:DELTREE",
+            "0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "0x11676:DELTREE",
+            "0x11866:dll:files:ISDone.dll!ISExec",
+            "0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "0x1200d:dll:files:ISDone.dll!ISExec",
+            "0x122b1:dll:files:ISDone.dll!ISExec",
+            "0x124e1:dll:files:ISDone.dll!ISExec",
+            "0x12723:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "0x1096e:SETINISTRING",
+            "0x10a1c:SETINISTRING",
+            "0x10acb:SETINISTRING",
+            "0x10c5d:SETINISTRING",
+            "0x10df6:SETINISTRING",
+            "0x1111f:dll:files:ISDone.dll!ISExec",
+            "0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "0x113d8:DELTREE",
+            "0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "0x11676:DELTREE",
+            "0x11866:dll:files:ISDone.dll!ISExec",
+            "0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "0x1200d:dll:files:ISDone.dll!ISExec",
+            "0x122b1:dll:files:ISDone.dll!ISExec",
+            "0x124e1:dll:files:ISDone.dll!ISExec",
+            "0x12723:dll:files:ISDone.dll!ISExec",
+            "0x128e6:dll:files:ISDone.dll!ISArcExtract"
+          ],
+          [
+            "0x1096e:SETINISTRING",
+            "0x10a1c:SETINISTRING",
+            "0x10acb:SETINISTRING",
+            "0x10c5d:SETINISTRING",
+            "0x10df6:SETINISTRING",
+            "0x1111f:dll:files:ISDone.dll!ISExec",
+            "0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "0x113d8:DELTREE",
+            "0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "0x11676:DELTREE",
+            "0x11866:dll:files:ISDone.dll!ISExec",
+            "0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "0x1200d:dll:files:ISDone.dll!ISExec",
+            "0x122b1:dll:files:ISDone.dll!ISExec",
+            "0x124e1:dll:files:ISDone.dll!ISExec",
+            "0x12723:dll:files:ISDone.dll!ISExec",
+            "0x128e6:dll:files:ISDone.dll!ISArcExtract",
+            "0x129dc:DELTREE",
+            "0x12b94:dll:files:ISDone.dll!ISArcExtract"
+          ]
+        ],
+        "cycles": [
+          {
+            "from": "0x12e5f",
+            "to": "0x10813"
+          }
+        ],
+        "truncated": true,
+        "single_order": false
+      }
+    ],
+    "all_relevant_procedures_single_order": false
+  }
+]

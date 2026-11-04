@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "executable": "/mnt/DESTINATION_DISK/Games/Star Trucker native validation/Star Trucker.exe",
+  "prefix": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/game-launch-validation/star-trucker-umu-prefix-2",
+  "proton": "$HOME/.local/share/Steam/compatibilitytools.d/UMU-Proton-10.0-4",
+  "command": [
+    "umu-run",
+    "/mnt/DESTINATION_DISK/Games/Star Trucker native validation/Star Trucker.exe"
+  ],
+  "observation_seconds": 60,
+  "elapsed_seconds": 60.208,
+  "survived_observation_window": true,
+  "returncode_after_cleanup": 241,
+  "log": "$PROJECT_ROOT/evidence/game-launch-2026-11-02/star-trucker-umu/umu.log",
+  "limitations": "Process survival does not prove rendering, input, audio or full gameplay."
+}

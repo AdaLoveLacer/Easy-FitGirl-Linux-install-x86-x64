@@ -1,0 +1,41 @@
+[
+  {
+    "game": "Star Trucker [FitGirl Repack]",
+    "compiler": 10,
+    "steps": 20,
+    "coverage": {
+      "complete": true,
+      "missing": [],
+      "planned_actions": 19,
+      "relevant_calls": 19,
+      "unexpected": []
+    },
+    "audit": "MATCH_REVIEW_REQUIRED"
+  },
+  {
+    "game": "Children of Morta [FitGirl Repack]",
+    "compiler": 10,
+    "steps": 44,
+    "coverage": {
+      "relevant_calls": 43,
+      "planned_actions": 43,
+      "missing": [],
+      "unexpected": [],
+      "complete": true
+    },
+    "audit": "MATCH_REVIEW_REQUIRED"
+  },
+  {
+    "game": "Subnautica [FitGirl Repack]",
+    "compiler": 10,
+    "steps": 29,
+    "coverage": {
+      "relevant_calls": 28,
+      "planned_actions": 28,
+      "missing": [],
+      "unexpected": [],
+      "complete": true
+    },
+    "audit": "MATCH_REVIEW_REQUIRED"
+  }
+]

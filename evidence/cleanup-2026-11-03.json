@@ -1,0 +1,251 @@
+{
+  "date": "2026-11-03",
+  "preserved": [
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-esp-20261103-payload/target",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ger-20261103-payload/target",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-fra-20261103-payload/target",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ita-20261103-payload/target",
+    "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-jap-20261103-payload/target",
+    "evidence/",
+    "manifests/",
+    "status/project-status.json",
+    "docs/",
+    "dist/fitgirl",
+    ".work/downloads/wine-11.14-fitgirl-amd64.tar.xz",
+    ".work/sources/pascalscript-rs/src/",
+    ".work/tools/innounp/"
+  ],
+  "planned_removals": [
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/game-launch-validation",
+      "bytes": 1744130048
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/mirage-7",
+      "bytes": 620756992
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-fg06-20261102",
+      "bytes": 629444608
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-fg06-calibrated-20261102",
+      "bytes": 638390272
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-large-calibrated-20261102",
+      "bytes": 2432933888
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-matrix-2026-11-02",
+      "bytes": 4096
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-memory-2026-11-02",
+      "bytes": 4096
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-pause-resume-20261102",
+      "bytes": 3121590272
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/private-runtime-validation",
+      "bytes": 3946475520
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/star-trucker-native-validation",
+      "bytes": 928813056
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-esp-20261103-payload/scratch",
+      "bytes": 1419624448
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-esp-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ger-20261103-payload/scratch",
+      "bytes": 1156874240
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ger-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-fra-20261103-payload/scratch",
+      "bytes": 1062907904
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-fra-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ita-20261103-payload/scratch",
+      "bytes": 1422495744
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ita-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-jap-20261103-payload/scratch",
+      "bytes": 1353494528
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-jap-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/tmp",
+      "bytes": 4096
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/logs",
+      "bytes": 6873088
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/build",
+      "bytes": 0
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/discord-tts-bot/__pycache__",
+      "bytes": 24576
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/sources/pascalscript-rs/target",
+      "bytes": 39866368
+    }
+  ],
+  "planned_bytes": 20524728320,
+  "dist_sha256": "cbc1790b1ce5b4366854179c957fa5c9c4ac896100a728daec94f1bd51ba78ce",
+  "completed_at": "2026-11-03T10:46:50.336999+00:00",
+  "removed": [
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/game-launch-validation",
+      "bytes": 1744130048,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/mirage-7",
+      "bytes": 620756992,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-fg06-20261102",
+      "bytes": 629444608,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-fg06-calibrated-20261102",
+      "bytes": 638390272,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-large-calibrated-20261102",
+      "bytes": 2432933888,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-matrix-2026-11-02",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-memory-2026-11-02",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/performance-pause-resume-20261102",
+      "bytes": 3121590272,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/private-runtime-validation",
+      "bytes": 3946475520,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/star-trucker-native-validation",
+      "bytes": 928813056,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-esp-20261103-payload/scratch",
+      "bytes": 1419624448,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-esp-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ger-20261103-payload/scratch",
+      "bytes": 1156874240,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ger-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-fra-20261103-payload/scratch",
+      "bytes": 1062907904,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-fra-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ita-20261103-payload/scratch",
+      "bytes": 1422495744,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ita-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-jap-20261103-payload/scratch",
+      "bytes": 1353494528,
+      "status": "removed"
+    },
+    {
+      "path": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-jap-20261103-payload/target/temp-fitgirl",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/tmp",
+      "bytes": 4096,
+      "status": "removed"
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/logs",
+      "bytes": 6873088,
+      "status": "removed"
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/build",
+      "bytes": 0,
+      "status": "removed"
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/discord-tts-bot/__pycache__",
+      "bytes": 24576,
+      "status": "removed"
+    },
+    {
+      "path": "$PROJECT_ROOT/.work/sources/pascalscript-rs/target",
+      "bytes": 39866368,
+      "status": "removed"
+    }
+  ],
+  "removed_bytes": 20524728320
+}

@@ -1,0 +1,26 @@
+{
+  "volumes": [
+    {
+      "archive": "fg-01.bin",
+      "md5": "ac6f86e48bc0aa20680651d4d26005df",
+      "reported_mib": 5686,
+      "unpacked_upper_bound": 5963251712
+    },
+    {
+      "archive": "fg-optional-bonus-content.bin",
+      "md5": "e7f9df6e6a84fc2c8b1fdd73c2eba87a",
+      "reported_mib": 538,
+      "unpacked_upper_bound": 565182464
+    },
+    {
+      "archive": "fg-02.bin",
+      "md5": "736f952fd966e98a6df81ca1ba0af8ec",
+      "reported_mib": 99,
+      "unpacked_upper_bound": 104857600
+    }
+  ],
+  "unpacked_upper_bound": 6633291776,
+  "free_bytes": 104061636608,
+  "required_with_margin": 24004001792,
+  "fits": true
+}

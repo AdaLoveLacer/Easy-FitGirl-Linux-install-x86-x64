@@ -1,0 +1,337 @@
+{
+  "active": null,
+  "completed": {
+    "001:ini-rep-emp-ath": {
+      "finished_at": 1793524812.4366925
+    },
+    "002:ini-mtx-mp-ath": {
+      "finished_at": 1793524812.6265676
+    },
+    "003:ini-magicl-ldmf-emp-ath": {
+      "finished_at": 1793524812.83863
+    },
+    "004:ini-magic2l-ldmf-emp-ath": {
+      "finished_at": 1793524813.0195923
+    },
+    "012:flushfilecache-exe": {
+      "finished_at": 1793524813.543691
+    },
+    "013:fg-01-bin": {
+      "finished_at": 1793525323.3933637
+    },
+    "014:delete-tree-temp-fitgirl": {
+      "finished_at": 1793525323.6047928
+    },
+    "015:fg-optional-bonus-content-bin": {
+      "finished_at": 1793525553.5032127
+    },
+    "016:delete-tree-temp-fitgirl-2": {
+      "finished_at": 1793525553.7042162
+    },
+    "017:fg-02-bin": {
+      "finished_at": 1793540594.466875
+    },
+    "018:delete-tree-temp-fitgirl-3": {
+      "finished_at": 1793540594.6452713
+    },
+    "019:b-fitgirl-md5-addon-del-addon": {
+      "finished_at": 1793540594.9686198
+    },
+    "020:verify-game-files": {
+      "finished_at": 1793540704.7654843
+    }
+  },
+  "components": [
+    "bonus",
+    "text"
+  ],
+  "created_at": 1793524771.4741127,
+  "manifest_sha256": "1c4dcd96953aa13e573c7892305f33020154989610c80795be888df837b37f73",
+  "payload": {
+    "app_files": {
+      "_redist/bonus.addon": {
+        "path": "_Redist/bonus.addon",
+        "sha256": "82a62512150b0e116473797d9ab0cd2b2854e2147295dc79c0a510aaf012d54c",
+        "size": 11187
+      },
+      "_redist/dxwebsetup.exe": {
+        "path": "_Redist/dxwebsetup.exe",
+        "sha256": "ed79c8f65b02ed83d5db8c355328294a73dc447f08f657312bf8f3a5b40c7494",
+        "size": 299864
+      },
+      "_redist/fitgirl.md5": {
+        "path": "_Redist/fitgirl.md5",
+        "sha256": "c28f10f2e4dd262f8a75bc4fcff7aba654542f5aeb7fad41cce61d7ccbf83e5e",
+        "size": 12545
+      },
+      "_redist/quicksfv.exe": {
+        "path": "_Redist/QuickSFV.EXE",
+        "sha256": "a6371461da7439f4ef7008ed53331209747cba960b85c70a902d46451247a29c",
+        "size": 103424
+      },
+      "_redist/quicksfv.ini": {
+        "path": "_Redist/QuickSFV.ini",
+        "sha256": "74ca5a42469197eded04f5a0bf34ca251c72f7cc06a3416ac035230cb8e81629",
+        "size": 155
+      }
+    },
+    "app_materialized_at": 1793524812.2366846,
+    "files": {
+      "arc.ini": {
+        "name": "arc.ini",
+        "sha256": "1466ac7a33ab56e73733171305f5139fd434096e310a3e7b6fdc6351ca300ad2",
+        "size": 4241
+      },
+      "bass.dll": {
+        "name": "bass.dll",
+        "sha256": "df9f56c4da160101567b0526845228ee481ee7d2f98391696fa27fe41f8acf15",
+        "size": 105528
+      },
+      "botva2.dll": {
+        "name": "botva2.dll",
+        "sha256": "450b9b0ba25bf068afbc2b23d252585a19e282939bf38326384ea9112dfd0105",
+        "size": 37888
+      },
+      "callbackctrl.dll": {
+        "name": "CallbackCtrl.dll",
+        "sha256": "68f42a7823ed7ee88a5c59020ac52d4bbcadf1036611e96e470d986c8faa172d",
+        "size": 4096
+      },
+      "cls-lollypop.dll": {
+        "name": "cls-lollypop.dll",
+        "sha256": "f84677643d9977aa1e8a4aa8c85a12665d29a4e8292485a0b4df846dd161f824",
+        "size": 16384
+      },
+      "cls-lollypop_x64.exe": {
+        "name": "cls-lollypop_x64.exe",
+        "sha256": "2d32c4f4522bc62f63c7949313434f6ca0eaa6b65b44ee5aa8b6b877988b1aa8",
+        "size": 138240
+      },
+      "cls-lollypop_x86.exe": {
+        "name": "cls-lollypop_x86.exe",
+        "sha256": "724c6e07180e321298b4ea4405c3f7536c524d9826d24f5d6fc50bcb0ef8f723",
+        "size": 128000
+      },
+      "cls-magic2.dll": {
+        "name": "cls-magic2.dll",
+        "sha256": "87df573ac240e09ea4941e169fb2d15d5316a1b0e053446b8144e04b1154f061",
+        "size": 16384
+      },
+      "cls-magic2_x64.exe": {
+        "name": "cls-magic2_x64.exe",
+        "sha256": "d92f7c60256509f74e36d9b5aab041fe44999b1a3910d70aa83c9d01f062ea29",
+        "size": 343040
+      },
+      "cls-magic2_x86.exe": {
+        "name": "cls-magic2_x86.exe",
+        "sha256": "6ea07aa4f5565ac289402ade3b2e52bf8089ad6185e0ecf0e1f36cea39c091a9",
+        "size": 312320
+      },
+      "cls-magic2l.dll": {
+        "name": "cls-magic2l.dll",
+        "sha256": "87df573ac240e09ea4941e169fb2d15d5316a1b0e053446b8144e04b1154f061",
+        "size": 16384
+      },
+      "cls-magic2l_x64.exe": {
+        "name": "cls-magic2l_x64.exe",
+        "sha256": "d92f7c60256509f74e36d9b5aab041fe44999b1a3910d70aa83c9d01f062ea29",
+        "size": 343040
+      },
+      "cls-magic2l_x86.exe": {
+        "name": "cls-magic2l_x86.exe",
+        "sha256": "6ea07aa4f5565ac289402ade3b2e52bf8089ad6185e0ecf0e1f36cea39c091a9",
+        "size": 312320
+      },
+      "cls-mpzz.dll": {
+        "name": "cls-mpzz.dll",
+        "sha256": "da1aff62524fc3c70a7811d3ff526b2f5f3b454937e75b9400eb98da6d90e235",
+        "size": 96768
+      },
+      "cls-srep.dll": {
+        "name": "CLS-srep.dll",
+        "sha256": "39c965edc8f577695dadd68d6d40ace4e1e17625ca4669e3f1321b6b26e470c7",
+        "size": 15872
+      },
+      "cls-srep_x64.exe": {
+        "name": "cls-srep_x64.exe",
+        "sha256": "ed8a485b9984997306ea6b5c6d98b5026a5b7903c1df4c229bf93bf113c78ee9",
+        "size": 271360
+      },
+      "cls-srep_x86.exe": {
+        "name": "cls-srep_x86.exe",
+        "sha256": "4004ba624f8ce381c61c82aba26e246d93e833357930c17cd4b02058ea31fad4",
+        "size": 169984
+      },
+      "cls.ini": {
+        "name": "CLS.ini",
+        "sha256": "7d6a383e356097de58773438aabff735aa2e1b223f431698836d0d7e4fba4844",
+        "size": 1074
+      },
+      "english.ini": {
+        "name": "English.ini",
+        "sha256": "e1b6f4dc9ba12e110b33d370e8f06f176228059c42754be5da7b92ab939ff38e",
+        "size": 15812
+      },
+      "facompress.dll": {
+        "name": "facompress.dll",
+        "sha256": "148fa9a255bfff3f7d8a74f25394944f20611af31f26ef9700cbc0edc19a3483",
+        "size": 168960
+      },
+      "flushfilecache.exe": {
+        "name": "FlushFileCache.exe",
+        "sha256": "a4cc6683393795f7b84d0b49eea2d7d7fbe1392bb7612cf39896af6832ffe0b8",
+        "size": 29696
+      },
+      "fsb.exe": {
+        "name": "fsb.exe",
+        "sha256": "d1f00ff506d77a3f219c497e444306f7949c0a9b9e029f15bb862aa521fd26f8",
+        "size": 331264
+      },
+      "hif2raw_dll.dll": {
+        "name": "hif2raw_dll.dll",
+        "sha256": "949db25933d9ced53e21082cd016d623b8325bd5e614371238c26f6c36f26458",
+        "size": 114688
+      },
+      "host.cmd": {
+        "name": "host.cmd",
+        "sha256": "4500a02f7883a5f16b4b8dac6dfe7e3eb43bba8ac833258fb029c2a970d82855",
+        "size": 4706
+      },
+      "hosts.exe": {
+        "name": "hosts.exe",
+        "sha256": "49bdf4c437cf51ed0b369db9935d2f09883859d96a64593247c89c70e6840119",
+        "size": 32768
+      },
+      "liblz4.dll": {
+        "name": "liblz4.dll",
+        "sha256": "1731d54f5ec77effa24beda1075105395aa9b9ff0a042a618a17204253c8a960",
+        "size": 506742
+      },
+      "mpz.exe": {
+        "name": "mpz.exe",
+        "sha256": "19689ea7f4d7e4ae8cb92f6e59854f30ec0e53eefe8a926fe11ea24b19642fcb",
+        "size": 36864
+      },
+      "mpzslimmer.dll": {
+        "name": "MpzSlimmer.dll",
+        "sha256": "e9a3db23a3c89f6a4ec2e59456bb85ae03f7ffde36b1c689c239fe38794f2e27",
+        "size": 180224
+      },
+      "music.mp3": {
+        "name": "music.mp3",
+        "sha256": "19a5466ab1834f9536622d9c540206a0766a7cd6d325d006c9242ed8ac6072f5",
+        "size": 1681583
+      },
+      "musicbutton.png": {
+        "name": "MusicButton.png",
+        "sha256": "7f4ad4d912cdabdfbb227387759db81434e20583687737f263d4f247326f0c1a",
+        "size": 1258
+      },
+      "precomp.exe": {
+        "name": "precomp.exe",
+        "sha256": "58045dfbe8eb137de53dd0d886b71d5e5e373e435e6c3e832e58008fb894d65d",
+        "size": 3930112
+      },
+      "precomp_dll.dll": {
+        "name": "precomp_dll.dll",
+        "sha256": "ccbff525dce4c44d32ed89165d303e951424feb0fde5ba5f4829ec04aa214036",
+        "size": 3949056
+      },
+      "preflate_dll.dll": {
+        "name": "preflate_dll.dll",
+        "sha256": "6c99a6208761456bf8d6a3d803ebb4bd84fb19e2f5e732eb158d08de47e0c2b1",
+        "size": 413184
+      },
+      "raw2hif_dll.dll": {
+        "name": "raw2hif_dll.dll",
+        "sha256": "269513987303f63551f43d63d2b0972e297c41aa1db63bdef4fe2502e7fc095e",
+        "size": 126464
+      },
+      "razor.dll": {
+        "name": "razor.dll",
+        "sha256": "c3cd235fbdc232e2fed992521b3f7c8299aae45b76b6c12857715e4bc8c22e56",
+        "size": 398336
+      },
+      "records.inf": {
+        "name": "records.inf",
+        "sha256": "6f50e72fdeb249c654ba902dc17a6293fd675439289cf46dc54de5625e604027",
+        "size": 79
+      },
+      "rz-1.03.7-stdio.exe": {
+        "name": "rz-1.03.7-stdio.exe",
+        "sha256": "a84ccbd5083f45bf2d085ad0942619033376d4c5ed17a9263a4f34826a14c550",
+        "size": 194048
+      },
+      "rz.exe": {
+        "name": "rz.exe",
+        "sha256": "4a4c7c3705b493944367d390a2256ba1f65a358a2411580fac28075caf934a0d",
+        "size": 188928
+      },
+      "rzw.exe": {
+        "name": "rzw.exe",
+        "sha256": "52c28d2f80b18bd237de3243fdbe326ab1bd278ba52026ee524431f16aa52905",
+        "size": 11264
+      },
+      "unarc.dll": {
+        "name": "unarc.dll",
+        "sha256": "7ded3fb8947e3b42c157de34ac8a6340c75cbea54bc44a949c4e5124c72f14bc",
+        "size": 358400
+      },
+      "unity.dll": {
+        "name": "unity.dll",
+        "sha256": "48883dff4043ed5a2659d6a86b7bea8b0ac0ba73c2585bc8e8289a7041e58488",
+        "size": 216064
+      },
+      "wintb.dll": {
+        "name": "wintb.dll",
+        "sha256": "1910537aa95684142250ca0c7426a0b5f082e39f6fbdbdba649aecb179541435",
+        "size": 16384
+      },
+      "x5.exe": {
+        "name": "x5.exe",
+        "sha256": "342b579afeff5651e9c0c57a6d2e785f119655f170d106dd01dfb97162efe385",
+        "size": 159232
+      },
+      "xtool.exe": {
+        "name": "xtool.exe",
+        "sha256": "4e8d72aa273434767dc2ae3190758efe37d42c44c980a1ec76e97de08e4b7aa7",
+        "size": 3761664
+      },
+      "zlibwapi.dll": {
+        "name": "zlibwapi.dll",
+        "sha256": "305e4b3cc767bd2c9f7bfd85f7228ad63629f8ebbaf9facec58abd849ecdf23d",
+        "size": 535552
+      }
+    },
+    "materialized_at": 1793524811.3076904,
+    "setup_sha256": "64db389224b83157e89dfae26e39daf1cf3152278671ab5f3f255243c6f2caa0"
+  },
+  "settings": {
+    "cpus": null,
+    "limit_2gb": false,
+    "nice": 0,
+    "srep_memory": null
+  },
+  "setup_sha256": "64db389224b83157e89dfae26e39daf1cf3152278671ab5f3f255243c6f2caa0",
+  "source": "/mnt/SOURCE_DISK/Torrent/Games/Star Trucker [FitGirl Repack]",
+  "target": "/mnt/DESTINATION_DISK/Games/Star Trucker native validation",
+  "transactions": {},
+  "verified": {
+    "fg-01.bin": {
+      "md5": "ac6f86e48bc0aa20680651d4d26005df",
+      "mtime_ns": 1788611755350223253,
+      "size": 3444932002
+    },
+    "fg-02.bin": {
+      "md5": "736f952fd966e98a6df81ca1ba0af8ec",
+      "mtime_ns": 1788611749498150794,
+      "size": 23778000
+    },
+    "fg-optional-bonus-content.bin": {
+      "md5": "e7f9df6e6a84fc2c8b1fdd73c2eba87a",
+      "mtime_ns": 1788611748700140913,
+      "size": 417099085
+    }
+  },
+  "version": 1
+}

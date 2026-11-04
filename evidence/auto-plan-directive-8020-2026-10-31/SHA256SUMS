@@ -1,0 +1,9 @@
+66b439210d87722c76be9d889b48c9e47e830507cd5365e56f886f081cd230ff  evidence/auto-plan-directive-8020-2026-10-31/README.md
+a6d0c10896cdd84ff8f79027226daa6fb84634b3c2e257648dd4f101a3148845  evidence/auto-plan-directive-8020-2026-10-31/control-flow-summary.json
+9aae4a64e7746b350ef96d3927952da8592dbb3a103f9fcd2d516b9855b8757d  evidence/auto-plan-directive-8020-2026-10-31/manifest.draft.json
+7e3815be3f7e4f4aa6801dc0d03a4550981da9faabcc31c0c83d3bf799523d90  evidence/auto-plan-directive-8020-2026-10-31/payload-materialize.log
+0bf4310b13c16b41a263a7ba5eaa0bb147c4cf6d19c350548db93276c84d0fe2  evidence/auto-plan-directive-8020-2026-10-31/payload-ini-resume.log
+7e3815be3f7e4f4aa6801dc0d03a4550981da9faabcc31c0c83d3bf799523d90  evidence/auto-plan-directive-8020-2026-10-31/application-payload.log
+69c1bcb2cf04ebefc71a36b1ba3a3c03b4bc4844dc410e5b66a1d23357fbba21  evidence/auto-plan-directive-8020-2026-10-31/rollback-plan.log
+682cdb9ca7d0b86fc241ccf70d0e5bb458db9624444cd6484782b3d5e2b825ca  evidence/auto-plan-directive-8020-2026-10-31/transaction-tests.log
+3f969ba7ad6383bcdc4de6ddc87be75dafd462c4aaeda06caf0115eeb3953196  evidence/auto-plan-directive-8020-2026-10-31/isexec-smoke.log

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "name": "Mirage 7 — teste de perda real de mount FUSE",
+  "setup_sha256": [
+    "0e7ddfa7d1f3ba544cb30165dbe93fac802ccf609410bb440f5c3c046c6e7d5c"
+  ],
+  "components": {
+    "text": {
+      "description": "Main game files",
+      "default": true,
+      "required": true
+    }
+  },
+  "steps": [
+    {
+      "id": "game-02",
+      "type": "extract",
+      "description": "Extrair fg-02.bin através do mount FUSE",
+      "archive": "fg-02.bin",
+      "destination": "app",
+      "md5": "e2e4f71097466e4e95da4266f8b0c564"
+    }
+  ]
+}

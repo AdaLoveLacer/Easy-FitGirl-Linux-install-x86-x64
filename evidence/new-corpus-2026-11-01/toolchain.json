@@ -1,0 +1,11 @@
+{
+  "parser_repository": "https://github.com/ATRAPSLLC/pascalscript-rs",
+  "parser_commit": "5b9164cb8b563506695f7f62b17f002d6aa2cac4",
+  "rustc": "rustc 1.95.0 (59807616e 2026-04-14)",
+  "sha256": {
+    "$HOME/.local/share/fitgirl-installer/tools/innounp.exe": "9b72ad9f93d167652a0e2bf3921abdfd3e6747c5e718461a2e58b9dfacd31f4c",
+    "$HOME/.local/share/fitgirl-installer/tools/pascalscript": "ab57691eefc7a9a1e90f56ab3d938f75e68c7c7b7f61f63599b882c13b9a62aa",
+    "tools/pascalscript-cli.rs": "1e154535b3313a963e66277996aa09fea50fd2140693791739941e90b1373f4d",
+    "tools/pascalscript-dll-function-names.patch": "98bf5cc8960b6aa6f52f7b76c4ced7710c3f7741a99291bbf63613cbe56e390f"
+  }
+}

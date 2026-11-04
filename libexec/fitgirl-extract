@@ -1,0 +1,342 @@
+#!/usr/bin/env bash
+# Standalone/no-GUI extraction front-end for Inno + FreeArc FitGirl repacks.
+set -o pipefail
+
+usage() { echo "Uso: $0 -d REPACK_DIR -t DESTINO -w SCRATCH (--archive VOLUME | --archive-path ARQUIVO) [--payload-ready] [--archive-path-filter CAMINHO] [--include PADRÃO] [--archive-workdir DIR] [--bzip3-threads N] [--wine BIN] [--prefix DIR] [--wine-debug CANAIS] [--srep-memory MIB] [--cls-srep-dll ARQUIVO] [--srep-file-exe ARQUIVO]"; }
+die() { echo "[ERRO] $*" >&2; exit 2; }
+info() { echo "[INFO] $*"; }
+
+SOURCE=""; TARGET=""; SCRATCH=""; SKIP_PROBE=0; LIST_ONLY=0; PAYLOAD_READY=0; ARCHIVE_PATH_FILTER=""
+ARCHIVE_WORKDIR=""
+ARCHIVE_PATH=""
+WINE_BIN="${FITGIRL_WINE_BIN:-}"
+PREFIX="${FITGIRL_WINEPREFIX:-${WINEPREFIX:-$HOME/.local/share/fitgirl-extract/prefix}}"
+ARCHIVE_ONLY=""; MONITOR_INTERVAL=20
+GLOBAL_BASE=0
+GLOBAL_WEIGHT=1
+WINE_DEBUG="${FITGIRL_WINEDEBUG:--all}"
+SREP_MEMORY_MIB="${FITGIRL_SREP_MEMORY_MIB:-}"
+CLS_SREP_DLL="${FITGIRL_CLS_SREP_DLL:-}"
+SREP_FILE_EXE="${FITGIRL_SREP_FILE_EXE:-}"
+BZIP3_THREADS="${FITGIRL_BZIP3_THREADS:-}"
+ARCHIVE_FILTERS=()
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -d) SOURCE="$2"; shift 2 ;;
+        -t) TARGET="$2"; shift 2 ;;
+        -w) SCRATCH="$2"; shift 2 ;;
+        --skip-probe) SKIP_PROBE=1; shift ;;
+        --list-only) LIST_ONLY=1; shift ;;
+        --payload-ready) PAYLOAD_READY=1; shift ;;
+        --archive-path-filter) ARCHIVE_PATH_FILTER="$2"; shift 2 ;;
+        --wine) WINE_BIN="$2"; shift 2 ;;
+        --prefix) PREFIX="$2"; shift 2 ;;
+        --archive) ARCHIVE_ONLY="$2"; shift 2 ;;
+        --archive-path) ARCHIVE_PATH="$2"; shift 2 ;;
+        --include) ARCHIVE_FILTERS+=("$2"); shift 2 ;;
+        --archive-workdir) ARCHIVE_WORKDIR="$2"; shift 2 ;;
+        --monitor-interval) MONITOR_INTERVAL="$2"; shift 2 ;;
+        --global-base) GLOBAL_BASE="$2"; shift 2 ;;
+        --global-weight) GLOBAL_WEIGHT="$2"; shift 2 ;;
+        --wine-debug) WINE_DEBUG="$2"; shift 2 ;;
+        --srep-memory) SREP_MEMORY_MIB="$2"; shift 2 ;;
+        --cls-srep-dll) CLS_SREP_DLL="$2"; shift 2 ;;
+        --srep-file-exe) SREP_FILE_EXE="$2"; shift 2 ;;
+        --bzip3-threads) BZIP3_THREADS="$2"; shift 2 ;;
+        -h|--help) usage; exit 0 ;;
+        *) die "opcao desconhecida: $1" ;;
+    esac
+done
+[ -f "$SOURCE/setup.exe" ] || die "setup.exe nao encontrado em $SOURCE"
+[ -n "$TARGET" ] || die "informe -t DESTINO"
+[ -n "$SCRATCH" ] || SCRATCH="$TARGET/.fitgirl-extract-work"
+[ -n "$ARCHIVE_WORKDIR" ] || ARCHIVE_WORKDIR="$SCRATCH"
+if [ -n "$ARCHIVE_PATH_FILTER" ]; then
+    [[ "$ARCHIVE_PATH_FILTER" =~ ^[A-Za-z0-9_-]+$ ]] \
+        || die "prefixo de arquivo não suportado: $ARCHIVE_PATH_FILTER"
+fi
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+UNARC="$ROOT/libexec/unarc"
+HELPER="$ROOT/libexec/unarc-helper.exe"
+MONITOR="$ROOT/src/fitgirl_installer/monitor.py"
+[ -x "$WINE_BIN" ] || WINE_BIN="$(command -v wine)"
+WINE_DIR="$(dirname "$WINE_BIN")"
+WINEBOOT="$WINE_DIR/wineboot"
+WINEBOOT_COMMAND=("$WINEBOOT")
+[ -x "$WINEBOOT" ] || WINEBOOT_COMMAND=("$WINE_BIN" wineboot.exe)
+[ -x "$WINE_BIN" ] || die "Wine nao encontrado"
+[ -x "$UNARC" ] || die "backend nativo unarc ausente: $UNARC"
+mkdir -p "$TARGET" "$SCRATCH" "$ARCHIVE_WORKDIR"
+
+if [ ! -f "$PREFIX/system.reg" ]; then
+    info "Inicializando prefixo do backend: $PREFIX"
+    mkdir -p "$PREFIX"
+    # The backend never needs .NET or embedded HTML. Disabling these installers
+    # keeps a fresh prefix fully non-interactive (no Wine Mono/Gecko dialogs).
+    WINEPREFIX="$PREFIX" WINEDEBUG="$WINE_DEBUG" \
+        WINEDLLOVERRIDES="mscoree,mshtml=" "${WINEBOOT_COMMAND[@]}" -i \
+        >"$SCRATCH/wineboot.log" 2>&1 || die "wineboot falhou"
+fi
+ln -sfn /mnt "$PREFIX/dosdevices/w:"
+# Razor 1.00 fails on long absolute paths and its rzw wrapper can spin forever.
+# Give codec work files a short Windows path without moving their host storage.
+CODEC_DRIVE=""
+for drive in r s t u v; do
+    link="$PREFIX/dosdevices/$drive:"
+    if [ -L "$link" ] && [ "$(readlink -f "$link")" = "$(readlink -f "$ARCHIVE_WORKDIR")" ]; then
+        CODEC_DRIVE="${drive^^}:"
+        break
+    fi
+    if [ ! -e "$link" ] && [ ! -L "$link" ]; then
+        ln -s -- "$ARCHIVE_WORKDIR" "$link" || die "falha criando drive de trabalho curto"
+        CODEC_DRIVE="${drive^^}:"
+        break
+    fi
+done
+[ -n "$CODEC_DRIVE" ] || die "nenhum drive curto disponível sem sobrescrever mappings existentes"
+info "Drive curto dos codecs: $CODEC_DRIVE -> $ARCHIVE_WORKDIR"
+info "Runtime Wine: $WINE_BIN"
+
+to_wine_path() {
+    local host_path="$1" wine_path
+    case "$host_path" in
+        "$PREFIX/drive_c") wine_path='C:\' ;;
+        "$PREFIX/drive_c"/*)
+            wine_path="C:${host_path#"$PREFIX/drive_c"}"
+            wine_path="${wine_path//\//\\}"
+            ;;
+        "$ARCHIVE_WORKDIR") wine_path="$CODEC_DRIVE\\" ;;
+        "$ARCHIVE_WORKDIR"/*)
+            wine_path="$CODEC_DRIVE${host_path#"$ARCHIVE_WORKDIR"}"
+            wine_path="${wine_path//\//\\}"
+            ;;
+        /mnt/*)
+            wine_path="W:${host_path#/mnt}"
+            wine_path="${wine_path//\//\\}"
+            ;;
+        *)
+            WINEPATH_COMMAND=("$WINE_DIR/winepath")
+            [ -x "$WINE_DIR/winepath" ] || WINEPATH_COMMAND=("$WINE_BIN" winepath.exe)
+            wine_path="$(WINEPREFIX="$PREFIX" WINEDEBUG="$WINE_DEBUG" \
+                "${WINEPATH_COMMAND[@]}" -w "$host_path" 2>/dev/null | tr -d '\r')"
+            ;;
+    esac
+    printf '%s\n' "$wine_path"
+}
+
+RUNTIME_ROOT="$(mktemp -d "$SCRATCH/.payload-runtime.XXXXXX")" \
+    || die "não foi possível criar o payload runtime"
+cleanup_runtime() {
+    case "$RUNTIME_ROOT" in
+        "$SCRATCH"/.payload-runtime.*) rm -rf -- "$RUNTIME_ROOT" ;;
+        *) echo "[AVISO] recusando remover runtime fora do scratch: $RUNTIME_ROOT" >&2 ;;
+    esac
+}
+trap cleanup_runtime EXIT
+
+if [ "$PAYLOAD_READY" -eq 1 ]; then
+    PAYLOAD_SOURCE="$SCRATCH/setup-payload/tmp"
+    [ -d "$PAYLOAD_SOURCE" ] \
+        || die "--payload-ready exige payload materializado em $PAYLOAD_SOURCE"
+    mkdir -p "$RUNTIME_ROOT/tmp"
+    cp -a "$PAYLOAD_SOURCE"/. "$RUNTIME_ROOT/tmp"/ \
+        || die "falha copiando payload auditado para o runtime"
+    info "Usando cópia runtime do payload temporário já validado."
+else
+    info "Extraindo componentes do setup.exe para runtime isolado (sem executar o instalador)..."
+    "$ROOT/libexec/innoextract" -e -s -d "$RUNTIME_ROOT/setup-payload" "$SOURCE/setup.exe" \
+        >"$SCRATCH/innoextract.log" 2>&1 \
+        || die "innoextract falhou; veja $SCRATCH/innoextract.log"
+    mv "$RUNTIME_ROOT/setup-payload/tmp" "$RUNTIME_ROOT/tmp" \
+        || die "payload temporário não foi produzido pelo innoextract"
+fi
+
+TMP="$RUNTIME_ROOT/tmp"
+[ -f "$TMP/unarc.dll" ] || die "unarc.dll customizado nao foi encontrado no payload"
+[ -f "$TMP/arc.ini" ] || die "arc.ini nao foi encontrado no payload"
+[ -f "$TMP/CLS.ini" ] || die "CLS.ini nao foi encontrado no payload"
+if grep -q 'fgrplc' "$TMP/arc.ini"; then
+    [ -n "$BZIP3_THREADS" ] || BZIP3_THREADS="$(nproc)"
+    [[ "$BZIP3_THREADS" =~ ^[0-9]+$ ]] || die "--bzip3-threads exige inteiro"
+    [ "$BZIP3_THREADS" -gt 0 ] || die "--bzip3-threads deve ser maior que zero"
+    sed -i "s/fgrplc/$BZIP3_THREADS/g" "$TMP/arc.ini"
+    info "Placeholder BZip3 resolvido para ${BZIP3_THREADS} threads"
+fi
+fallback_count=0
+[ -n "$CLS_SREP_DLL" ] && fallback_count=$((fallback_count + 1))
+[ -n "$SREP_FILE_EXE" ] && fallback_count=$((fallback_count + 1))
+[ "$fallback_count" -le 1 ] || die "use somente um fallback SREP por vez"
+cp -f "$TMP/CLS.ini" "$SCRATCH/CLS.original.ini"
+if [ -n "$CLS_SREP_DLL" ]; then
+    [ -f "$CLS_SREP_DLL" ] || die "DLL SREP alternativa nao encontrada: $CLS_SREP_DLL"
+    [ -f "$TMP/CLS-srep.dll" ] || die "CLS-srep.dll original nao encontrado no payload"
+    cp -f "$TMP/CLS-srep.dll" "$SCRATCH/CLS-srep.original.dll"
+    cp -f "$CLS_SREP_DLL" "$TMP/CLS-srep.dll"
+    {
+        sha256sum "$SCRATCH/CLS-srep.original.dll"
+        sha256sum "$TMP/CLS-srep.dll"
+    } >"$SCRATCH/CLS-srep.sha256"
+    info "CLS-srep.dll substituído por override experimental"
+fi
+if [ -n "$SREP_FILE_EXE" ]; then
+    [ -f "$SREP_FILE_EXE" ] || die "SREP file-mode não encontrado: $SREP_FILE_EXE"
+    [ -f "$TMP/CLS-srep.dll" ] || die "CLS-srep.dll original não encontrado no payload"
+    cp -f "$TMP/CLS-srep.dll" "$SCRATCH/CLS-srep.original.dll"
+    rm -f "$TMP/CLS-srep.dll"
+    cp -f "$SREP_FILE_EXE" "$TMP/srep-file.exe"
+    cat >>"$TMP/arc.ini" <<'EOF'
+
+[External compressor:srep]
+header = 0
+solid = 0
+unpackcmd = srep-file.exe -d f2 f1
+datafile = f1
+packedfile = f2
+EOF
+    {
+        sha256sum "$SCRATCH/CLS-srep.original.dll"
+        sha256sum "$TMP/srep-file.exe"
+    } >"$SCRATCH/SREP-file-mode.sha256"
+    info "SREP configurado em modo arquivo experimental"
+fi
+if [ -n "$SREP_MEMORY_MIB" ]; then
+    [[ "$SREP_MEMORY_MIB" =~ ^[0-9]+$ ]] || die "--srep-memory exige MiB inteiros"
+    [ "$SREP_MEMORY_MIB" -gt 0 ] || die "--srep-memory deve ser maior que zero"
+    awk -v memory="$SREP_MEMORY_MIB" '
+        { sub(/\r$/, "") }
+        /^\[/ { in_srep = (tolower($0) == "[srep]") }
+        in_srep && /^Memory=/ { $0 = "Memory=" memory "m" }
+        { print }
+    ' "$TMP/CLS.ini" >"$TMP/CLS.ini.new" || die "falha ajustando CLS.ini"
+    mv "$TMP/CLS.ini.new" "$TMP/CLS.ini"
+    info "Memória SREP limitada a ${SREP_MEMORY_MIB} MiB"
+fi
+cp -f "$TMP/arc.ini" "$SCRATCH/arc.ini"
+
+# Preferred backend for FA-Protect repacks: invoke the custom PE32 DLL through
+# a tiny helper. Wine is used only for this DLL call; setup.exe is never run.
+if [ -f "$HELPER" ]; then
+    info "Backend customizado encontrado: FreeArcExtract via helper PE32."
+    TARGET_WIN="$(to_wine_path "$TARGET")"
+    SCRATCH_WIN="$(to_wine_path "$SCRATCH")"
+    ARCHIVE_WORKDIR_WIN="$(to_wine_path "$ARCHIVE_WORKDIR")"
+    [ -n "$TARGET_WIN" ] || die "falha convertendo destino para Wine"
+    [ -n "$SCRATCH_WIN" ] || die "falha convertendo scratch para Wine"
+    [ -n "$ARCHIVE_WORKDIR_WIN" ] || die "falha convertendo workdir do volume para Wine"
+    if [ -f "$TMP/CLS.ini" ] && grep -q '{app}' "$TMP/CLS.ini"; then
+        CLS_INI="$TMP/CLS.ini" CLS_APP_PATH="$SCRATCH_WIN" python3 - <<'PY'
+import os
+from pathlib import Path
+
+path = Path(os.environ["CLS_INI"])
+text = path.read_text(encoding="latin-1")
+path.write_text(text.replace("{app}", os.environ["CLS_APP_PATH"]), encoding="latin-1")
+PY
+        info "TempPath {app} do CLS.ini expandido para o scratch"
+    fi
+    cp -f "$TMP/CLS.ini" "$SCRATCH/CLS.effective.ini"
+    TMP_WIN="$(to_wine_path "$TMP")"
+    [ -n "$TMP_WIN" ] || die "falha convertendo payload runtime para Wine"
+    mkdir -p "$TARGET"
+    if [ -n "$ARCHIVE_PATH" ]; then
+        [ -z "$ARCHIVE_ONLY" ] || die "use --archive ou --archive-path, não ambos"
+        archives=("$ARCHIVE_PATH")
+    elif [ -n "$ARCHIVE_ONLY" ]; then
+        archives=("$SOURCE/$ARCHIVE_ONLY")
+    else
+        die "informe --archive; a ordem dos volumes vem do manifesto, não dos nomes"
+    fi
+    for archive in "${archives[@]}"; do
+        [ -f "$archive" ] || continue
+        archive_win="$(to_wine_path "$archive")"
+        info "Extraindo $(basename "$archive") via FreeArcExtract..."
+        if [ "$LIST_ONLY" -eq 1 ]; then
+            action="l"
+        else
+            action="x"
+        fi
+        stop_file="$SCRATCH/.monitor-stop"
+        rm -f "$stop_file"
+        monitor_pid=""
+        if [ "$LIST_ONLY" -eq 0 ]; then
+            python3 "$MONITOR" --archive "$archive" --target "$TARGET" \
+                --stop-file "$stop_file" --interval "$MONITOR_INTERVAL" \
+                --log "$SCRATCH/monitor.log" --global-base "$GLOBAL_BASE" \
+                --global-weight "$GLOBAL_WEIGHT" --prefix "$PREFIX" &
+            monitor_pid=$!
+        fi
+        volume_log="$SCRATCH/$(basename "$archive").extract.log"
+        : >"$volume_log"
+        helper_tail=("${ARCHIVE_FILTERS[@]}")
+        if [ -n "$ARCHIVE_PATH_FILTER" ]; then
+            helper_tail=("-ap$ARCHIVE_PATH_FILTER" "${helper_tail[@]}")
+        fi
+        [ "${#helper_tail[@]}" -le 4 ] || die "no máximo quatro filtros --include são suportados"
+        while [ "${#helper_tail[@]}" -lt 4 ]; do helper_tail+=(""); done
+        ( cd "$TMP" && WINEPREFIX="$PREFIX" WINEDEBUG="$WINE_DEBUG" \
+          "$WINE_BIN" "$HELPER" "$TMP_WIN\\unarc.dll" "$action" -o+ \
+          "-dp$TARGET_WIN" "-w$ARCHIVE_WORKDIR_WIN" "-cfg$TMP_WIN\\arc.ini" \
+          "$archive_win" "${helper_tail[@]}" ) 2>&1 \
+          | tee -a "$SCRATCH/extract.log" "$volume_log" \
+          | sed -u -n \
+              -e '/^\[FreeArc\] final rc=/p' \
+              -e '/^\[AVISO\]/p' \
+              -e '/^\[ERRO\]/p' \
+              -e '/error\|failed\|failure\|crc\|corrupt\|no space\|access denied\|not found/Ip'
+        rc=${PIPESTATUS[0]}
+        touch "$stop_file"
+        if [ -n "$monitor_pid" ]; then
+            kill "$monitor_pid" 2>/dev/null || true
+            wait "$monitor_pid" 2>/dev/null || true
+        fi
+        printf '\n'
+        if ! grep -q '^\[FreeArc\] final rc=' "$volume_log"; then
+            if [ "$rc" -eq 0 ]; then
+                echo "[AVISO] DLL encerrou o host sem retornar; sucesso provisório sujeito ao MD5 final" >&2
+            else
+                echo "[ERRO] helper encerrou antes de FreeArcExtract retornar; veja $volume_log" >&2
+            fi
+        fi
+        [ "$rc" -eq 0 ] || die "falha processando $archive (rc=$rc)"
+    done
+    [ "$LIST_ONLY" -eq 1 ] && { info "Listagem standalone concluída."; exit 0; }
+    info "Extração standalone concluída em $TARGET"
+    exit 0
+fi
+
+if [ "$SKIP_PROBE" = 0 ]; then
+    info "Testando se o backend FreeArc nativo entende os .bin..."
+    set +e
+    "$UNARC" l -cfg"$SCRATCH/arc.ini" "$SOURCE/fg-01.bin" \
+        >"$SCRATCH/native-probe.log" 2>&1
+    rc=$?
+    set -e
+    if [ "$rc" -eq 0 ]; then
+        info "Formato FreeArc aberto detectado; iniciando extração nativa."
+        for archive in "$SOURCE"/fg-*.bin; do
+            info "Extraindo $(basename "$archive")..."
+            "$UNARC" x -o+ "-w$SCRATCH" "-dp$TARGET" \
+                -cfg"$SCRATCH/arc.ini" --noarcext "$archive" \
+                2>&1 | tee -a "$SCRATCH/extract.log"
+            [ "${PIPESTATUS[0]}" -eq 0 ] || die "falha extraindo $archive"
+        done
+        info "Extração concluída em $TARGET"
+        exit 0
+    fi
+fi
+
+cat >&2 <<EOF
+[ERRO] Este repack usa um FreeArc customizado (FA Protect).
+       O unarc nativo aberto recusou o descritor do fg-01.bin.
+       O setup.exe NÃO foi executado.
+
+Payload extraído em: $TMP
+Backend necessário:  $TMP/unarc.dll
+Diagnóstico:         $SCRATCH/native-probe.log
+
+Próximo backend: $HELPER, helper 32-bit que chama FreeArcExtract no unarc.dll customizado,
+sem abrir a GUI do Inno Setup. Os filtros externos serão executados por Wine
+apenas quando este repack exigir componentes proprietários.
+EOF
+exit 3

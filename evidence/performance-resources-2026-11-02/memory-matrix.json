@@ -1,0 +1,47 @@
+[
+  {
+    "profile": "default",
+    "srep_memory_mib": null,
+    "returncode": 0,
+    "monitor_samples": 44,
+    "peak_rss_mib": 4017,
+    "peak_pss_mib": 3946,
+    "affinity_sets": [
+      "0-11"
+    ],
+    "reread_events": 0,
+    "output_bytes": 2432644838,
+    "final_success": true
+  },
+  {
+    "profile": "srep-2048",
+    "srep_memory_mib": 2048,
+    "returncode": 0,
+    "timed_out": false,
+    "monitor_samples": 35,
+    "peak_rss_mib": 4180,
+    "peak_pss_mib": 4106,
+    "affinity_sets": [
+      "0-11"
+    ],
+    "reread_events": 0,
+    "output_bytes": 2432644838,
+    "final_success": true
+  },
+  {
+    "profile": "srep-4096",
+    "srep_memory_mib": 4096,
+    "returncode": 0,
+    "timed_out": false,
+    "elapsed_seconds": 104.117,
+    "monitor_samples": 33,
+    "peak_rss_mib": 4181,
+    "peak_pss_mib": 4107,
+    "affinity_sets": [
+      "0-11"
+    ],
+    "reread_events": 0,
+    "output_bytes": 2432644838,
+    "final_success": true
+  }
+]

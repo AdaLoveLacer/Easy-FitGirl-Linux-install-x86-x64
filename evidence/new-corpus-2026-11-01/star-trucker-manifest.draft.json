@@ -1,0 +1,1071 @@
+{
+  "action_coverage": {
+    "complete": true,
+    "missing": [],
+    "planned_actions": 19,
+    "relevant_calls": 19,
+    "unexpected": []
+  },
+  "analysis": {
+    "compiled_code_sha256": "6062290f0574b44e7bfdfab127665eaf2ff6cc55b1323a7212636e6f539e6a8f",
+    "control_flow_sha256": "1a8d50d1f35c1fe314d9c934ae5fea5cca40d9747ebba569a7d7b8017683e2b1",
+    "control_flow_totals": {
+      "blocks": 294,
+      "edges": 346,
+      "instructions": 9489,
+      "procedures": 60
+    },
+    "disassembly_sha256": "a7f7474400ef7ccd1aeba98aad150a88ddf64563aff0a6e920efd80e46069890",
+    "ifps_disassembler_sha256": "ab57691eefc7a9a1e90f56ab3d938f75e68c7c7b7f61f63599b882c13b9a62aa",
+    "innounp_sha256": "9b72ad9f93d167652a0e2bf3921abdfd3e6747c5e718461a2e58b9dfacd31f4c",
+    "iss_sha256": "d87f057861b5ad9ae5846cc0245944a856d84c852cc96a7188a08c13a3d8f27c"
+  },
+  "application_payload_coverage": {
+    "active_entries": 5,
+    "complete": true,
+    "duplicates": 0,
+    "unique_files": 5
+  },
+  "application_payload_files": [
+    {
+      "components": [],
+      "destination": "app",
+      "flags": [],
+      "path": "_Redist/dxwebsetup.exe",
+      "source": "{app}\\_Redist\\dxwebsetup.exe"
+    },
+    {
+      "components": [],
+      "destination": "app",
+      "flags": [],
+      "path": "_Redist/QuickSFV.EXE",
+      "source": "{app}\\_Redist\\QuickSFV.EXE"
+    },
+    {
+      "components": [],
+      "destination": "app",
+      "flags": [],
+      "path": "_Redist/QuickSFV.ini",
+      "source": "{app}\\_Redist\\QuickSFV.ini"
+    },
+    {
+      "components": [],
+      "destination": "app",
+      "flags": [],
+      "path": "_Redist/fitgirl.md5",
+      "source": "{app}\\_Redist\\fitgirl.md5"
+    },
+    {
+      "components": [],
+      "destination": "app",
+      "flags": [],
+      "path": "_Redist/bonus.addon",
+      "source": "{app}\\_Redist\\bonus.addon"
+    }
+  ],
+  "compiler_version": 10,
+  "components": {
+    "bonus": {
+      "available_if": "fg-optional-bonus-content.bin",
+      "default": false,
+      "description": "Bonus Content"
+    },
+    "directx": {
+      "default": true,
+      "description": "Update DirectX"
+    },
+    "text": {
+      "default": true,
+      "description": "Main game files"
+    }
+  },
+  "draft": true,
+  "name": "Star Trucker [FitGirl Repack]",
+  "review_required": true,
+  "schema": 1,
+  "setup_sha256": [
+    "64db389224b83157e89dfae26e39daf1cf3152278671ab5f3f255243c6f2caa0"
+  ],
+  "steps": [
+    {
+      "bytecode": {
+        "argument_address": "0x10b1d",
+        "call_address": "0x10bab",
+        "export": "SETINISTRING"
+      },
+      "condition": null,
+      "description": "Definir [Srep] TempPath em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-rep-emp-ath",
+      "key": "TempPath",
+      "section": "Srep",
+      "type": "ini-write",
+      "value": "{app}"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x10bc5",
+        "call_address": "0x10c51",
+        "export": "SETINISTRING"
+      },
+      "condition": null,
+      "description": "Definir [mtx] TmpPath em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-mtx-mp-ath",
+      "key": "TmpPath",
+      "section": "mtx",
+      "type": "ini-write",
+      "value": "{app}"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x10c6b",
+        "call_address": "0x10cff",
+        "export": "SETINISTRING"
+      },
+      "condition": null,
+      "description": "Definir [magicl] ldmfTempPath em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-magicl-ldmf-emp-ath",
+      "key": "ldmfTempPath",
+      "section": "magicl",
+      "type": "ini-write",
+      "value": "{app}"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x10d19",
+        "call_address": "0x10dae",
+        "export": "SETINISTRING"
+      },
+      "condition": null,
+      "description": "Definir [magic2l] ldmfTempPath em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-magic2l-ldmf-emp-ath",
+      "key": "ldmfTempPath",
+      "section": "magic2l",
+      "type": "ini-write",
+      "value": "{app}"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x10df7",
+        "call_address": "0x10e70",
+        "export": "SETINISTRING"
+      },
+      "condition": {
+        "branch_address": "0x10de3",
+        "kind": "checkbox-checked",
+        "option": "use2gb",
+        "proven": true,
+        "skip_target": "0x10e7b",
+        "source": "g#10",
+        "when_checked": true
+      },
+      "description": "Definir [Srep] Memory em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-rep-emory",
+      "key": "Memory",
+      "section": "Srep",
+      "type": "ini-write",
+      "value": "512m"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x10eb9",
+        "call_address": "0x10f40",
+        "export": "SETINISTRING"
+      },
+      "condition": {
+        "branch_address": "0x10ea5",
+        "kind": "checkbox-checked",
+        "option": "use2gb",
+        "proven": true,
+        "skip_target": "0x10f4b",
+        "source": "g#10",
+        "when_checked": true
+      },
+      "description": "Definir [lollypop2] MaxMemoryUsage em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-lollypop2-ax-emory-sage",
+      "key": "MaxMemoryUsage",
+      "section": "lollypop2",
+      "type": "ini-write",
+      "value": "1280m"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x10f89",
+        "call_address": "0x1100c",
+        "export": "SETINISTRING"
+      },
+      "condition": {
+        "branch_address": "0x10f75",
+        "kind": "checkbox-checked",
+        "option": "use2gb",
+        "proven": true,
+        "skip_target": "0x11017",
+        "source": "g#10",
+        "when_checked": true
+      },
+      "description": "Definir [magic] MaxMemoryUsage em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-magic-ax-emory-sage",
+      "key": "MaxMemoryUsage",
+      "section": "magic",
+      "type": "ini-write",
+      "value": "1024m"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x11055",
+        "call_address": "0x110d9",
+        "export": "SETINISTRING"
+      },
+      "condition": {
+        "branch_address": "0x11041",
+        "kind": "checkbox-checked",
+        "option": "use2gb",
+        "proven": true,
+        "skip_target": "0x110e4",
+        "source": "g#10",
+        "when_checked": true
+      },
+      "description": "Definir [magicl] MaxMemoryUsage em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-magicl-ax-emory-sage",
+      "key": "MaxMemoryUsage",
+      "section": "magicl",
+      "type": "ini-write",
+      "value": "1024m"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x11122",
+        "call_address": "0x111a6",
+        "export": "SETINISTRING"
+      },
+      "condition": {
+        "branch_address": "0x1110e",
+        "kind": "checkbox-checked",
+        "option": "use2gb",
+        "proven": true,
+        "skip_target": "0x111b1",
+        "source": "g#10",
+        "when_checked": true
+      },
+      "description": "Definir [magic2] MaxMemoryUsage em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-magic2-ax-emory-sage",
+      "key": "MaxMemoryUsage",
+      "section": "magic2",
+      "type": "ini-write",
+      "value": "1024m"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x111ef",
+        "call_address": "0x11274",
+        "export": "SETINISTRING"
+      },
+      "condition": {
+        "branch_address": "0x111db",
+        "kind": "checkbox-checked",
+        "option": "use2gb",
+        "proven": true,
+        "skip_target": "0x1127f",
+        "source": "g#10",
+        "when_checked": true
+      },
+      "description": "Definir [magic2l] MaxMemoryUsage em {tmp}\\CLS.ini",
+      "file": "CLS.ini",
+      "file_root": "tmp",
+      "id": "ini-magic2l-ax-emory-sage",
+      "key": "MaxMemoryUsage",
+      "section": "magic2l",
+      "type": "ini-write",
+      "value": "1024m"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x112bd",
+        "call_address": "0x1137d",
+        "export": "SETINISTRING"
+      },
+      "condition": {
+        "branch_address": "0x112a9",
+        "kind": "checkbox-checked",
+        "option": "use2gb",
+        "proven": true,
+        "skip_target": "0x11388",
+        "source": "g#10",
+        "when_checked": true
+      },
+      "description": "Definir [External compressor:xt3dd] unpackcmd em {tmp}\\arc.ini",
+      "file": "arc.ini",
+      "file_root": "tmp",
+      "id": "ini-xternal-compressor-xt3dd-unpackcmd",
+      "key": "unpackcmd",
+      "section": "External compressor:xt3dd",
+      "type": "ini-write",
+      "value": "xtool.exe decode -t100p -dm10p - - <stdin> <stdout>"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x11489",
+        "call_address": "0x1150b",
+        "export": "ISExec"
+      },
+      "cur_component": 0,
+      "cwd": "tmp",
+      "description": "Preparing installation...",
+      "executable": "{tmp}\\FlushFileCache.exe",
+      "id": "flushfilecache-exe",
+      "isexec_arguments": {
+        "cur_component": 0,
+        "executable": "{tmp}\\FlushFileCache.exe",
+        "output": "Preparing installation...",
+        "parameters": "",
+        "pct_of_total": 0,
+        "show": false,
+        "specified_process_time": 0,
+        "target_dir": "{tmp}\\"
+      },
+      "parameters": "",
+      "rollback_paths": [],
+      "type": "isexec"
+    },
+    {
+      "archive": "fg-01.bin",
+      "bytecode": {
+        "argument_address": "0x11669",
+        "call_address": "0x116ce",
+        "export": "ISArcExtract"
+      },
+      "cur_component": 0,
+      "description": "Extrair fg-01.bin",
+      "destination": "app",
+      "id": "fg-01-bin",
+      "isarc_arguments": {
+        "cur_component": 0,
+        "delete_input": false,
+        "extract_pcf": false,
+        "extracted_path": "",
+        "input": "{src}\\fg-01.bin",
+        "output": "{app}\\",
+        "pct_of_total": 0
+      },
+      "md5": "ac6f86e48bc0aa20680651d4d26005df",
+      "type": "extract"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x1178f",
+        "call_address": "0x117c4",
+        "export": "DELTREE"
+      },
+      "description": "Remover diretório {app}\\temp-fitgirl\\",
+      "id": "delete-tree-temp-fitgirl",
+      "path": "temp-fitgirl",
+      "path_root": "app",
+      "type": "delete-tree"
+    },
+    {
+      "archive": "fg-optional-bonus-content.bin",
+      "bytecode": {
+        "argument_address": "0x11907",
+        "call_address": "0x11980",
+        "export": "ISArcExtract"
+      },
+      "cur_component": 1,
+      "description": "Extrair fg-optional-bonus-content.bin",
+      "destination": "app",
+      "id": "fg-optional-bonus-content-bin",
+      "if_component": "bonus",
+      "isarc_arguments": {
+        "cur_component": 1,
+        "delete_input": false,
+        "extract_pcf": false,
+        "extracted_path": "",
+        "input": "{src}\\fg-optional-bonus-content.bin",
+        "output": "{app}\\",
+        "pct_of_total": 0
+      },
+      "md5": "e7f9df6e6a84fc2c8b1fdd73c2eba87a",
+      "type": "extract"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x11a41",
+        "call_address": "0x11a76",
+        "export": "DELTREE"
+      },
+      "description": "Remover diretório {app}\\temp-fitgirl\\",
+      "id": "delete-tree-temp-fitgirl-2",
+      "path": "temp-fitgirl",
+      "path_root": "app",
+      "type": "delete-tree"
+    },
+    {
+      "archive": "fg-02.bin",
+      "bytecode": {
+        "argument_address": "0x11bb9",
+        "call_address": "0x11c1e",
+        "export": "ISArcExtract"
+      },
+      "cur_component": 0,
+      "description": "Extrair fg-02.bin",
+      "destination": "app",
+      "id": "fg-02-bin",
+      "isarc_arguments": {
+        "cur_component": 0,
+        "delete_input": false,
+        "extract_pcf": false,
+        "extracted_path": "",
+        "input": "{src}\\fg-02.bin",
+        "output": "{app}\\",
+        "pct_of_total": 0
+      },
+      "md5": "736f952fd966e98a6df81ca1ba0af8ec",
+      "type": "extract"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x11cdf",
+        "call_address": "0x11d14",
+        "export": "DELTREE"
+      },
+      "description": "Remover diretório {app}\\temp-fitgirl\\",
+      "id": "delete-tree-temp-fitgirl-3",
+      "path": "temp-fitgirl",
+      "path_root": "app",
+      "type": "delete-tree"
+    },
+    {
+      "bytecode": {
+        "argument_address": "0x11e54",
+        "call_address": "0x11ec3",
+        "export": "ISExec"
+      },
+      "cur_component": 0,
+      "cwd": "app",
+      "cwd_suffix": "_Redist",
+      "description": "",
+      "embedded_command": "copy /b fitgirl.md5+*.addon&&del *.addon",
+      "executable": "{cmd}",
+      "id": "b-fitgirl-md5-addon-del-addon",
+      "isexec_arguments": {
+        "cur_component": 0,
+        "executable": "{cmd}",
+        "output": "",
+        "parameters": null,
+        "pct_of_total": 0,
+        "show": false,
+        "specified_process_time": 0,
+        "target_dir": "{app}\\_Redist\\"
+      },
+      "parameter_expression": [
+        {
+          "address": "0x11daa",
+          "operation": "assign",
+          "value": "/C "
+        },
+        {
+          "address": "0x11dcb",
+          "operation": "expanded_quoted",
+          "value": "copy /b fitgirl.md5+*.addon&&del *.addon"
+        },
+        {
+          "address": "0x11e29",
+          "operation": "calc.add",
+          "value": ""
+        }
+      ],
+      "parameters": null,
+      "rollback_paths": [
+        {
+          "path": "_Redist",
+          "root": "app"
+        }
+      ],
+      "type": "merge-manifests"
+    },
+    {
+      "description": "Validar instalação contra _Redist/fitgirl.md5",
+      "id": "verify-game-files",
+      "manifest": "_Redist/fitgirl.md5",
+      "manifest_root": "app",
+      "root": "app",
+      "type": "verify"
+    }
+  ],
+  "temporary_payload_coverage": {
+    "complete": true,
+    "missing_arguments": 0,
+    "missing_from_iss": [],
+    "planned_calls": 47,
+    "relevant_calls": 47,
+    "unique_files": 45
+  },
+  "temporary_payload_files": [
+    {
+      "calls": [
+        {
+          "argument_address": "0x8771",
+          "call_address": "0x8788",
+          "procedure": "BASS_INIT"
+        },
+        {
+          "argument_address": "0xe827",
+          "call_address": "0xe83e",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "Bass.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0x87f4",
+          "call_address": "0x8813",
+          "procedure": "BASS_INIT"
+        },
+        {
+          "argument_address": "0xea94",
+          "call_address": "0xeab3",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "callbackctrl.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xca60",
+          "call_address": "0xca78",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "wintb.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe849",
+          "call_address": "0xe868",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-lollypop.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe873",
+          "call_address": "0xe896",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-lollypop_x64.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe8a1",
+          "call_address": "0xe8c4",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-lollypop_x86.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe8cf",
+          "call_address": "0xe8ee",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-srep_x64.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe8f9",
+          "call_address": "0xe918",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-srep_x86.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe923",
+          "call_address": "0xe940",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-magic2.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe94b",
+          "call_address": "0xe96c",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-magic2_x64.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe977",
+          "call_address": "0xe998",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-magic2_x86.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe9a3",
+          "call_address": "0xe9c1",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-magic2l.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe9cc",
+          "call_address": "0xe9ee",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-magic2l_x64.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xe9f9",
+          "call_address": "0xea1b",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-magic2l_x86.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xea26",
+          "call_address": "0xea47",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "FlushFileCache.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xea52",
+          "call_address": "0xea68",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "arc.ini",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xea73",
+          "call_address": "0xea89",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "CLS.ini",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xeabe",
+          "call_address": "0xead7",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "botva2.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xeae2",
+          "call_address": "0xeb00",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "MusicButton.png",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xeb0b",
+          "call_address": "0xeb23",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "music.mp3",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xeb2e",
+          "call_address": "0xeb45",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "host.cmd",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xeb50",
+          "call_address": "0xeb68",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "hosts.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xeb73",
+          "call_address": "0xeb88",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "rz.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xeb93",
+          "call_address": "0xeba9",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "rzw.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xebb4",
+          "call_address": "0xebcc",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "razor.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xebd7",
+          "call_address": "0xebf9",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "rz-1.03.7-stdio.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xec04",
+          "call_address": "0xec19",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "x5.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xec24",
+          "call_address": "0xec3a",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "fsb.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xec45",
+          "call_address": "0xec60",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "cls-mpzz.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xec6b",
+          "call_address": "0xec81",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "mpz.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xec8c",
+          "call_address": "0xeca9",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "MpzSlimmer.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xecb4",
+          "call_address": "0xeccc",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "xtool.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xecd7",
+          "call_address": "0xecf5",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "hif2raw_dll.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xed00",
+          "call_address": "0xed1e",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "raw2hif_dll.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xed29",
+          "call_address": "0xed44",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "zlibwapi.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xed4f",
+          "call_address": "0xed6e",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "preflate_dll.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xed79",
+          "call_address": "0xed92",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "liblz4.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xed9d",
+          "call_address": "0xedb5",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "unity.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xedc0",
+          "call_address": "0xedda",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "precomp.exe",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0xede5",
+          "call_address": "0xee03",
+          "procedure": "INITIALIZEWIZARD"
+        }
+      ],
+      "destination": "tmp",
+      "name": "precomp_dll.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0x107ed",
+          "call_address": "0x10805",
+          "procedure": "CURSTEPCHANGED"
+        }
+      ],
+      "destination": "tmp",
+      "name": "unarc.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0x10810",
+          "call_address": "0x1082b",
+          "procedure": "CURSTEPCHANGED"
+        }
+      ],
+      "destination": "tmp",
+      "name": "CLS-srep.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0x10836",
+          "call_address": "0x10853",
+          "procedure": "CURSTEPCHANGED"
+        }
+      ],
+      "destination": "tmp",
+      "name": "facompress.dll",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0x1085e",
+          "call_address": "0x10878",
+          "procedure": "CURSTEPCHANGED"
+        }
+      ],
+      "destination": "tmp",
+      "name": "records.inf",
+      "present_in_iss": true
+    },
+    {
+      "calls": [
+        {
+          "argument_address": "0x10883",
+          "call_address": "0x1089d",
+          "procedure": "CURSTEPCHANGED"
+        }
+      ],
+      "destination": "tmp",
+      "name": "English.ini",
+      "present_in_iss": true
+    }
+  ]
+}

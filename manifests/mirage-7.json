@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "name": "Mirage 7",
+  "setup_sha256": [
+    "0e7ddfa7d1f3ba544cb30165dbe93fac802ccf609410bb440f5c3c046c6e7d5c"
+  ],
+  "components": {
+    "text": {
+      "description": "Main game files",
+      "default": true,
+      "required": true
+    },
+    "directx": {
+      "description": "Update DirectX (recognized; post-install not automated)",
+      "default": false
+    }
+  },
+  "steps": [
+    {
+      "id": "game-01",
+      "type": "extract",
+      "description": "Extrair fg-01.bin para {app}",
+      "archive": "fg-01.bin",
+      "destination": "app",
+      "md5": "9fa304f5e86ad8a51be92698872b4933"
+    },
+    {
+      "id": "game-02",
+      "type": "extract",
+      "description": "Extrair fg-02.bin para {app}",
+      "archive": "fg-02.bin",
+      "destination": "app",
+      "md5": "e2e4f71097466e4e95da4266f8b0c564"
+    },
+    {
+      "id": "verify-game-files",
+      "type": "verify",
+      "description": "Validar instalação contra _Redist/fitgirl.md5",
+      "manifest_root": "payload_app",
+      "manifest": "_Redist/fitgirl.md5",
+      "root": "app"
+    }
+  ]
+}

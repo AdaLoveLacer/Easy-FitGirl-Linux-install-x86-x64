@@ -1,0 +1,882 @@
+{
+  "files": {
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.AnimRetarget.cache": {
+      "actual": "f38c9ef311add91f859a5cf16db8e43c",
+      "expected": "f38c9ef311add91f859a5cf16db8e43c",
+      "mtime_ns": 1644846404000000000,
+      "size": 50756222
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.AnimRetarget.toc": {
+      "actual": "2fe54a03fec0b8d06a2fe519a9d316e2",
+      "expected": "2fe54a03fec0b8d06a2fe519a9d316e2",
+      "mtime_ns": 1644846430000000000,
+      "size": 71528
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Font.cache": {
+      "actual": "719c06bc8509e12d5f62d5c408d1f61a",
+      "expected": "719c06bc8509e12d5f62d5c408d1f61a",
+      "mtime_ns": 1644846422000000000,
+      "size": 770630
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Font.toc": {
+      "actual": "520c747010f8b8897f48fe898d91fa6d",
+      "expected": "520c747010f8b8897f48fe898d91fa6d",
+      "mtime_ns": 1644846432000000000,
+      "size": 6728
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc.cache": {
+      "actual": "6ec6faede5d011833e9f91cdf3a4c734",
+      "expected": "6ec6faede5d011833e9f91cdf3a4c734",
+      "mtime_ns": 1644845889000000000,
+      "size": 11220
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc.toc": {
+      "actual": "f6cd7e0fda231d1a76fd5bf656fd644b",
+      "expected": "f6cd7e0fda231d1a76fd5bf656fd644b",
+      "mtime_ns": 1644846435000000000,
+      "size": 1064
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_de.cache": {
+      "actual": "984fe807a04a4d3f915a30f52dde01c4",
+      "expected": "984fe807a04a4d3f915a30f52dde01c4",
+      "mtime_ns": 1644846424000000000,
+      "size": 285095
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_de.toc": {
+      "actual": "2a31b731a2affb6dbbdc17b782658593",
+      "expected": "2a31b731a2affb6dbbdc17b782658593",
+      "mtime_ns": 1644845888000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_en.cache": {
+      "actual": "321601bc67ee0c86d466f60d9d46f694",
+      "expected": "321601bc67ee0c86d466f60d9d46f694",
+      "mtime_ns": 1644845915000000000,
+      "size": 276988
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_en.toc": {
+      "actual": "fd936f8c99250e5b4541a0b1ba17ba7a",
+      "expected": "fd936f8c99250e5b4541a0b1ba17ba7a",
+      "mtime_ns": 1644845888000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_es.cache": {
+      "actual": "36c2f018db9047677edcde1a92ea638b",
+      "expected": "36c2f018db9047677edcde1a92ea638b",
+      "mtime_ns": 1644846424000000000,
+      "size": 295217
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_es.toc": {
+      "actual": "87091dde869a77d453b62084e8ae711b",
+      "expected": "87091dde869a77d453b62084e8ae711b",
+      "mtime_ns": 1644846431000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_fr.cache": {
+      "actual": "b8bdc6bcba14900afcd992cf3d90d6ac",
+      "expected": "b8bdc6bcba14900afcd992cf3d90d6ac",
+      "mtime_ns": 1644846424000000000,
+      "size": 272485
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_fr.toc": {
+      "actual": "3caaa8d02173e58e41576982d232ca11",
+      "expected": "3caaa8d02173e58e41576982d232ca11",
+      "mtime_ns": 1644846431000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_it.cache": {
+      "actual": "5f54791c332482887281bec959c20c80",
+      "expected": "5f54791c332482887281bec959c20c80",
+      "mtime_ns": 1644845915000000000,
+      "size": 318726
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_it.toc": {
+      "actual": "2c1d939d6ce4eca760ef2ab9993a1681",
+      "expected": "2c1d939d6ce4eca760ef2ab9993a1681",
+      "mtime_ns": 1644845888000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_jp.cache": {
+      "actual": "321601bc67ee0c86d466f60d9d46f694",
+      "expected": "321601bc67ee0c86d466f60d9d46f694",
+      "mtime_ns": 1644845915000000000,
+      "size": 276988
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_jp.toc": {
+      "actual": "2eccf7949952f9d8ad1932a8ab645013",
+      "expected": "2eccf7949952f9d8ad1932a8ab645013",
+      "mtime_ns": 1644845888000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_ru.cache": {
+      "actual": "cdb88c58095f6411aea7afb36a6474ed",
+      "expected": "cdb88c58095f6411aea7afb36a6474ed",
+      "mtime_ns": 1644845915000000000,
+      "size": 272224
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Misc_ru.toc": {
+      "actual": "5e7a0a19e5c49f53f924f23bc45ce94c",
+      "expected": "5e7a0a19e5c49f53f924f23bc45ce94c",
+      "mtime_ns": 1644846431000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Script.cache": {
+      "actual": "3e4734e0f35e6df649ec2d2956f18fbd",
+      "expected": "3e4734e0f35e6df649ec2d2956f18fbd",
+      "mtime_ns": 1644846413000000000,
+      "size": 749591
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Script.toc": {
+      "actual": "52eaea54d77311c505d86012cd5d9fe5",
+      "expected": "52eaea54d77311c505d86012cd5d9fe5",
+      "mtime_ns": 1644846431000000000,
+      "size": 4808
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_de.cache": {
+      "actual": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "expected": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "mtime_ns": 1644846435000000000,
+      "size": 32
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_de.toc": {
+      "actual": "364bb43eed607703312dea4e747f92ea",
+      "expected": "364bb43eed607703312dea4e747f92ea",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_en.cache": {
+      "actual": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "expected": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "mtime_ns": 1644846435000000000,
+      "size": 32
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_en.toc": {
+      "actual": "5737858f608c5feae901a80e25c1ebdd",
+      "expected": "5737858f608c5feae901a80e25c1ebdd",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_es.cache": {
+      "actual": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "expected": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "mtime_ns": 1644846435000000000,
+      "size": 32
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_es.toc": {
+      "actual": "3939f001a2eaf1616b9b4e88f0ed159e",
+      "expected": "3939f001a2eaf1616b9b4e88f0ed159e",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_fr.cache": {
+      "actual": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "expected": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "mtime_ns": 1644846435000000000,
+      "size": 32
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_fr.toc": {
+      "actual": "13c7eb5ec9e00d274d2ce09d47a1dde2",
+      "expected": "13c7eb5ec9e00d274d2ce09d47a1dde2",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_it.cache": {
+      "actual": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "expected": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "mtime_ns": 1644846435000000000,
+      "size": 32
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_it.toc": {
+      "actual": "a5685f43441f5a37cc8240394e8f3939",
+      "expected": "a5685f43441f5a37cc8240394e8f3939",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_jp.cache": {
+      "actual": "5a488c6b4ac22f96f9c1f713ec5d426e",
+      "expected": "5a488c6b4ac22f96f9c1f713ec5d426e",
+      "mtime_ns": 1644846000000000000,
+      "size": 1114580
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_jp.toc": {
+      "actual": "6dc895968a94a3f50a75db45b7a4dd48",
+      "expected": "6dc895968a94a3f50a75db45b7a4dd48",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_ru.cache": {
+      "actual": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "expected": "d5cbaf3dc88e6d1a66e4a6b22c280743",
+      "mtime_ns": 1644846435000000000,
+      "size": 32
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/B.Texture_ru.toc": {
+      "actual": "15595e643f6545370556b3360660358a",
+      "expected": "15595e643f6545370556b3360660358a",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_de.cache": {
+      "actual": "6d7ab0e01eece15f5f76472d9ac33277",
+      "expected": "6d7ab0e01eece15f5f76472d9ac33277",
+      "mtime_ns": 1644846199000000000,
+      "size": 985881
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_de.toc": {
+      "actual": "f0440ad967c627cbd6e4d835d3b983b3",
+      "expected": "f0440ad967c627cbd6e4d835d3b983b3",
+      "mtime_ns": 1644845888000000000,
+      "size": 5288
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_en.cache": {
+      "actual": "73d5c5c70245d38a328d2b95e70040dd",
+      "expected": "73d5c5c70245d38a328d2b95e70040dd",
+      "mtime_ns": 1644846041000000000,
+      "size": 926401
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_en.toc": {
+      "actual": "1ea43eac0ab550a7d08ff2bc73619152",
+      "expected": "1ea43eac0ab550a7d08ff2bc73619152",
+      "mtime_ns": 1644846432000000000,
+      "size": 5288
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_es.cache": {
+      "actual": "e520bcac063fec1000e9d79bc54a10b0",
+      "expected": "e520bcac063fec1000e9d79bc54a10b0",
+      "mtime_ns": 1644846214000000000,
+      "size": 957628
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_es.toc": {
+      "actual": "cf92a462c97697a739a8125d0726242e",
+      "expected": "cf92a462c97697a739a8125d0726242e",
+      "mtime_ns": 1644845888000000000,
+      "size": 5288
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_fr.cache": {
+      "actual": "7fcc263e0847edbc4178e60c258763e1",
+      "expected": "7fcc263e0847edbc4178e60c258763e1",
+      "mtime_ns": 1644846017000000000,
+      "size": 905583
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_fr.toc": {
+      "actual": "9b8457e73d117300188fb2f91969cff4",
+      "expected": "9b8457e73d117300188fb2f91969cff4",
+      "mtime_ns": 1644846432000000000,
+      "size": 5288
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_it.cache": {
+      "actual": "5bcd2d06be18988d6851c843dae0fcc7",
+      "expected": "5bcd2d06be18988d6851c843dae0fcc7",
+      "mtime_ns": 1644846023000000000,
+      "size": 914505
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_it.toc": {
+      "actual": "69e2f1e9827005d60bc9cada0086e7e6",
+      "expected": "69e2f1e9827005d60bc9cada0086e7e6",
+      "mtime_ns": 1644845888000000000,
+      "size": 5288
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_jp.cache": {
+      "actual": "73d5c5c70245d38a328d2b95e70040dd",
+      "expected": "73d5c5c70245d38a328d2b95e70040dd",
+      "mtime_ns": 1644846041000000000,
+      "size": 926401
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_jp.toc": {
+      "actual": "49ef9a270f142e8638c5cd7bc927352e",
+      "expected": "49ef9a270f142e8638c5cd7bc927352e",
+      "mtime_ns": 1644845888000000000,
+      "size": 5288
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_ru.cache": {
+      "actual": "b88af05cc8f86e9eb76e7d5b08d32276",
+      "expected": "b88af05cc8f86e9eb76e7d5b08d32276",
+      "mtime_ns": 1644846335000000000,
+      "size": 878817
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/F.Misc_ru.toc": {
+      "actual": "8326dab1e530e4180ec6a7b539246f9c",
+      "expected": "8326dab1e530e4180ec6a7b539246f9c",
+      "mtime_ns": 1644846432000000000,
+      "size": 5288
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.AnimRetarget.cache": {
+      "actual": "739896e66cb7c0050ccb94f57642a3c6",
+      "expected": "739896e66cb7c0050ccb94f57642a3c6",
+      "mtime_ns": 1644846414000000000,
+      "size": 4181844
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.AnimRetarget.toc": {
+      "actual": "e2569106aead96d66556425a4c52457c",
+      "expected": "e2569106aead96d66556425a4c52457c",
+      "mtime_ns": 1644845889000000000,
+      "size": 71528
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Font.cache": {
+      "actual": "01d61f1023111026d86fbfcecedbf8b2",
+      "expected": "01d61f1023111026d86fbfcecedbf8b2",
+      "mtime_ns": 1644845889000000000,
+      "size": 23156
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Font.toc": {
+      "actual": "0f62d82f6a3054107985f971b3e1ea07",
+      "expected": "0f62d82f6a3054107985f971b3e1ea07",
+      "mtime_ns": 1644845887000000000,
+      "size": 6728
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc.cache": {
+      "actual": "d1263cb0b953b34e039a3bf65882fa9d",
+      "expected": "d1263cb0b953b34e039a3bf65882fa9d",
+      "mtime_ns": 1644845892000000000,
+      "size": 141292
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc.toc": {
+      "actual": "372175cd3cc7c41dacf67d4274801de2",
+      "expected": "372175cd3cc7c41dacf67d4274801de2",
+      "mtime_ns": 1644846430000000000,
+      "size": 57416
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_de.cache": {
+      "actual": "e54cd89c0c5aab4540da92b871454666",
+      "expected": "e54cd89c0c5aab4540da92b871454666",
+      "mtime_ns": 1644846430000000000,
+      "size": 8609
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_de.toc": {
+      "actual": "6e8a1d00b0e776991fc65551269499f7",
+      "expected": "6e8a1d00b0e776991fc65551269499f7",
+      "mtime_ns": 1644846432000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_en.cache": {
+      "actual": "1d2c320cad090ddc7661a5e53ca27976",
+      "expected": "1d2c320cad090ddc7661a5e53ca27976",
+      "mtime_ns": 1644846430000000000,
+      "size": 10767
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_en.toc": {
+      "actual": "31849fc2e7d747fe627151ecb9efe400",
+      "expected": "31849fc2e7d747fe627151ecb9efe400",
+      "mtime_ns": 1644845888000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_es.cache": {
+      "actual": "aa29e4d3bed78f64d6d5f63e35a63a82",
+      "expected": "aa29e4d3bed78f64d6d5f63e35a63a82",
+      "mtime_ns": 1644845889000000000,
+      "size": 8477
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_es.toc": {
+      "actual": "3593c6a34aea9ee31d3471c9abab4214",
+      "expected": "3593c6a34aea9ee31d3471c9abab4214",
+      "mtime_ns": 1644846432000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_fr.cache": {
+      "actual": "a0f53f44c2c030cf975072530f00b46d",
+      "expected": "a0f53f44c2c030cf975072530f00b46d",
+      "mtime_ns": 1644846431000000000,
+      "size": 8492
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_fr.toc": {
+      "actual": "2819999fd00bcb501185f8896447476e",
+      "expected": "2819999fd00bcb501185f8896447476e",
+      "mtime_ns": 1644845888000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_it.cache": {
+      "actual": "8630d720b45c49d2b52ee92c548a96f5",
+      "expected": "8630d720b45c49d2b52ee92c548a96f5",
+      "mtime_ns": 1644845889000000000,
+      "size": 8469
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_it.toc": {
+      "actual": "994f1b28fbee54a4e63aac98144dc8ce",
+      "expected": "994f1b28fbee54a4e63aac98144dc8ce",
+      "mtime_ns": 1644846432000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_jp.cache": {
+      "actual": "1d2c320cad090ddc7661a5e53ca27976",
+      "expected": "1d2c320cad090ddc7661a5e53ca27976",
+      "mtime_ns": 1644846430000000000,
+      "size": 10767
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_jp.toc": {
+      "actual": "20758f7efdc1476f5185c71f05a29d14",
+      "expected": "20758f7efdc1476f5185c71f05a29d14",
+      "mtime_ns": 1644845888000000000,
+      "size": 5768
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_ru.cache": {
+      "actual": "25944a5df8fd642eccdcb7056d5a6ab6",
+      "expected": "25944a5df8fd642eccdcb7056d5a6ab6",
+      "mtime_ns": 1644846431000000000,
+      "size": 8547
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Misc_ru.toc": {
+      "actual": "927cee417732821d166dd3b2de83f420",
+      "expected": "927cee417732821d166dd3b2de83f420",
+      "mtime_ns": 1644845888000000000,
+      "size": 5864
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Script.cache": {
+      "actual": "32fe1deb88fed5e8696f2ec5269915f7",
+      "expected": "32fe1deb88fed5e8696f2ec5269915f7",
+      "mtime_ns": 1644845915000000000,
+      "size": 305814
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Script.toc": {
+      "actual": "ac50ecdeb03c54ef667001c81368ba5f",
+      "expected": "ac50ecdeb03c54ef667001c81368ba5f",
+      "mtime_ns": 1644846431000000000,
+      "size": 5192
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_de.cache": {
+      "actual": "ab809373b0f9703dca0e70fe6340ed74",
+      "expected": "ab809373b0f9703dca0e70fe6340ed74",
+      "mtime_ns": 1644846435000000000,
+      "size": 277
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_de.toc": {
+      "actual": "3e0512e4d9af088f6cfe739347411219",
+      "expected": "3e0512e4d9af088f6cfe739347411219",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_en.cache": {
+      "actual": "40f0059958f26b2d950648626b944c31",
+      "expected": "40f0059958f26b2d950648626b944c31",
+      "mtime_ns": 1644846435000000000,
+      "size": 353
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_en.toc": {
+      "actual": "152f90bc4952522f5f9435295bca92df",
+      "expected": "152f90bc4952522f5f9435295bca92df",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_es.cache": {
+      "actual": "e0aab7d6fac6d297e7d0037367b372d6",
+      "expected": "e0aab7d6fac6d297e7d0037367b372d6",
+      "mtime_ns": 1644846435000000000,
+      "size": 277
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_es.toc": {
+      "actual": "138c8ece3d16ae02af0c435471d72aa6",
+      "expected": "138c8ece3d16ae02af0c435471d72aa6",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_fr.cache": {
+      "actual": "e0d4da070028dced35e6d3b29c557454",
+      "expected": "e0d4da070028dced35e6d3b29c557454",
+      "mtime_ns": 1644846435000000000,
+      "size": 277
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_fr.toc": {
+      "actual": "329f73381ad2a5e43a2fc7fff6b7fc31",
+      "expected": "329f73381ad2a5e43a2fc7fff6b7fc31",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_it.cache": {
+      "actual": "8ebcdb2f818bee102f18effd07aae7cf",
+      "expected": "8ebcdb2f818bee102f18effd07aae7cf",
+      "mtime_ns": 1644846435000000000,
+      "size": 277
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_it.toc": {
+      "actual": "6186900e4b0382a290d18cf352b55496",
+      "expected": "6186900e4b0382a290d18cf352b55496",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_jp.cache": {
+      "actual": "df37efd15f3947345535c31d4aff5ccb",
+      "expected": "df37efd15f3947345535c31d4aff5ccb",
+      "mtime_ns": 1644846435000000000,
+      "size": 304
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_jp.toc": {
+      "actual": "f79645a027a3b67ab8516513d6c3581e",
+      "expected": "f79645a027a3b67ab8516513d6c3581e",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_ru.cache": {
+      "actual": "8167cab299609be9ab3c91eb10c060ce",
+      "expected": "8167cab299609be9ab3c91eb10c060ce",
+      "mtime_ns": 1644846435000000000,
+      "size": 277
+    },
+    "Cache.DLC/PCPatchManifests/Cache.Windows/H.Texture_ru.toc": {
+      "actual": "13ec725912c2bbfea5f521332cc876f6",
+      "expected": "13ec725912c2bbfea5f521332cc876f6",
+      "mtime_ns": 1644846435000000000,
+      "size": 488
+    },
+    "Cache.DLC/PCPatchManifests/Header.dat": {
+      "actual": "6f9663b582e578301e63a1c58d3f2bd2",
+      "expected": "6f9663b582e578301e63a1c58d3f2bd2",
+      "mtime_ns": 1644846435000000000,
+      "size": 52
+    },
+    "Cache.Windows/B.AnimRetarget.cache": {
+      "actual": "fb9289331a22b859afaffa4bf6a47007",
+      "expected": "fb9289331a22b859afaffa4bf6a47007",
+      "mtime_ns": 1644846429000000000,
+      "size": 60893070
+    },
+    "Cache.Windows/B.AnimRetarget.toc": {
+      "actual": "f3e3374ea0ad6e361c700e32dec7d17e",
+      "expected": "f3e3374ea0ad6e361c700e32dec7d17e",
+      "mtime_ns": 1644845890000000000,
+      "size": 97256
+    },
+    "Cache.Windows/B.Font.cache": {
+      "actual": "e04d91f3cc708b78db89315b382c0490",
+      "expected": "e04d91f3cc708b78db89315b382c0490",
+      "mtime_ns": 1644846418000000000,
+      "size": 15215695
+    },
+    "Cache.Windows/B.Font.toc": {
+      "actual": "74cde205c1360929f465f9d03dda38c3",
+      "expected": "74cde205c1360929f465f9d03dda38c3",
+      "mtime_ns": 1644845890000000000,
+      "size": 115016
+    },
+    "Cache.Windows/B.Misc.cache": {
+      "actual": "fad24d03b751a639915b19c946ab0473",
+      "expected": "fad24d03b751a639915b19c946ab0473",
+      "mtime_ns": 1644846429000000000,
+      "size": 1029879078
+    },
+    "Cache.Windows/B.Misc.toc": {
+      "actual": "d819eae4bcbf6d6f95ed43835b29e940",
+      "expected": "d819eae4bcbf6d6f95ed43835b29e940",
+      "mtime_ns": 1644846425000000000,
+      "size": 1901864
+    },
+    "Cache.Windows/B.Script.cache": {
+      "actual": "d57531e425eba35a8944d5ab53b8934d",
+      "expected": "d57531e425eba35a8944d5ab53b8934d",
+      "mtime_ns": 1644845958000000000,
+      "size": 1761886
+    },
+    "Cache.Windows/B.Script.toc": {
+      "actual": "8ca1b59541a22ef1fc4fd15860dfeab6",
+      "expected": "8ca1b59541a22ef1fc4fd15860dfeab6",
+      "mtime_ns": 1644846430000000000,
+      "size": 50120
+    },
+    "Cache.Windows/B.Texture.cache": {
+      "actual": "8729758f72a136daa1d2b9c4b0d92e9d",
+      "expected": "8729758f72a136daa1d2b9c4b0d92e9d",
+      "mtime_ns": 1644846425000000000,
+      "size": 246668228
+    },
+    "Cache.Windows/B.Texture.toc": {
+      "actual": "31d2d67e17d05584101abd06b355461a",
+      "expected": "31d2d67e17d05584101abd06b355461a",
+      "mtime_ns": 1644846425000000000,
+      "size": 987560
+    },
+    "Cache.Windows/B.VideoTexture.cache": {
+      "actual": "7360faaf7a488991daa4bf7848edfb3d",
+      "expected": "7360faaf7a488991daa4bf7848edfb3d",
+      "mtime_ns": 1644842830000000000,
+      "size": 20300800
+    },
+    "Cache.Windows/B.VideoTexture.toc": {
+      "actual": "9e06be9a764869afe86e996e5ba80c00",
+      "expected": "9e06be9a764869afe86e996e5ba80c00",
+      "mtime_ns": 1644846435000000000,
+      "size": 872
+    },
+    "Cache.Windows/F.Misc.cache": {
+      "actual": "9f02d1fd4667c07cc7f6f1cbaae81e19",
+      "expected": "9f02d1fd4667c07cc7f6f1cbaae81e19",
+      "mtime_ns": 1644846432000000000,
+      "size": 2581251187
+    },
+    "Cache.Windows/F.Misc.toc": {
+      "actual": "3351db8f23849a42c50df637e74a3c6e",
+      "expected": "3351db8f23849a42c50df637e74a3c6e",
+      "mtime_ns": 1644845890000000000,
+      "size": 78536
+    },
+    "Cache.Windows/F.Texture.cache": {
+      "actual": "1fde07e815d56c57f669257f9ffd2bd1",
+      "expected": "1fde07e815d56c57f669257f9ffd2bd1",
+      "mtime_ns": 1644846426000000000,
+      "size": 2289478197
+    },
+    "Cache.Windows/F.Texture.toc": {
+      "actual": "aae90fc6e086cdb0cc49cdc79fb9a858",
+      "expected": "aae90fc6e086cdb0cc49cdc79fb9a858",
+      "mtime_ns": 1644845912000000000,
+      "size": 724808
+    },
+    "Cache.Windows/F.VideoTexture.cache": {
+      "actual": "29350515931499f2d85dc85730048714",
+      "expected": "29350515931499f2d85dc85730048714",
+      "mtime_ns": 1644842832000000000,
+      "size": 185776936
+    },
+    "Cache.Windows/F.VideoTexture.toc": {
+      "actual": "7a898a71e44a0f35283b2f17cc7a38b9",
+      "expected": "7a898a71e44a0f35283b2f17cc7a38b9",
+      "mtime_ns": 1644846435000000000,
+      "size": 2120
+    },
+    "Cache.Windows/F.VideoTextureSlow.cache": {
+      "actual": "d1656ba3b33c789f717db324b14fbfb2",
+      "expected": "d1656ba3b33c789f717db324b14fbfb2",
+      "mtime_ns": 1644842833000000000,
+      "size": 218444400
+    },
+    "Cache.Windows/F.VideoTextureSlow.toc": {
+      "actual": "30228dd08726107e6372a16eccdf4c57",
+      "expected": "30228dd08726107e6372a16eccdf4c57",
+      "mtime_ns": 1644846431000000000,
+      "size": 6344
+    },
+    "Cache.Windows/H.AnimRetarget.cache": {
+      "actual": "d0f841d6590994b85ececf4db80e370f",
+      "expected": "d0f841d6590994b85ececf4db80e370f",
+      "mtime_ns": 1644846420000000000,
+      "size": 7488991
+    },
+    "Cache.Windows/H.AnimRetarget.toc": {
+      "actual": "9128dc852d59b4d33f808c0df3444221",
+      "expected": "9128dc852d59b4d33f808c0df3444221",
+      "mtime_ns": 1644845890000000000,
+      "size": 109064
+    },
+    "Cache.Windows/H.Font.cache": {
+      "actual": "ef73b2b45047d854fb4d6896650e2b99",
+      "expected": "ef73b2b45047d854fb4d6896650e2b99",
+      "mtime_ns": 1644845892000000000,
+      "size": 308306
+    },
+    "Cache.Windows/H.Font.toc": {
+      "actual": "87c1d768444653f4050dc7b01abfd32c",
+      "expected": "87c1d768444653f4050dc7b01abfd32c",
+      "mtime_ns": 1644845889000000000,
+      "size": 114920
+    },
+    "Cache.Windows/H.Misc.cache": {
+      "actual": "35bf90d306f70dbf128a711e7533df0f",
+      "expected": "35bf90d306f70dbf128a711e7533df0f",
+      "mtime_ns": 1644846429000000000,
+      "size": 30612157
+    },
+    "Cache.Windows/H.Misc.toc": {
+      "actual": "82594a2fc662a0ef835e6badcb371d84",
+      "expected": "82594a2fc662a0ef835e6badcb371d84",
+      "mtime_ns": 1644845915000000000,
+      "size": 2754536
+    },
+    "Cache.Windows/H.Script.cache": {
+      "actual": "10681ed8ce1ec0ee7862d8ba6a8efede",
+      "expected": "10681ed8ce1ec0ee7862d8ba6a8efede",
+      "mtime_ns": 1644845928000000000,
+      "size": 842971
+    },
+    "Cache.Windows/H.Script.toc": {
+      "actual": "628d5123c3d8aab9488f704eaad71b9a",
+      "expected": "628d5123c3d8aab9488f704eaad71b9a",
+      "mtime_ns": 1644846430000000000,
+      "size": 57992
+    },
+    "Cache.Windows/H.Texture.cache": {
+      "actual": "c3f6fc2c8d54ffc3e903fe6fe5bed72a",
+      "expected": "c3f6fc2c8d54ffc3e903fe6fe5bed72a",
+      "mtime_ns": 1644846422000000000,
+      "size": 1966378
+    },
+    "Cache.Windows/H.Texture.toc": {
+      "actual": "1917e84fe55a7311d6b6e86418750ccc",
+      "expected": "1917e84fe55a7311d6b6e86418750ccc",
+      "mtime_ns": 1644845912000000000,
+      "size": 987560
+    },
+    "Cache.Windows/H.VideoTexture.cache": {
+      "actual": "ce1664642a7096c3689e5d7e4632a06b",
+      "expected": "ce1664642a7096c3689e5d7e4632a06b",
+      "mtime_ns": 1644846435000000000,
+      "size": 2579
+    },
+    "Cache.Windows/H.VideoTexture.toc": {
+      "actual": "adbf10de1c1196ab1e85c7d328b302c8",
+      "expected": "adbf10de1c1196ab1e85c7d328b302c8",
+      "mtime_ns": 1644846435000000000,
+      "size": 2696
+    },
+    "Cache.Windows/H.VideoTextureSlow.cache": {
+      "actual": "4b35b4fc479b7f1cb58cf1a0ca03fb1b",
+      "expected": "4b35b4fc479b7f1cb58cf1a0ca03fb1b",
+      "mtime_ns": 1644844115000000000,
+      "size": 6163
+    },
+    "Cache.Windows/H.VideoTextureSlow.toc": {
+      "actual": "ba00a97a6eee0b7f92bd1fc397e73d0b",
+      "expected": "ba00a97a6eee0b7f92bd1fc397e73d0b",
+      "mtime_ns": 1644844115000000000,
+      "size": 6344
+    },
+    "DarknessII.exe": {
+      "actual": "27bce9e776da80cdc6f3b368c9f6f3ba",
+      "expected": "27bce9e776da80cdc6f3b368c9f6f3ba",
+      "mtime_ns": 1390851874000000000,
+      "size": 14285824
+    },
+    "TheDarknessII-Silvestri.pdf": {
+      "actual": "a896fb297ecbfbaab90e2992c5d77c14",
+      "expected": "a896fb297ecbfbaab90e2992c5d77c14",
+      "mtime_ns": 1644842835000000000,
+      "size": 61886205
+    },
+    "Tools/BinkW32.dll": {
+      "actual": "b3a9cd183d5b6515f036e2454a5599be",
+      "expected": "b3a9cd183d5b6515f036e2454a5599be",
+      "mtime_ns": 1658144777000000000,
+      "size": 226304
+    },
+    "Tools/Physx/x86/NxCharacter.dll": {
+      "actual": "a051f4b26289f0196626a04bdf5f08d1",
+      "expected": "a051f4b26289f0196626a04bdf5f08d1",
+      "mtime_ns": 1644842828000000000,
+      "size": 102400
+    },
+    "Tools/Physx/x86/PhysXCooking.dll": {
+      "actual": "553c7c3c2f78162b6e681112d37420ea",
+      "expected": "553c7c3c2f78162b6e681112d37420ea",
+      "mtime_ns": 1644842825000000000,
+      "size": 377856
+    },
+    "Tools/Physx/x86/PhysXCore.dll": {
+      "actual": "25465e8251634faf7bd0351b11dafdb4",
+      "expected": "25465e8251634faf7bd0351b11dafdb4",
+      "mtime_ns": 1644842822000000000,
+      "size": 3559424
+    },
+    "Tools/Physx/x86/PhysXLoader.dll": {
+      "actual": "a0b036d89716ad68746e23b213184824",
+      "expected": "a0b036d89716ad68746e23b213184824",
+      "mtime_ns": 1644842829000000000,
+      "size": 58368
+    },
+    "Tools/Physx/x86/cudart32_30_9.dll": {
+      "actual": "404f5e87ea3b18ec38d1cce05cdff657",
+      "expected": "404f5e87ea3b18ec38d1cce05cdff657",
+      "mtime_ns": 1644842827000000000,
+      "size": 290408
+    },
+    "Tools/steam_api.dll": {
+      "actual": "663ff638c22aedc66a1320469e139767",
+      "expected": "663ff638c22aedc66a1320469e139767",
+      "mtime_ns": 1390851945000000000,
+      "size": 822788
+    },
+    "eula.rtf": {
+      "actual": "9c81818e6655dd57fb74944d3b3d0c5a",
+      "expected": "9c81818e6655dd57fb74944d3b3d0c5a",
+      "mtime_ns": 1644846430000000000,
+      "size": 59012
+    },
+    "eula_french.rtf": {
+      "actual": "7308d1f3c792aa6428fae8a4d5477e44",
+      "expected": "7308d1f3c792aa6428fae8a4d5477e44",
+      "mtime_ns": 1644846430000000000,
+      "size": 72999
+    },
+    "eula_german.rtf": {
+      "actual": "141aaa02184a8da87718ed952bf21e2e",
+      "expected": "141aaa02184a8da87718ed952bf21e2e",
+      "mtime_ns": 1644845889000000000,
+      "size": 63212
+    },
+    "eula_italian.rtf": {
+      "actual": "e658a0fd5c3fc00fdfae52c16735f4c4",
+      "expected": "e658a0fd5c3fc00fdfae52c16735f4c4",
+      "mtime_ns": 1644846430000000000,
+      "size": 65583
+    },
+    "eula_japanese.rtf": {
+      "actual": "265791b7fef797e2e4c143a8d0549bb7",
+      "expected": "265791b7fef797e2e4c143a8d0549bb7",
+      "mtime_ns": 1644846429000000000,
+      "size": 217243
+    },
+    "eula_russian.rtf": {
+      "actual": "0b58b56e5c4cb45ab031580134a2762d",
+      "expected": "0b58b56e5c4cb45ab031580134a2762d",
+      "mtime_ns": 1644846429000000000,
+      "size": 176386
+    },
+    "eula_spanish.rtf": {
+      "actual": "5fbde0bf1c6bf31b5a63c65474d561ae",
+      "expected": "5fbde0bf1c6bf31b5a63c65474d561ae",
+      "mtime_ns": 1644846430000000000,
+      "size": 69396
+    },
+    "installscript.vdf": {
+      "actual": "a7968075c60be91df9a07b298387c587",
+      "expected": "a7968075c60be91df9a07b298387c587",
+      "mtime_ns": 1644846435000000000,
+      "size": 1051
+    },
+    "readme.txt": {
+      "actual": "ea93a9edcff0ea9ee25819885d9d13d2",
+      "expected": "ea93a9edcff0ea9ee25819885d9d13d2",
+      "mtime_ns": 1644846435000000000,
+      "size": 2468
+    },
+    "readme_french.txt": {
+      "actual": "9d0a7ad67d9b601e4d2db634ea29c349",
+      "expected": "9d0a7ad67d9b601e4d2db634ea29c349",
+      "mtime_ns": 1644846435000000000,
+      "size": 2947
+    },
+    "readme_german.txt": {
+      "actual": "43ca9ab8ceb9caa011c543da3df0512b",
+      "expected": "43ca9ab8ceb9caa011c543da3df0512b",
+      "mtime_ns": 1644846435000000000,
+      "size": 4060
+    },
+    "readme_italian.txt": {
+      "actual": "0260adcc9bb83dbd6b8f7de7d2343e3a",
+      "expected": "0260adcc9bb83dbd6b8f7de7d2343e3a",
+      "mtime_ns": 1644846435000000000,
+      "size": 2543
+    },
+    "readme_japanese.txt": {
+      "actual": "4e5a14435715f13298a056ad81a1d898",
+      "expected": "4e5a14435715f13298a056ad81a1d898",
+      "mtime_ns": 1644846435000000000,
+      "size": 2132
+    },
+    "readme_russian.txt": {
+      "actual": "2973108da98669e80cb001f710ad8228",
+      "expected": "2973108da98669e80cb001f710ad8228",
+      "mtime_ns": 1644845889000000000,
+      "size": 5609
+    },
+    "readme_spanish.txt": {
+      "actual": "5a2c216544358c6723153de251df632c",
+      "expected": "5a2c216544358c6723153de251df632c",
+      "mtime_ns": 1644846435000000000,
+      "size": 2672
+    },
+    "steam_appid.txt": {
+      "actual": "2868658f7748e22b92d5ae28b9b563e5",
+      "expected": "2868658f7748e22b92d5ae28b9b563e5",
+      "mtime_ns": 1644846435000000000,
+      "size": 7
+    }
+  },
+  "manifest": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-jap-20261103-payload/scratch/setup-payload/app/_Redist/fitgirl.md5",
+  "version": 1
+}

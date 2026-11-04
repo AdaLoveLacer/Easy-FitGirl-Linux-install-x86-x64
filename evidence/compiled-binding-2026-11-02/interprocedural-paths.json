@@ -1,0 +1,939 @@
+[
+  {
+    "schema": 1,
+    "entry_limit": 16,
+    "sequence_limit": 64,
+    "depth_limit": 4,
+    "entries": [
+      {
+        "procedure": "INITIALIZEWIZARD",
+        "sequence_count": 2,
+        "sequence_set_sha256": "5403d3f14b355c99bcc575e8f824ce6ed8391cbfc7bf6a3dea2f533b19bc8263",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x88c3"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "CURSTEPCHANGED",
+        "sequence_count": 30,
+        "sequence_set_sha256": "416ab84e8baaf4297b0226620c99786b6b88c2c620caae89d5fd5473dfe7fa7a",
+        "action_sequence_samples": [
+          [],
+          [
+            "CURSTEPCHANGED@0x10bab:SETINISTRING",
+            "CURSTEPCHANGED@0x10c51:SETINISTRING",
+            "CURSTEPCHANGED@0x10cff:SETINISTRING",
+            "CURSTEPCHANGED@0x10dae:SETINISTRING"
+          ],
+          [
+            "CURSTEPCHANGED@0x10bab:SETINISTRING",
+            "CURSTEPCHANGED@0x10c51:SETINISTRING",
+            "CURSTEPCHANGED@0x10cff:SETINISTRING",
+            "CURSTEPCHANGED@0x10dae:SETINISTRING",
+            "CURSTEPCHANGED@0x1137d:SETINISTRING",
+            "CURSTEPCHANGED@0x1150b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x116ce:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11980:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11c1e:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11d14:DELTREE",
+            "CURSTEPCHANGED@0x11ec3:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x10bab:SETINISTRING",
+            "CURSTEPCHANGED@0x10c51:SETINISTRING",
+            "CURSTEPCHANGED@0x10cff:SETINISTRING",
+            "CURSTEPCHANGED@0x10dae:SETINISTRING",
+            "CURSTEPCHANGED@0x1137d:SETINISTRING",
+            "CURSTEPCHANGED@0x1150b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x116ce:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11980:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11c1e:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11d14:DELTREE",
+            "CURSTEPCHANGED@0x11ec3:dll:files:ISDone.dll!ISExec",
+            "BLOCK_CYCLE:0x10a50"
+          ],
+          [
+            "CURSTEPCHANGED@0x10bab:SETINISTRING",
+            "CURSTEPCHANGED@0x10c51:SETINISTRING",
+            "CURSTEPCHANGED@0x10cff:SETINISTRING",
+            "CURSTEPCHANGED@0x10dae:SETINISTRING",
+            "CURSTEPCHANGED@0x1137d:SETINISTRING",
+            "CURSTEPCHANGED@0x1150b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x116ce:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11980:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11c1e:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11ec3:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x10bab:SETINISTRING",
+            "CURSTEPCHANGED@0x10c51:SETINISTRING",
+            "CURSTEPCHANGED@0x10cff:SETINISTRING",
+            "CURSTEPCHANGED@0x10dae:SETINISTRING",
+            "CURSTEPCHANGED@0x1137d:SETINISTRING",
+            "CURSTEPCHANGED@0x1150b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x116ce:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11980:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11c1e:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11ec3:dll:files:ISDone.dll!ISExec",
+            "BLOCK_CYCLE:0x10a50"
+          ],
+          [
+            "CURSTEPCHANGED@0x10bab:SETINISTRING",
+            "CURSTEPCHANGED@0x10c51:SETINISTRING",
+            "CURSTEPCHANGED@0x10cff:SETINISTRING",
+            "CURSTEPCHANGED@0x10dae:SETINISTRING",
+            "CURSTEPCHANGED@0x1150b:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x10bab:SETINISTRING",
+            "CURSTEPCHANGED@0x10c51:SETINISTRING",
+            "CURSTEPCHANGED@0x10cff:SETINISTRING",
+            "CURSTEPCHANGED@0x10dae:SETINISTRING",
+            "CURSTEPCHANGED@0x1150b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x116ce:dll:files:ISDone.dll!ISArcExtract"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "NEXTBUTTONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "CURPAGECHANGED",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "CANCELBUTTONONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "SHOULDSKIPPAGE",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPSETOPTION",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPDETAILSBUTTONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPFORMACTIVATE",
+        "sequence_count": 4,
+        "sequence_set_sha256": "a0380fc1b1e2ee7309dc3a384db890f7169d9108c4ba9c6c6a54fe5aa5553bf0",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x38dc"
+          ],
+          [
+            "BLOCK_CYCLE:0x39c0"
+          ],
+          [
+            "BLOCK_CYCLE:0x39c0",
+            "BLOCK_CYCLE:0x38dc"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "IDPDOWNLOADAFTER",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BTNGETTEXT",
+        "sequence_count": 2,
+        "sequence_set_sha256": "100ec6ba7425d7d12709db53961e931531ad567910e3d627ef7dbde2c1147dcc",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x7e73"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "BASSVOLUMEMAXCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSVOLUMEMINCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSTBPROC",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSTBMOUSEDOWN",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSBARCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      }
+    ],
+    "unresolved_cfg_targets": 0,
+    "all_entries_bounded": true,
+    "interprocedural_paths_proven": false,
+    "limitations": [
+      "Only direct textual calls that resolve to parsed procedures are expanded.",
+      "Loops are not unrolled; recursion is reported through explicit CYCLE or DEPTH_LIMIT tokens.",
+      "This is bounded executable-path enumeration, not independent proof of Pascal semantics."
+    ],
+    "game": "Star Trucker [FitGirl Repack]",
+    "analysis_seconds": 0.0536
+  },
+  {
+    "schema": 1,
+    "entry_limit": 16,
+    "sequence_limit": 64,
+    "depth_limit": 4,
+    "entries": [
+      {
+        "procedure": "INITIALIZEWIZARD",
+        "sequence_count": 2,
+        "sequence_set_sha256": "5403d3f14b355c99bcc575e8f824ce6ed8391cbfc7bf6a3dea2f533b19bc8263",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x88c3"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "CURSTEPCHANGED",
+        "sequence_count": 29,
+        "sequence_set_sha256": "74e8444afffd2884a8672c2e9be4262cb999f9063cae2c246db7e0ed513abe2a",
+        "action_sequence_samples": [
+          [],
+          [
+            "CURSTEPCHANGED@0x10d59:SETINISTRING",
+            "CURSTEPCHANGED@0x10dff:SETINISTRING",
+            "CURSTEPCHANGED@0x10ead:SETINISTRING",
+            "CURSTEPCHANGED@0x10f5c:SETINISTRING",
+            "CURSTEPCHANGED@0x11a1b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11b89:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x1229d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12486:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1265e:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12847:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12a1d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12bf5:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12dde:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12fb4:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1318c:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13375:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13568:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13781:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13cef:DELTREE",
+            "CURSTEPCHANGED@0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x143e4:dll:files:ISDone.dll!ISArcExtract"
+          ],
+          [
+            "CURSTEPCHANGED@0x10d59:SETINISTRING",
+            "CURSTEPCHANGED@0x10dff:SETINISTRING",
+            "CURSTEPCHANGED@0x10ead:SETINISTRING",
+            "CURSTEPCHANGED@0x10f5c:SETINISTRING",
+            "CURSTEPCHANGED@0x11a1b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11b89:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x1229d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12486:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1265e:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12847:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12a1d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12bf5:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12dde:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12fb4:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1318c:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13375:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13568:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13781:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13cef:DELTREE",
+            "CURSTEPCHANGED@0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x143e4:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x144da:DELTREE",
+            "CURSTEPCHANGED@0x14689:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x10d59:SETINISTRING",
+            "CURSTEPCHANGED@0x10dff:SETINISTRING",
+            "CURSTEPCHANGED@0x10ead:SETINISTRING",
+            "CURSTEPCHANGED@0x10f5c:SETINISTRING",
+            "CURSTEPCHANGED@0x11a1b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11b89:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x1229d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12486:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1265e:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12847:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12a1d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12bf5:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12dde:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12fb4:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1318c:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13375:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13568:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13781:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13cef:DELTREE",
+            "CURSTEPCHANGED@0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x143e4:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x144da:DELTREE",
+            "CURSTEPCHANGED@0x14689:dll:files:ISDone.dll!ISExec",
+            "BLOCK_CYCLE:0x10bfe"
+          ],
+          [
+            "CURSTEPCHANGED@0x10d59:SETINISTRING",
+            "CURSTEPCHANGED@0x10dff:SETINISTRING",
+            "CURSTEPCHANGED@0x10ead:SETINISTRING",
+            "CURSTEPCHANGED@0x10f5c:SETINISTRING",
+            "CURSTEPCHANGED@0x11a1b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11b89:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x1229d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12486:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1265e:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12847:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12a1d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12bf5:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12dde:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12fb4:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1318c:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13375:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13568:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13781:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13cef:DELTREE",
+            "CURSTEPCHANGED@0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x143e4:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x14689:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x10d59:SETINISTRING",
+            "CURSTEPCHANGED@0x10dff:SETINISTRING",
+            "CURSTEPCHANGED@0x10ead:SETINISTRING",
+            "CURSTEPCHANGED@0x10f5c:SETINISTRING",
+            "CURSTEPCHANGED@0x11a1b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11b89:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x1229d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12486:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1265e:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12847:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12a1d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12bf5:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12dde:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12fb4:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1318c:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13375:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13568:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13781:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13cef:DELTREE",
+            "CURSTEPCHANGED@0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x14146:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x143e4:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x14689:dll:files:ISDone.dll!ISExec",
+            "BLOCK_CYCLE:0x10bfe"
+          ],
+          [
+            "CURSTEPCHANGED@0x10d59:SETINISTRING",
+            "CURSTEPCHANGED@0x10dff:SETINISTRING",
+            "CURSTEPCHANGED@0x10ead:SETINISTRING",
+            "CURSTEPCHANGED@0x10f5c:SETINISTRING",
+            "CURSTEPCHANGED@0x11a1b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11b89:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x1229d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12486:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1265e:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12847:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12a1d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12bf5:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12dde:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12fb4:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1318c:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13375:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13568:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13781:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13ea8:dll:files:ISDone.dll!ISArcExtract"
+          ],
+          [
+            "CURSTEPCHANGED@0x10d59:SETINISTRING",
+            "CURSTEPCHANGED@0x10dff:SETINISTRING",
+            "CURSTEPCHANGED@0x10ead:SETINISTRING",
+            "CURSTEPCHANGED@0x10f5c:SETINISTRING",
+            "CURSTEPCHANGED@0x11a1b:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11b89:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11d4c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11fea:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x1229d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12486:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1265e:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12847:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12a1d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12bf5:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12dde:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12fb4:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x1318c:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13375:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13568:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13781:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x13947:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13bf9:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13ea8:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x13f9e:DELTREE",
+            "CURSTEPCHANGED@0x14146:dll:files:ISDone.dll!ISArcExtract"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "NEXTBUTTONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "CURPAGECHANGED",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "CANCELBUTTONONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "SHOULDSKIPPAGE",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPSETOPTION",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPDETAILSBUTTONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPFORMACTIVATE",
+        "sequence_count": 4,
+        "sequence_set_sha256": "a0380fc1b1e2ee7309dc3a384db890f7169d9108c4ba9c6c6a54fe5aa5553bf0",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x38dc"
+          ],
+          [
+            "BLOCK_CYCLE:0x39c0"
+          ],
+          [
+            "BLOCK_CYCLE:0x39c0",
+            "BLOCK_CYCLE:0x38dc"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "IDPDOWNLOADAFTER",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BTNGETTEXT",
+        "sequence_count": 2,
+        "sequence_set_sha256": "100ec6ba7425d7d12709db53961e931531ad567910e3d627ef7dbde2c1147dcc",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x7e73"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "BASSVOLUMEMAXCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSVOLUMEMINCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSTBPROC",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSTBMOUSEDOWN",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSBARCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      }
+    ],
+    "unresolved_cfg_targets": 0,
+    "all_entries_bounded": true,
+    "interprocedural_paths_proven": false,
+    "limitations": [
+      "Only direct textual calls that resolve to parsed procedures are expanded.",
+      "Loops are not unrolled; recursion is reported through explicit CYCLE or DEPTH_LIMIT tokens.",
+      "This is bounded executable-path enumeration, not independent proof of Pascal semantics."
+    ],
+    "game": "Children of Morta [FitGirl Repack]",
+    "analysis_seconds": 0.0558
+  },
+  {
+    "schema": 1,
+    "entry_limit": 16,
+    "sequence_limit": 64,
+    "depth_limit": 4,
+    "entries": [
+      {
+        "procedure": "INITIALIZEWIZARD",
+        "sequence_count": 2,
+        "sequence_set_sha256": "5d00954d786c20f230a747be282e342ecdfbf06db16188425eef83944ffea26e",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x88e6"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "CURSTEPCHANGED",
+        "sequence_count": 29,
+        "sequence_set_sha256": "9bbd161269b8429a657179df6fbb8a7f7441e8b15e7d924efee1447f5e5e221d",
+        "action_sequence_samples": [
+          [],
+          [
+            "CURSTEPCHANGED@0x1096e:SETINISTRING",
+            "CURSTEPCHANGED@0x10a1c:SETINISTRING",
+            "CURSTEPCHANGED@0x10acb:SETINISTRING",
+            "CURSTEPCHANGED@0x1111f:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11866:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11dc0:DELTREE",
+            "CURSTEPCHANGED@0x1200d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x122b1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x124e1:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x1096e:SETINISTRING",
+            "CURSTEPCHANGED@0x10a1c:SETINISTRING",
+            "CURSTEPCHANGED@0x10acb:SETINISTRING",
+            "CURSTEPCHANGED@0x1111f:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11866:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11dc0:DELTREE",
+            "CURSTEPCHANGED@0x1200d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x122b1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x124e1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12723:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x1096e:SETINISTRING",
+            "CURSTEPCHANGED@0x10a1c:SETINISTRING",
+            "CURSTEPCHANGED@0x10acb:SETINISTRING",
+            "CURSTEPCHANGED@0x1111f:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11866:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11dc0:DELTREE",
+            "CURSTEPCHANGED@0x1200d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x122b1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x124e1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12723:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x128e6:dll:files:ISDone.dll!ISArcExtract"
+          ],
+          [
+            "CURSTEPCHANGED@0x1096e:SETINISTRING",
+            "CURSTEPCHANGED@0x10a1c:SETINISTRING",
+            "CURSTEPCHANGED@0x10acb:SETINISTRING",
+            "CURSTEPCHANGED@0x1111f:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11866:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11dc0:DELTREE",
+            "CURSTEPCHANGED@0x1200d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x122b1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x124e1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12723:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x128e6:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x129dc:DELTREE",
+            "CURSTEPCHANGED@0x12b94:dll:files:ISDone.dll!ISArcExtract"
+          ],
+          [
+            "CURSTEPCHANGED@0x1096e:SETINISTRING",
+            "CURSTEPCHANGED@0x10a1c:SETINISTRING",
+            "CURSTEPCHANGED@0x10acb:SETINISTRING",
+            "CURSTEPCHANGED@0x1111f:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11866:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11dc0:DELTREE",
+            "CURSTEPCHANGED@0x1200d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x122b1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x124e1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12723:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x128e6:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x129dc:DELTREE",
+            "CURSTEPCHANGED@0x12b94:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x12c8a:DELTREE",
+            "CURSTEPCHANGED@0x12e39:dll:files:ISDone.dll!ISExec"
+          ],
+          [
+            "CURSTEPCHANGED@0x1096e:SETINISTRING",
+            "CURSTEPCHANGED@0x10a1c:SETINISTRING",
+            "CURSTEPCHANGED@0x10acb:SETINISTRING",
+            "CURSTEPCHANGED@0x1111f:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11866:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11dc0:DELTREE",
+            "CURSTEPCHANGED@0x1200d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x122b1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x124e1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12723:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x128e6:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x129dc:DELTREE",
+            "CURSTEPCHANGED@0x12b94:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x12c8a:DELTREE",
+            "CURSTEPCHANGED@0x12e39:dll:files:ISDone.dll!ISExec",
+            "BLOCK_CYCLE:0x10813"
+          ],
+          [
+            "CURSTEPCHANGED@0x1096e:SETINISTRING",
+            "CURSTEPCHANGED@0x10a1c:SETINISTRING",
+            "CURSTEPCHANGED@0x10acb:SETINISTRING",
+            "CURSTEPCHANGED@0x1111f:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x112e2:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11580:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11866:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x11a2c:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11cca:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x11dc0:DELTREE",
+            "CURSTEPCHANGED@0x1200d:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x122b1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x124e1:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x12723:dll:files:ISDone.dll!ISExec",
+            "CURSTEPCHANGED@0x128e6:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x129dc:DELTREE",
+            "CURSTEPCHANGED@0x12b94:dll:files:ISDone.dll!ISArcExtract",
+            "CURSTEPCHANGED@0x12e39:dll:files:ISDone.dll!ISExec"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "NEXTBUTTONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "CURPAGECHANGED",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "CANCELBUTTONONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "SHOULDSKIPPAGE",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPSETOPTION",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPDETAILSBUTTONCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "IDPFORMACTIVATE",
+        "sequence_count": 4,
+        "sequence_set_sha256": "be2e5725a8097bfc6e2d2ff1a80514f2a81131f41bf0334df4f549011a905a66",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x38ff"
+          ],
+          [
+            "BLOCK_CYCLE:0x39e3"
+          ],
+          [
+            "BLOCK_CYCLE:0x39e3",
+            "BLOCK_CYCLE:0x38ff"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "IDPDOWNLOADAFTER",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BTNGETTEXT",
+        "sequence_count": 2,
+        "sequence_set_sha256": "905c127fdcd3c3512b944f3e837d8017f95056fed7e87f8afb0161a00f208efa",
+        "action_sequence_samples": [
+          [],
+          [
+            "BLOCK_CYCLE:0x7e96"
+          ]
+        ],
+        "truncated": true
+      },
+      {
+        "procedure": "BASSVOLUMEMAXCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSVOLUMEMINCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSTBPROC",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSTBMOUSEDOWN",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      },
+      {
+        "procedure": "BASSBARCLICK",
+        "sequence_count": 1,
+        "sequence_set_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "action_sequence_samples": [
+          []
+        ],
+        "truncated": false
+      }
+    ],
+    "unresolved_cfg_targets": 0,
+    "all_entries_bounded": true,
+    "interprocedural_paths_proven": false,
+    "limitations": [
+      "Only direct textual calls that resolve to parsed procedures are expanded.",
+      "Loops are not unrolled; recursion is reported through explicit CYCLE or DEPTH_LIMIT tokens.",
+      "This is bounded executable-path enumeration, not independent proof of Pascal semantics."
+    ],
+    "game": "Subnautica [FitGirl Repack]",
+    "analysis_seconds": 0.0546
+  }
+]

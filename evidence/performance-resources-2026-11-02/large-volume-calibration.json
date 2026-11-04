@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "archive": "/mnt/SOURCE_DISK/Torrent/Games/Mirage 7 [FitGirl Repack]/fg-01.bin",
+  "archive_bytes": 920907781,
+  "elapsed_seconds_from_log_timestamps": 91.157,
+  "monitor_interval_seconds": 5,
+  "monitor_samples": 17,
+  "post_read_samples": 15,
+  "post_read_observed_seconds_minimum": 70,
+  "post_read_eta_values": [
+    "?"
+  ],
+  "claimed_zero_eta": false,
+  "output_files": 79,
+  "output_bytes": 2432644838,
+  "expected_output_files": 79,
+  "expected_output_bytes": 2432644838,
+  "returncode": 0,
+  "assessment": "A posição mede entrada comprimida. Depois de 99,5%, trabalhadores ativos entram em PÓS-LEITURA e ETA permanece desconhecida até confirmação.",
+  "result": "PASS"
+}

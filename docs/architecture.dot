@@ -1,0 +1,133 @@
+digraph FitGirlWine {
+  graph [
+    rankdir=TB,
+    bgcolor="white",
+    fontname="DejaVu Sans",
+    fontsize=18,
+    labelloc=t,
+    label="FitGirlWine — arquitetura atual",
+    pad=0.35,
+    nodesep=0.35,
+    ranksep=0.55,
+    splines=ortho,
+    compound=true
+  ];
+  node [shape=box, style="rounded,filled", fillcolor="#eef2ff", color="#4f46e5", fontname="DejaVu Sans", fontsize=10, margin="0.14,0.09"];
+  edge [color="#475569", fontname="DejaVu Sans", fontsize=9, arrowsize=0.7];
+
+  user [label="Usuário\nfitgirl /repack", fillcolor="#dcfce7", color="#16a34a"];
+  dist [label="Pacote standalone\n+ fontes e licenças"];
+  cli [label="CLI + menu terminal"];
+  private [label="Wine / Proton do sistema\ninstalado pelo usuário"];
+  discover [label="Descoberta + SHA-256"];
+  cache [shape=diamond, label="Plano auditado?", fillcolor="#fef3c7", color="#d97706"];
+  compile [label="ISS + IFPS\nIR, CFG e análise simbólica"];
+  proof [shape=diamond, label="Fluxo provado?", fillcolor="#fef3c7", color="#d97706"];
+  refuse [label="Recusar instalação\ndraft / review_required", fillcolor="#fee2e2", color="#dc2626"];
+  plan [label="Manifesto / IR comprovado"];
+  menu [label="Componentes, destino externo\ne recursos; runtime automático"];
+  journal [label="Journal atômico\ninstall-state.json", fillcolor="#e0f2fe", color="#0284c7"];
+  resume [shape=diamond, label="Etapa concluída?", fillcolor="#fef3c7", color="#d97706"];
+  kind [shape=diamond, label="Tipo da etapa", fillcolor="#fef3c7", color="#d97706"];
+
+  subgraph cluster_source {
+    label="Repack — somente leitura";
+    color="#94a3b8";
+    style="rounded,dashed";
+    setup [label="setup.exe", fillcolor="#f8fafc", color="#64748b"];
+    volumes [label="fg-*.bin + opcionais", fillcolor="#f8fafc", color="#64748b"];
+  }
+
+  subgraph cluster_scratch {
+    label="Scratch no filesystem do destino";
+    color="#0ea5e9";
+    style="rounded";
+    payload [label="Payload seletivo auditado\n39 tmp + _Redist", fillcolor="#e0f2fe", color="#0284c7"];
+    runtime [label="Cópia runtime isolada\npor extração", fillcolor="#e0f2fe", color="#0284c7"];
+    local [label="Ajustes BZip3 / SREP / CLS\nsomente na cópia", fillcolor="#e0f2fe", color="#0284c7"];
+    tx [label="Snapshots / reflinks\nquarentena reversível", fillcolor="#e0f2fe", color="#0284c7"];
+    logs [label="Logs + monitor + estado", fillcolor="#e0f2fe", color="#0284c7"];
+  }
+
+  md5vol [label="MD5 do volume"];
+  backend [label="fitgirl-extract\num volume por vez"];
+
+  subgraph cluster_wine {
+    label="Wine — somente ABI; não incluído na release";
+    color="#a855f7";
+    style="rounded";
+    helper [label="unarc-helper.exe PE32", fillcolor="#f3e8ff", color="#9333ea"];
+    dll [label="unarc.dll do repack", fillcolor="#f3e8ff", color="#9333ea"];
+    codecs [label="SREP / Magic2 / Lollypop\nBZip3 / X5 / outros", fillcolor="#f3e8ff", color="#9333ea"];
+    post [label="Pós-processamentos\nPE / batch", fillcolor="#f3e8ff", color="#9333ea"];
+  }
+
+  app [label="Destino da instalação", fillcolor="#dcfce7", color="#16a34a"];
+  ini [label="ini-write atômico"];
+  snapshot [label="Definir rollback_paths"];
+  quarantine [label="delete → quarentena"];
+  commit [shape=diamond, label="Retorno zero?", fillcolor="#fef3c7", color="#d97706"];
+  rollback [label="Restaurar snapshot\nou quarentena", fillcolor="#fee2e2", color="#dc2626"];
+  incomplete [label="Etapa permanece incompleta", fillcolor="#fee2e2", color="#dc2626"];
+  done [label="Marcar etapa concluída", fillcolor="#dcfce7", color="#16a34a"];
+  more [shape=diamond, label="Restam etapas?", fillcolor="#fef3c7", color="#d97706"];
+  monitor [label="Progresso real\nposição + I/O + CPU + saída"];
+  verify [label="fitgirl.md5 + addons"];
+  final [label="Preservar QuickSFV / manifests\ndescartar backups e quarentenas"];
+  ok [label="100% confirmado", fillcolor="#dcfce7", color="#16a34a"];
+  fail [label="Falha: manter dados\npara retomada", fillcolor="#fee2e2", color="#dc2626"];
+
+  subgraph cluster_docs {
+    label="Documentação e build";
+    color="#64748b";
+    style="rounded,dashed";
+    status [label="status/project-status.json", fillcolor="#f8fafc", color="#64748b"];
+    sync [label="tools/sync-docs.py", fillcolor="#f8fafc", color="#64748b"];
+    check [label="Teste + build recusam\ndocumentação obsoleta", fillcolor="#f8fafc", color="#64748b"];
+    status -> sync -> check;
+  }
+
+  user -> dist -> cli;
+  cli -> private;
+  cli -> discover -> cache;
+  setup -> discover;
+  cache -> plan [label="sim"];
+  cache -> compile [label="não"];
+  compile -> proof;
+  proof -> refuse [label="não"];
+  proof -> plan [label="sim"];
+  plan -> menu -> journal -> resume;
+  resume -> kind [label="não"];
+  resume -> more [label="sim / pular"];
+
+  setup -> payload [label="innoextract seletivo"];
+  payload -> journal [label="hash + conjunto exato"];
+  payload -> runtime [label="--payload-ready"];
+  runtime -> local -> backend;
+
+  kind -> md5vol [label="extract"];
+  volumes -> md5vol -> backend -> helper -> dll -> codecs -> app;
+  kind -> ini [label="ini-write"];
+  ini -> done;
+  kind -> snapshot [label="isexec / batch / exec"];
+  snapshot -> tx -> post -> commit;
+  kind -> quarantine [label="delete"];
+  quarantine -> tx;
+  quarantine -> done;
+  backend -> done;
+  commit -> done [label="sim"];
+  commit -> rollback [label="não"];
+  rollback -> incomplete -> journal;
+  done -> journal;
+  done -> more;
+  more -> kind [label="sim"];
+  more -> verify [label="não"];
+  app -> verify;
+  verify -> final [label="sucesso"];
+  verify -> fail [label="falha"];
+  final -> ok;
+  backend -> monitor;
+  post -> monitor;
+  monitor -> logs;
+  check -> dist [style=dashed];
+}

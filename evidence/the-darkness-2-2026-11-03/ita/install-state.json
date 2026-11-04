@@ -1,0 +1,332 @@
+{
+  "active": null,
+  "completed": {
+    "001:game-01": {
+      "finished_at": 1793701756.536093
+    },
+    "017:selective-ita": {
+      "finished_at": 1793701776.2783146
+    },
+    "018:postprocess-ita": {
+      "finished_at": 1793701782.133495
+    },
+    "019:install-ita": {
+      "finished_at": 1793701788.0906603
+    },
+    "023:game-02": {
+      "finished_at": 1793701821.54018
+    },
+    "024:game-03": {
+      "finished_at": 1793701845.1855342
+    },
+    "025:game-04": {
+      "finished_at": 1793701847.6134198
+    },
+    "036:tools-ita": {
+      "finished_at": 1793701849.4789553
+    },
+    "037:config-ita": {
+      "finished_at": 1793701849.5687358
+    },
+    "040:verify-core": {
+      "finished_at": 1793701934.201886
+    },
+    "046:verify-ita": {
+      "finished_at": 1793701940.9604905
+    }
+  },
+  "components": [
+    "local\\ita",
+    "text"
+  ],
+  "created_at": 1793701239.9875183,
+  "manifest_sha256": "0e3eb4a589feff88f78b177daf9fd148c5c23421f0551c266936a4b5fbc52f25",
+  "payload": {
+    "app_files": {
+      "_redist/eng.addon": {
+        "path": "_Redist/eng.addon",
+        "sha256": "a70ee65377963228367b84b8d9d99b96a01a4cca63a6de3e535c58ea59cdf919",
+        "size": 982
+      },
+      "_redist/esp.addon": {
+        "path": "_Redist/esp.addon",
+        "sha256": "e10107f1d12d057d8c57c1a5923dad180ac7f93460020b23453935726375bc16",
+        "size": 1134
+      },
+      "_redist/fitgirl.md5": {
+        "path": "_Redist/fitgirl.md5",
+        "sha256": "b138e2ea909f77faf6dc3f6ad759f5b8369acadea3ca9aa0866819d5c13e9dd9",
+        "size": 12026
+      },
+      "_redist/fra.addon": {
+        "path": "_Redist/fra.addon",
+        "sha256": "8c2d9233cf78cacfa92d4ef9d54721be562c59035357af1d8c9f8f4823c130aa",
+        "size": 1134
+      },
+      "_redist/ger.addon": {
+        "path": "_Redist/ger.addon",
+        "sha256": "3797afb425b867d9a57a8f0bc75cf060ce1a4a72ac6eadf53b0c5049fcba7eca",
+        "size": 1134
+      },
+      "_redist/ita.addon": {
+        "path": "_Redist/ita.addon",
+        "sha256": "f1913ad914fcf9fecc5da632da2ee1a88a1273d7499ca544d1d0ecd4c668b30b",
+        "size": 1134
+      },
+      "_redist/jap.addon": {
+        "path": "_Redist/jap.addon",
+        "sha256": "ce3665c8290816589f2192031fcd35770a30c32af7904af3bb0e3c0fc9d09ffc",
+        "size": 1134
+      },
+      "_redist/quicksfv.exe": {
+        "path": "_Redist/QuickSFV.EXE",
+        "sha256": "a6371461da7439f4ef7008ed53331209747cba960b85c70a902d46451247a29c",
+        "size": 103424
+      },
+      "_redist/quicksfv.ini": {
+        "path": "_Redist/QuickSFV.ini",
+        "sha256": "74ca5a42469197eded04f5a0bf34ca251c72f7cc06a3416ac035230cb8e81629",
+        "size": 155
+      },
+      "_redist/rus.addon": {
+        "path": "_Redist/rus.addon",
+        "sha256": "6689cdcada082d75b41f6b2f2be6438e3dd0ad8e51209a4da3c600512edacdb1",
+        "size": 1134
+      }
+    },
+    "app_materialized_at": 1793701286.71993,
+    "files": {
+      "arc.ini": {
+        "name": "arc.ini",
+        "sha256": "f0e3816d2d28253dc71ff13ec4181b711a1662a7b8c9ee8586e23a8bb6f560e7",
+        "size": 3265
+      },
+      "bass.dll": {
+        "name": "bass.dll",
+        "sha256": "df9f56c4da160101567b0526845228ee481ee7d2f98391696fa27fe41f8acf15",
+        "size": 105528
+      },
+      "botva2.dll": {
+        "name": "botva2.dll",
+        "sha256": "450b9b0ba25bf068afbc2b23d252585a19e282939bf38326384ea9112dfd0105",
+        "size": 37888
+      },
+      "callbackctrl.dll": {
+        "name": "CallbackCtrl.dll",
+        "sha256": "68f42a7823ed7ee88a5c59020ac52d4bbcadf1036611e96e470d986c8faa172d",
+        "size": 4096
+      },
+      "cls-lollypop.dll": {
+        "name": "cls-lollypop.dll",
+        "sha256": "f84677643d9977aa1e8a4aa8c85a12665d29a4e8292485a0b4df846dd161f824",
+        "size": 16384
+      },
+      "cls-lollypop_x64.exe": {
+        "name": "cls-lollypop_x64.exe",
+        "sha256": "2d32c4f4522bc62f63c7949313434f6ca0eaa6b65b44ee5aa8b6b877988b1aa8",
+        "size": 138240
+      },
+      "cls-lollypop_x86.exe": {
+        "name": "cls-lollypop_x86.exe",
+        "sha256": "724c6e07180e321298b4ea4405c3f7536c524d9826d24f5d6fc50bcb0ef8f723",
+        "size": 128000
+      },
+      "cls-magic2.dll": {
+        "name": "cls-magic2.dll",
+        "sha256": "87df573ac240e09ea4941e169fb2d15d5316a1b0e053446b8144e04b1154f061",
+        "size": 16384
+      },
+      "cls-magic2_x64.exe": {
+        "name": "cls-magic2_x64.exe",
+        "sha256": "d92f7c60256509f74e36d9b5aab041fe44999b1a3910d70aa83c9d01f062ea29",
+        "size": 343040
+      },
+      "cls-magic2_x86.exe": {
+        "name": "cls-magic2_x86.exe",
+        "sha256": "6ea07aa4f5565ac289402ade3b2e52bf8089ad6185e0ecf0e1f36cea39c091a9",
+        "size": 312320
+      },
+      "cls-magic2l.dll": {
+        "name": "cls-magic2l.dll",
+        "sha256": "87df573ac240e09ea4941e169fb2d15d5316a1b0e053446b8144e04b1154f061",
+        "size": 16384
+      },
+      "cls-magic2l_x64.exe": {
+        "name": "cls-magic2l_x64.exe",
+        "sha256": "d92f7c60256509f74e36d9b5aab041fe44999b1a3910d70aa83c9d01f062ea29",
+        "size": 343040
+      },
+      "cls-magic2l_x86.exe": {
+        "name": "cls-magic2l_x86.exe",
+        "sha256": "6ea07aa4f5565ac289402ade3b2e52bf8089ad6185e0ecf0e1f36cea39c091a9",
+        "size": 312320
+      },
+      "cls-msc.dll": {
+        "name": "CLS-MSC.dll",
+        "sha256": "6d3d6b0ff25fd2ac2c8d478b068af55cb053d9b2c08c53964d6559c7c8b8047d",
+        "size": 342016
+      },
+      "cls-precomp.dll": {
+        "name": "CLS-precomp.dll",
+        "sha256": "55b217742bd9b6e9586b7968cf66e1f97c1af5245a3034ce35c9872c7ee9671e",
+        "size": 4792
+      },
+      "cls-srep.dll": {
+        "name": "CLS-srep.dll",
+        "sha256": "39c965edc8f577695dadd68d6d40ace4e1e17625ca4669e3f1321b6b26e470c7",
+        "size": 15872
+      },
+      "cls-srep_x64.exe": {
+        "name": "cls-srep_x64.exe",
+        "sha256": "ed8a485b9984997306ea6b5c6d98b5026a5b7903c1df4c229bf93bf113c78ee9",
+        "size": 271360
+      },
+      "cls-srep_x86.exe": {
+        "name": "cls-srep_x86.exe",
+        "sha256": "4004ba624f8ce381c61c82aba26e246d93e833357930c17cd4b02058ea31fad4",
+        "size": 169984
+      },
+      "cls-zstd.dll": {
+        "name": "cls-zstd.dll",
+        "sha256": "fb0b85e32eac59200a807f1ff51b7f1a865faa65e9dfbe39c75a8dcaa5be3fd3",
+        "size": 85504
+      },
+      "cls.ini": {
+        "name": "CLS.ini",
+        "sha256": "fbbf18f351711497ef2cf2573df7d6aff7cb0e682a3e6edf12d14cbd5f43fa39",
+        "size": 910
+      },
+      "english.ini": {
+        "name": "English.ini",
+        "sha256": "e1b6f4dc9ba12e110b33d370e8f06f176228059c42754be5da7b92ab939ff38e",
+        "size": 15812
+      },
+      "facompress.dll": {
+        "name": "facompress.dll",
+        "sha256": "148fa9a255bfff3f7d8a74f25394944f20611af31f26ef9700cbc0edc19a3483",
+        "size": 168960
+      },
+      "flushfilecache.exe": {
+        "name": "FlushFileCache.exe",
+        "sha256": "a4cc6683393795f7b84d0b49eea2d7d7fbe1392bb7612cf39896af6832ffe0b8",
+        "size": 29696
+      },
+      "host.cmd": {
+        "name": "host.cmd",
+        "sha256": "074dc7875d0a83eb27be8523f9493b7c7a1c27764445c863681178eed098ac16",
+        "size": 1868
+      },
+      "hosts.exe": {
+        "name": "hosts.exe",
+        "sha256": "49bdf4c437cf51ed0b369db9935d2f09883859d96a64593247c89c70e6840119",
+        "size": 32768
+      },
+      "music.mp3": {
+        "name": "music.mp3",
+        "sha256": "19a5466ab1834f9536622d9c540206a0766a7cd6d325d006c9242ed8ac6072f5",
+        "size": 1681583
+      },
+      "musicbutton.png": {
+        "name": "MusicButton.png",
+        "sha256": "7f4ad4d912cdabdfbb227387759db81434e20583687737f263d4f247326f0c1a",
+        "size": 1258
+      },
+      "nz.exe": {
+        "name": "nz.exe",
+        "sha256": "a898ff223f20704723cbf2aa468b5404de7913b883619b6b3670701e232c8a40",
+        "size": 254464
+      },
+      "packjpg_dll.dll": {
+        "name": "packjpg_dll.dll",
+        "sha256": "06c9508f8368964338e5c1481457640d0776fe6d721bc0b8eaf7a495ee66d8b8",
+        "size": 9570
+      },
+      "packjpg_dll1.dll": {
+        "name": "packjpg_dll1.dll",
+        "sha256": "8a9e1e4868ddcd1ab0ff78b6fce41a67860a786d14d77e2730512269754d6fd0",
+        "size": 955466
+      },
+      "precomp.exe": {
+        "name": "precomp.exe",
+        "sha256": "a5f0564caadc1b936e5c30c390fbd32b63665bbdc5e272f24f2995dabd9ff245",
+        "size": 1187840
+      },
+      "precomp043.exe": {
+        "name": "precomp043.exe",
+        "sha256": "a5f0564caadc1b936e5c30c390fbd32b63665bbdc5e272f24f2995dabd9ff245",
+        "size": 1187840
+      },
+      "records.inf": {
+        "name": "records.inf",
+        "sha256": "8e6ec9030f987eb9e36e1f6d2c9b88ffe25b8bc8bdebe3fe509e6e06b433f270",
+        "size": 473
+      },
+      "unarc.dll": {
+        "name": "unarc.dll",
+        "sha256": "7ded3fb8947e3b42c157de34ac8a6340c75cbea54bc44a949c4e5124c72f14bc",
+        "size": 358400
+      },
+      "wintb.dll": {
+        "name": "wintb.dll",
+        "sha256": "1910537aa95684142250ca0c7426a0b5f082e39f6fbdbdba649aecb179541435",
+        "size": 16384
+      },
+      "x5.exe": {
+        "name": "x5.exe",
+        "sha256": "0eb2633f7414b79a39cc93bd9f36fa286a17905492235fe72a882d916b3fa30d",
+        "size": 145408
+      },
+      "zlib1.dll": {
+        "name": "zlib1.dll",
+        "sha256": "4ad2098b625b99c00aa8b44f27829649634c08299a48f1cea2124a0a91c1d12d",
+        "size": 59904
+      }
+    },
+    "materialized_at": 1793701286.4340785,
+    "setup_sha256": "84c42df2b7fb1776ec51def4262d39057d7353c15257607dded85ecf32b79930"
+  },
+  "settings": {
+    "bzip3_threads": 12,
+    "cpus": null,
+    "limit_2gb": false,
+    "nice": 0,
+    "srep_memory": null
+  },
+  "setup_sha256": "84c42df2b7fb1776ec51def4262d39057d7353c15257607dded85ecf32b79930",
+  "source": "/mnt/SOURCE_DISK/Torrent/Games/Gamesmais/The Darkness 2 [FitGirl Repack]",
+  "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/td2-ita-20261103-payload/target",
+  "transactions": {},
+  "verified": {
+    "fg-01.bin": {
+      "md5": "486dc1ca50a995b1a10c5fae900d0dc3",
+      "mtime_ns": 1786785219813662751,
+      "size": 4236399288
+    },
+    "fg-02.bin": {
+      "md5": "f65d90d0679c3b116f9623479e77bd13",
+      "mtime_ns": 1786785205789554839,
+      "size": 290020592
+    },
+    "fg-03.bin": {
+      "md5": "4aee3c6eaa341547e47baa26b7fc9d1f",
+      "mtime_ns": 1786785106021792573,
+      "size": 49646957
+    },
+    "fg-04.bin": {
+      "md5": "2b4bbf7e93f67b8e9280dbd88b594350",
+      "mtime_ns": 1786785109555819400,
+      "size": 5463240
+    },
+    "fg-05.bin": {
+      "md5": "a2b7bd7a50431da8250c3f115a19c492",
+      "mtime_ns": 1786785109557987162,
+      "size": 1084
+    },
+    "fg-selective-italian.bin": {
+      "md5": "fd28aaa47356eb0c060a39d1a912e963",
+      "mtime_ns": 1786784261889239920,
+      "size": 192242038
+    }
+  },
+  "version": 1
+}

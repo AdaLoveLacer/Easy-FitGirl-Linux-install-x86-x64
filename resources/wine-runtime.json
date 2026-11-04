@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "version": "11.14-fitgirl-amd64",
+  "platform": "linux-x86_64",
+  "archive": "wine-11.14-fitgirl-amd64.tar.xz",
+  "archive_root": "wine-11.14-fitgirl-amd64",
+  "archive_sha256": "de504c1f6f407bf619040fccfe1f7a32de8c3384fe97c061efea8c3d368d6db5",
+  "executable_sha256": "ab27a40249a1594626f2d7af422c4c38d99bab64434e4d16cc43f68e7f04adca",
+  "unpacked_bytes": 815582708,
+  "source": "https://github.com/BrandowLucas/fitgirl-wine",
+  "redistribution_review": "excluded_from_public_release"
+}

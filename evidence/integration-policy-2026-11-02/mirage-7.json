@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "target": "/mnt/DESTINATION_DISK/Games/.fitgirl-work/private-runtime-validation/user-data/games/Mirage 7",
+  "policy": {
+    "setup_exe": "never_execute",
+    "redistributables": "preserve_but_never_execute",
+    "registry": "inventory_only_never_import",
+    "shortcuts": "not_created_without_validated_game_runner",
+    "private_wine": "codec_abi_only_never_game_runner"
+  },
+  "game_executable_candidates": [
+    "Mirage7.exe"
+  ],
+  "redistributables": [
+    "_Redist/QuickSFV.EXE"
+  ],
+  "registry_files": []
+}

@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-03",
+  "artifact": {
+    "path": "dist/FitGirlInstaller-Linux-x86_64.zip",
+    "bytes": 95595898,
+    "sha256": "5f5499331e9b7efdd93ad963730969368bf1a366e9b23d91f81bd4c8dbe16f8a",
+    "members": [
+      "fitgirl",
+      "LEIA-ME.txt",
+      "SHA256SUMS"
+    ],
+    "fitgirl_sha256": "188423528df2bb7ace0c7b4adf96246ec42e57e93f8f16887b8eb9c3786d31ef"
+  },
+  "real_install": {
+    "game": "Mirage 7",
+    "repack": "Mirage 7 [FitGirl Repack]",
+    "target": "/mnt/ARCHIVE_DISK/Games/Mirage 7",
+    "components": [
+      "text"
+    ],
+    "completed_steps": [
+      "001:game-01",
+      "002:game-02",
+      "003:verify-game-files"
+    ],
+    "verified_files": 238,
+    "missing": 0,
+    "mismatched": 0,
+    "verified_bytes": 2500148966,
+    "setup_sha256": "0e7ddfa7d1f3ba544cb30165dbe93fac802ccf609410bb440f5c3c046c6e7d5c",
+    "source_volumes": [
+      "fg-01.bin",
+      "fg-02.bin"
+    ],
+    "failure": null
+  },
+  "terminal_ui": "Quatro etapas resumidas, conteúdo e opções avançadas apresentados de forma progressiva; monitor interativo compacto em uma linha, logs completos preservados no scratch."
+}

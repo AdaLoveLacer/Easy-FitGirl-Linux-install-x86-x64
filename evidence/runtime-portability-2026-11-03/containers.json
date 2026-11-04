@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-03",
+  "scope": "Linux x86_64 runtime dependency/startup validation; not a full game extraction matrix.",
+  "artifact_sha256": "188423528df2bb7ace0c7b4adf96246ec42e57e93f8f16887b8eb9c3786d31ef",
+  "fix": "Standalone bundles innoextract Boost, bzip2, xz, zlib and zstd shared libraries, and adds its private libexec directory to LD_LIBRARY_PATH.",
+  "results": [
+    {
+      "distribution": "Debian 13 (trixie), python:3.13-slim-trixie",
+      "result": "PASS",
+      "checks": [
+        "clean package invocation provisioned private Wine and reached setup discovery (expected fixture error: setup.exe absent)",
+        "Wine --version succeeded",
+        "bundled innoextract --version succeeded",
+        "ldd found no unresolved innoextract dependencies"
+      ]
+    },
+    {
+      "distribution": "Ubuntu 24.04 LTS (noble)",
+      "result": "PASS",
+      "checks": [
+        "Wine --version succeeded",
+        "bundled innoextract --version succeeded",
+        "ldd found no unresolved innoextract dependencies",
+        "unarc ELF dependencies resolved"
+      ]
+    }
+  ],
+  "architecture": "x86_64; other architectures are explicitly rejected by the bundled Wine provisioning code.",
+  "limitations": [
+    "The Mirage 7 full extraction was executed on the CachyOS host, not in the distro containers.",
+    "This validates selected ELF startup dependencies and version commands, not every dlopen path or codec combination.",
+    "Third-party redistribution obligations remain publication-only."
+  ]
+}

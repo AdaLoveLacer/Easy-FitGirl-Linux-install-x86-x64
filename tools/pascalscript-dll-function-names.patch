@@ -1,0 +1,19 @@
+diff --git a/src/disasm.rs b/src/disasm.rs
+--- a/src/disasm.rs
++++ b/src/disasm.rs
+@@ -340,6 +340,15 @@
+         ProcKind::External(ext) => {
+             if !ext.name.is_empty() {
+                 return format!("{}", DisplayBytes(ext.name));
+             }
++            if let Some(Ok(declaration)) = ext.declaration() {
++                if let Some(import) = declaration.dll {
++                    return format!(
++                        "dll:{}!{}",
++                        DisplayBytes(import.library),
++                        DisplayBytes(import.function),
++                    );
++                }
++            }
+             // Class-method imports leave `name` empty and pack
+             // the binding into `decl` as e.g.
