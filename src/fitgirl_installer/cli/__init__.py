@@ -137,10 +137,7 @@ def load_state(path: Path) -> dict[str, Any]:
 
 
 def discover_setup(source: Path) -> Path:
-    matches = [path for path in source.iterdir() if path.name.lower() == "setup.exe"]
-    if len(matches) != 1:
-        raise InstallerError(f"esperado um setup.exe em {source}; encontrados: {len(matches)}")
-    return matches[0]
+    return analyzer.discover_setup(source, error_type=InstallerError)
 
 
 def find_manifest(setup_hash: str, explicit: Path | None) -> tuple[Path, dict[str, Any]]:

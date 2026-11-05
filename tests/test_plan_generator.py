@@ -18,6 +18,18 @@ from fitgirl_installer import planner as PLANNER  # noqa: E402
 
 
 class PlanGeneratorTests(unittest.TestCase):
+    def test_setup_discovery_requires_one_case_insensitive_match(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary)
+            with self.assertRaisesRegex(CLI.InstallerError, "encontrados: 0"):
+                CLI.discover_setup(source)
+            setup = source / "SETUP.EXE"
+            setup.write_bytes(b"synthetic")
+            self.assertEqual(CLI.discover_setup(source), setup)
+            (source / "setup.exe").write_bytes(b"other")
+            with self.assertRaisesRegex(CLI.InstallerError, "encontrados: 2"):
+                CLI.discover_setup(source)
+
     def test_iss_components_combine_descriptions_and_defaults(self):
         with tempfile.TemporaryDirectory() as temporary:
             iss = Path(temporary) / "install_script.iss"

@@ -10,6 +10,14 @@ from pathlib import Path
 from typing import Any, Callable
 
 
+def discover_setup(source: Path, *, error_type: type[RuntimeError]) -> Path:
+    """Find the unique setup executable in a repack directory."""
+    matches = [path for path in source.iterdir() if path.name.lower() == "setup.exe"]
+    if len(matches) != 1:
+        raise error_type(f"esperado um setup.exe em {source}; encontrados: {len(matches)}")
+    return matches[0]
+
+
 def section(lines: list[str], name: str) -> list[str]:
     marker = f"[{name.lower()}]"
     start = next(
