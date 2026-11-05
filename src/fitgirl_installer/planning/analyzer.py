@@ -159,3 +159,40 @@ def extract_setup_evidence(
         raise error_type(
             f"innounp não produziu ISS/CompiledCode.bin; veja {extract_log}"
         )
+
+
+def prepare_innounp_command(
+    innounp: Path, extracted: Path, setup: Path, cache_root: Path, *,
+    pe_machine: Callable[[Path], int | None], discover_wine: Callable[[], list[Path]],
+    wine_z_path: Callable[[Path], str], error_type: type[RuntimeError],
+) -> tuple[list[str], dict[str, str]]:
+    """Prepare the native or Wine invocation used to extract setup evidence."""
+    if pe_machine(innounp) is not None:
+        wines = discover_wine()
+        if not wines:
+            raise error_type("innounp é PE, mas nenhum Wine foi encontrado para a análise")
+        wine = wines[0]
+        prefix = Path(
+            os.environ.get(
+                "FITGIRL_ANALYSIS_PREFIX",
+                cache_root / "fitgirl-installer" / "analysis-wine-prefix",
+            )
+        ).expanduser().resolve()
+        command = [
+            str(wine), str(innounp), "-x", "-b", "-q", "-m", "-y",
+            f"-d{wine_z_path(extracted)}", wine_z_path(setup),
+            "install_script.iss", "embedded\\CompiledCode.bin",
+        ]
+        environment = os.environ.copy()
+        environment.update({
+            "WINEPREFIX": str(prefix),
+            "WINEDEBUG": environment.get("WINEDEBUG", "-all"),
+            "WINEDLLOVERRIDES": environment.get("WINEDLLOVERRIDES", "mscoree,mshtml="),
+        })
+    else:
+        command = [
+            str(innounp), "-x", "-b", "-q", "-m", "-y", f"-d{extracted}",
+            str(setup), "install_script.iss", "embedded\\CompiledCode.bin",
+        ]
+        environment = os.environ.copy()
+    return command, environment

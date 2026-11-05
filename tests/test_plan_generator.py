@@ -234,6 +234,71 @@ class PlanGeneratorTests(unittest.TestCase):
                         self.assertEqual(log.read_text(), "innounp log")
                     self.assertFalse((analysis / "CompiledCode.disassembly.txt").exists())
 
+    def test_innounp_command_for_native_and_pe_tools(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            innounp = root / "innounp"
+            disassembler = root / "pascalscript"
+            wine = root / "wine"
+            setup = root / "setup.exe"
+            for scenario in ("native", "pe_default", "pe_custom", "pe_missing"):
+                with self.subTest(scenario=scenario):
+                    cache = root / "cache" / scenario
+                    environment = {"XDG_CACHE_HOME": str(cache)}
+                    if scenario == "pe_custom":
+                        environment.update({
+                            "FITGIRL_ANALYSIS_PREFIX": str(root / "custom-prefix"),
+                            "WINEDEBUG": "+warn", "WINEDLLOVERRIDES": "custom=n",
+                        })
+                    is_pe = scenario != "native"
+                    wines = [] if scenario == "pe_missing" else [wine]
+                    timeout = CLI.subprocess.TimeoutExpired([str(innounp)], 300)
+                    with (
+                        patch.dict(os.environ, environment, clear=True),
+                        patch.object(CLI, "discover_analysis_tool", side_effect=[innounp, disassembler]),
+                        patch.object(CLI, "pe_machine", return_value=0x14C if is_pe else None),
+                        patch.object(CLI, "discover_wine", return_value=wines) as discover_wine,
+                        patch.object(CLI.subprocess, "run", side_effect=timeout) as run,
+                    ):
+                        message = (
+                            "nenhum Wine foi encontrado" if scenario == "pe_missing"
+                            else "innounp excedeu 300 s"
+                        )
+                        with self.assertRaisesRegex(CLI.InstallerError, message):
+                            CLI.generate_manifest_draft(root, setup, scenario)
+                    self.assertEqual(discover_wine.call_count, int(is_pe))
+                    if scenario == "pe_missing":
+                        run.assert_not_called()
+                        continue
+                    extracted = cache / "fitgirl-installer" / "plans" / scenario / "innounp"
+                    command = run.call_args.args[0]
+                    actual_env = run.call_args.kwargs["env"]
+                    if is_pe:
+                        win_extracted = "Z:" + str(extracted.resolve()).replace("/", "\\")
+                        win_setup = "Z:" + str(setup.resolve()).replace("/", "\\")
+                        expected = [
+                            str(wine), str(innounp), "-x", "-b", "-q", "-m", "-y",
+                            f"-d{win_extracted}", win_setup,
+                        ]
+                        prefix = (
+                            root / "custom-prefix" if scenario == "pe_custom"
+                            else cache / "fitgirl-installer" / "analysis-wine-prefix"
+                        )
+                        environment.update({
+                            "WINEPREFIX": str(prefix.resolve()),
+                            "WINEDEBUG": environment.get("WINEDEBUG", "-all"),
+                            "WINEDLLOVERRIDES": environment.get("WINEDLLOVERRIDES", "mscoree,mshtml="),
+                        })
+                    else:
+                        expected = [
+                            str(innounp), "-x", "-b", "-q", "-m", "-y",
+                            f"-d{extracted}", str(setup),
+                        ]
+                    self.assertEqual(
+                        command, expected + ["install_script.iss", "embedded\\CompiledCode.bin"],
+                    )
+                    self.assertEqual(actual_env, environment)
+
     def test_literal_cmd_del_is_idempotent_and_reversible(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

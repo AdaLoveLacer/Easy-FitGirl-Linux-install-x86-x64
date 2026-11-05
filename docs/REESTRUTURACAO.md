@@ -110,9 +110,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    plano em `192cf13`. A aplicação dos bloqueios semânticos foi movida para o
    analisador em `5abf8ae`; a coordenação da auditoria foi movida em `6281466`,
    com serviços explícitos e fachada no CLI. A desmontagem do código compilado
-   foi movida em `84879b1`, e a execução do innounp também foi movida. A
-   preparação dos comandos e a coordenação restante permanecem para as
-   próximas subetapas.
+   foi movida em `84879b1`, e a execução do innounp em `d0520a7`. A montagem
+   do comando nativo ou Wine também foi movida; a coordenação restante
+   permanece para as próximas subetapas.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.

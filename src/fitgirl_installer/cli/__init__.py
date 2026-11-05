@@ -373,34 +373,10 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
 
     analysis.mkdir(parents=True, exist_ok=True)
     extracted.mkdir(parents=True, exist_ok=True)
-    if pe_machine(innounp) is not None:
-        wines = discover_wine()
-        if not wines:
-            raise InstallerError("innounp é PE, mas nenhum Wine foi encontrado para a análise")
-        wine = wines[0]
-        prefix = Path(
-            os.environ.get(
-                "FITGIRL_ANALYSIS_PREFIX",
-                cache_root / "fitgirl-installer" / "analysis-wine-prefix",
-            )
-        ).expanduser().resolve()
-        command = [
-            str(wine), str(innounp), "-x", "-b", "-q", "-m", "-y",
-            f"-d{wine_z_path(extracted)}", wine_z_path(setup),
-            "install_script.iss", "embedded\\CompiledCode.bin",
-        ]
-        environment = os.environ.copy()
-        environment.update({
-            "WINEPREFIX": str(prefix),
-            "WINEDEBUG": environment.get("WINEDEBUG", "-all"),
-            "WINEDLLOVERRIDES": environment.get("WINEDLLOVERRIDES", "mscoree,mshtml="),
-        })
-    else:
-        command = [
-            str(innounp), "-x", "-b", "-q", "-m", "-y", f"-d{extracted}",
-            str(setup), "install_script.iss", "embedded\\CompiledCode.bin",
-        ]
-        environment = os.environ.copy()
+    command, environment = analyzer.prepare_innounp_command(
+        innounp, extracted, setup, cache_root, pe_machine=pe_machine,
+        discover_wine=discover_wine, wine_z_path=wine_z_path, error_type=InstallerError,
+    )
     analyzer.extract_setup_evidence(
         command, environment, analysis, iss, compiled, error_type=InstallerError,
     )
