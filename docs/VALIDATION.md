@@ -169,7 +169,7 @@ sob um mecanismo medido; até lá existe apenas limite interno do SREP.
 
 ```bash
 python3 -m unittest discover -s tests -v
-python3 -m py_compile src/fitgirl_installer/*.py tools/plan-from-disassembly.py
+python3 -m py_compile src/fitgirl_installer/*.py src/fitgirl_installer/cli/*.py tools/plan-from-disassembly.py
 bash -n libexec/fitgirl-extract
 ```
 

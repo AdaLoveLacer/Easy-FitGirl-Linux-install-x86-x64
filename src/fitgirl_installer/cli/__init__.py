@@ -20,17 +20,17 @@ import time
 from pathlib import Path
 from typing import Any
 
-from .ifps_ir import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
-from .compatibility import compatibility_error, report_json
-from . import i18n
-from .integration import write_integration_report
-from .planner import PLAN_COMPILER_VERSION, disk_space_from_iss, write_manifest
-from .plan_audit import write_audit
-from .runtime import RuntimeErrorDetail, ensure_bundled_wine
-from .resource_limits import detect_limits, parse_cpu_list
+from ..ifps_ir import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
+from ..compatibility import compatibility_error, report_json
+from .. import i18n
+from ..integration import write_integration_report
+from ..planner import PLAN_COMPILER_VERSION, disk_space_from_iss, write_manifest
+from ..plan_audit import write_audit
+from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
+from ..resource_limits import detect_limits, parse_cpu_list
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 MANIFEST_DIR = ROOT / "manifests"
 STATE_VERSION = 1
 
@@ -2131,7 +2131,7 @@ def run_manifest_merge(
     scratch: Path, state_path: Path, state: dict[str, Any],
 ) -> None:
     """Compile the known FitGirl addon merge natively, preserving originals."""
-    from .verify import parse_manifest
+    from ..verify import parse_manifest
 
     if (
         step.get("embedded_command", "").strip().casefold()
