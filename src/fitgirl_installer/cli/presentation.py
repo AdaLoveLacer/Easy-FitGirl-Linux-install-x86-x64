@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 from typing import Any
 
-from .. import i18n
+from .. import translations
 
 
 def _wizard_page(step: int, title: str, details: list[str] | None = None) -> None:
@@ -43,7 +43,7 @@ def _component_label(name: str, data: dict[str, Any]) -> str:
 
 def format_size(size: int) -> str:
     value = float(size)
-    decimal_separator = "." if i18n.LANGUAGE == "en" else ","
+    decimal_separator = "." if translations.LANGUAGE == "en" else ","
     for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
         if value < 1024 or unit == "TiB":
             return f"{value:.2f} {unit}".replace(".", decimal_separator)

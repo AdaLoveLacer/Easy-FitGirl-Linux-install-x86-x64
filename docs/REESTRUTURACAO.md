@@ -95,13 +95,14 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    `prompt_positive_int` e `prompt_cpu_list` para `cli/menus.py`.
 4. **Concluída — `6f4dcc1`:** mover `prompt_components` para `cli/menus.py`,
    mantendo suas dependências de apresentação explícitas.
-5. **Implementada; commit do usuário pendente:** mover o menu e a seleção de
-   destino para `cli/menus.py`, injetando serviços de armazenamento e validação.
-6. **Implementada; commit do usuário pendente:** mover seleção de idioma,
-   parser, roteamento e tratamento de erros para `cli/main.py`; `cli/__init__.py`
-   mantém uma fachada lazy para os imports existentes.
-7. Renomear `i18n.py` para `translations.py` com adaptação de imports e
-   compatibilidade interna durante a transição.
+5. **Concluída — `8c62e6f`:** mover o menu e a seleção de destino para
+   `cli/menus.py`, injetando serviços de armazenamento e validação.
+6. **Concluída — `53b8770`:** mover seleção de idioma, parser, roteamento e
+   tratamento de erros para `cli/main.py`; `cli/__init__.py` mantém uma fachada
+   lazy para os imports existentes.
+7. **Implementada; commit do usuário pendente:** renomear `i18n.py` para
+   `translations.py` e atualizar consumidores; `i18n.py` preserva imports
+   antigos como alias para o mesmo módulo durante a transição.
 8. Mover a análise do setup para `planning/analyzer.py`.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
@@ -128,7 +129,7 @@ verificação e cinco de plataforma. O percentual é etapas concluídas dividido
 por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
-etapa 6 concluída, são seis de 23: **26%**.
+etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

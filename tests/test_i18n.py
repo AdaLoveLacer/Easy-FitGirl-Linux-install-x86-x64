@@ -5,25 +5,28 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fitgirl_installer import i18n
+from fitgirl_installer import i18n, translations
 
 
 class InteractiveLocalizationTests(unittest.TestCase):
     def setUp(self):
-        self.previous = i18n.activate("en")
+        self.previous = translations.activate("en")
 
     def tearDown(self):
-        i18n.restore(self.previous)
+        translations.restore(self.previous)
 
     def test_destination_page_is_localized(self):
-        self.assertEqual(i18n.translate("Etapa 1 de 4  |  Destino"), "Step 1 of 4  |  Destination")
-        self.assertEqual(i18n.translate("Origem: Mirage 7"), "Source: Mirage 7")
-        self.assertEqual(i18n.translate("Arquivos compactados: 899.97 MiB"), "Compressed files: 899.97 MiB")
-        self.assertEqual(i18n.translate("Espaço declarado pelo instalador: 2.33 GiB"), "Installer-declared space: 2.33 GiB")
-        self.assertEqual(i18n.translate("  7. Escolher outro caminho"), "  7. Choose another path")
+        self.assertEqual(translations.translate("Etapa 1 de 4  |  Destino"), "Step 1 of 4  |  Destination")
+        self.assertEqual(translations.translate("Origem: Mirage 7"), "Source: Mirage 7")
+        self.assertEqual(translations.translate("Arquivos compactados: 899.97 MiB"), "Compressed files: 899.97 MiB")
+        self.assertEqual(translations.translate("Espaço declarado pelo instalador: 2.33 GiB"), "Installer-declared space: 2.33 GiB")
+        self.assertEqual(translations.translate("  7. Escolher outro caminho"), "  7. Choose another path")
 
     def test_component_prompt_uses_english_and_english_yes_no_markers(self):
-        self.assertEqual(i18n.translate("  Incluir Inglês? [s/N] "), "  Include English? [y/N] ")
+        self.assertEqual(translations.translate("  Incluir Inglês? [s/N] "), "  Include English? [y/N] ")
+
+    def test_legacy_i18n_import_is_same_module(self):
+        self.assertIs(i18n, translations)
 
 
 if __name__ == "__main__":

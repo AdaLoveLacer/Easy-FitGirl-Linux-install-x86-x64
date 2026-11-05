@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from fitgirl_installer import i18n
+from fitgirl_installer import translations
 
 
 def is_codec_process(argv0: str) -> bool:
@@ -225,7 +225,7 @@ def effective_position(position: int, samples: deque[tuple[float, int]]) -> int:
 
 
 def main():
-    i18n.activate(os.environ.get("FITGIRL_LANGUAGE", "pt"))
+    translations.activate(os.environ.get("FITGIRL_LANGUAGE", "pt"))
     parser = argparse.ArgumentParser()
     parser.add_argument("--archive", required=True, type=Path)
     parser.add_argument("--target", required=True, type=Path)
