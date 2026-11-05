@@ -130,6 +130,7 @@ class PlanGeneratorTests(unittest.TestCase):
                             "disassembly_sha256": (
                                 "outdated" if stale == "disassembly" else CLI.sha256(disassembly)
                             ),
+                            "existing_metadata": "preserved",
                         },
                         "semantic_blockers": ["old blocker"],
                         "draft": False,
@@ -171,6 +172,15 @@ class PlanGeneratorTests(unittest.TestCase):
                     )
                     self.assertEqual(write_cfg.call_count, int(stale is not None))
                     self.assertEqual(write_manifest.call_count, int(stale is not None))
+                    if stale is not None:
+                        self.assertEqual(result["analysis"], {
+                            "existing_metadata": "preserved",
+                            "iss_sha256": CLI.sha256(iss),
+                            "compiled_code_sha256": CLI.sha256(compiled),
+                            "disassembly_sha256": CLI.sha256(disassembly),
+                            "control_flow_sha256": CLI.sha256(control_flow),
+                            "control_flow_totals": {},
+                        })
 
     def test_disassembler_failure_preserves_analysis_evidence(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -1068,7 +1078,17 @@ print('  call        dll:files:ISDone.dll')
             self.assertTrue(manifest["draft"])
             self.assertTrue(manifest["review_required"])
             self.assertEqual(manifest["steps"][0]["archive"], "fg-01.bin")
-            self.assertIn("compiled_code_sha256", manifest["analysis"])
+            analysis = path.parent
+            control_flow = analysis / "control-flow.json"
+            self.assertEqual(manifest["analysis"], {
+                "iss_sha256": CLI.sha256(analysis / "innounp/install_script.iss"),
+                "compiled_code_sha256": CLI.sha256(analysis / "innounp/embedded/CompiledCode.bin"),
+                "disassembly_sha256": CLI.sha256(analysis / "CompiledCode.disassembly.txt"),
+                "control_flow_sha256": CLI.sha256(control_flow),
+                "control_flow_totals": json.loads(control_flow.read_text())["totals"],
+                "innounp_sha256": CLI.sha256(innounp),
+                "ifps_disassembler_sha256": CLI.sha256(disassembler),
+            })
 
     def test_pe_analysis_tool_does_not_need_posix_execute_bit(self):
         with tempfile.TemporaryDirectory() as temporary:

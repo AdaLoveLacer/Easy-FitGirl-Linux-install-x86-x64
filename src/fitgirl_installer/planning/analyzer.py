@@ -216,3 +216,17 @@ def inspect_analysis_cache(
         and read_json(control_flow).get("schema") == schema_version
     )
     return cached_manifest, disassembly_current, compiler_current, control_flow_current
+
+
+def build_analysis_metadata(
+    iss: Path, compiled: Path, disassembly: Path, control_flow: Path,
+    cfg: dict[str, Any], *, sha256: Callable[[Path], str],
+) -> dict[str, Any]:
+    """Collect the artifact hashes and control-flow totals for a plan."""
+    return {
+        "iss_sha256": sha256(iss),
+        "compiled_code_sha256": sha256(compiled),
+        "disassembly_sha256": sha256(disassembly),
+        "control_flow_sha256": sha256(control_flow),
+        "control_flow_totals": cfg["totals"],
+    }

@@ -112,8 +112,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    com serviços explícitos e fachada no CLI. A desmontagem do código compilado
    foi movida em `84879b1`, e a execução do innounp em `d0520a7`. A montagem
    do comando nativo ou Wine foi movida em `68c9972`; a leitura e verificação
-   do cache também foram movidas. A coordenação restante permanece para as
-   próximas subetapas.
+   do cache foram movidas em `ece6bb8`. A montagem dos metadados de análise
+   também foi movida; a coordenação restante permanece para as próximas
+   subetapas.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.

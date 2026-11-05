@@ -334,13 +334,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
             cfg = write_cfg_report(disassembly, control_flow)
             manifest = write_manifest(iss, disassembly, setup, source, manifest_path)
             manifest["analysis"] = previous_manifest.get("analysis", {})
-            manifest.setdefault("analysis", {}).update({
-                "iss_sha256": sha256(iss),
-                "compiled_code_sha256": sha256(compiled),
-                "disassembly_sha256": sha256(disassembly),
-                "control_flow_sha256": sha256(control_flow),
-                "control_flow_totals": cfg["totals"],
-            })
+            manifest.setdefault("analysis", {}).update(analyzer.build_analysis_metadata(
+                iss, compiled, disassembly, control_flow, cfg, sha256=sha256,
+            ))
             current_disassembler = discover_analysis_tool(
                 "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
             )
@@ -383,11 +379,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
     cfg = write_cfg_report(disassembly, control_flow)
     manifest = write_manifest(iss, disassembly, setup, source, manifest_path)
     manifest["analysis"] = {
-        "iss_sha256": sha256(iss),
-        "compiled_code_sha256": sha256(compiled),
-        "disassembly_sha256": sha256(disassembly),
-        "control_flow_sha256": sha256(control_flow),
-        "control_flow_totals": cfg["totals"],
+        **analyzer.build_analysis_metadata(
+            iss, compiled, disassembly, control_flow, cfg, sha256=sha256,
+        ),
         "innounp_sha256": sha256(innounp),
         "ifps_disassembler_sha256": sha256(disassembler),
     }
