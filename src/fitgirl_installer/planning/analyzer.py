@@ -196,3 +196,23 @@ def prepare_innounp_command(
         ]
         environment = os.environ.copy()
     return command, environment
+
+
+def inspect_analysis_cache(
+    manifest_path: Path, disassembly: Path, control_flow: Path, *,
+    read_json: Callable[[Path], dict[str, Any]], sha256: Callable[[Path], str],
+    compiler_version: int, schema_version: int,
+) -> tuple[dict[str, Any], bool, bool, bool]:
+    """Read cached metadata and report which analysis artifacts are current."""
+    cached_manifest = read_json(manifest_path) if manifest_path.is_file() else {}
+    disassembly_current = (
+        disassembly.is_file()
+        and cached_manifest.get("analysis", {}).get("disassembly_sha256")
+        == sha256(disassembly)
+    )
+    compiler_current = cached_manifest.get("compiler_version") == compiler_version
+    control_flow_current = (
+        control_flow.is_file()
+        and read_json(control_flow).get("schema") == schema_version
+    )
+    return cached_manifest, disassembly_current, compiler_current, control_flow_current

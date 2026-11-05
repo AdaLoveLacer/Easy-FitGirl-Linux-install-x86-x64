@@ -114,13 +114,23 @@ class PlanGeneratorTests(unittest.TestCase):
             iss.write_text("[Setup]\n")
             compiled.write_bytes(b"compiled")
             disassembly.write_text("disassembly")
-            control_flow.write_text(json.dumps({"schema": CLI.IFPS_IR_SCHEMA_VERSION}))
-            for blocked, stale in ((True, False), (False, False), (True, True)):
+            cases = (
+                (True, None), (False, None), (True, "compiler"),
+                (True, "disassembly"), (True, "schema"),
+            )
+            for blocked, stale in cases:
                 with self.subTest(blocked=blocked, stale=stale):
+                    control_flow.write_text(json.dumps({
+                        "schema": CLI.IFPS_IR_SCHEMA_VERSION - int(stale == "schema"),
+                    }))
                     manifest = {
                         "setup_sha256": [setup_hash],
-                        "compiler_version": CLI.PLAN_COMPILER_VERSION - int(stale),
-                        "analysis": {"disassembly_sha256": CLI.sha256(disassembly)},
+                        "compiler_version": CLI.PLAN_COMPILER_VERSION - int(stale == "compiler"),
+                        "analysis": {
+                            "disassembly_sha256": (
+                                "outdated" if stale == "disassembly" else CLI.sha256(disassembly)
+                            ),
+                        },
                         "semantic_blockers": ["old blocker"],
                         "draft": False,
                         "review_required": False,
@@ -159,8 +169,8 @@ class PlanGeneratorTests(unittest.TestCase):
                         result, iss, disassembly, compiled, analysis / "plan-audit.json",
                         disassembler=None,
                     )
-                    self.assertEqual(write_cfg.call_count, int(stale))
-                    self.assertEqual(write_manifest.call_count, int(stale))
+                    self.assertEqual(write_cfg.call_count, int(stale is not None))
+                    self.assertEqual(write_manifest.call_count, int(stale is not None))
 
     def test_disassembler_failure_preserves_analysis_evidence(self):
         with tempfile.TemporaryDirectory() as temporary:

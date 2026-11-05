@@ -307,16 +307,11 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
     control_flow = analysis / "control-flow.json"
     manifest_path = analysis / "manifest.draft.json"
 
-    cached_manifest = load_json(manifest_path) if manifest_path.is_file() else {}
-    disassembly_current = (
-        disassembly.is_file()
-        and cached_manifest.get("analysis", {}).get("disassembly_sha256")
-        == sha256(disassembly)
-    )
-    compiler_current = cached_manifest.get("compiler_version") == PLAN_COMPILER_VERSION
-    control_flow_current = (
-        control_flow.is_file()
-        and load_json(control_flow).get("schema") == IFPS_IR_SCHEMA_VERSION
+    cached_manifest, disassembly_current, compiler_current, control_flow_current = (
+        analyzer.inspect_analysis_cache(
+            manifest_path, disassembly, control_flow, read_json=load_json, sha256=sha256,
+            compiler_version=PLAN_COMPILER_VERSION, schema_version=IFPS_IR_SCHEMA_VERSION,
+        )
     )
     if (
         manifest_path.is_file() and iss.is_file() and compiled.is_file()
