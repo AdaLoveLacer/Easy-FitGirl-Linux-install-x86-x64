@@ -112,6 +112,32 @@ class PlanGeneratorTests(unittest.TestCase):
                     expected.chmod(0o644)
                 self.assertIsNone(CLI.discover_analysis_tool("TEST_TOOL", "pascalscript", "pascalscript"))
 
+    def test_missing_analysis_tools_are_reported_before_execution(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            tool = root / "tool"
+            cases = (
+                (
+                    None, None, "innounp (FITGIRL_INNOUNP), "
+                    "disassembler IFPS (FITGIRL_IFPS_DISASSEMBLER)",
+                ),
+                (None, tool, "innounp (FITGIRL_INNOUNP)"),
+                (tool, None, "disassembler IFPS (FITGIRL_IFPS_DISASSEMBLER)"),
+            )
+            for innounp, disassembler, expected in cases:
+                with self.subTest(innounp=innounp, disassembler=disassembler):
+                    with (
+                        patch.dict(os.environ, {"XDG_CACHE_HOME": str(root / "cache")}),
+                        patch.object(CLI, "discover_analysis_tool", side_effect=[innounp, disassembler]),
+                        patch.object(CLI.subprocess, "run", side_effect=AssertionError("must not execute")),
+                        self.assertRaises(CLI.InstallerError) as raised,
+                    ):
+                        CLI.generate_manifest_draft(root, root / "setup.exe", "missing")
+                    self.assertEqual(
+                        str(raised.exception),
+                        "setup desconhecido e ferramentas de análise ausentes: " + expected,
+                    )
+
     def test_cached_analysis_refreshes_semantic_blockers(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

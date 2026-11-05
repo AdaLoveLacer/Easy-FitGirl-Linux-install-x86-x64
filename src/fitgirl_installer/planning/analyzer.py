@@ -96,6 +96,27 @@ def discover_analysis_tool(
     return None
 
 
+def require_analysis_tools(
+    *, find_tool: Callable[[str, str, str], Path | None],
+    error_type: type[RuntimeError],
+) -> tuple[Path, Path]:
+    """Find both tools required for analysis or report which are missing."""
+    innounp = find_tool("FITGIRL_INNOUNP", "innounp.exe", "innounp")
+    disassembler = find_tool(
+        "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
+    )
+    missing = []
+    if innounp is None:
+        missing.append("innounp (FITGIRL_INNOUNP)")
+    if disassembler is None:
+        missing.append("disassembler IFPS (FITGIRL_IFPS_DISASSEMBLER)")
+    if missing:
+        raise error_type(
+            "setup desconhecido e ferramentas de análise ausentes: " + ", ".join(missing)
+        )
+    return innounp, disassembler
+
+
 def apply_semantic_blockers(candidate: dict[str, Any], report: dict[str, Any]) -> None:
     """Apply critical audit findings to the generated manifest."""
     blockers = [

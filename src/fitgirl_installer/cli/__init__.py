@@ -345,19 +345,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
             )
             return manifest_path, manifest
 
-    innounp = discover_analysis_tool("FITGIRL_INNOUNP", "innounp.exe", "innounp")
-    disassembler = discover_analysis_tool(
-        "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
+    innounp, disassembler = analyzer.require_analysis_tools(
+        find_tool=discover_analysis_tool, error_type=InstallerError,
     )
-    missing = []
-    if innounp is None:
-        missing.append("innounp (FITGIRL_INNOUNP)")
-    if disassembler is None:
-        missing.append("disassembler IFPS (FITGIRL_IFPS_DISASSEMBLER)")
-    if missing:
-        raise InstallerError(
-            "setup desconhecido e ferramentas de análise ausentes: " + ", ".join(missing)
-        )
 
     analysis.mkdir(parents=True, exist_ok=True)
     extracted.mkdir(parents=True, exist_ok=True)
