@@ -97,7 +97,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    mantendo suas dependências de apresentação explícitas.
 5. **Implementada; commit do usuário pendente:** mover o menu e a seleção de
    destino para `cli/menus.py`, injetando serviços de armazenamento e validação.
-6. Mover entrada e roteamento para `cli/main.py`, mantendo o launcher `fitgirl`.
+6. **Implementada; commit do usuário pendente:** mover seleção de idioma,
+   parser, roteamento e tratamento de erros para `cli/main.py`; `cli/__init__.py`
+   mantém uma fachada lazy para os imports existentes.
 7. Renomear `i18n.py` para `translations.py` com adaptação de imports e
    compatibilidade interna durante a transição.
 8. Mover a análise do setup para `planning/analyzer.py`.
@@ -125,8 +127,8 @@ CLI, traduções, quatro módulos de planejamento, quatro de execução, três d
 verificação e cinco de plataforma. O percentual é etapas concluídas dividido
 por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
-métrica. Antes da etapa 5, quatro etapas estavam concluídas: **17%**. Com a
-etapa 5 concluída, são cinco de 23: **22%**.
+métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
+etapa 6 concluída, são seis de 23: **26%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado
