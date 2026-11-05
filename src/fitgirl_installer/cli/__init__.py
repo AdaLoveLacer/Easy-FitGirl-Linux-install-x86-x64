@@ -29,9 +29,10 @@ from ..plan_audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
 from ..resource_limits import detect_limits, parse_cpu_list
 from .presentation import _wizard_page, _component_label, format_size
+from . import menus
 from .menus import (
-    prompt_components, prompt_yes_no, prompt_path, prompt_positive_int,
-    prompt_cpu_list,
+    DestinationMenuServices, prompt_components, prompt_yes_no, prompt_path,
+    prompt_positive_int, prompt_cpu_list,
 )
 
 
@@ -560,50 +561,28 @@ def validate_external_game_target(target: Path, prefix: Path | None = None) -> N
             raise InstallerError(f"o destino está dentro de um prefixo Wine: {ancestor}")
 
 
+def _destination_validation_message(target: Path) -> str | None:
+    try:
+        validate_external_game_target(target)
+    except InstallerError as error:
+        return str(error)
+    if not destination_is_writable(target):
+        return "não é possível criar a pasta neste disco; escolha outro destino gravável"
+    return None
+
+
 def prompt_destination(
     game_name: str, *, wizard: bool = False, details: list[str] | None = None,
 ) -> Path:
-    roots = discover_game_roots()
-    if wizard:
-        _wizard_page(1, "Destino", details or ["Escolha onde instalar. A pasta será criada após a confirmação."])
-    if roots:
-        if not wizard:
-            print("\nOnde instalar? (fora do prefixo Wine)")
-        for index, root in enumerate(roots, 1):
-            probe = root
-            while not probe.exists() and probe != probe.parent:
-                probe = probe.parent
-            try:
-                free_gib = shutil.disk_usage(probe).free / (1024 ** 3)
-                free_text = f" ({free_gib:.1f} GiB livres)"
-            except OSError:
-                free_text = ""
-            storage = storage_label(root).replace(", ", " · ")
-            warning = " · sem permissão" if not destination_is_writable(root) else ""
-            print(f"  {index}. {root / game_name}{free_text} · {storage}{warning}")
-        print(f"  {len(roots) + 1}. Escolher outro caminho")
-        while True:
-            answer = input("Destino (número ou caminho) [1]: ").strip()
-            if not answer:
-                target = (roots[0] / game_name).resolve()
-            elif answer.isdigit() and 1 <= int(answer) <= len(roots):
-                target = (roots[int(answer) - 1] / game_name).resolve()
-            elif answer == str(len(roots) + 1):
-                target = prompt_path("Caminho completo da pasta do jogo")
-            elif answer.isdigit():
-                print("Opção inválida.")
-                continue
-            else:
-                target = Path(answer).expanduser().resolve()
-            try:
-                validate_external_game_target(target)
-                if not destination_is_writable(target):
-                    raise InstallerError("não é possível criar a pasta neste disco; escolha outro destino gravável")
-            except InstallerError as error:
-                print(f"Destino indisponível: {error}")
-                continue
-            return target
-    return prompt_path("Caminho completo da pasta do jogo")
+    services = DestinationMenuServices(
+        roots=tuple(discover_game_roots()),
+        storage_label=storage_label,
+        is_writable=destination_is_writable,
+        validation_message=_destination_validation_message,
+    )
+    return menus.prompt_destination(
+        game_name, services=services, wizard=wizard, details=details
+    )
 
 
 def default_game_name(manifest: dict[str, Any], source: Path) -> str:
