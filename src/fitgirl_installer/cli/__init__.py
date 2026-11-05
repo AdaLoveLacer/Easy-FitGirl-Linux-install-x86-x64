@@ -373,7 +373,6 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
 
     analysis.mkdir(parents=True, exist_ok=True)
     extracted.mkdir(parents=True, exist_ok=True)
-    extract_log = analysis / "innounp.log"
     if pe_machine(innounp) is not None:
         wines = discover_wine()
         if not wines:
@@ -402,18 +401,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
             str(setup), "install_script.iss", "embedded\\CompiledCode.bin",
         ]
         environment = os.environ.copy()
-    try:
-        completed = subprocess.run(
-            command, env=environment, text=True, stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT, timeout=300, check=False,
-        )
-    except subprocess.TimeoutExpired as error:
-        raise InstallerError(f"innounp excedeu 300 s; evidência mantida em {analysis}") from error
-    extract_log.write_text(completed.stdout or "", encoding="utf-8")
-    if completed.returncode != 0 or not iss.is_file() or not compiled.is_file():
-        raise InstallerError(
-            f"innounp não produziu ISS/CompiledCode.bin; veja {extract_log}"
-        )
+    analyzer.extract_setup_evidence(
+        command, environment, analysis, iss, compiled, error_type=InstallerError,
+    )
 
     analyzer.disassemble_compiled_code(
         disassembler, compiled, disassembly, analysis, error_type=InstallerError,

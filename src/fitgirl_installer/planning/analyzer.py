@@ -139,3 +139,23 @@ def disassemble_compiled_code(
         raise error_type(f"disassembler IFPS excedeu 120 s; veja {analysis}") from error
     if completed.returncode != 0 or not disassembly.is_file() or disassembly.stat().st_size == 0:
         raise error_type(f"disassembler IFPS falhou; veja {disassembly_log}")
+
+
+def extract_setup_evidence(
+    command: list[str], environment: dict[str, str], analysis: Path,
+    iss: Path, compiled: Path, *, error_type: type[RuntimeError],
+) -> None:
+    """Run innounp and retain its log and extracted evidence."""
+    extract_log = analysis / "innounp.log"
+    try:
+        completed = subprocess.run(
+            command, env=environment, text=True, stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT, timeout=300, check=False,
+        )
+    except subprocess.TimeoutExpired as error:
+        raise error_type(f"innounp excedeu 300 s; evidência mantida em {analysis}") from error
+    extract_log.write_text(completed.stdout or "", encoding="utf-8")
+    if completed.returncode != 0 or not iss.is_file() or not compiled.is_file():
+        raise error_type(
+            f"innounp não produziu ISS/CompiledCode.bin; veja {extract_log}"
+        )
