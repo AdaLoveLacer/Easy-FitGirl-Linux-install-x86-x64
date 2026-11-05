@@ -78,8 +78,8 @@ Ela organiza o pacote em `cli/`, `planning/`, `execution/`, `verification/` e
 A migração deve ocorrer em pequenas etapas com uma responsabilidade por função
 e por módulo, preservar comportamento e compatibilidade em cada estado
 intermediário e validar testes e uso real do CLI quando aplicável. O assistente
-prepara cada etapa, sugere um nome de commit em português e avisa o usuário;
-somente o usuário cria o commit local atômico, sem push.
+cria um commit local atômico após validar cada etapa, com mensagem natural em
+português, e informa o usuário a cada commit. Não fazer push.
 Ao relatar cada etapa, informar também o progresso global como percentual das
 23 etapas conceituais listadas em `docs/REESTRUTURACAO.md`.
 

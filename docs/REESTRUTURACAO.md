@@ -108,8 +108,8 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    movida em `e7f96a7`, e a descoberta das ferramentas de análise em
    `48c9e33`. A atualização da auditoria foi separada da função que gera o
    plano em `192cf13`. A aplicação dos bloqueios semânticos foi movida para o
-   analisador. A geração e coleta das evidências permanecem para as próximas
-   subetapas.
+   analisador em `5abf8ae`. A geração e coleta das evidências permanecem para
+   as próximas subetapas.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.
@@ -160,10 +160,10 @@ removidas apenas quando seus consumidores forem migrados.
   entrada segura; validar o artefato standalone quando a mudança alcançar o
   pacote. Um ensaio cancelado antes de instalar não prova extração real.
 - Corrigir qualquer falha nova antes de commitar. Preparar uma etapa funcional
-  atômica, incluindo movimentação, imports e cobertura necessária. Informar um
-  nome de commit em português e avisar o usuário para criá-lo; o assistente não
-  faz commits nem push. Relatar testes, resultado, limitações e próxima etapa;
-  parar para revisão do usuário.
+  atômica, incluindo movimentação, imports e cobertura necessária. O assistente
+  cria o commit local após a validação, com mensagem natural em português, e
+  informa o usuário a cada commit; não fazer push. Relatar testes, resultado,
+  limitações e próxima etapa; parar para revisão do usuário.
 - Ao concluir ou bloquear uma etapa, atualizar `status/project-status.json`,
   executar `python3 tools/sync-docs.py --write` e verificar com `--check`.
 
