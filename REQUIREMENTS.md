@@ -79,7 +79,7 @@ A migração deve ocorrer em pequenas etapas com uma responsabilidade por funç�
 e por módulo, preservar comportamento e compatibilidade em cada estado
 intermediário e validar testes e uso real do CLI quando aplicável. O assistente
 cria um commit local atômico após validar cada etapa, com mensagem natural em
-português, e informa o usuário a cada commit. Não fazer push.
+português, faz o push em seguida e informa o usuário a cada commit.
 Ao relatar cada etapa, informar também o progresso global como percentual das
 23 etapas conceituais listadas em `docs/REESTRUTURACAO.md`.
 
