@@ -3,8 +3,53 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from ..resource_limits import parse_cpu_list
+from .presentation import _component_label, _wizard_page
+
+
+def prompt_components(
+    manifest: dict[str, Any], source: Path, *, wizard: bool = False,
+) -> tuple[list[str], list[str]]:
+    requested: list[str] = []
+    disabled: list[str] = []
+    if wizard:
+        _wizard_page(2, "Conteúdo", ["Escolha os idiomas e opcionais. Enter mantém o padrão."])
+    else:
+        print("Conteúdo e opcionais:")
+    skipped_redists = []
+    for name, data in manifest.get("components", {}).items():
+        if name.casefold() == "directx" or name.casefold().startswith("vc_"):
+            skipped_redists.append(_component_label(name, data))
+            disabled.append(name)
+            continue
+        availability = data.get("available_if")
+        if availability and not (source / availability).is_file():
+            print(f"  {_component_label(name, data)}: indisponível (arquivo ausente)")
+            disabled.append(name)
+            continue
+        if data.get("required"):
+            print(f"  {_component_label(name, data)} — obrigatório")
+            requested.append(name)
+            continue
+        default = bool(data.get("default", False))
+        marker = "S/n" if default else "s/N"
+        label = _component_label(name, data)
+        while True:
+            answer = input(f"  Incluir {label}? [{marker}] ").strip().lower()
+            if not answer:
+                answer = "s" if default else "n"
+            if answer in {"s", "sim", "y", "yes"}:
+                requested.append(name)
+                break
+            if answer in {"n", "não", "nao", "no"}:
+                disabled.append(name)
+                break
+            print("  Digite s ou n.")
+    if skipped_redists:
+        print("  Redistribuíveis mantidos sem executar: " + ", ".join(skipped_redists))
+    return requested, disabled
 
 
 def prompt_yes_no(message: str, default: bool = False) -> bool:

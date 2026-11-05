@@ -80,6 +80,8 @@ e por módulo, preservar comportamento e compatibilidade em cada estado
 intermediário e validar testes e uso real do CLI quando aplicável. O assistente
 prepara cada etapa, sugere um nome de commit em português e avisa o usuário;
 somente o usuário cria o commit local atômico, sem push.
+Ao relatar cada etapa, informar também o progresso global como percentual das
+23 etapas conceituais listadas em `docs/REESTRUTURACAO.md`.
 
 Um atalho futuro de ambiente gráfico pode abrir um terminal e executar
 `fitgirl`; isso não cria uma interface gráfica do instalador nem altera o

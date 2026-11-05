@@ -91,19 +91,41 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    `from fitgirl_installer.cli import main` e a execução por `python -m`.
 2. **Concluída — `83009da`:** mover somente `_wizard_page`, `_component_label` e
    `format_size` para `cli/presentation.py`, preservando nomes importáveis.
-3. **Implementada; commit do usuário pendente:** mover `prompt_yes_no`,
-   `prompt_path`, `prompt_positive_int` e `prompt_cpu_list` para `cli/menus.py`.
-4. Mover os menus de componentes e destino em etapas separadas, delimitando
-   antes suas dependências de disponibilidade e armazenamento.
-5. Mover entrada e roteamento para `cli/main.py`, mantendo o launcher `fitgirl`.
-6. Renomear `i18n.py` para `translations.py` com adaptação de imports e
+3. **Concluída:** mover `prompt_yes_no`, `prompt_path`, `prompt_positive_int` e
+   `prompt_cpu_list` para `cli/menus.py`.
+4. **Implementada; commit do usuário pendente:** mover `prompt_components` para
+   `cli/menus.py`, mantendo suas dependências de apresentação explícitas.
+5. Mover o menu e a seleção de destino em uma etapa própria.
+6. Mover entrada e roteamento para `cli/main.py`, mantendo o launcher `fitgirl`.
+7. Renomear `i18n.py` para `translations.py` com adaptação de imports e
    compatibilidade interna durante a transição.
-7. Reorganizar análise do script, geração e auditoria em `planning/`, com uma
-   responsabilidade e um commit por etapa. Usar `script_flow.py` no lugar de
-   `ifps_ir.py`.
-8. Separar journal, coordenação, extração e monitoramento em etapas distintas.
-9. Separar manifestos, checksums e relatório de integração; depois mover as
-   funções de plataforma por responsabilidade, também em etapas distintas.
+8. Mover a análise do setup para `planning/analyzer.py`.
+9. Mover o fluxo do script compilado para `planning/script_flow.py`.
+10. Mover a geração de plano para `planning/planner.py`.
+11. Mover a auditoria para `planning/audit.py`.
+12. Mover a coordenação das etapas para `execution/installer.py`.
+13. Separar a persistência e retomada em `execution/journal.py`.
+14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
+15. Mover o monitor de progresso para `execution/monitor.py`.
+16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
+17. Separar cálculo e conferência de hashes em `verification/checksums.py`.
+18. Mover o relatório de integração para `verification/integration.py`.
+19. Mover a descoberta e configuração do Wine para `platform/wine.py`.
+20. Mover controle de processos e sinais para `platform/processes.py`.
+21. Mover limites e detecção de recursos para `platform/resources.py`.
+22. Mover checagens de compatibilidade para `platform/compatibility.py`.
+23. Mover a preparação do runtime para `platform/runtime.py`.
+
+### Métrica de conclusão
+
+O progresso global usa estas 23 etapas conceituais: bootstrap do pacote CLI,
+apresentação, prompts simples, menu de componentes, menu de destino, roteamento
+CLI, traduções, quatro módulos de planejamento, quatro de execução, três de
+verificação e cinco de plataforma. O percentual é etapas concluídas dividido
+por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
+`models.py` (condicional à necessidade de tipos compartilhados) não entram na
+métrica. No início da etapa 4, três etapas estavam concluídas: **13%**. Com a
+etapa 4 concluída, são quatro de 23: **17%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado
