@@ -539,6 +539,7 @@
     "Em 2026-11-05, nova tentativa de push do commit 6366794 falhou por ausência de credenciais HTTPS no ambiente. O envio e o commit da regra de push permanecem pendentes de autenticação do Git.",
     "Em 2026-11-05, outra tentativa confirmou a ausência de credenciais HTTPS; a autenticação SSH com as identidades locais também foi recusada pelo GitHub. O commit 6366794 segue pendente de envio.",
     "Em 2026-11-05, o push do commit 6366794 para origin/main foi concluído usando a integração Git de um terminal do VS Code, com arquivos temporários em .work/tmp. A regra de fazer push após cada commit foi registrada para a próxima alteração documental.",
-    "Em 2026-11-05, o commit 995ab12 registrou a regra de push e foi enviado a origin/main. O usuário autorizou continuar as etapas sem pausa obrigatória, informando por voz cada commit atômico e mantendo as validações."
+    "Em 2026-11-05, o commit 995ab12 registrou a regra de push e foi enviado a origin/main. O usuário autorizou continuar as etapas sem pausa obrigatória, informando por voz cada commit atômico e mantendo as validações.",
+    "Refatoração incremental, etapa 8, quinta subetapa em 2026-11-05: coordenação da auditoria movida para planning/analyzer.py com serviços explícitos e fachada no CLI. Testes focados de cache e auditoria passaram, bem como a suíte completa 104/104; CLI em terminal e standalone recusaram plano sintético com efeito externo crítico confirmado no relatório e no manifesto. Etapa 8 em andamento; progresso global sete de 23 etapas, 30%."
   ]
 }

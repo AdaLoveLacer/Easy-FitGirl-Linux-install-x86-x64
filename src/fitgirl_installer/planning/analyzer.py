@@ -100,3 +100,21 @@ def apply_semantic_blockers(candidate: dict[str, Any], report: dict[str, Any]) -
         candidate["review_required"] = True
     else:
         candidate.pop("semantic_blockers", None)
+
+
+def refresh_analysis_audit(
+    candidate: dict[str, Any], iss: Path, disassembly: Path, compiled: Path,
+    analysis: Path, manifest_path: Path, *,
+    write_audit: Callable[..., dict[str, Any]],
+    find_tool: Callable[[str, str, str], Path | None],
+    save_json: Callable[[Path, dict[str, Any]], None],
+) -> None:
+    """Refresh the audit and persist the resulting manifest."""
+    report = write_audit(
+        candidate, iss, disassembly, compiled, analysis / "plan-audit.json",
+        disassembler=find_tool(
+            "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
+        ),
+    )
+    apply_semantic_blockers(candidate, report)
+    save_json(manifest_path, candidate)

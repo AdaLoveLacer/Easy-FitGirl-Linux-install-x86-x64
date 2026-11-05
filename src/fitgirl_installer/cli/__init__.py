@@ -290,14 +290,10 @@ def _refresh_analysis_audit(
     candidate: dict[str, Any], iss: Path, disassembly: Path, compiled: Path,
     analysis: Path, manifest_path: Path,
 ) -> None:
-    report = write_audit(
-        candidate, iss, disassembly, compiled, analysis / "plan-audit.json",
-        disassembler=discover_analysis_tool(
-            "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
-        ),
+    analyzer.refresh_analysis_audit(
+        candidate, iss, disassembly, compiled, analysis, manifest_path,
+        write_audit=write_audit, find_tool=discover_analysis_tool, save_json=atomic_json,
     )
-    analyzer.apply_semantic_blockers(candidate, report)
-    atomic_json(manifest_path, candidate)
 
 
 def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple[Path, dict[str, Any]]:

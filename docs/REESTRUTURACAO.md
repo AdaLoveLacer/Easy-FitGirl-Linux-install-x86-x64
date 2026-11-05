@@ -108,8 +108,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    movida em `e7f96a7`, e a descoberta das ferramentas de análise em
    `48c9e33`. A atualização da auditoria foi separada da função que gera o
    plano em `192cf13`. A aplicação dos bloqueios semânticos foi movida para o
-   analisador em `5abf8ae`. A geração e coleta das evidências permanecem para
-   as próximas subetapas.
+   analisador em `5abf8ae`; a coordenação da auditoria também foi movida, com
+   serviços explícitos e fachada no CLI. A geração e coleta das evidências
+   permanecem para as próximas subetapas.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.
