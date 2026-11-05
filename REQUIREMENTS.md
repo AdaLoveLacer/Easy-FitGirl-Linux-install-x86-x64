@@ -77,8 +77,9 @@ Ela organiza o pacote em `cli/`, `planning/`, `execution/`, `verification/` e
 `platform/`, com `translations.py` e `script_flow.py` como nomes escolhidos.
 A migração deve ocorrer em pequenas etapas com uma responsabilidade por função
 e por módulo, preservar comportamento e compatibilidade em cada estado
-intermediário, validar testes e uso real do CLI quando aplicável, e criar um
-commit local atômico por etapa validada, sem push.
+intermediário e validar testes e uso real do CLI quando aplicável. O assistente
+prepara cada etapa, sugere um nome de commit em português e avisa o usuário;
+somente o usuário cria o commit local atômico, sem push.
 
 Um atalho futuro de ambiente gráfico pode abrir um terminal e executar
 `fitgirl`; isso não cria uma interface gráfica do instalador nem altera o

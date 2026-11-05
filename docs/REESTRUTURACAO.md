@@ -91,16 +91,18 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    `from fitgirl_installer.cli import main` e a execução por `python -m`.
 2. **Concluída — `83009da`:** mover somente `_wizard_page`, `_component_label` e
    `format_size` para `cli/presentation.py`, preservando nomes importáveis.
-3. **Próxima etapa:** extrair somente funções de menus e escolhas para
-   `cli/menus.py`; delimitar dependências antes de mover cada grupo.
-4. Mover entrada e roteamento para `cli/main.py`, mantendo o launcher `fitgirl`.
-5. Renomear `i18n.py` para `translations.py` com adaptação de imports e
+3. **Implementada; commit do usuário pendente:** mover `prompt_yes_no`,
+   `prompt_path`, `prompt_positive_int` e `prompt_cpu_list` para `cli/menus.py`.
+4. Mover os menus de componentes e destino em etapas separadas, delimitando
+   antes suas dependências de disponibilidade e armazenamento.
+5. Mover entrada e roteamento para `cli/main.py`, mantendo o launcher `fitgirl`.
+6. Renomear `i18n.py` para `translations.py` com adaptação de imports e
    compatibilidade interna durante a transição.
-6. Reorganizar análise do script, geração e auditoria em `planning/`, com uma
+7. Reorganizar análise do script, geração e auditoria em `planning/`, com uma
    responsabilidade e um commit por etapa. Usar `script_flow.py` no lugar de
    `ifps_ir.py`.
-7. Separar journal, coordenação, extração e monitoramento em etapas distintas.
-8. Separar manifestos, checksums e relatório de integração; depois mover as
+8. Separar journal, coordenação, extração e monitoramento em etapas distintas.
+9. Separar manifestos, checksums e relatório de integração; depois mover as
    funções de plataforma por responsabilidade, também em etapas distintas.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
@@ -124,9 +126,10 @@ removidas apenas quando seus consumidores forem migrados.
   comportamento afetado for interativo, abrir `fitgirl` em terminal real com
   entrada segura; validar o artefato standalone quando a mudança alcançar o
   pacote. Um ensaio cancelado antes de instalar não prova extração real.
-- Corrigir qualquer falha nova antes de commitar. Criar um commit local atômico
-  por etapa funcional, incluindo movimentação, imports e cobertura necessária.
-  Não fazer push. Relatar testes, resultado, hash, limitações e próxima etapa;
+- Corrigir qualquer falha nova antes de commitar. Preparar uma etapa funcional
+  atômica, incluindo movimentação, imports e cobertura necessária. Informar um
+  nome de commit em português e avisar o usuário para criá-lo; o assistente não
+  faz commits nem push. Relatar testes, resultado, limitações e próxima etapa;
   parar para revisão do usuário.
 - Ao concluir ou bloquear uma etapa, atualizar `status/project-status.json`,
   executar `python3 tools/sync-docs.py --write` e verificar com `--check`.
