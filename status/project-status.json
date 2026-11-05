@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_on": "2026-11-04",
+  "updated_on": "2026-11-05",
   "verdicts": [
     [
       "Qualquer instalador FitGirl",
@@ -520,6 +520,8 @@
     "Prova estática ISDone.dll em 2026-11-04: reconstruídos os efeitos de ISDoneInit, PrecompInit, FileSearchInit, ChangeLanguage e ISDoneStop; rastreados todos os escritores internos do byte retornado por Exec2. PrecompInit grava CLS.ini e ISDoneStop pode apagar records.inf sob guardas, então ambos foram adicionados aos bloqueios críticos. Três drafts regenerados e recusados pelo CLI. Reentrada por procedimento externo durante DispatchMessageA e alcance em runtime das guardas continuam pendentes. Evidência: evidence/semantic-guard-audit-2026-11-04.json",
     "Fechamento da auditoria estática ISDone.dll em 2026-11-04: os callbacks PROGRESSCALLBACK dos três setups só atualizam UI e não chamam Exec2; cada setup tem uma única chamada Exec2 em CurStepChanged(ssPostInstall). Inventário estático dos cinco exports e da flag concluído para a DLL hash c652b4b5…; reentrada por janela nativa e alcance runtime continuam limites explícitos. Os três efeitos críticos continuam bloqueando os drafts. Evidência: evidence/semantic-guard-audit-2026-11-04.json.",
     "Pre-commit local em 2026-11-04: suíte 98/98 passou com FITGIRL_LANGUAGE=pt e TMPDIR em .work/tmp; py_compile, bash -n, sync-docs --check e git diff --check passaram. Ajustado o teste CFG à poda conservadora de ramo constante e o teste cgroup para usar o orçamento de memória detectado no host.",
-    "Correção da localização CLI em 2026-11-04: tela inicial, rótulos dinâmicos, etapas, destinos e marcadores de resposta agora são traduzidos após a seleção de inglês; separador decimal segue o idioma. i18n.restore também restaura idioma global para evitar vazamento entre invocações. 100/100 testes e verificações de pre-commit passaram."
+    "Correção da localização CLI em 2026-11-04: tela inicial, rótulos dinâmicos, etapas, destinos e marcadores de resposta agora são traduzidos após a seleção de inglês; separador decimal segue o idioma. i18n.restore também restaura idioma global para evitar vazamento entre invocações. 100/100 testes e verificações de pre-commit passaram.",
+    "Em 2026-11-05: preparação para refatoração incremental iniciada; nenhuma alteração de código realizada, aguardando escopo e instruções do usuário.",
+    "Refatoração incremental, etapa 1 em 2026-11-05: cli.py convertido em pacote cli sem extração de lógica; imports relativos, raiz e entrada python -m ajustados. Baseline: 100/100 com FITGIRL_LANGUAGE=pt; sem essa variável, 21 falhas preexistentes por EOF no seletor de idioma de testes não interativos. Após a mudança: 100/100, doctor interativo e artefato standalone validados. Commit local preparado, sem push."
   ]
 }
