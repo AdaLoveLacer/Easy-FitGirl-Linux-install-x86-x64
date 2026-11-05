@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import os
 import re
+import shutil
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 
 def section(lines: list[str], name: str) -> list[str]:
@@ -66,3 +68,20 @@ def disk_space_from_iss(path: Path) -> dict[str, Any] | None:
     }
 
 
+def discover_analysis_tool(
+    environment: str, bundled_name: str, command: str, *,
+    root: Path, pe_machine: Callable[[Path], int | None],
+) -> Path | None:
+    configured = os.environ.get(environment)
+    candidates = [Path(configured).expanduser()] if configured else []
+    candidates.append(root / "libexec" / bundled_name)
+    data_home = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share"))
+    candidates.append(data_home / "fitgirl-installer" / "tools" / bundled_name)
+    system = shutil.which(command)
+    if system:
+        candidates.append(Path(system))
+    for candidate in candidates:
+        resolved = candidate.resolve()
+        if resolved.is_file() and (pe_machine(resolved) is not None or os.access(resolved, os.X_OK)):
+            return resolved
+    return None

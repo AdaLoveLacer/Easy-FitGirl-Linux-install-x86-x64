@@ -25,6 +25,7 @@ from ..ifps_ir import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
 from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
 from ..planner import PLAN_COMPILER_VERSION, write_manifest
+from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
 from ..plan_audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
@@ -276,19 +277,9 @@ def select_codec_runtime() -> Path:
 
 
 def discover_analysis_tool(environment: str, bundled_name: str, command: str) -> Path | None:
-    configured = os.environ.get(environment)
-    candidates = [Path(configured).expanduser()] if configured else []
-    candidates.append(ROOT / "libexec" / bundled_name)
-    data_home = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share"))
-    candidates.append(data_home / "fitgirl-installer" / "tools" / bundled_name)
-    system = shutil.which(command)
-    if system:
-        candidates.append(Path(system))
-    for candidate in candidates:
-        resolved = candidate.resolve()
-        if resolved.is_file() and (pe_machine(resolved) is not None or os.access(resolved, os.X_OK)):
-            return resolved
-    return None
+    return analyzer.discover_analysis_tool(
+        environment, bundled_name, command, root=ROOT, pe_machine=pe_machine,
+    )
 
 
 def wine_z_path(path: Path) -> str:

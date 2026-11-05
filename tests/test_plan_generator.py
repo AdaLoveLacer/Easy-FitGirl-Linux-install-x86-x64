@@ -80,6 +80,25 @@ class PlanGeneratorTests(unittest.TestCase):
             with patch.dict(os.environ, {"XDG_DATA_HOME": str(root / "data")}, clear=True), patch.object(CLI, "ROOT", root), patch.object(CLI.shutil, "which", return_value=None):
                 self.assertEqual(CLI.discover_analysis_tool("TEST_TOOL", "pascalscript", "pascalscript"), tool)
 
+    def test_analysis_tool_discovery_respects_candidate_priority(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            configured = root / "configured"
+            bundled = root / "libexec" / "pascalscript"
+            user = root / "data" / "fitgirl-installer" / "tools" / "pascalscript"
+            system = root / "system"
+            candidates = (configured, bundled, user, system)
+            for candidate in candidates:
+                candidate.parent.mkdir(parents=True, exist_ok=True)
+                candidate.write_text("#!/bin/sh\nexit 0\n")
+                candidate.chmod(0o755)
+            environment = {"TEST_TOOL": str(configured), "XDG_DATA_HOME": str(root / "data")}
+            with patch.dict(os.environ, environment), patch.object(CLI, "ROOT", root), patch.object(CLI.shutil, "which", return_value=str(system)):
+                for expected in candidates:
+                    self.assertEqual(CLI.discover_analysis_tool("TEST_TOOL", "pascalscript", "pascalscript"), expected)
+                    expected.chmod(0o644)
+                self.assertIsNone(CLI.discover_analysis_tool("TEST_TOOL", "pascalscript", "pascalscript"))
+
     def test_literal_cmd_del_is_idempotent_and_reversible(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

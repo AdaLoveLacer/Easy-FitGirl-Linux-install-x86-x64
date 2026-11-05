@@ -104,9 +104,10 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    atualizar consumidores; `i18n.py` preserva imports antigos como alias para o
    mesmo módulo durante a transição.
 8. **Em andamento:** mover a análise do setup para `planning/analyzer.py`.
-   A primeira subetapa reúne a leitura das seções, campos, componentes e espaço
-   declarado no ISS; commit do usuário pendente. A geração e coleta das
-   evidências permanecem para as próximas subetapas.
+   A leitura de seções, campos, componentes e espaço declarado no ISS foi
+   movida em `e7f96a7`. A descoberta das ferramentas de análise também foi
+   movida; commit do usuário pendente. A geração e coleta das evidências
+   permanecem para as próximas subetapas.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.
