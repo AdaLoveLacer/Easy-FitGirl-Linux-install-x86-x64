@@ -107,8 +107,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    A leitura de seções, campos, componentes e espaço declarado no ISS foi
    movida em `e7f96a7`, e a descoberta das ferramentas de análise em
    `48c9e33`. A atualização da auditoria foi separada da função que gera o
-   plano, ainda no CLI; commit do usuário pendente. A geração e coleta das
-   evidências permanecem para as próximas subetapas.
+   plano em `192cf13`. A aplicação dos bloqueios semânticos foi movida para o
+   analisador. A geração e coleta das evidências permanecem para as próximas
+   subetapas.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.

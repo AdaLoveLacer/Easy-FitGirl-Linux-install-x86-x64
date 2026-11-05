@@ -85,3 +85,18 @@ def discover_analysis_tool(
         if resolved.is_file() and (pe_machine(resolved) is not None or os.access(resolved, os.X_OK)):
             return resolved
     return None
+
+
+def apply_semantic_blockers(candidate: dict[str, Any], report: dict[str, Any]) -> None:
+    """Apply critical audit findings to the generated manifest."""
+    blockers = [
+        f"{effect['kind']} em {effect['call_address']}: {effect.get('detail', 'efeito externo crítico não modelado')}"
+        for effect in report.get("semantic_guards", {}).get("critical_external_effects", [])
+        if effect.get("blocks_audit_acceptance") is True
+    ]
+    if blockers:
+        candidate["semantic_blockers"] = blockers
+        candidate["draft"] = True
+        candidate["review_required"] = True
+    else:
+        candidate.pop("semantic_blockers", None)

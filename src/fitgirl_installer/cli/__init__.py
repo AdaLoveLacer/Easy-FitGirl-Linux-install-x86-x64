@@ -296,17 +296,7 @@ def _refresh_analysis_audit(
             "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
         ),
     )
-    blockers = [
-        f"{effect['kind']} em {effect['call_address']}: {effect.get('detail', 'efeito externo crítico não modelado')}"
-        for effect in report.get("semantic_guards", {}).get("critical_external_effects", [])
-        if effect.get("blocks_audit_acceptance") is True
-    ]
-    if blockers:
-        candidate["semantic_blockers"] = blockers
-        candidate["draft"] = True
-        candidate["review_required"] = True
-    else:
-        candidate.pop("semantic_blockers", None)
+    analyzer.apply_semantic_blockers(candidate, report)
     atomic_json(manifest_path, candidate)
 
 
