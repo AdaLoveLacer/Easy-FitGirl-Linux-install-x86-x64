@@ -24,7 +24,8 @@ from typing import Any
 from ..ifps_ir import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
 from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
-from ..planner import PLAN_COMPILER_VERSION, disk_space_from_iss, write_manifest
+from ..planner import PLAN_COMPILER_VERSION, write_manifest
+from ..planning.analyzer import disk_space_from_iss
 from ..plan_audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
 from ..resource_limits import detect_limits, parse_cpu_list

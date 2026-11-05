@@ -17,6 +17,24 @@ from fitgirl_installer import planner as PLANNER  # noqa: E402
 
 
 class PlanGeneratorTests(unittest.TestCase):
+    def test_iss_components_combine_descriptions_and_defaults(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            iss = Path(temporary) / "install_script.iss"
+            iss.write_text(
+                '[Components]\n'
+                'Name: "base"; Description: "Русский"; Types: "compact"\n'
+                'Name: "base"; Description: "English"; Types: "full"\n'
+                'Name: "extra"; Types: "custom"\n'
+                'Name: "optional"; Description: "Optional"; Types: "compact"\n'
+                '[Files]\nName: "ignored"; Types: "full"\n',
+                encoding="utf-8",
+            )
+            self.assertEqual(PLANNER.components_from_iss(iss), {
+                "base": {"description": "English", "default": True},
+                "extra": {"description": "extra", "default": True},
+                "optional": {"description": "Optional", "default": False},
+            })
+
     def test_native_manifest_merge_preserves_addons_and_rolls_back(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

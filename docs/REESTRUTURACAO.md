@@ -100,10 +100,13 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
 6. **Concluída — `53b8770`:** mover seleção de idioma, parser, roteamento e
    tratamento de erros para `cli/main.py`; `cli/__init__.py` mantém uma fachada
    lazy para os imports existentes.
-7. **Implementada; commit do usuário pendente:** renomear `i18n.py` para
-   `translations.py` e atualizar consumidores; `i18n.py` preserva imports
-   antigos como alias para o mesmo módulo durante a transição.
-8. Mover a análise do setup para `planning/analyzer.py`.
+7. **Concluída — `ded94e8`:** renomear `i18n.py` para `translations.py` e
+   atualizar consumidores; `i18n.py` preserva imports antigos como alias para o
+   mesmo módulo durante a transição.
+8. **Em andamento:** mover a análise do setup para `planning/analyzer.py`.
+   A primeira subetapa reúne a leitura das seções, campos, componentes e espaço
+   declarado no ISS; commit do usuário pendente. A geração e coleta das
+   evidências permanecem para as próximas subetapas.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.
@@ -130,6 +133,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
+A etapa 8 ainda está em andamento e só será contada após sua conclusão.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado
