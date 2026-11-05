@@ -28,6 +28,7 @@ from ..planner import PLAN_COMPILER_VERSION, disk_space_from_iss, write_manifest
 from ..plan_audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
 from ..resource_limits import detect_limits, parse_cpu_list
+from .presentation import _wizard_page, _component_label, format_size
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -206,39 +207,6 @@ def parse_components(manifest: dict[str, Any], source: Path, requested: list[str
         if data.get("required") and name not in selected:
             raise InstallerError(f"o componente obrigatório {name} não pode ser desativado")
     return selected
-
-
-def _wizard_page(step: int, title: str, details: list[str] | None = None) -> None:
-    """Keep the first-run menu focused, clearing only an interactive terminal."""
-    if sys.stdout.isatty():
-        sys.stdout.write("\033[2J\033[H")
-    print("FITGIRL INSTALLER")
-    print(f"Etapa {step} de 4  |  {title}")
-    print("─" * 40)
-    for detail in details or []:
-        print(detail)
-    if details:
-        print()
-
-
-def _component_label(name: str, data: dict[str, Any]) -> str:
-    key = name.casefold()
-    if key == "text":
-        return "Arquivos principais"
-    if key == "vid4k":
-        return "Vídeos em 4K"
-    if key.startswith("local\\"):
-        language = key.rsplit("\\", 1)[-1]
-        return {
-            "eng": "Inglês", "rus": "Russo", "esp": "Espanhol",
-            "ger": "Alemão", "fra": "Francês", "ita": "Italiano",
-            "jap": "Japonês",
-        }.get(language, str(data.get("description", name)))
-    if key == "directx":
-        return "DirectX"
-    if key.startswith("vc_"):
-        return str(data.get("description", name)).split(" (recognized", 1)[0].replace("Visual C++", "Microsoft Visual C++")
-    return str(data.get("description", name))
 
 
 def prompt_components(
@@ -747,16 +715,6 @@ def default_game_name(manifest: dict[str, Any], source: Path) -> str:
 def target_work_id(target: Path, setup_hash: str) -> str:
     """Keep separate resumable journals for sibling targets of the same game."""
     return re.sub(r"[^a-z0-9]+", "-", target.name.casefold()).strip("-") or setup_hash[:12]
-
-
-def format_size(size: int) -> str:
-    value = float(size)
-    decimal_separator = "." if i18n.LANGUAGE == "en" else ","
-    for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
-        if value < 1024 or unit == "TiB":
-            return f"{value:.2f} {unit}".replace(".", decimal_separator)
-        value /= 1024
-    raise AssertionError("unreachable")
 
 
 def repack_size(source: Path) -> int:
