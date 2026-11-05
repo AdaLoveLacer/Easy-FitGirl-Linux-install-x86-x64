@@ -4,6 +4,10 @@ O projeto possui um único comando público, `fitgirl`. O controle permanece no
 Linux; Wine é usado somente como ABI para DLLs, codecs e pós-processamentos PE.
 O `setup.exe` é lido como contêiner e fonte de metadados, mas nunca é executado.
 
+A estrutura modular planejada e as regras para migrar o código sem interromper
+o funcionamento estão em [REESTRUTURACAO.md](REESTRUTURACAO.md). Esta página
+descreve o fluxo em operação.
+
 Arquivos para visualização externa com pan/zoom:
 
 - [`architecture.pdf`](architecture.pdf) — diagrama vetorial pronto;

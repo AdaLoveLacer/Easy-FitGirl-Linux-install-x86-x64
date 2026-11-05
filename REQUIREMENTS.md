@@ -4,7 +4,7 @@ Este arquivo é a fonte de verdade dos requisitos definidos pelo usuário. Deve
 ser revisado antes de mudanças arquiteturais e atualizado antes de compactações
 de contexto quando houver decisão nova.
 
-Última atualização: 2026-11-04
+Última atualização: 2026-11-05
 
 ## Objetivo principal
 
@@ -69,6 +69,20 @@ ambíguo**. Scripts auxiliares não podem parecer instaladores alternativos.
 - A raiz não deve conter vários `.py`/`.sh` que pareçam entrypoints concorrentes.
 - O backend, monitor e verificador devem ser detalhes internos, não comandos
   concorrentes visíveis ao usuário.
+
+## Reestruturação incremental do código-fonte
+
+A estrutura alvo acordada está em [docs/REESTRUTURACAO.md](docs/REESTRUTURACAO.md).
+Ela organiza o pacote em `cli/`, `planning/`, `execution/`, `verification/` e
+`platform/`, com `translations.py` e `script_flow.py` como nomes escolhidos.
+A migração deve ocorrer em pequenas etapas com uma responsabilidade por função
+e por módulo, preservar comportamento e compatibilidade em cada estado
+intermediário, validar testes e uso real do CLI quando aplicável, e criar um
+commit local atômico por etapa validada, sem push.
+
+Um atalho futuro de ambiente gráfico pode abrir um terminal e executar
+`fitgirl`; isso não cria uma interface gráfica do instalador nem altera o
+requisito de um único comando e artefato público.
 
 ## Restrições de segurança e publicação
 
