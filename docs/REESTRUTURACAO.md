@@ -162,9 +162,9 @@ removidas apenas quando seus consumidores forem migrados.
 - Corrigir qualquer falha nova antes de commitar. Preparar uma etapa funcional
   atômica, incluindo movimentação, imports e cobertura necessária. O assistente
   cria o commit local após a validação, com mensagem natural em português, faz
-  o push em seguida e informa o usuário a cada commit. Se o push falhar, relatar
-  o motivo e resolver o bloqueio antes da próxima etapa. Relatar testes,
-  resultado, limitações e próxima etapa; parar para revisão do usuário.
+  o push em seguida e informa por voz o usuário a cada commit. Se o push falhar,
+  relatar o motivo e resolver o bloqueio antes da próxima etapa. Relatar testes,
+  resultado e limitações; continuar para a próxima etapa sem pausa obrigatória.
 - Ao concluir ou bloquear uma etapa, atualizar `status/project-status.json`,
   executar `python3 tools/sync-docs.py --write` e verificar com `--check`.
 
