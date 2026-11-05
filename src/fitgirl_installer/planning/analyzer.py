@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import re
 import shutil
+import subprocess
 from pathlib import Path
 from typing import Any, Callable
 
@@ -118,3 +119,23 @@ def refresh_analysis_audit(
     )
     apply_semantic_blockers(candidate, report)
     save_json(manifest_path, candidate)
+
+
+def disassemble_compiled_code(
+    disassembler: Path, compiled: Path, disassembly: Path, analysis: Path, *,
+    error_type: type[RuntimeError],
+) -> None:
+    """Write disassembly and retain diagnostic output for failed analysis."""
+    disassembly_log = analysis / "pascalscript.stderr.log"
+    try:
+        with disassembly.open("w", encoding="utf-8") as output, disassembly_log.open(
+            "w", encoding="utf-8"
+        ) as errors:
+            completed = subprocess.run(
+                [str(disassembler), str(compiled)], stdout=output, stderr=errors,
+                text=True, timeout=120, check=False,
+            )
+    except subprocess.TimeoutExpired as error:
+        raise error_type(f"disassembler IFPS excedeu 120 s; veja {analysis}") from error
+    if completed.returncode != 0 or not disassembly.is_file() or disassembly.stat().st_size == 0:
+        raise error_type(f"disassembler IFPS falhou; veja {disassembly_log}")

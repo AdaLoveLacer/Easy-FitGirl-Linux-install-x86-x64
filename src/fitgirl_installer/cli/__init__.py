@@ -415,19 +415,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
             f"innounp não produziu ISS/CompiledCode.bin; veja {extract_log}"
         )
 
-    disassembly_log = analysis / "pascalscript.stderr.log"
-    try:
-        with disassembly.open("w", encoding="utf-8") as output, disassembly_log.open(
-            "w", encoding="utf-8"
-        ) as errors:
-            completed = subprocess.run(
-                [str(disassembler), str(compiled)], stdout=output, stderr=errors,
-                text=True, timeout=120, check=False,
-            )
-    except subprocess.TimeoutExpired as error:
-        raise InstallerError(f"disassembler IFPS excedeu 120 s; veja {analysis}") from error
-    if completed.returncode != 0 or not disassembly.is_file() or disassembly.stat().st_size == 0:
-        raise InstallerError(f"disassembler IFPS falhou; veja {disassembly_log}")
+    analyzer.disassemble_compiled_code(
+        disassembler, compiled, disassembly, analysis, error_type=InstallerError,
+    )
 
     cfg = write_cfg_report(disassembly, control_flow)
     manifest = write_manifest(iss, disassembly, setup, source, manifest_path)

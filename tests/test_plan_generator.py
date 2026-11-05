@@ -162,6 +162,41 @@ class PlanGeneratorTests(unittest.TestCase):
                     self.assertEqual(write_cfg.call_count, int(stale))
                     self.assertEqual(write_manifest.call_count, int(stale))
 
+    def test_disassembler_failure_preserves_analysis_evidence(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            innounp = root / "fake-innounp"
+            disassembler = root / "fake-pascalscript"
+            for scenario in ("nonzero", "empty", "timeout"):
+                with self.subTest(scenario=scenario):
+                    analysis = root / "cache" / "fitgirl-installer" / "plans" / scenario
+                    extracted = analysis / "innounp"
+                    compiled = extracted / "embedded" / "CompiledCode.bin"
+                    compiled.parent.mkdir(parents=True)
+                    (extracted / "install_script.iss").write_text("[Setup]\n")
+                    compiled.write_bytes(b"compiled")
+                    first = CLI.subprocess.CompletedProcess(
+                        [str(innounp)], 0, stdout="innounp log",
+                    )
+                    if scenario == "timeout":
+                        second = CLI.subprocess.TimeoutExpired([str(disassembler)], 120)
+                        message = "disassembler IFPS excedeu 120 s"
+                    else:
+                        second = CLI.subprocess.CompletedProcess(
+                            [str(disassembler)], int(scenario == "nonzero"),
+                        )
+                        message = "disassembler IFPS falhou"
+                    with (
+                        patch.dict(os.environ, {"XDG_CACHE_HOME": str(root / "cache")}),
+                        patch.object(CLI, "discover_analysis_tool", side_effect=[innounp, disassembler]),
+                        patch.object(CLI.subprocess, "run", side_effect=[first, second]),
+                        self.assertRaisesRegex(CLI.InstallerError, message),
+                    ):
+                        CLI.generate_manifest_draft(root, root / "setup.exe", scenario)
+                    self.assertEqual((analysis / "innounp.log").read_text(), "innounp log")
+                    self.assertTrue((analysis / "pascalscript.stderr.log").is_file())
+                    self.assertTrue(compiled.is_file())
+
     def test_literal_cmd_del_is_idempotent_and_reversible(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
