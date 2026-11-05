@@ -286,6 +286,30 @@ def wine_z_path(path: Path) -> str:
     return "Z:" + str(path.resolve()).replace("/", "\\")
 
 
+def _refresh_analysis_audit(
+    candidate: dict[str, Any], iss: Path, disassembly: Path, compiled: Path,
+    analysis: Path, manifest_path: Path,
+) -> None:
+    report = write_audit(
+        candidate, iss, disassembly, compiled, analysis / "plan-audit.json",
+        disassembler=discover_analysis_tool(
+            "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
+        ),
+    )
+    blockers = [
+        f"{effect['kind']} em {effect['call_address']}: {effect.get('detail', 'efeito externo crítico não modelado')}"
+        for effect in report.get("semantic_guards", {}).get("critical_external_effects", [])
+        if effect.get("blocks_audit_acceptance") is True
+    ]
+    if blockers:
+        candidate["semantic_blockers"] = blockers
+        candidate["draft"] = True
+        candidate["review_required"] = True
+    else:
+        candidate.pop("semantic_blockers", None)
+    atomic_json(manifest_path, candidate)
+
+
 def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple[Path, dict[str, Any]]:
     """Analyze an unknown setup without executing it and cache all review evidence."""
     cache_root = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache"))
@@ -297,25 +321,6 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
     control_flow = analysis / "control-flow.json"
     manifest_path = analysis / "manifest.draft.json"
 
-    def refresh_audit(candidate: dict[str, Any]) -> None:
-        report = write_audit(
-            candidate, iss, disassembly, compiled, analysis / "plan-audit.json",
-            disassembler=discover_analysis_tool(
-                "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
-            ),
-        )
-        blockers = [
-            f"{effect['kind']} em {effect['call_address']}: {effect.get('detail', 'efeito externo crítico não modelado')}"
-            for effect in report.get("semantic_guards", {}).get("critical_external_effects", [])
-            if effect.get("blocks_audit_acceptance") is True
-        ]
-        if blockers:
-            candidate["semantic_blockers"] = blockers
-            candidate["draft"] = True
-            candidate["review_required"] = True
-        else:
-            candidate.pop("semantic_blockers", None)
-        atomic_json(manifest_path, candidate)
     cached_manifest = load_json(manifest_path) if manifest_path.is_file() else {}
     disassembly_current = (
         disassembly.is_file()
@@ -334,7 +339,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
     ):
         manifest = cached_manifest
         if setup_hash in manifest.get("setup_sha256", []):
-            refresh_audit(manifest)
+            _refresh_analysis_audit(
+                manifest, iss, disassembly, compiled, analysis, manifest_path,
+            )
             return manifest_path, manifest
     if (
         manifest_path.is_file() and iss.is_file() and compiled.is_file()
@@ -359,7 +366,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
             if current_disassembler is not None:
                 manifest["analysis"]["ifps_disassembler_sha256"] = sha256(current_disassembler)
             atomic_json(manifest_path, manifest)
-            refresh_audit(manifest)
+            _refresh_analysis_audit(
+                manifest, iss, disassembly, compiled, analysis, manifest_path,
+            )
             return manifest_path, manifest
 
     innounp = discover_analysis_tool("FITGIRL_INNOUNP", "innounp.exe", "innounp")
@@ -446,7 +455,9 @@ def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple
         "ifps_disassembler_sha256": sha256(disassembler),
     }
     atomic_json(manifest_path, manifest)
-    refresh_audit(manifest)
+    _refresh_analysis_audit(
+        manifest, iss, disassembly, compiled, analysis, manifest_path,
+    )
     return manifest_path, manifest
 
 

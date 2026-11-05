@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import sys
 import tempfile
@@ -98,6 +99,68 @@ class PlanGeneratorTests(unittest.TestCase):
                     self.assertEqual(CLI.discover_analysis_tool("TEST_TOOL", "pascalscript", "pascalscript"), expected)
                     expected.chmod(0o644)
                 self.assertIsNone(CLI.discover_analysis_tool("TEST_TOOL", "pascalscript", "pascalscript"))
+
+    def test_cached_analysis_refreshes_semantic_blockers(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            setup_hash = "cached-setup"
+            analysis = root / "fitgirl-installer" / "plans" / setup_hash
+            iss = analysis / "innounp" / "install_script.iss"
+            compiled = analysis / "innounp" / "embedded" / "CompiledCode.bin"
+            disassembly = analysis / "CompiledCode.disassembly.txt"
+            control_flow = analysis / "control-flow.json"
+            manifest_path = analysis / "manifest.draft.json"
+            compiled.parent.mkdir(parents=True)
+            iss.write_text("[Setup]\n")
+            compiled.write_bytes(b"compiled")
+            disassembly.write_text("disassembly")
+            control_flow.write_text(json.dumps({"schema": CLI.IFPS_IR_SCHEMA_VERSION}))
+            for blocked, stale in ((True, False), (False, False), (True, True)):
+                with self.subTest(blocked=blocked, stale=stale):
+                    manifest = {
+                        "setup_sha256": [setup_hash],
+                        "compiler_version": CLI.PLAN_COMPILER_VERSION - int(stale),
+                        "analysis": {"disassembly_sha256": CLI.sha256(disassembly)},
+                        "semantic_blockers": ["old blocker"],
+                        "draft": False,
+                        "review_required": False,
+                    }
+                    manifest_path.write_text(json.dumps(manifest))
+                    effect = {
+                        "kind": "write", "call_address": "0x10",
+                        "blocks_audit_acceptance": blocked,
+                    }
+                    report = {"semantic_guards": {"critical_external_effects": [effect]}}
+                    regenerated = {
+                        "setup_sha256": [setup_hash], "semantic_blockers": ["old blocker"],
+                        "draft": False, "review_required": False,
+                    }
+                    with (
+                        patch.dict(os.environ, {"XDG_CACHE_HOME": str(root)}),
+                        patch.object(CLI, "discover_analysis_tool", return_value=None),
+                        patch.object(CLI, "write_audit", return_value=report) as write_audit,
+                        patch.object(CLI, "write_cfg_report", return_value={"totals": {}}) as write_cfg,
+                        patch.object(CLI, "write_manifest", return_value=regenerated) as write_manifest,
+                    ):
+                        path, result = CLI.generate_manifest_draft(root, root / "setup.exe", setup_hash)
+                    self.assertEqual(path, manifest_path)
+                    if blocked:
+                        self.assertEqual(result["semantic_blockers"], [
+                            "write em 0x10: efeito externo crítico não modelado",
+                        ])
+                        self.assertTrue(result["draft"])
+                        self.assertTrue(result["review_required"])
+                    else:
+                        self.assertNotIn("semantic_blockers", result)
+                        self.assertFalse(result["draft"])
+                        self.assertFalse(result["review_required"])
+                    self.assertEqual(json.loads(manifest_path.read_text()), result)
+                    write_audit.assert_called_once_with(
+                        result, iss, disassembly, compiled, analysis / "plan-audit.json",
+                        disassembler=None,
+                    )
+                    self.assertEqual(write_cfg.call_count, int(stale))
+                    self.assertEqual(write_manifest.call_count, int(stale))
 
     def test_literal_cmd_del_is_idempotent_and_reversible(self):
         with tempfile.TemporaryDirectory() as temporary:
