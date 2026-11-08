@@ -24,7 +24,7 @@ from typing import Any
 from ..planning.script_flow import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
 from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
-from ..planner import PLAN_COMPILER_VERSION, write_manifest
+from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
 from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
 from ..plan_audit import write_audit

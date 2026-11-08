@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from .planning.analyzer import components_from_iss, disk_space_from_iss, field, section
+from .analyzer import components_from_iss, disk_space_from_iss, field, section
 
 
 ASSIGN_STRING = re.compile(r'assign\s+\S+,\s+"([^"]*)"', re.IGNORECASE)
@@ -560,7 +560,7 @@ def temporary_payload_files(
     disassembly: Path, iss: Path
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Recover every ExtractTemporaryFile dependency across all procedures."""
-    from .planning.script_flow import parse_disassembly
+    from .script_flow import parse_disassembly
 
     calls: list[dict[str, Any]] = []
     for procedure in parse_disassembly(disassembly):

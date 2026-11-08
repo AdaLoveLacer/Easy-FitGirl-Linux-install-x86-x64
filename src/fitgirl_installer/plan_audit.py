@@ -11,8 +11,7 @@ import re
 import subprocess
 from typing import Any
 
-from . import planner
-from .planning import script_flow
+from .planning import planner, script_flow
 
 
 SCHEMA_VERSION = 2

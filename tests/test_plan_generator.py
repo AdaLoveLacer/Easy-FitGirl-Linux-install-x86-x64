@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from fitgirl_installer import cli as CLI  # noqa: E402
 from fitgirl_installer.planning import script_flow as IFPS_IR  # noqa: E402
-from fitgirl_installer import planner as PLANNER  # noqa: E402
+from fitgirl_installer.planning import planner as PLANNER  # noqa: E402
 
 
 class PlanGeneratorTests(unittest.TestCase):

@@ -125,7 +125,11 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    componentes) foi movido inteiro, sem mudança de lógica; `planner.py`,
    `plan_audit.py`, o CLI e os testes passaram a importar o novo módulo, e o
    arquivo antigo foi removido por não ter mais consumidores.
-10. Mover a geração de plano para `planning/planner.py`.
+10. **Concluída:** mover a geração de plano para `planning/planner.py`. O
+    módulo foi movido inteiro, sem mudança de lógica, e seus imports internos
+    passaram a apontar para `analyzer` e `script_flow` no mesmo pacote. O CLI,
+    `plan_audit.py`, `tools/plan-from-disassembly.py` e os testes importam o
+    novo caminho; o `planner.py` antigo foi removido.
 11. Mover a auditoria para `planning/audit.py`.
 12. Mover a coordenação das etapas para `execution/installer.py`.
 13. Separar a persistência e retomada em `execution/journal.py`.
@@ -150,7 +154,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado
