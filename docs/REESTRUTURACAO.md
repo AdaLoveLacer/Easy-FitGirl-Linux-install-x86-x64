@@ -151,20 +151,19 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     escolha do plano e dos componentes e com a retomada do journal, que vai
     para `journal.py` na etapa 13; os `run_*` seguem no CLI, ligados por
     adaptadores, até as etapas 13 a 15.
-13. **Em andamento:** separar a persistência e retomada em
-    `execution/journal.py`. Passo preparatório: `InstallerError` saiu do CLI
-    para `models.py`, por ser o tipo compartilhado que o journal e o CLI
-    precisam sem import circular; o CLI o reexporta, e a classe é a mesma.
-    Depois saíram a gravação atômica de JSON com `.bak` (`atomic_json`), a
-    leitura (`load_json`) e a recuperação do journal corrompido
-    (`load_state`), com o mesmo corpo; o CLI as reexporta.
-    Em seguida saíram o estado inicial (`initial_state`, com `STATE_VERSION`),
-    a validação contra o journal salvo (`validate_state`) e a retomada que
-    recusa rodar ao lado de uma etapa ainda viva (`resume_or_start`).
-    Depois saiu o monitoramento da ordem em produção
-    (`validate_runtime_order`, `record_runtime_completion` e o relatório de
-    divergência), com o corpo idêntico e testes de caracterização escritos
-    contra o código anterior à mudança.
+13. **Concluída:** separar a persistência e retomada em
+    `execution/journal.py`. Passo preparatório em `90fcd45`: `InstallerError`
+    foi para `models.py`, para o journal e o CLI o compartilharem sem import
+    circular. Depois saíram a gravação atômica com `.bak`, a leitura e a
+    recuperação do journal corrompido (`0679e3b`); o estado inicial, a
+    validação e a retomada que recusa rodar ao lado de uma etapa viva
+    (`520f6c8`); o monitoramento da ordem em produção (`bb51f3e`), com testes
+    de caracterização escritos antes da mudança; e as transações (backup com
+    reflink, rollback confinado, recuperação na retomada e finalização). O
+    `begin_transaction` do journal recebe os caminhos por uma função chamada
+    só depois da checagem de `rollback_paths`; o CLI mantém um invólucro com a
+    assinatura antiga e o `transaction_paths`, que depende da resolução de
+    caminhos das etapas e segue com os executores.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.
 16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
@@ -186,7 +185,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

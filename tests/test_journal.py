@@ -112,5 +112,64 @@ class ResumeTests(unittest.TestCase):
         self.assertEqual((state["completed"], state["active"]), ({}, None))
 
 
+class TransactionTests(unittest.TestCase):
+    def test_step_without_rollback_paths_is_refused_before_asking_paths(self):
+        asked = []
+        with tempfile.TemporaryDirectory() as temporary:
+            scratch = Path(temporary)
+            with self.assertRaisesRegex(InstallerError, "sem rollback_paths"):
+                journal.begin_transaction(
+                    "001:x", {}, scratch, scratch / "s.json", {}, False,
+                    mutable_paths=lambda: asked.append(True) or [],
+                )
+        self.assertEqual(asked, [])
+
+    def test_dry_run_reports_paths_without_backing_up(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            scratch = Path(temporary)
+            state = {}
+            with redirect_stdout(io.StringIO()) as output:
+                journal.begin_transaction(
+                    "001:x", {"rollback_paths": []}, scratch, scratch / "s.json", state, True,
+                    mutable_paths=lambda: [scratch / "a", scratch / "b"],
+                )
+            self.assertIn("2 caminhos mutáveis", output.getvalue())
+            self.assertEqual(state, {})
+            self.assertFalse((scratch / "transactions").exists())
+
+    def test_backup_then_rollback_restores_changed_and_removes_created_files(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            target, scratch = root / "target", root / "scratch"
+            (target / "dir").mkdir(parents=True)
+            changed, created = target / "dir" / "game.ini", target / "new.dll"
+            changed.write_text("original")
+            state_path, state = scratch / "install-state.json", {"completed": {}}
+            with redirect_stdout(io.StringIO()):
+                journal.begin_transaction(
+                    "002:patch", {"rollback_paths": [...]}, scratch, state_path, state, False,
+                    mutable_paths=lambda: [changed, created],
+                )
+                self.assertEqual(state["transactions"]["002:patch"]["status"], "prepared")
+                changed.write_text("patched")
+                created.write_text("new")
+                journal.restore_transaction("002:patch", target, scratch, state_path, state)
+            self.assertEqual(changed.read_text(), "original")
+            self.assertFalse(created.exists())
+            self.assertEqual(state["transactions"]["002:patch"]["status"], "rolled-back")
+            self.assertFalse((scratch / "transactions" / "002-patch").exists())
+            self.assertEqual(json.loads(state_path.read_text())["transactions"]["002:patch"]["status"], "rolled-back")
+
+    def test_finalize_refuses_root_outside_scratch(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            scratch = Path(temporary) / "scratch"
+            outside = Path(temporary) / "outside"
+            outside.mkdir()
+            state = {"transactions": {"001:x": {"root": str(outside)}}}
+            with self.assertRaisesRegex(InstallerError, "fora do scratch"):
+                journal.finalize_transactions(scratch, scratch / "s.json", state)
+            self.assertTrue(outside.is_dir())
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

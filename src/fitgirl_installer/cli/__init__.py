@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import functools
 import hashlib
-import fcntl
 from importlib import import_module
 import json
 import os
@@ -28,7 +27,8 @@ from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
 from ..execution import installer
 from ..execution import journal
 from ..execution.journal import (
-    atomic_json, initial_state, load_json, load_state, record_runtime_completion,
+    atomic_json, finalize_transactions, initial_state, load_json, load_state,
+    record_runtime_completion, recover_incomplete_transactions, restore_transaction,
     validate_runtime_order,
 )
 from ..models import InstallerError
@@ -1293,27 +1293,6 @@ def isexec_command(
     ]
 
 
-def clone_path(source: Path, destination: Path) -> None:
-    """Create an independent backup, preferring a copy-on-write reflink."""
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    if source.is_symlink():
-        destination.symlink_to(os.readlink(source))
-        return
-    if source.is_dir():
-        destination.mkdir()
-        for child in source.iterdir():
-            clone_path(child, destination / child.name)
-        shutil.copystat(source, destination, follow_symlinks=False)
-        return
-    with source.open("rb") as input_handle, destination.open("xb") as output_handle:
-        try:
-            fcntl.ioctl(output_handle.fileno(), 0x40049409, input_handle.fileno())
-        except OSError:
-            input_handle.seek(0)
-            shutil.copyfileobj(input_handle, output_handle, 8 * 1024 * 1024)
-    shutil.copystat(source, destination, follow_symlinks=False)
-
-
 def transaction_paths(
     step: dict[str, Any], target: Path, scratch: Path
 ) -> list[Path]:
@@ -1338,80 +1317,10 @@ def begin_transaction(
     key: str, step: dict[str, Any], target: Path, scratch: Path,
     state_path: Path, state: dict[str, Any], dry_run: bool,
 ) -> None:
-    if "rollback_paths" not in step:
-        raise InstallerError(f"{key}: ISExec sem rollback_paths comprovados")
-    paths = transaction_paths(step, target, scratch)
-    print(f"[TRANSAÇÃO] {key}: {len(paths)} caminhos mutáveis")
-    if dry_run:
-        return
-    record_root = scratch / "transactions" / key.replace(":", "-")
-    if record_root.exists():
-        raise InstallerError(f"transação anterior não resolvida: {record_root}")
-    entries: list[dict[str, Any]] = []
-    for index, path in enumerate(paths):
-        entry: dict[str, Any] = {
-            "path": str(path), "existed": os.path.lexists(path),
-        }
-        if os.path.lexists(path):
-            backup = record_root / f"{index:06d}"
-            clone_path(path, backup)
-            entry["backup"] = str(backup)
-        entries.append(entry)
-    state.setdefault("transactions", {})[key] = {
-        "kind": "isexec", "status": "prepared", "entries": entries,
-        "root": str(record_root),
-        "started_at": time.time(),
-    }
-    atomic_json(state_path, state)
-
-
-def restore_transaction(
-    key: str, target: Path, scratch: Path,
-    state_path: Path, state: dict[str, Any],
-) -> None:
-    record = state.get("transactions", {}).get(key)
-    if not record or record.get("status") == "rolled-back":
-        return
-    record_root_value = record.get("root")
-    if not record_root_value:
-        raise InstallerError(f"transação {key} sem raiz de backup")
-    transactions_root = (scratch / "transactions").resolve()
-    record_root = Path(record_root_value).resolve()
-    try:
-        record_root.relative_to(transactions_root)
-    except ValueError as error:
-        raise InstallerError(
-            f"raiz de transação fora do scratch: {record_root}"
-        ) from error
-    allowed_roots = (target.resolve(), scratch.resolve())
-    for entry in reversed(record["entries"]):
-        path = Path(entry["path"])
-        resolved = path.resolve()
-        if not any(
-            resolved == root or root in resolved.parents for root in allowed_roots
-        ):
-            raise InstallerError(f"rollback recusou caminho não confinado: {path}")
-        if entry["existed"]:
-            backup = Path(entry["backup"]).resolve()
-            try:
-                backup.relative_to(record_root)
-            except ValueError as error:
-                raise InstallerError(
-                    f"backup de transação fora da quarentena: {backup}"
-                ) from error
-        if path.is_dir() and not path.is_symlink():
-            shutil.rmtree(path)
-        else:
-            path.unlink(missing_ok=True)
-        if entry["existed"]:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            os.replace(backup, path)
-    record["status"] = "rolled-back"
-    if record_root.is_dir():
-        shutil.rmtree(record_root)
-    state.get("completed", {}).pop(key, None)
-    atomic_json(state_path, state)
-    print(f"[ROLLBACK] {key} restaurado")
+    journal.begin_transaction(
+        key, step, scratch, state_path, state, dry_run,
+        mutable_paths=lambda: transaction_paths(step, target, scratch),
+    )
 
 
 def fart_expected_outputs(
@@ -1524,40 +1433,6 @@ def run_delete(
             "path": str(path), "existed": True, "backup": str(quarantine),
         })
     state.setdefault("transactions", {})[key] = record
-    atomic_json(state_path, state)
-
-
-def recover_incomplete_transactions(
-    target: Path, scratch: Path, state_path: Path, state: dict[str, Any]
-) -> None:
-    """Undo an ISExec that did not reach the completed-step journal entry."""
-    for key, record in list(state.get("transactions", {}).items()):
-        if record.get("kind") != "isexec" or key in state.get("completed", {}):
-            continue
-        if record.get("status") in {"prepared", "committed"}:
-            print(f"[RECUPERAÇÃO] rollback da etapa incompleta {key}")
-            restore_transaction(key, target, scratch, state_path, state)
-
-
-def finalize_transactions(
-    scratch: Path, state_path: Path, state: dict[str, Any]
-) -> None:
-    """Discard rollback data only after every installation step succeeded."""
-    transactions_root = (scratch / "transactions").resolve()
-    for key, record in state.get("transactions", {}).items():
-        root_value = record.get("root")
-        if not root_value:
-            raise InstallerError(f"transação {key} sem raiz durante finalização")
-        root = Path(root_value).resolve()
-        try:
-            root.relative_to(transactions_root)
-        except ValueError as error:
-            raise InstallerError(
-                f"finalização recusou raiz fora do scratch: {root}"
-            ) from error
-        if root.is_dir():
-            shutil.rmtree(root)
-    state["transactions"] = {}
     atomic_json(state_path, state)
 
 
