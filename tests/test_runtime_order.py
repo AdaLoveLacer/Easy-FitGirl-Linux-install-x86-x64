@@ -61,13 +61,18 @@ class RuntimeOrderTests(unittest.TestCase):
             order.validate_runtime_order(self.scratch, MANIFEST, state, PLANNED)
         report = self.report()
         self.assertEqual(report["kind"], "runtime_execution_order_divergence")
-        # Comportamento atual preservado pela refatoração. O "expected_next"
-        # deste caso aponta 003:c em vez de 002:b (bug pré-existente,
-        # registrado para correção separada), por isso não é conferido aqui.
+        self.assertEqual(report["expected_next"], {"step": "002:b", "index": 2})
         self.assertEqual(report["observed"]["step"], "003:c")
         self.assertEqual(report["observed"]["event"], "completed_in_journal")
         self.assertEqual(report["reason"], "o journal marca uma etapa posterior como concluída antes da etapa esperada")
         self.assertNotIn(str(self.scratch), json.dumps(report))
+
+    def test_missing_first_step_is_the_expected_next(self):
+        with self.assertRaisesRegex(InstallerError, "etapa posterior como concluída"):
+            order.validate_runtime_order(self.scratch, MANIFEST, journal(["002:b", "003:c"]), PLANNED)
+        report = self.report()
+        self.assertEqual(report["expected_next"], {"step": "001:a", "index": 1})
+        self.assertEqual(report["observed"]["step"], "002:b")
 
     def test_unknown_completed_step_is_reported(self):
         with self.assertRaisesRegex(InstallerError, "não pertence ao plano"):

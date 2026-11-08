@@ -199,8 +199,13 @@ def validate_runtime_order(
         )
     completed_positions = sorted(positions[key] for key in completed_keys)
     if completed_positions != list(range(len(completed_positions))):
-        expected_key = planned[len(completed_positions)][2] if len(completed_positions) < len(planned) else None
-        later = next(key for key in completed_keys if positions[key] >= len(completed_positions))
+        # The next expected step is the first plan position missing from the
+        # journal, not the count of completed steps: with A and C completed
+        # the missing step is B.
+        done = set(completed_positions)
+        missing = next(position for position in range(len(planned)) if position not in done)
+        expected_key = planned[missing][2]
+        later = next(key for key in completed_keys if positions[key] > missing)
         _runtime_order_report(
             scratch, manifest, state, planned, expected_key,
             {"step": later, "event": "completed_in_journal", "index": positions[later]},
