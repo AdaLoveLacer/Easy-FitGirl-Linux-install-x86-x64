@@ -283,96 +283,22 @@ def wine_z_path(path: Path) -> str:
     return "Z:" + str(path.resolve()).replace("/", "\\")
 
 
-def _refresh_analysis_audit(
-    candidate: dict[str, Any], iss: Path, disassembly: Path, compiled: Path,
-    analysis: Path, manifest_path: Path,
-) -> None:
-    analyzer.refresh_analysis_audit(
-        candidate, iss, disassembly, compiled, analysis, manifest_path,
-        write_audit=write_audit, find_tool=discover_analysis_tool, save_json=atomic_json,
+def _analysis_services() -> analyzer.AnalysisServices:
+    """Bind the analysis to this module's helpers, looked up at call time."""
+    return analyzer.AnalysisServices(
+        read_json=load_json, save_json=atomic_json, sha256=sha256,
+        write_cfg=write_cfg_report, write_manifest=write_manifest, write_audit=write_audit,
+        find_tool=discover_analysis_tool, pe_machine=pe_machine, discover_wine=discover_wine,
+        wine_z_path=wine_z_path, compiler_version=PLAN_COMPILER_VERSION,
+        schema_version=IFPS_IR_SCHEMA_VERSION, error_type=InstallerError,
     )
 
 
 def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple[Path, dict[str, Any]]:
     """Analyze an unknown setup without executing it and cache all review evidence."""
-    paths = analyzer.analysis_paths(setup_hash)
-    cache_root, analysis, extracted = paths.cache_root, paths.analysis, paths.extracted
-    iss, compiled, disassembly = paths.iss, paths.compiled, paths.disassembly
-    control_flow, manifest_path = paths.control_flow, paths.manifest
-
-    cached_manifest, disassembly_current, compiler_current, control_flow_current = (
-        analyzer.inspect_analysis_cache(
-            manifest_path, disassembly, control_flow, read_json=load_json, sha256=sha256,
-            compiler_version=PLAN_COMPILER_VERSION, schema_version=IFPS_IR_SCHEMA_VERSION,
-        )
+    return analyzer.generate_manifest_draft(
+        source, setup, setup_hash, services=_analysis_services(),
     )
-    if (
-        manifest_path.is_file() and iss.is_file() and compiled.is_file()
-        and disassembly.is_file() and control_flow_current and disassembly_current
-        and compiler_current
-    ):
-        manifest = cached_manifest
-        if setup_hash in manifest.get("setup_sha256", []):
-            _refresh_analysis_audit(
-                manifest, iss, disassembly, compiled, analysis, manifest_path,
-            )
-            return manifest_path, manifest
-    if (
-        manifest_path.is_file() and iss.is_file() and compiled.is_file()
-        and disassembly.is_file()
-        and (not control_flow_current or not disassembly_current or not compiler_current)
-    ):
-        previous_manifest = cached_manifest
-        if setup_hash in previous_manifest.get("setup_sha256", []):
-            cfg = write_cfg_report(disassembly, control_flow)
-            manifest = write_manifest(iss, disassembly, setup, source, manifest_path)
-            manifest["analysis"] = previous_manifest.get("analysis", {})
-            manifest.setdefault("analysis", {}).update(analyzer.build_analysis_metadata(
-                iss, compiled, disassembly, control_flow, cfg, sha256=sha256,
-            ))
-            current_disassembler = discover_analysis_tool(
-                "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
-            )
-            if current_disassembler is not None:
-                manifest["analysis"]["ifps_disassembler_sha256"] = sha256(current_disassembler)
-            atomic_json(manifest_path, manifest)
-            _refresh_analysis_audit(
-                manifest, iss, disassembly, compiled, analysis, manifest_path,
-            )
-            return manifest_path, manifest
-
-    innounp, disassembler = analyzer.require_analysis_tools(
-        find_tool=discover_analysis_tool, error_type=InstallerError,
-    )
-
-    analysis.mkdir(parents=True, exist_ok=True)
-    extracted.mkdir(parents=True, exist_ok=True)
-    command, environment = analyzer.prepare_innounp_command(
-        innounp, extracted, setup, cache_root, pe_machine=pe_machine,
-        discover_wine=discover_wine, wine_z_path=wine_z_path, error_type=InstallerError,
-    )
-    analyzer.extract_setup_evidence(
-        command, environment, analysis, iss, compiled, error_type=InstallerError,
-    )
-
-    analyzer.disassemble_compiled_code(
-        disassembler, compiled, disassembly, analysis, error_type=InstallerError,
-    )
-
-    cfg = write_cfg_report(disassembly, control_flow)
-    manifest = write_manifest(iss, disassembly, setup, source, manifest_path)
-    manifest["analysis"] = {
-        **analyzer.build_analysis_metadata(
-            iss, compiled, disassembly, control_flow, cfg, sha256=sha256,
-        ),
-        "innounp_sha256": sha256(innounp),
-        "ifps_disassembler_sha256": sha256(disassembler),
-    }
-    atomic_json(manifest_path, manifest)
-    _refresh_analysis_audit(
-        manifest, iss, disassembly, compiled, analysis, manifest_path,
-    )
-    return manifest_path, manifest
 
 
 @functools.lru_cache(maxsize=1)

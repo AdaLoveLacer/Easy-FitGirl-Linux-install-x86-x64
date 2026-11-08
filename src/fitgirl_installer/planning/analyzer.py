@@ -291,3 +291,111 @@ def build_analysis_metadata(
         "control_flow_sha256": sha256(control_flow),
         "control_flow_totals": cfg["totals"],
     }
+
+
+@dataclass(frozen=True)
+class AnalysisServices:
+    """Collaborators the analysis needs from the rest of the installer."""
+
+    read_json: Callable[[Path], dict[str, Any]]
+    save_json: Callable[[Path, dict[str, Any]], None]
+    sha256: Callable[[Path], str]
+    write_cfg: Callable[[Path, Path], dict[str, Any]]
+    write_manifest: Callable[..., dict[str, Any]]
+    write_audit: Callable[..., dict[str, Any]]
+    find_tool: Callable[[str, str, str], Path | None]
+    pe_machine: Callable[[Path], int | None]
+    discover_wine: Callable[[], list[Path]]
+    wine_z_path: Callable[[Path], str]
+    compiler_version: int
+    schema_version: int
+    error_type: type[RuntimeError]
+
+
+def generate_manifest_draft(
+    source: Path, setup: Path, setup_hash: str, *, services: AnalysisServices,
+) -> tuple[Path, dict[str, Any]]:
+    """Analyze an unknown setup without executing it and cache all review evidence."""
+    paths = analysis_paths(setup_hash)
+    cache_root, analysis, extracted = paths.cache_root, paths.analysis, paths.extracted
+    iss, compiled, disassembly = paths.iss, paths.compiled, paths.disassembly
+    control_flow, manifest_path = paths.control_flow, paths.manifest
+
+    def refresh_audit(manifest: dict[str, Any]) -> None:
+        refresh_analysis_audit(
+            manifest, iss, disassembly, compiled, analysis, manifest_path,
+            write_audit=services.write_audit, find_tool=services.find_tool,
+            save_json=services.save_json,
+        )
+
+    cached_manifest, disassembly_current, compiler_current, control_flow_current = (
+        inspect_analysis_cache(
+            manifest_path, disassembly, control_flow, read_json=services.read_json,
+            sha256=services.sha256, compiler_version=services.compiler_version,
+            schema_version=services.schema_version,
+        )
+    )
+    if (
+        manifest_path.is_file() and iss.is_file() and compiled.is_file()
+        and disassembly.is_file() and control_flow_current and disassembly_current
+        and compiler_current
+    ):
+        manifest = cached_manifest
+        if setup_hash in manifest.get("setup_sha256", []):
+            refresh_audit(manifest)
+            return manifest_path, manifest
+    if (
+        manifest_path.is_file() and iss.is_file() and compiled.is_file()
+        and disassembly.is_file()
+        and (not control_flow_current or not disassembly_current or not compiler_current)
+    ):
+        previous_manifest = cached_manifest
+        if setup_hash in previous_manifest.get("setup_sha256", []):
+            cfg = services.write_cfg(disassembly, control_flow)
+            manifest = services.write_manifest(iss, disassembly, setup, source, manifest_path)
+            manifest["analysis"] = previous_manifest.get("analysis", {})
+            manifest.setdefault("analysis", {}).update(build_analysis_metadata(
+                iss, compiled, disassembly, control_flow, cfg, sha256=services.sha256,
+            ))
+            current_disassembler = services.find_tool(
+                "FITGIRL_IFPS_DISASSEMBLER", "pascalscript", "pascalscript"
+            )
+            if current_disassembler is not None:
+                manifest["analysis"]["ifps_disassembler_sha256"] = services.sha256(
+                    current_disassembler
+                )
+            services.save_json(manifest_path, manifest)
+            refresh_audit(manifest)
+            return manifest_path, manifest
+
+    innounp, disassembler = require_analysis_tools(
+        find_tool=services.find_tool, error_type=services.error_type,
+    )
+
+    analysis.mkdir(parents=True, exist_ok=True)
+    extracted.mkdir(parents=True, exist_ok=True)
+    command, environment = prepare_innounp_command(
+        innounp, extracted, setup, cache_root, pe_machine=services.pe_machine,
+        discover_wine=services.discover_wine, wine_z_path=services.wine_z_path,
+        error_type=services.error_type,
+    )
+    extract_setup_evidence(
+        command, environment, analysis, iss, compiled, error_type=services.error_type,
+    )
+
+    disassemble_compiled_code(
+        disassembler, compiled, disassembly, analysis, error_type=services.error_type,
+    )
+
+    cfg = services.write_cfg(disassembly, control_flow)
+    manifest = services.write_manifest(iss, disassembly, setup, source, manifest_path)
+    manifest["analysis"] = {
+        **build_analysis_metadata(
+            iss, compiled, disassembly, control_flow, cfg, sha256=services.sha256,
+        ),
+        "innounp_sha256": services.sha256(innounp),
+        "ifps_disassembler_sha256": services.sha256(disassembler),
+    }
+    services.save_json(manifest_path, manifest)
+    refresh_audit(manifest)
+    return manifest_path, manifest

@@ -103,7 +103,7 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
 7. **Concluída — `ded94e8`:** renomear `i18n.py` para `translations.py` e
    atualizar consumidores; `i18n.py` preserva imports antigos como alias para o
    mesmo módulo durante a transição.
-8. **Em andamento:** mover a análise do setup para `planning/analyzer.py`.
+8. **Concluída:** mover a análise do setup para `planning/analyzer.py`.
    A leitura de seções, campos, componentes e espaço declarado no ISS foi
    movida em `e7f96a7`, e a descoberta das ferramentas de análise em
    `48c9e33`. A atualização da auditoria foi separada da função que gera o
@@ -113,8 +113,12 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    foi movida em `84879b1`, e a execução do innounp em `d0520a7`. A montagem
    do comando nativo ou Wine foi movida em `68c9972`; a leitura e verificação
    do cache foram movidas em `ece6bb8`, e a montagem dos metadados de análise
-   em `dd588ca`. A identificação do setup também foi movida; a coordenação
-   restante permanece para as próximas subetapas.
+   em `dd588ca`. A identificação do setup foi movida em `176630c`, a
+   verificação das ferramentas obrigatórias em `6e3b113`, e o cálculo dos
+   caminhos do cache em `79048cf`. Por fim, a coordenação de
+   `generate_manifest_draft` (reaproveitar, regenerar ou analisar do zero) foi
+   movida para o analisador, com os colaboradores declarados em
+   `AnalysisServices`; o CLI mantém uma fachada que monta esses serviços.
 9. Mover o fluxo do script compilado para `planning/script_flow.py`.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.
@@ -141,7 +145,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-A etapa 8 ainda está em andamento e só será contada após sua conclusão.
+Com a etapa 8, são oito de 23: **35%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado
