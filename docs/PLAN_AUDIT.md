@@ -2,7 +2,7 @@
 
 ## O que existe hoje
 
-`src/fitgirl_installer/plan_audit.py` compara um candidato com o ISS, o
+`src/fitgirl_installer/planning/audit.py` compara um candidato com o ISS, o
 disassembly IFPS e os hashes de origem registrados. O fluxo automático de
 análise grava `plan-audit.json` ao gerar ou reutilizar o cache de um setup.
 

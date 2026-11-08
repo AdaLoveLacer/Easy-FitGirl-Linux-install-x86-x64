@@ -130,7 +130,13 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     passaram a apontar para `analyzer` e `script_flow` no mesmo pacote. O CLI,
     `plan_audit.py`, `tools/plan-from-disassembly.py` e os testes importam o
     novo caminho; o `planner.py` antigo foi removido.
-11. Mover a auditoria para `planning/audit.py`.
+11. **Concluída:** mover a auditoria para `planning/audit.py`. O antigo
+    `plan_audit.py` foi movido inteiro, sem mudar regras, mensagens nem o
+    formato de `plan-audit.json`; o CLI, `tools/audit-plan.py`, os testes e
+    `PLAN_AUDIT.md` usam o novo caminho, e o arquivo antigo foi removido. Com
+    as etapas 8 a 11, o pacote `planning/` está completo; o manifesto, o
+    grafo de controle e o relatório de auditoria de um repack sintético saem
+    idênticos aos do código anterior à sequência.
 12. Mover a coordenação das etapas para `execution/installer.py`.
 13. Separar a persistência e retomada em `execution/journal.py`.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
@@ -154,7 +160,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

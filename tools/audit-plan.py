@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fitgirl_installer.plan_audit import write_audit
+from fitgirl_installer.planning.audit import write_audit
 
 
 def main() -> int:

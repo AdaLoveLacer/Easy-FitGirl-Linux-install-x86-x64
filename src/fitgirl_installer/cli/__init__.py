@@ -27,7 +27,7 @@ from ..integration import write_integration_report
 from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
 from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
-from ..plan_audit import write_audit
+from ..planning.audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
 from ..resource_limits import detect_limits, parse_cpu_list
 from .presentation import _wizard_page, _component_label, format_size
