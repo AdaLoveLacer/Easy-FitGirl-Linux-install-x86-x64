@@ -206,7 +206,7 @@ cat /proc/PID/io
 cat /proc/PID/fdinfo/FD
 ```
 
-Critérios usados pelo módulo interno `src/fitgirl_installer/monitor.py`:
+Critérios usados pelo módulo interno `src/fitgirl_installer/execution/monitor.py`:
 
 1. delta de `read_bytes` e `write_bytes` dos processos;
 2. posição do descritor do volume `fg-*.bin`;

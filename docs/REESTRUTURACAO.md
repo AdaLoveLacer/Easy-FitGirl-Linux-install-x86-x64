@@ -178,7 +178,12 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     executores de pós-processamento (`batch`, `exec`, `isexec`, remoção,
     cópia, combinação de manifestos e INI) não são ferramentas de extração
     e continuam no CLI.
-15. Mover o monitor de progresso para `execution/monitor.py`.
+15. **Concluída:** mover o monitor de progresso para `execution/monitor.py`.
+    O módulo foi movido inteiro, sem mudança de lógica; como roda como
+    script, chamado por caminho pelo `libexec/fitgirl-extract`, só o
+    `sys.path` que localiza o pacote subiu um nível. O backend, o teste e o
+    `TROUBLESHOOTING.md` usam o novo caminho, e o arquivo antigo foi
+    removido. Com as etapas 12 a 15, o pacote `execution/` está completo.
 16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
 17. Separar cálculo e conferência de hashes em `verification/checksums.py`.
 18. Mover o relatório de integração para `verification/integration.py`.
@@ -198,7 +203,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

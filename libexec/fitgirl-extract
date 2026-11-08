@@ -59,7 +59,7 @@ fi
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 UNARC="$ROOT/libexec/unarc"
 HELPER="$ROOT/libexec/unarc-helper.exe"
-MONITOR="$ROOT/src/fitgirl_installer/monitor.py"
+MONITOR="$ROOT/src/fitgirl_installer/execution/monitor.py"
 [ -x "$WINE_BIN" ] || WINE_BIN="$(command -v wine)"
 WINE_DIR="$(dirname "$WINE_BIN")"
 WINEBOOT="$WINE_DIR/wineboot"

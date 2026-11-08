@@ -5,7 +5,7 @@ from collections import deque
 from pathlib import Path
 
 
-MODULE_PATH = Path(__file__).resolve().parents[1] / "src/fitgirl_installer/monitor.py"
+MODULE_PATH = Path(__file__).resolve().parents[1] / "src/fitgirl_installer/execution/monitor.py"
 SPEC = importlib.util.spec_from_file_location("monitor_extraction", MODULE_PATH)
 MONITOR = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
