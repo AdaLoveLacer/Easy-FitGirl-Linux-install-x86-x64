@@ -11,7 +11,7 @@ import re
 import subprocess
 from typing import Any
 
-from . import planner, script_flow
+from . import isdone_catalog, planner, script_flow, success_path
 
 
 SCHEMA_VERSION = 2
@@ -658,7 +658,17 @@ def audit_plan(
             issues.append({"kind": "payload_mismatch", "field": inventory})
 
     semantic_guards = semantic_guard_report(disassembly)
-    for effect in semantic_guards.get("critical_external_effects", []):
+    isdone_sha256 = recorded.get("isdone_sha256")
+    isdone_version = isdone_catalog.version(isdone_sha256)
+    success = success_path.success_path_report(
+        disassembly, isdone_version.successful_exports if isdone_version else frozenset(),
+    )
+    semantic_guards["critical_external_effects"] = isdone_catalog.resolve_effects(
+        semantic_guards.get("critical_external_effects", []), disassembly, isdone_sha256, success,
+    )
+    for effect in semantic_guards["critical_external_effects"]:
+        if effect.get("blocks_audit_acceptance") is False:
+            continue
         issues.append({
             "kind": effect["kind"],
             "call_address": effect["call_address"],
@@ -687,6 +697,12 @@ def audit_plan(
         "control_flow_totals": cfg["totals"],
         "action_paths": action_paths,
         "semantic_guards": semantic_guards,
+        "isdone": {
+            "sha256": isdone_sha256,
+            "catalogued": isdone_version is not None,
+            "label": isdone_version.label if isdone_version else None,
+        },
+        "success_path": success,
         "interprocedural_action_paths": interprocedural_action_path_report(
             disassembly, entry_limit=4, sequence_limit=64, depth_limit=4,
             in_procedure_sequence_limit=128,

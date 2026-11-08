@@ -173,6 +173,9 @@ def _analysis_services() -> analyzer.AnalysisServices:
         find_tool=discover_analysis_tool, pe_machine=pe_machine, discover_wine=discover_wine,
         wine_z_path=wine_z_path, compiler_version=PLAN_COMPILER_VERSION,
         schema_version=IFPS_IR_SCHEMA_VERSION, error_type=InstallerError,
+        fingerprint_isdone=lambda setup, analysis: analyzer.isdone_fingerprint(
+            setup, analysis, innoextract=ROOT / "libexec/innoextract",
+        ),
     )
 
 

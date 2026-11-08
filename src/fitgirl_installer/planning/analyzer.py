@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import os
 import re
 import shutil
@@ -164,14 +165,37 @@ def apply_semantic_blockers(candidate: dict[str, Any], report: dict[str, Any]) -
         candidate.pop("semantic_blockers", None)
 
 
+def isdone_fingerprint(setup: Path, analysis: Path, *, innoextract: Path) -> str | None:
+    """SHA-256 of the setup's ISDone.dll, extracted without running the installer."""
+    destination = analysis / "isdone"
+    shutil.rmtree(destination, ignore_errors=True)
+    destination.mkdir(parents=True)
+    try:
+        subprocess.run(
+            [str(innoextract), "--silent", "--output-dir", str(destination),
+             "--include", "tmp/ISDone.dll", str(setup)],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=300, check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    found = [path for path in destination.rglob("*") if path.is_file() and path.name.casefold() == "isdone.dll"]
+    if len(found) != 1:
+        return None
+    return hashlib.sha256(found[0].read_bytes()).hexdigest()
+
+
 def refresh_analysis_audit(
     candidate: dict[str, Any], iss: Path, disassembly: Path, compiled: Path,
     analysis: Path, manifest_path: Path, *,
     write_audit: Callable[..., dict[str, Any]],
     find_tool: Callable[[str, str, str], Path | None],
     save_json: Callable[[Path, dict[str, Any]], None],
+    fingerprint_isdone: Callable[[], str | None] | None = None,
 ) -> None:
     """Refresh the audit and persist the resulting manifest."""
+    recorded = candidate.setdefault("analysis", {})
+    if fingerprint_isdone is not None and not recorded.get("isdone_sha256"):
+        recorded["isdone_sha256"] = fingerprint_isdone()
     report = write_audit(
         candidate, iss, disassembly, compiled, analysis / "plan-audit.json",
         disassembler=find_tool(
@@ -310,6 +334,7 @@ class AnalysisServices:
     compiler_version: int
     schema_version: int
     error_type: type[RuntimeError]
+    fingerprint_isdone: Callable[[Path, Path], str | None] | None = None
 
 
 def generate_manifest_draft(
@@ -326,6 +351,10 @@ def generate_manifest_draft(
             manifest, iss, disassembly, compiled, analysis, manifest_path,
             write_audit=services.write_audit, find_tool=services.find_tool,
             save_json=services.save_json,
+            fingerprint_isdone=(
+                None if services.fingerprint_isdone is None
+                else lambda: services.fingerprint_isdone(setup, analysis)
+            ),
         )
 
     cached_manifest, disassembly_current, compiler_current, control_flow_current = (

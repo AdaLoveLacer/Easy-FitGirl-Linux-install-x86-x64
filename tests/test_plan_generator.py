@@ -218,6 +218,8 @@ class PlanGeneratorTests(unittest.TestCase):
                             "disassembly_sha256": CLI.sha256(disassembly),
                             "control_flow_sha256": CLI.sha256(control_flow),
                             "control_flow_totals": {},
+                            # The synthetic setup carries no ISDone.dll.
+                            "isdone_sha256": None,
                         })
 
     def test_disassembler_failure_preserves_analysis_evidence(self):
@@ -1126,6 +1128,8 @@ print('  call        dll:files:ISDone.dll')
                 "control_flow_totals": json.loads(control_flow.read_text())["totals"],
                 "innounp_sha256": CLI.sha256(innounp),
                 "ifps_disassembler_sha256": CLI.sha256(disassembler),
+                # The synthetic setup carries no ISDone.dll.
+                "isdone_sha256": None,
             })
 
     def test_pe_analysis_tool_does_not_need_posix_execute_bit(self):
