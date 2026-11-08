@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fitgirl_installer import i18n, translations
+from fitgirl_installer import translations
 
 
 class InteractiveLocalizationTests(unittest.TestCase):
@@ -24,9 +24,6 @@ class InteractiveLocalizationTests(unittest.TestCase):
 
     def test_component_prompt_uses_english_and_english_yes_no_markers(self):
         self.assertEqual(translations.translate("  Incluir Inglês? [s/N] "), "  Include English? [y/N] ")
-
-    def test_legacy_i18n_import_is_same_module(self):
-        self.assertIs(i18n, translations)
 
 
 if __name__ == "__main__":

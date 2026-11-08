@@ -101,8 +101,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    tratamento de erros para `cli/main.py`; `cli/__init__.py` mantém uma fachada
    lazy para os imports existentes.
 7. **Concluída — `ded94e8`:** renomear `i18n.py` para `translations.py` e
-   atualizar consumidores; `i18n.py` preserva imports antigos como alias para o
-   mesmo módulo durante a transição.
+   atualizar consumidores; `i18n.py` preservou imports antigos como alias para o
+   mesmo módulo durante a transição e foi removido depois que nenhum código
+   o usava mais.
 8. **Concluída:** mover a análise do setup para `planning/analyzer.py`.
    A leitura de seções, campos, componentes e espaço declarado no ISS foi
    movida em `e7f96a7`, e a descoberta das ferramentas de análise em
