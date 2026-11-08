@@ -158,6 +158,15 @@ Estado: **CONCLUÍDO — INSTALAÇÃO REAL VALIDADA**
 - [x] Criar ZIP autocontido com executável, dependências compartilhadas do innoextract, instruções e SHA-256; conferir listagem e integridade do ZIP.
 - [x] Validar ZIP atualizado em container Debian limpo e confirmar inicialização do runtime Wine e do innoextract.
 
+## 14. Bugs encontrados durante a refatoração
+
+Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
+
+- [x] Relatório de divergência da ordem de execução apontava como expected_next a etapa na posição igual à quantidade de concluídas (com A e C concluídas, dizia C em vez de B). Encontrado pelos testes de caracterização da etapa 13; corrigido em 254e2f7 com autorização do usuário.
+- [ ] No mesmo relatório, observed.index usa a posição entre as etapas selecionadas contada a partir de zero, enquanto expected_next.index usa o número da etapa no plano; os dois campos chamados index não são comparáveis.
+- [ ] Localização incompleta em inglês: o sufixo de [SKIP] ("condição de componente não satisfeita") e a mensagem de divergência da ordem de execução continuam em português; somente o prefixo é traduzido.
+- [ ] Uma execução da suíte, logo após remover i18n.py, terminou com um erro intermitente que não se repetiu em seis execuções seguidas e cujo detalhe não foi capturado; possível teste instável ainda não identificado.
+
 ## Baseline validado
 
 - FM7 1080p: 4.416/4.416 arquivos válidos.
