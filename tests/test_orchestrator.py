@@ -50,6 +50,7 @@ class OrchestratorIntegrationTests(unittest.TestCase):
                 'argv': sys.argv[1:],
                 'affinity': sorted(os.sched_getaffinity(0)),
                 'nice': os.getpriority(os.PRIO_PROCESS, 0),
+                'no_current_dir_search': os.environ.get('NoDefaultCurrentDirectoryInExePath'),
             }
             with Path(os.environ['FAKE_CALLS']).open('a') as handle:
                 print(json.dumps(record), file=handle)
@@ -115,6 +116,20 @@ class OrchestratorIntegrationTests(unittest.TestCase):
         if not self.calls.exists():
             return []
         return [json.loads(line) for line in self.calls.read_text().splitlines()]
+
+    def test_wine_never_inherits_no_current_directory_search(self):
+        # Wine honors this Windows variable; FitGirl codecs then fail to start
+        # helpers such as xtool.exe by bare name from the current directory.
+        self.failure_marker.touch()
+        environment = {**self.environment(), "NoDefaultCurrentDirectoryInExePath": "1"}
+        result = subprocess.run(
+            self.installer_command(self.root / "env-work"), text=True, env=environment,
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout)
+        calls = self.calls_read()
+        self.assertTrue(calls)
+        self.assertEqual({call["no_current_dir_search"] for call in calls}, {None})
 
     def test_failure_resume_and_source_corruption_detection(self):
         scratch = self.root / "resume-work"

@@ -137,7 +137,16 @@ def select_language() -> str:
         print("Opção inválida. Digite 1 para português ou 2 para English.")
 
 
+WINE_HOSTILE_ENVIRONMENT = ("NoDefaultCurrentDirectoryInExePath",)
+
+
 def main(argv: list[str] | None = None) -> int:
+    # Wine honors this Windows variable: with it set, CreateProcess stops
+    # searching the current directory, and FitGirl's codecs start helpers such
+    # as xtool.exe by bare name from there, so the extraction aborts. Some
+    # hosts export it; no child of the installer may inherit it.
+    for name in WINE_HOSTILE_ENVIRONMENT:
+        os.environ.pop(name, None)
     arguments = list(sys.argv[1:] if argv is None else argv)
     show_help = any(argument in {"-h", "--help"} for argument in arguments)
     language = select_language() if not show_help else os.environ.get("FITGIRL_LANGUAGE", "pt")

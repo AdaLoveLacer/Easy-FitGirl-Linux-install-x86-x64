@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Standalone/no-GUI extraction front-end for Inno + FreeArc FitGirl repacks.
 set -o pipefail
+# With this Windows variable set, Wine's CreateProcess skips the current
+# directory, and the codecs launch helpers such as xtool.exe by bare name from
+# it; FreeArcExtract then aborts. Never pass it to Wine.
+unset NoDefaultCurrentDirectoryInExePath
 
 usage() { echo "Uso: $0 -d REPACK_DIR -t DESTINO -w SCRATCH (--archive VOLUME | --archive-path ARQUIVO) [--payload-ready] [--archive-path-filter CAMINHO] [--include PADRÃO] [--archive-workdir DIR] [--bzip3-threads N] [--wine BIN] [--prefix DIR] [--wine-debug CANAIS] [--srep-memory MIB] [--cls-srep-dll ARQUIVO] [--srep-file-exe ARQUIVO]"; }
 die() { echo "[ERRO] $*" >&2; exit 2; }
