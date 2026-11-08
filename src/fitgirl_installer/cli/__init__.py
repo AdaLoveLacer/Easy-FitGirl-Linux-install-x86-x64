@@ -15,7 +15,6 @@ import shlex
 import signal
 import subprocess
 import sys
-import tempfile
 import time
 from pathlib import Path
 from typing import Any
@@ -597,45 +596,12 @@ def resolve_destination(value: str, target: Path, scratch: Path) -> Path:
         raise InstallerError(f"destino lógico desconhecido no manifesto: {value}") from error
 
 
-def _payload_snapshot(
-    directory: Path, expected: set[str], *, allow_extra: bool = False,
-) -> dict[str, dict[str, Any]] | None:
-    if not directory.is_dir():
-        return None
-    actual = {
-        path.name.casefold(): path for path in directory.iterdir() if path.is_file()
-    }
-    if not expected.issubset(actual) or (not allow_extra and set(actual) != expected):
-        return None
-    return {
-        key: {
-            "name": actual[key].name,
-            "size": actual[key].stat().st_size,
-            "sha256": sha256(actual[key]),
-        }
-        for key in sorted(expected)
-    }
-
-
-def _payload_tree_snapshot(
-    directory: Path, expected: set[str]
-) -> dict[str, dict[str, Any]] | None:
-    if not directory.is_dir():
-        return None
-    actual = {
-        path.relative_to(directory).as_posix().casefold(): path
-        for path in directory.rglob("*") if path.is_file()
-    }
-    if set(actual) != expected:
-        return None
-    return {
-        key: {
-            "path": actual[key].relative_to(directory).as_posix(),
-            "size": actual[key].stat().st_size,
-            "sha256": sha256(actual[key]),
-        }
-        for key in sorted(expected)
-    }
+def _payload_services() -> extractor.PayloadServices:
+    """Bind the payload extraction to this module's helpers, looked up at call time."""
+    return extractor.PayloadServices(
+        sha256=sha256, wait_process=wait_process,
+        default_innoextract=ROOT / "libexec/innoextract",
+    )
 
 
 def materialize_temporary_payload(
@@ -643,99 +609,10 @@ def materialize_temporary_payload(
     state_path: Path, state: dict[str, Any], dry_run: bool,
     innoextract: Path | None = None,
 ) -> None:
-    """Extract audited ExtractTemporaryFile dependencies through atomic staging."""
-    inventory = manifest.get("temporary_payload_files", [])
-    if not inventory:
-        return
-    expected_names = [str(item["name"]) for item in inventory]
-    expected = {name.casefold() for name in expected_names}
-    if len(expected) != len(expected_names):
-        raise InstallerError("payload temporário contém nomes duplicados sem distinção de caixa")
-    destination = scratch / "setup-payload" / "tmp"
-    recorded = state.get("payload", {}).get("files")
-    if recorded and destination.is_dir():
-        current = _payload_snapshot(destination, expected, allow_extra=True)
-        if current == recorded:
-            print(f"[OK] payload temporário: {len(expected)} arquivos já validados")
-            return
-        print("[AVISO] payload temporário divergiu do journal; será preservado e reconstruído")
-        if state.get("completed"):
-            raise InstallerError(
-                "payload temporário divergiu após etapas concluídas; "
-                "reconstrução automática recusada para preservar mutações e auxiliares"
-            )
-    tool = (innoextract or ROOT / "libexec/innoextract").resolve()
-    if not tool.is_file() or not os.access(tool, os.X_OK):
-        raise InstallerError(f"innoextract indisponível para materializar payload: {tool}")
-    command = [
-        str(tool), "--silent", "--timestamps", "none",
-        "--output-dir", "STAGING",
-    ]
-    for name in expected_names:
-        command.extend(["--include", f"tmp/{name}"])
-    command.append(str(setup))
-    if dry_run:
-        command[command.index("STAGING")] = str(scratch / ".payload-stage.DRY-RUN")
-        if sys.stdout.isatty():
-            print("Preparando arquivos temporários…")
-        else:
-            print("[PAYLOAD]", shlex.join(command))
-        return
-    scratch.mkdir(parents=True, exist_ok=True)
-    staging_root = Path(tempfile.mkdtemp(prefix=".payload-stage-", dir=scratch))
-    staging_tmp = staging_root / "tmp"
-    log = scratch / "payload-innoextract.log"
-    command[command.index("STAGING")] = str(staging_root)
-    if sys.stdout.isatty():
-        print("Preparando arquivos temporários…")
-    else:
-        print("[PAYLOAD]", shlex.join(command))
-    try:
-        with log.open("w", encoding="utf-8") as output:
-            process = subprocess.Popen(
-                command, stdout=output, stderr=subprocess.STDOUT,
-                text=True, start_new_session=True,
-            )
-            state["active"] = {
-                "pid": process.pid, "pgid": process.pid, "command": command,
-                "started_at": time.time(), "kind": "payload",
-            }
-            atomic_json(state_path, state)
-            returncode = wait_process(process, state_path, state)
-        if returncode:
-            raise InstallerError(
-                f"innoextract encerrou com código {returncode}; veja {log} e {staging_root}"
-            )
-        snapshot = _payload_snapshot(staging_tmp, expected)
-        if snapshot is None:
-            actual = (
-                sorted(path.name for path in staging_tmp.iterdir() if path.is_file())
-                if staging_tmp.is_dir() else []
-            )
-            raise InstallerError(
-                "innoextract não produziu o conjunto temporário exato; "
-                f"obtidos={actual}; staging preservado em {staging_root}"
-            )
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        if destination.exists():
-            quarantine = destination.with_name(
-                f"tmp.stale-{int(time.time())}-{os.getpid()}"
-            )
-            os.replace(destination, quarantine)
-            print(f"[PAYLOAD] árvore anterior preservada em {quarantine}")
-        os.replace(staging_tmp, destination)
-        staging_root.rmdir()
-        state["payload"] = {
-            "setup_sha256": state.get("setup_sha256"),
-            "files": snapshot,
-            "materialized_at": time.time(),
-        }
-        atomic_json(state_path, state)
-        print(f"[PAYLOAD] {len(snapshot)} arquivos publicados e validados")
-    except Exception:
-        if staging_root.exists() and not any(staging_root.iterdir()):
-            staging_root.rmdir()
-        raise
+    extractor.materialize_temporary_payload(
+        manifest, setup, scratch, state_path, state, dry_run, innoextract,
+        services=_payload_services(),
+    )
 
 
 def materialize_application_payload(
@@ -743,137 +620,10 @@ def materialize_application_payload(
     state_path: Path, state: dict[str, Any], dry_run: bool,
     innoextract: Path | None = None,
 ) -> None:
-    """Materialize active {app} setup files into an atomic payload tree."""
-    inventory = manifest.get("application_payload_files", [])
-    legacy_required = {
-        str(step["manifest"]).replace("\\", "/").casefold()
-        for step in manifest.get("steps", [])
-        if step.get("type") == "verify" and step.get("manifest_root", "payload_app") == "payload_app"
-    } if not inventory else set()
-    if not inventory and not legacy_required:
-        return
-    if legacy_required:
-        for name in legacy_required:
-            if not name.startswith("_redist/") or ".." in Path(name).parts:
-                raise InstallerError("manifesto legado fora de _Redist")
-        inventory = [{"path": name} for name in sorted(legacy_required)]
-        inventory += [{"path": name} for name in (
-            "_Redist/QuickSFV.EXE", "_Redist/QuickSFV.ini", "_Redist/*.addon",
-        )]
-    expected_paths = [str(item["path"]).replace("\\", "/") for item in inventory]
-    expected = {path.casefold() for path in expected_paths}
-    if len(expected) != len(expected_paths):
-        raise InstallerError("payload de aplicação contém caminhos duplicados")
-    destination = scratch / "setup-payload" / "app"
-    recorded = state.get("payload", {}).get("app_files")
-    if recorded and destination.is_dir():
-        current = _payload_tree_snapshot(destination, set(recorded) if legacy_required else expected)
-        if current == recorded:
-            print(f"[OK] payload de aplicação: {len(expected)} arquivos já validados")
-            return
-        print("[AVISO] payload de aplicação divergiu do journal; será preservado")
-    if legacy_required and destination.is_dir() and not recorded:
-        actual = {
-            path.relative_to(destination).as_posix().casefold()
-            for path in destination.rglob("*") if path.is_file()
-        }
-        allowed = all(
-            name in legacy_required or name in {"_redist/quicksfv.exe", "_redist/quicksfv.ini"}
-            or (name.startswith("_redist/") and name.count("/") == 1 and name.endswith(".addon"))
-            for name in actual
-        )
-        snapshot = (
-            _payload_tree_snapshot(destination, actual)
-            if legacy_required.issubset(actual) and allowed else None
-        )
-        if snapshot is not None:
-            state.setdefault("payload", {})["app_files"] = snapshot
-            state["payload"]["app_materialized_at"] = time.time()
-            atomic_json(state_path, state)
-            print(f"[OK] payload legado de aplicação adotado e validado: {len(snapshot)} arquivos")
-            return
-    tool = (innoextract or ROOT / "libexec/innoextract").resolve()
-    if not tool.is_file() or not os.access(tool, os.X_OK):
-        raise InstallerError(f"innoextract indisponível para materializar payload: {tool}")
-    command = [
-        str(tool), "--silent", "--timestamps", "none",
-        "--output-dir", "STAGING",
-    ]
-    for path in expected_paths:
-        command.extend(["--include", f"app/{path}"])
-    command.append(str(setup))
-    if dry_run:
-        command[command.index("STAGING")] = str(scratch / ".app-payload-stage.DRY-RUN")
-        if sys.stdout.isatty():
-            print("Preparando arquivos da instalação…")
-        else:
-            print("[PAYLOAD-APP]", shlex.join(command))
-        return
-    scratch.mkdir(parents=True, exist_ok=True)
-    staging_root = Path(tempfile.mkdtemp(prefix=".app-payload-stage-", dir=scratch))
-    staging_app = staging_root / "app"
-    log = scratch / "payload-app-innoextract.log"
-    command[command.index("STAGING")] = str(staging_root)
-    if sys.stdout.isatty():
-        print("Preparando arquivos da instalação…")
-    else:
-        print("[PAYLOAD-APP]", shlex.join(command))
-    try:
-        with log.open("w", encoding="utf-8") as output:
-            process = subprocess.Popen(
-                command, stdout=output, stderr=subprocess.STDOUT,
-                text=True, start_new_session=True,
-            )
-            state["active"] = {
-                "pid": process.pid, "pgid": process.pid, "command": command,
-                "started_at": time.time(), "kind": "payload-app",
-            }
-            atomic_json(state_path, state)
-            returncode = wait_process(process, state_path, state)
-        if returncode:
-            raise InstallerError(
-                f"innoextract encerrou com código {returncode}; veja {log} e {staging_root}"
-            )
-        if legacy_required:
-            actual = {
-                p.relative_to(staging_app).as_posix().casefold()
-                for p in staging_app.rglob("*") if p.is_file()
-            }
-            allowed = all(
-                name in legacy_required or name in {"_redist/quicksfv.exe", "_redist/quicksfv.ini"}
-                or (name.startswith("_redist/") and name.count("/") == 1 and name.endswith(".addon"))
-                for name in actual
-            )
-            snapshot = _payload_tree_snapshot(staging_app, actual) if legacy_required.issubset(actual) and allowed else None
-        else:
-            snapshot = _payload_tree_snapshot(staging_app, expected)
-        if snapshot is None:
-            actual = (
-                sorted(path.relative_to(staging_app).as_posix()
-                       for path in staging_app.rglob("*") if path.is_file())
-                if staging_app.is_dir() else []
-            )
-            raise InstallerError(
-                "innoextract não produziu o payload de aplicação exato; "
-                f"obtidos={actual}; staging preservado em {staging_root}"
-            )
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        if destination.exists():
-            quarantine = destination.with_name(
-                f"app.stale-{int(time.time())}-{os.getpid()}"
-            )
-            os.replace(destination, quarantine)
-            print(f"[PAYLOAD-APP] árvore anterior preservada em {quarantine}")
-        os.replace(staging_app, destination)
-        staging_root.rmdir()
-        state.setdefault("payload", {})["app_files"] = snapshot
-        state["payload"]["app_materialized_at"] = time.time()
-        atomic_json(state_path, state)
-        print(f"[PAYLOAD-APP] {len(snapshot)} arquivos publicados e validados")
-    except Exception:
-        if staging_root.exists() and not any(staging_root.iterdir()):
-            staging_root.rmdir()
-        raise
+    extractor.materialize_application_payload(
+        manifest, setup, scratch, state_path, state, dry_run, innoextract,
+        services=_payload_services(),
+    )
 
 
 def set_ini_value(path: Path, section_name: str, key: str, value: str) -> bool:

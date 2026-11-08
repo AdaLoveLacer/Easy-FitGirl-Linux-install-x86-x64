@@ -164,14 +164,20 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     só depois da checagem de `rollback_paths`; o CLI mantém um invólucro com a
     assinatura antiga e o `transaction_paths`, que depende da resolução de
     caminhos das etapas e segue com os executores.
-14. **Em andamento:** mover a chamada de ferramentas de extração para
+14. **Concluída:** mover a chamada de ferramentas de extração para
     `execution/extractor.py`. Primeiro saiu a chamada do backend
-    `libexec/fitgirl-extract` (`run_extract`), com os colaboradores em
-    `ExtractionServices`: resolução e confinamento de caminhos, conferência
-    do volume de origem, prefixo de recursos e execução do processo. A
-    conferência MD5 do volume segue no CLI até a etapa 17, e o controle de
-    processos até a etapa 20; o CLI mantém um invólucro com a assinatura
-    antiga.
+    `libexec/fitgirl-extract` (`run_extract`, `e6f63e3`), com os
+    colaboradores em `ExtractionServices`: resolução e confinamento de
+    caminhos, conferência do volume de origem, prefixo de recursos e
+    execução do processo. Depois saiu a materialização dos payloads `tmp` e
+    `app` do setup pelo innoextract, com staging atômico, retomada pelo
+    journal e adoção do payload legado, recebendo o hash, a espera do
+    processo e o innoextract padrão por `PayloadServices`. A conferência MD5
+    do volume segue no CLI até a etapa 17, e o controle de processos até a
+    etapa 20; o CLI mantém invólucros com as assinaturas antigas. Os
+    executores de pós-processamento (`batch`, `exec`, `isexec`, remoção,
+    cópia, combinação de manifestos e INI) não são ferramentas de extração
+    e continuam no CLI.
 15. Mover o monitor de progresso para `execution/monitor.py`.
 16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
 17. Separar cálculo e conferência de hashes em `verification/checksums.py`.
@@ -192,7 +198,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

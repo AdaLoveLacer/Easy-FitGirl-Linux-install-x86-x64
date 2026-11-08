@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
+import hashlib
+import io
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -119,6 +122,70 @@ class RunExtractTests(unittest.TestCase):
             _args(dry_run=True),
         )
         self.assertTrue(archive.exists())
+
+
+class PayloadTests(unittest.TestCase):
+    def setUp(self):
+        self._temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self._temporary.name)
+        self.scratch = self.root / "scratch"
+        self.scratch.mkdir()
+        self.setup = self.root / "setup.exe"
+        self.setup.write_bytes(b"setup")
+        self.state_path = self.scratch / "install-state.json"
+        self.state = {"setup_sha256": "a" * 64, "active": None}
+
+    def tearDown(self):
+        self._temporary.cleanup()
+
+    def services(self, innoextract):
+        def wait(process, state_path, state):
+            try:
+                return process.wait()
+            finally:
+                state["active"] = None
+
+        return extractor.PayloadServices(
+            sha256=lambda path: hashlib.sha256(path.read_bytes()).hexdigest(),
+            wait_process=wait, default_innoextract=innoextract,
+        )
+
+    def fake_tool(self, body):
+        tool = self.root / "fake-innoextract"
+        tool.write_text("#!/usr/bin/env python3\n" + body, encoding="utf-8")
+        tool.chmod(0o755)
+        return tool
+
+    def test_failed_innoextract_keeps_log_and_clears_active_step(self):
+        tool = self.fake_tool("print('quebrou'); raise SystemExit(3)\n")
+        with redirect_stdout(io.StringIO()), self.assertRaisesRegex(InstallerError, "código 3"):
+            extractor.materialize_temporary_payload(
+                {"temporary_payload_files": [{"name": "a.dll"}]}, self.setup, self.scratch,
+                self.state_path, self.state, False, services=self.services(tool),
+            )
+        self.assertIsNone(self.state["active"])
+        self.assertIn("quebrou", (self.scratch / "payload-innoextract.log").read_text())
+        self.assertFalse((self.scratch / "setup-payload").exists())
+        self.assertNotIn("payload", self.state)
+
+    def test_legacy_application_payload_is_adopted_without_extracting(self):
+        redist = self.scratch / "setup-payload/app/_Redist"
+        redist.mkdir(parents=True)
+        for name in ("fitgirl.md5", "QuickSFV.EXE", "bonus.addon"):
+            (redist / name).write_text(name)
+        tool = self.fake_tool("raise SystemExit('não deveria executar')\n")
+        manifest = {"steps": [{"type": "verify", "manifest": "_Redist/fitgirl.md5"}]}
+        output = io.StringIO()
+        with redirect_stdout(output):
+            extractor.materialize_application_payload(
+                manifest, self.setup, self.scratch, self.state_path, self.state, False,
+                services=self.services(tool),
+            )
+        self.assertIn("payload legado de aplicação adotado e validado: 3 arquivos", output.getvalue())
+        self.assertEqual(
+            sorted(self.state["payload"]["app_files"]),
+            ["_redist/bonus.addon", "_redist/fitgirl.md5", "_redist/quicksfv.exe"],
+        )
 
 
 if __name__ == "__main__":
