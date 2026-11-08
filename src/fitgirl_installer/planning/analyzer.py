@@ -6,8 +6,40 @@ import os
 import re
 import shutil
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
+
+
+@dataclass(frozen=True)
+class AnalysisPaths:
+    """Locations of the cached evidence for one setup hash."""
+
+    cache_root: Path
+    analysis: Path
+    extracted: Path
+    iss: Path
+    compiled: Path
+    disassembly: Path
+    control_flow: Path
+    manifest: Path
+
+
+def analysis_paths(setup_hash: str) -> AnalysisPaths:
+    """Resolve where the analysis cache of a setup lives (honours XDG_CACHE_HOME)."""
+    cache_root = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache"))
+    analysis = cache_root / "fitgirl-installer" / "plans" / setup_hash
+    extracted = analysis / "innounp"
+    return AnalysisPaths(
+        cache_root=cache_root,
+        analysis=analysis,
+        extracted=extracted,
+        iss=extracted / "install_script.iss",
+        compiled=extracted / "embedded" / "CompiledCode.bin",
+        disassembly=analysis / "CompiledCode.disassembly.txt",
+        control_flow=analysis / "control-flow.json",
+        manifest=analysis / "manifest.draft.json",
+    )
 
 
 def discover_setup(source: Path, *, error_type: type[RuntimeError]) -> Path:

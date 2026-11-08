@@ -295,14 +295,10 @@ def _refresh_analysis_audit(
 
 def generate_manifest_draft(source: Path, setup: Path, setup_hash: str) -> tuple[Path, dict[str, Any]]:
     """Analyze an unknown setup without executing it and cache all review evidence."""
-    cache_root = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache"))
-    analysis = cache_root / "fitgirl-installer" / "plans" / setup_hash
-    extracted = analysis / "innounp"
-    iss = extracted / "install_script.iss"
-    compiled = extracted / "embedded" / "CompiledCode.bin"
-    disassembly = analysis / "CompiledCode.disassembly.txt"
-    control_flow = analysis / "control-flow.json"
-    manifest_path = analysis / "manifest.draft.json"
+    paths = analyzer.analysis_paths(setup_hash)
+    cache_root, analysis, extracted = paths.cache_root, paths.analysis, paths.extracted
+    iss, compiled, disassembly = paths.iss, paths.compiled, paths.disassembly
+    control_flow, manifest_path = paths.control_flow, paths.manifest
 
     cached_manifest, disassembly_current, compiler_current, control_flow_current = (
         analyzer.inspect_analysis_cache(
