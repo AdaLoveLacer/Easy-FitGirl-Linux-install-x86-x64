@@ -211,13 +211,17 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     de lógica; o CLI e o teste da política de integração importam o novo
     caminho, e o arquivo antigo foi removido. Com as etapas 16 a 18, o
     pacote `verification/` está completo.
-19. **Em andamento:** mover a descoberta e configuração do Wine para
+19. **Concluída:** mover a descoberta e configuração do Wine para
     `platform/wine.py`. Primeiro saiu a descoberta (`discover_wine`, com o
     override de desenvolvimento, o Wine privado, `/mnt`, o Wine do sistema e
     o Proton, e `select_codec_runtime`, que escolhe o primeiro que responde
     a `--version`). A raiz do projeto, a preparação do Wine privado e a
     própria descoberta chegam como parâmetros, para que o CLI continue
-    resolvendo-os na hora da chamada.
+    resolvendo-os na hora da chamada (`dddbd15`). Depois saiu a
+    configuração: a conversão de caminhos para o Wine (`wine_z_path` e
+    `wine_path`, com `C:`, `W:` e `winepath`) e a preparação do prefixo
+    (`ensure_wine_prefix`, com `wineboot` e o drive `W:` apontando para
+    `/mnt`), que recebe a execução do processo e o diretório de trabalho.
 20. Mover controle de processos e sinais para `platform/processes.py`.
 21. Mover limites e detecção de recursos para `platform/resources.py`.
 22. Mover checagens de compatibilidade para `platform/compatibility.py`.
@@ -233,7 +237,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**. Com a etapa 16, são dezesseis de 23: **70%**. Com a etapa 17, são dezessete de 23: **74%**. Com a etapa 18, são dezoito de 23: **78%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**. Com a etapa 16, são dezesseis de 23: **70%**. Com a etapa 17, são dezessete de 23: **74%**. Com a etapa 18, são dezoito de 23: **78%**. Com a etapa 19, são dezenove de 23: **83%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

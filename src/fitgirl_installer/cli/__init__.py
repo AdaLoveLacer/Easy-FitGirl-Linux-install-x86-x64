@@ -37,7 +37,8 @@ from ..execution.installer import enabled, step_key
 from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
 from ..planning.audit import write_audit
-from ..platform import wine
+from ..platform import wine as platform_wine
+from ..platform.wine import wine_path, wine_z_path
 from ..runtime import ensure_bundled_wine
 from ..verification import manifests
 from ..verification import checksums
@@ -149,22 +150,18 @@ def parse_components(manifest: dict[str, Any], source: Path, requested: list[str
 
 
 def discover_wine() -> list[Path]:
-    return wine.discover_wine(root=ROOT, ensure_bundled_wine=ensure_bundled_wine)
+    return platform_wine.discover_wine(root=ROOT, ensure_bundled_wine=ensure_bundled_wine)
 
 
 def select_codec_runtime() -> Path:
     """No technical runtime prompt in the normal extraction workflow."""
-    return wine.select_codec_runtime(discover_wine)
+    return platform_wine.select_codec_runtime(discover_wine)
 
 
 def discover_analysis_tool(environment: str, bundled_name: str, command: str) -> Path | None:
     return analyzer.discover_analysis_tool(
         environment, bundled_name, command, root=ROOT, pe_machine=pe_machine,
     )
-
-
-def wine_z_path(path: Path) -> str:
-    return "Z:" + str(path.resolve()).replace("/", "\\")
 
 
 def _analysis_services() -> analyzer.AnalysisServices:
@@ -663,30 +660,6 @@ def run_ini_write(
         atomic_json(state_path, state)
 
 
-def wine_path(path: Path, prefix: Path, wine: Path) -> str:
-    absolute = path.resolve()
-    drive_c = (prefix / "drive_c").resolve()
-    try:
-        relative = absolute.relative_to(drive_c)
-        return "C:\\" + str(relative).replace("/", "\\")
-    except ValueError:
-        pass
-    if str(absolute).startswith("/mnt/"):
-        return "W:" + str(absolute)[4:].replace("/", "\\")
-    winepath = wine.parent / "winepath"
-    converter = [str(winepath)] if winepath.is_file() else [str(wine), "winepath.exe"]
-    result = subprocess.run(
-        [*converter, "-w", str(absolute)],
-        env={**os.environ, "WINEPREFIX": str(prefix), "WINEDEBUG": "-all"},
-        text=True,
-        stdout=subprocess.PIPE,
-        check=False,
-    )
-    if result.returncode:
-        raise InstallerError(f"winepath não converteu {absolute}")
-    return result.stdout.strip().replace("\r", "")
-
-
 def command_prefix(args: argparse.Namespace) -> list[str]:
     command: list[str] = []
     if args.memory_high is not None or args.memory_max is not None:
@@ -706,35 +679,10 @@ def ensure_wine_prefix(
     wine: Path, prefix: Path, scratch: Path,
     state_path: Path, state: dict[str, Any], dry_run: bool,
 ) -> None:
-    """Initialize Wine non-interactively and expose /mnt as the audited W: drive."""
-    wineboot = wine.parent / "wineboot"
-    if not (prefix / "system.reg").is_file():
-        command = [str(wineboot), "-i"] if wineboot.is_file() else [str(wine), "wineboot.exe", "-i"]
-        environment = {
-            **os.environ,
-            "WINEPREFIX": str(prefix),
-            "WINEDEBUG": "-all",
-            "WINEDLLOVERRIDES": "mscoree,mshtml=",
-        }
-        if sys.stdout.isatty():
-            print("Preparando ambiente para os codecs…")
-        else:
-            print(f"[PREFIXO] inicializando {prefix}")
-        if not dry_run:
-            prefix.mkdir(parents=True, exist_ok=True)
-        run_process(
-            command, ROOT, state_path, state, dry_run, environment
-        )
-    link = prefix / "dosdevices" / "w:"
-    if not sys.stdout.isatty():
-        print(f"[PREFIXO] {link} -> /mnt")
-    if dry_run:
-        return
-    link.parent.mkdir(parents=True, exist_ok=True)
-    if link.is_dir() and not link.is_symlink():
-        raise InstallerError(f"dosdevice W: inesperadamente é diretório: {link}")
-    link.unlink(missing_ok=True)
-    link.symlink_to("/mnt")
+    platform_wine.ensure_wine_prefix(
+        wine, prefix, scratch, state_path, state, dry_run,
+        run_process=run_process, working_directory=ROOT,
+    )
 
 
 def run_process(

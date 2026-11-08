@@ -5,8 +5,9 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 from ..models import InstallerError
 from ..runtime import RuntimeErrorDetail
@@ -73,3 +74,67 @@ def select_codec_runtime(discover_wine: Callable[[], list[Path]]) -> Path:
         "nenhum Wine/Proton utilizável foi encontrado. Instale Wine/Proton "
         "compatível ou configure FITGIRL_WINE_BIN para um executável existente"
     )
+
+
+def wine_z_path(path: Path) -> str:
+    return "Z:" + str(path.resolve()).replace("/", "\\")
+
+
+def wine_path(path: Path, prefix: Path, wine: Path) -> str:
+    absolute = path.resolve()
+    drive_c = (prefix / "drive_c").resolve()
+    try:
+        relative = absolute.relative_to(drive_c)
+        return "C:\\" + str(relative).replace("/", "\\")
+    except ValueError:
+        pass
+    if str(absolute).startswith("/mnt/"):
+        return "W:" + str(absolute)[4:].replace("/", "\\")
+    winepath = wine.parent / "winepath"
+    converter = [str(winepath)] if winepath.is_file() else [str(wine), "winepath.exe"]
+    result = subprocess.run(
+        [*converter, "-w", str(absolute)],
+        env={**os.environ, "WINEPREFIX": str(prefix), "WINEDEBUG": "-all"},
+        text=True,
+        stdout=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode:
+        raise InstallerError(f"winepath não converteu {absolute}")
+    return result.stdout.strip().replace("\r", "")
+
+
+def ensure_wine_prefix(
+    wine: Path, prefix: Path, scratch: Path,
+    state_path: Path, state: dict[str, Any], dry_run: bool, *,
+    run_process: Callable[..., None], working_directory: Path,
+) -> None:
+    """Initialize Wine non-interactively and expose /mnt as the audited W: drive."""
+    wineboot = wine.parent / "wineboot"
+    if not (prefix / "system.reg").is_file():
+        command = [str(wineboot), "-i"] if wineboot.is_file() else [str(wine), "wineboot.exe", "-i"]
+        environment = {
+            **os.environ,
+            "WINEPREFIX": str(prefix),
+            "WINEDEBUG": "-all",
+            "WINEDLLOVERRIDES": "mscoree,mshtml=",
+        }
+        if sys.stdout.isatty():
+            print("Preparando ambiente para os codecs…")
+        else:
+            print(f"[PREFIXO] inicializando {prefix}")
+        if not dry_run:
+            prefix.mkdir(parents=True, exist_ok=True)
+        run_process(
+            command, working_directory, state_path, state, dry_run, environment
+        )
+    link = prefix / "dosdevices" / "w:"
+    if not sys.stdout.isatty():
+        print(f"[PREFIXO] {link} -> /mnt")
+    if dry_run:
+        return
+    link.parent.mkdir(parents=True, exist_ok=True)
+    if link.is_dir() and not link.is_symlink():
+        raise InstallerError(f"dosdevice W: inesperadamente é diretório: {link}")
+    link.unlink(missing_ok=True)
+    link.symlink_to("/mnt")
