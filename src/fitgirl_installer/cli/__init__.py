@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import functools
 import hashlib
 from importlib import import_module
@@ -590,7 +591,7 @@ def resolve_destination(value: str, target: Path, scratch: Path) -> Path:
 def _payload_services() -> extractor.PayloadServices:
     """Bind the payload extraction to this module's helpers, looked up at call time."""
     return extractor.PayloadServices(
-        sha256=sha256, wait_process=wait_process,
+        sha256=sha256, wait_process=wait_process, forwarding_signals=forwarding_signals,
         default_innoextract=ROOT / "libexec/innoextract",
     )
 
@@ -797,12 +798,68 @@ def run_process(
         print("[EXEC]", shlex.join(command))
     if dry_run:
         return
-    process = subprocess.Popen(command, cwd=cwd, env=environment, start_new_session=True)
-    state["active"] = {"pid": process.pid, "pgid": process.pid, "command": command, "started_at": time.time()}
-    atomic_json(state_path, state)
-    returncode = wait_process(process, state_path, state)
+    with forwarding_signals() as forwarder:
+        process = subprocess.Popen(command, cwd=cwd, env=environment, start_new_session=True)
+        forwarder.attach(process)
+        state["active"] = {"pid": process.pid, "pgid": process.pid, "command": command, "started_at": time.time()}
+        atomic_json(state_path, state)
+        returncode = wait_process(process, state_path, state)
     if returncode not in success_codes:
         raise InstallerError(f"etapa encerrou com código {returncode}")
+
+
+class SignalForwarder:
+    """Forward SIGINT/SIGTERM to a child's group across its whole journaled life.
+
+    A signal that arrives before the child exists is held and forwarded as
+    soon as it starts; one that arrives after the child ended is delivered
+    again when the forwarding stops, so an interruption is never lost.
+    """
+
+    def __init__(self) -> None:
+        self.process: subprocess.Popen[Any] | None = None
+        self.pending: list[int] = []
+        self.after_exit: list[int] = []
+
+    def __call__(self, requested: int, _frame: Any) -> None:
+        if self.process is None:
+            self.pending.append(requested)
+        elif self.process.poll() is not None:
+            self.after_exit.append(requested)
+        else:
+            self._forward(requested)
+
+    def _forward(self, requested: int) -> None:
+        assert self.process is not None
+        name = signal.Signals(requested).name
+        print(f"[AVISO] {name} recebido; encerrando o grupo ativo {self.process.pid}")
+        try:
+            os.killpg(self.process.pid, requested)
+        except ProcessLookupError:
+            pass
+
+    def attach(self, process: subprocess.Popen[Any]) -> None:
+        self.process = process
+        for requested in self.pending:
+            self._forward(requested)
+        self.pending.clear()
+
+
+@contextlib.contextmanager
+def forwarding_signals():
+    """Install a SignalForwarder before a child starts and keep it until its journal entry is cleared."""
+    forwarder = SignalForwarder()
+    previous = {
+        requested: signal.signal(requested, forwarder)
+        for requested in (signal.SIGINT, signal.SIGTERM)
+    }
+    try:
+        yield forwarder
+    finally:
+        for requested, handler in previous.items():
+            signal.signal(requested, handler)
+    for requested in forwarder.pending + forwarder.after_exit:
+        signal.raise_signal(requested)
 
 
 def wait_process(
@@ -881,10 +938,12 @@ def run_batch(
         print("[EXEC]", shlex.join(command), f"(cwd={cwd})")
     if args.dry_run:
         return
-    process = subprocess.Popen(command, cwd=cwd, env=environment, start_new_session=True)
-    state["active"] = {"pid": process.pid, "pgid": process.pid, "command": command, "started_at": time.time()}
-    atomic_json(state_path, state)
-    returncode = wait_process(process, state_path, state)
+    with forwarding_signals() as forwarder:
+        process = subprocess.Popen(command, cwd=cwd, env=environment, start_new_session=True)
+        forwarder.attach(process)
+        state["active"] = {"pid": process.pid, "pgid": process.pid, "command": command, "started_at": time.time()}
+        atomic_json(state_path, state)
+        returncode = wait_process(process, state_path, state)
     if returncode:
         raise InstallerError(f"script {script.name} encerrou com código {returncode}")
 

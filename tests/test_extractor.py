@@ -13,6 +13,7 @@ from types import SimpleNamespace
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from fitgirl_installer import cli as CLI  # noqa: E402
 from fitgirl_installer.execution import extractor  # noqa: E402
 from fitgirl_installer.models import InstallerError  # noqa: E402
 
@@ -147,7 +148,8 @@ class PayloadTests(unittest.TestCase):
 
         return extractor.PayloadServices(
             sha256=lambda path: hashlib.sha256(path.read_bytes()).hexdigest(),
-            wait_process=wait, default_innoextract=innoextract,
+            wait_process=wait, forwarding_signals=CLI.forwarding_signals,
+            default_innoextract=innoextract,
         )
 
     def fake_tool(self, body):

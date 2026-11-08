@@ -10,7 +10,7 @@ import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, ContextManager
 
 from ..models import InstallerError
 from .journal import atomic_json
@@ -80,6 +80,7 @@ class PayloadServices:
 
     sha256: Callable[[Path], str]
     wait_process: Callable[..., int]
+    forwarding_signals: Callable[[], ContextManager[Any]]
     default_innoextract: Path
 
 
@@ -179,16 +180,18 @@ def materialize_temporary_payload(
         print("[PAYLOAD]", shlex.join(command))
     try:
         with log.open("w", encoding="utf-8") as output:
-            process = subprocess.Popen(
-                command, stdout=output, stderr=subprocess.STDOUT,
-                text=True, start_new_session=True,
-            )
-            state["active"] = {
-                "pid": process.pid, "pgid": process.pid, "command": command,
-                "started_at": time.time(), "kind": "payload",
-            }
-            atomic_json(state_path, state)
-            returncode = services.wait_process(process, state_path, state)
+            with services.forwarding_signals() as forwarder:
+                process = subprocess.Popen(
+                    command, stdout=output, stderr=subprocess.STDOUT,
+                    text=True, start_new_session=True,
+                )
+                forwarder.attach(process)
+                state["active"] = {
+                    "pid": process.pid, "pgid": process.pid, "command": command,
+                    "started_at": time.time(), "kind": "payload",
+                }
+                atomic_json(state_path, state)
+                returncode = services.wait_process(process, state_path, state)
         if returncode:
             raise InstallerError(
                 f"innoextract encerrou com código {returncode}; veja {log} e {staging_root}"
@@ -309,16 +312,18 @@ def materialize_application_payload(
         print("[PAYLOAD-APP]", shlex.join(command))
     try:
         with log.open("w", encoding="utf-8") as output:
-            process = subprocess.Popen(
-                command, stdout=output, stderr=subprocess.STDOUT,
-                text=True, start_new_session=True,
-            )
-            state["active"] = {
-                "pid": process.pid, "pgid": process.pid, "command": command,
-                "started_at": time.time(), "kind": "payload-app",
-            }
-            atomic_json(state_path, state)
-            returncode = services.wait_process(process, state_path, state)
+            with services.forwarding_signals() as forwarder:
+                process = subprocess.Popen(
+                    command, stdout=output, stderr=subprocess.STDOUT,
+                    text=True, start_new_session=True,
+                )
+                forwarder.attach(process)
+                state["active"] = {
+                    "pid": process.pid, "pgid": process.pid, "command": command,
+                    "started_at": time.time(), "kind": "payload-app",
+                }
+                atomic_json(state_path, state)
+                returncode = services.wait_process(process, state_path, state)
         if returncode:
             raise InstallerError(
                 f"innoextract encerrou com código {returncode}; veja {log} e {staging_root}"

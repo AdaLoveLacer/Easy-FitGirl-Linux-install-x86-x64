@@ -558,6 +558,13 @@ class OrchestratorIntegrationTests(unittest.TestCase):
                     break
             time.sleep(0.02)
         self.assertIsNotNone(active_pgid)
+        # The fake backend is Python: a SIGINT during its interpreter startup can
+        # land in an importlib weakref callback, where CPython ignores the
+        # KeyboardInterrupt. Wait until it has recorded its call and is running.
+        for _ in range(200):
+            if self.calls.exists() and '"archive": "a.bin"' in self.calls.read_text():
+                break
+            time.sleep(0.02)
 
         os.kill(orchestrator.pid, signal.SIGINT)
         output = orchestrator.communicate(timeout=10)[0]
