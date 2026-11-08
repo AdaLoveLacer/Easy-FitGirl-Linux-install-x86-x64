@@ -499,7 +499,7 @@
         ],
         [
           false,
-          "Localização incompleta em inglês: o sufixo de [SKIP] (\"condição de componente não satisfeita\") e a mensagem de divergência da ordem de execução continuam em português; somente o prefixo é traduzido."
+          "Localização incompleta em inglês: o sufixo de [SKIP] (\"condição de componente não satisfeita\") e a mensagem de divergência da ordem de execução continuam em português; somente o prefixo é traduzido; também ficam em português, vistos em 2026-11-08 nas comparações da refatoração: o aviso \"[VALIDA] calculando MD5 de …\", os erros de fitgirl pause/resume (\"não há etapa ativa registrada\", \"o grupo de processos registrado não existe mais\") e o conector \"e\" em \"--srep-memory must be between 128 e … MiB\"."
         ],
         [
           true,
