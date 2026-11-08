@@ -22,7 +22,7 @@ INTEGER_OPERAND = re.compile(r"^(\S+),\s+(-?\d+)(?:[iu]\d+)?$")
 ISDONE_EXPORT = re.compile(
     r"^dll:files:ISDone\.dll!(ISArcExtract|ISExec)$", re.IGNORECASE
 )
-PLAN_COMPILER_VERSION = 11
+PLAN_COMPILER_VERSION = 12
 FILESYSTEM_ACTIONS = {"deletefile": "delete-file", "deltree": "delete-tree"}
 MUTATING_CALLS = {**FILESYSTEM_ACTIONS, "setinistring": "ini-write"}
 
@@ -316,6 +316,91 @@ def _isarc_step(
     return step
 
 
+COMMAND_PATH = re.compile(r"^[A-Za-z0-9_.\-]+(?:\\[A-Za-z0-9_.\-]+)*$")
+PAYLOAD_TOOL = re.compile(r"^\{tmp\}\\[A-Za-z0-9_.\-]+\.exe$", re.IGNORECASE)
+COPY_SOURCE = re.compile(r"^(?:nul|[A-Za-z0-9_.\-]+(?:\\[A-Za-z0-9_.\-]+)*(?:\\\*\.[A-Za-z0-9]+)?)$", re.IGNORECASE)
+SHELL_BUILTINS = {"del", "erase", "move", "ren", "rename", "copy", "rd", "rmdir"}
+
+
+def _command_tokens(text: str) -> list[str] | None:
+    """Split one command segment on blanks, honouring double quotes."""
+    tokens: list[str] = []
+    current: list[str] = []
+    quoted = started = False
+    for character in text:
+        if character == '"':
+            quoted, started = not quoted, True
+        elif character in " \t" and not quoted:
+            if started:
+                tokens.append("".join(current))
+                current, started = [], False
+        else:
+            current.append(character)
+            started = True
+    if quoted:
+        return None
+    if started:
+        tokens.append("".join(current))
+    return tokens
+
+
+def command_write_scope(
+    parameter_expression: list[dict[str, Any]], root: str, suffix: str | None,
+) -> list[dict[str, Any]] | None:
+    """Files a ``{cmd} /C`` chain of payload tools and shell builtins can change.
+
+    FitGirl's post-processing tools transform files named on their command
+    line inside the working directory, and the chained builtins delete, move
+    or concatenate named files. Every named operand is snapshotted (a file
+    that is only read costs one extra copy-on-write backup). Anything outside
+    this shape returns None, so the step keeps no proven scope.
+    """
+    values = [str(part.get("value", "")) for part in parameter_expression]
+    if not values or values[0].strip().casefold() != "/c":
+        return None
+    text = "".join(
+        f'"{value}"' if part.get("operation") == "expanded_quoted" else value
+        for part, value in zip(parameter_expression[1:], values[1:])
+    )
+    segments = text.split("&&")
+    if any(set(segment) & set("&|<>%^") for segment in segments):
+        return None
+    operands: list[str] = []
+    for position, segment in enumerate(segments):
+        tokens = _command_tokens(segment.strip())
+        if not tokens:
+            return None
+        command, arguments = tokens[0], tokens[1:]
+        name = command.casefold()
+        if PAYLOAD_TOOL.match(command) and position == 0:
+            for argument in arguments:
+                if argument.startswith(("-", "/")) or argument.isdecimal():
+                    continue
+                if not COMMAND_PATH.match(argument):
+                    return None
+                operands.append(argument)
+        elif name in SHELL_BUILTINS:
+            arguments = [item for item in arguments if not item.startswith("/")]
+            if name == "copy":
+                if len(arguments) != 2 or not all(
+                    COPY_SOURCE.match(source) for source in arguments[0].split("+")
+                ):
+                    return None
+                arguments = arguments[1:]
+            if not arguments or not all(COMMAND_PATH.match(item) for item in arguments):
+                return None
+            operands.extend(arguments)
+        else:
+            return None
+    scope: list[dict[str, Any]] = []
+    for operand in dict.fromkeys(operands):
+        relative = operand.replace("\\", "/")
+        if ".." in relative.split("/"):
+            return None
+        scope.append({"root": root, "path": f"{suffix}/{relative}" if suffix else relative})
+    return scope
+
+
 def _isexec_step(
     frame: list[dict[str, Any]], strings: list[dict[str, Any]], call: dict[str, Any],
 ) -> dict[str, Any] | None:
@@ -434,6 +519,13 @@ def _isexec_step(
                 "root": step.get("cwd", "app"),
                 "path": delete_match.group(1).strip('"').replace("\\", "/"),
             }]
+    if "rollback_paths" not in step and is_command_shell and parameter_expression:
+        scope = command_write_scope(
+            parameter_expression, step.get("cwd", "app"), step.get("cwd_suffix"),
+        )
+        if scope is not None:
+            step["rollback_paths"] = scope
+            step["rollback_scope_rule"] = "named_operands"
     step["isexec_arguments"] = {
         "cur_component": step["cur_component"],
         "pct_of_total": _integer_argument(frame, "s+21"),

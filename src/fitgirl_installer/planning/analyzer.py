@@ -163,6 +163,16 @@ def apply_semantic_blockers(candidate: dict[str, Any], report: dict[str, Any]) -
         candidate["review_required"] = True
     else:
         candidate.pop("semantic_blockers", None)
+    acceptance = report.get("acceptance") or {}
+    if acceptance.get("automatic") is True and not blockers:
+        candidate["draft"] = False
+        candidate["review_required"] = False
+        candidate["acceptance"] = acceptance
+    elif candidate.pop("acceptance", None) is not None:
+        # A plan accepted automatically that no longer proves everything goes
+        # back to review; a plan a reviewer accepted by hand is left as it is.
+        candidate["draft"] = True
+        candidate["review_required"] = True
 
 
 def isdone_fingerprint(setup: Path, analysis: Path, *, innoextract: Path) -> str | None:

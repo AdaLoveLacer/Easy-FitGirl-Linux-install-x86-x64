@@ -2,7 +2,7 @@
 
 [English](README.md) | **Português (Brasil)**
 
-FitGirlWine é uma ferramenta de linha de comando para Linux que extrai repacks FitGirl compatíveis sem executar o `setup.exe`. Ela aceita somente repacks com plano de instalação auditado; planos desconhecidos ou sem prova são recusados.
+FitGirlWine é uma ferramenta de linha de comando para Linux que extrai repacks FitGirl compatíveis sem executar o `setup.exe`. Ela aceita somente repacks com plano de instalação auditado, ou cujo plano gerado automaticamente passa por todas as provas estáticas contra uma versão já analisada da ISDone.dll; planos desconhecidos ou sem prova são recusados, e o MD5 do próprio repack confere toda instalação.
 
 ## Início rápido
 

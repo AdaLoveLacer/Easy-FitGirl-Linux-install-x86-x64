@@ -306,6 +306,7 @@ _PATTERNS: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], .
     (re.compile(r"manifesto base ausente: (.*)"), r"Base manifest is missing: \1"),
     (re.compile(r"plano automático salvo em (.*), mas bloqueado por efeito externo: (.*)"), r"Automatic plan saved to \1 but blocked by an external effect: \2"),
     (re.compile(r"plano automático gerado em (.*), com (\d+) etapas; instalação recusada porque condições e ações ainda não foram comprovadas"), r"Automatic plan generated at \1 with \2 steps; installation refused because its conditions and actions are not yet proven"),
+    (re.compile(r"\[INFO\] plano automático aceito: (\d+) etapas provadas contra uma ISDone\.dll já analisada; o MD5 do repack confere o resultado"), r"[INFO] Automatic plan accepted: \1 steps proven against an already analysed ISDone.dll; the repack's MD5 manifest checks the result"),
     (re.compile(r"a etapa anterior ainda está ativa no grupo (\d+); não iniciarei uma cópia concorrente"), r"The previous step is still active in process group \1; refusing to start a concurrent copy"),
     (re.compile(r"nenhum arquivo foi alterado"), "no files were changed"),
     (re.compile(r"[\[]GLOBAL[\]] (.*) confirmado"), r"[GLOBAL] \1 confirmed"),

@@ -547,6 +547,56 @@ def semantic_guard_report(disassembly: Path) -> dict[str, Any]:
     }
 
 
+ACCEPTANCE_POLICY = "isdone-catalog-v1"
+
+
+def automatic_acceptance(
+    *, issues: list[dict[str, Any]], provenance_complete: bool,
+    binary_disassembly_verified: bool, coverage: dict[str, Any],
+    isdone_version: isdone_catalog.IsdoneVersion | None,
+    semantic_guards: dict[str, Any], success: dict[str, Any],
+    steps: list[dict[str, Any]] = (),
+) -> dict[str, Any]:
+    """Accept a generated plan without manual review only when every proof holds.
+
+    Each requirement replaces one question a reviewer used to answer by hand
+    for the same ISDone.dll build. Any requirement that fails leaves the plan
+    as a draft for review, exactly as before this policy existed.
+    """
+    selection = semantic_guards.get("component_selection") or {}
+    ini_sites = (semantic_guards.get("checkbox_conditions") or {}).get("ini_write_sites", [])
+    requirements = {
+        "no_audit_issues": not issues,
+        "provenance_complete": provenance_complete,
+        "disassembly_reproduced_from_compiled_code": binary_disassembly_verified,
+        "every_action_planned": bool(coverage.get("complete")),
+        "isdone_build_catalogued": isdone_version is not None,
+        "actions_under_proven_event_guard": (
+            semantic_guards.get("all_recognized_actions_covered_by_proven_event_guard") is True
+        ),
+        "checkbox_conditions_proven": all(
+            (item.get("condition") or {}).get("proven") is True for item in ini_sites
+        ),
+        "components_match_selection_bits": all(
+            item.get("index_matches_selection_bit") is True
+            for item in selection.get("isarc_extract_calls", [])
+        ),
+        "order_proven_on_success_path": success.get("order_proven") is True,
+        # The executor snapshots these paths before running a program and
+        # refuses a program without them, so an accepted plan must have them.
+        "every_program_has_rollback_scope": all(
+            "rollback_paths" in step for step in steps if step.get("type") == "isexec"
+        ),
+    }
+    return {
+        "policy": ACCEPTANCE_POLICY,
+        "automatic": all(requirements.values()),
+        "requirements": requirements,
+        "isdone": isdone_version.label if isdone_version else None,
+        "final_gate": "the repack's own MD5 manifest must verify every installed file",
+    }
+
+
 def audit_plan(
     manifest: dict[str, Any], iss: Path, disassembly: Path, compiled: Path,
     reproduced_disassembly: bytes | None = None,
@@ -686,9 +736,20 @@ def audit_plan(
     ]
     if unresolved:
         issues.append({"kind": "unresolved_cfg_targets", "details": unresolved})
+    acceptance = automatic_acceptance(
+        issues=issues, provenance_complete=provenance_complete,
+        binary_disassembly_verified=binary_disassembly_verified, coverage=coverage,
+        isdone_version=isdone_version, semantic_guards=semantic_guards, success=success,
+        steps=steps,
+    )
+    if acceptance["automatic"]:
+        status = "MATCH_AUTO_ACCEPTED"
+    else:
+        status = "MISMATCH" if issues else "MATCH_REVIEW_REQUIRED"
     return {
         "schema": SCHEMA_VERSION,
-        "status": "MISMATCH" if issues else "MATCH_REVIEW_REQUIRED",
+        "status": status,
+        "acceptance": acceptance,
         "consistent": not issues,
         "provenance_complete": provenance_complete,
         "sources": hashes,
@@ -709,7 +770,7 @@ def audit_plan(
         ),
         "semantic_equivalence_proven": False,
         "binary_disassembly_verified": binary_disassembly_verified,
-        "review_required": True,
+        "review_required": not acceptance["automatic"],
         "limitations": [
             "Argument reconstruction shares the planner implementation; not an independent interpreter.",
             ("Disassembly was reproduced byte-for-byte from CompiledCode.bin with the configured tool."

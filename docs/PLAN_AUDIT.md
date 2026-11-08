@@ -52,8 +52,10 @@ A validação de 2026-11-04 provou, com escopo limitado, a ordem das chamadas mu
 Isso prova a ordem relativa das ações catalogadas dentro desses três procedimentos, não qual guarda será verdadeira, a correspondência semântica dos valores de evento, nem efeitos externos não catalogados. `review_required` permanece ativo. Ainda faltam interpretação independente das guardas/condições, equivalência semântica e ampliação do corpus real.
 As ferramentas foram recuperadas em diretório persistente; consulte
 [`THIRD_PARTY.md`](THIRD_PARTY.md) e `tools/bootstrap-analysis.sh`. Star Trucker,
-Children of Morta e Subnautica já tiveram ISS/IFPS extraídos e auditados. Nenhum
-desses resultados autoriza liberar automaticamente um plano.
+Children of Morta e Subnautica já tiveram ISS/IFPS extraídos e auditados. Esses
+resultados, sozinhos, não liberam um plano; desde 2026-11-08 a liberação automática
+segue a política descrita em
+[Aceitação automática por catálogo da ISDone.dll](#aceitação-automática-por-catálogo-da-isdonedll).
 
 ## Prova semântica parcial
 
@@ -66,6 +68,62 @@ Os três setups amostrados carregam a mesma `ISDone.dll` (SHA-256 registrado na 
 Em `Exec2`, o slot de ponteiro `0x45C504` aponta para o byte global `0x45DDAA`. `ISDoneInit` e `Exec2` o zeram; `Exec2` o define como 1 quando `CreateProcessA` falha, consulta-o na lógica de término e devolve-o ao chamador. Busca completa de referências na DLL não encontrou outros escritores internos. Nos três bytecodes, o ponteiro de callback de `ISDoneInit` é `PROGRESSCALLBACK`: a rotina só atualiza barra, taskbar e rótulos e não chama `Exec2`; cada setup tem uma única chamada `Exec2`, no ramo `CurStepChanged(ssPostInstall)`. Assim, o callback IFPS registrado não escreve essa flag. `Exec2` também bombeia mensagens Win32 com `DispatchMessageA`; reentrada iniciada por um procedimento nativo da janela permanece fora do escopo estático.
 
 A auditoria estática solicitada está concluída para os cinco exports e os três bytecodes exatos. O auditor bloqueia os três efeitos externos ausentes do plano nativo: tentativa de desinstalação silenciosa, gravação de `CLS.ini` por `PrecompInit` e possível remoção de `records.inf` por `ISDoneStop`. Os drafts de Star Trucker, Children of Morta e Subnautica persistem esses bloqueios; o CLI os recusa antes da instalação. As limitações finais são reentrada possível por procedimento nativo da janela e resultados em runtime da resolução de caminhos e guardas de cleanup. Não foi executada a DLL nem o instalador. O estado final é `STATIC_AUDIT_COMPLETE_WITH_RUNTIME_LIMITS`, sem equivalência total alegada. Escopo, hashes, argumentos e endereços: `evidence/semantic-guard-audit-2026-11-04.json`.
+
+## Aceitação automática por catálogo da ISDone.dll
+
+Em 2026-11-08, a análise estática dos 11 repacks FitGirl locais mostrou que os 9
+sem plano auditado tinham os mesmos três bloqueios e usavam só duas versões de
+`ISDone.dll` (`c652b4b5…` em 9 repacks, `bb8a0245…` em 2) e uma única `unarc.dll`.
+Os bloqueios vêm do script universal da FitGirl, não de cada jogo. Por isso a prova
+passou a ser feita uma vez por versão da DLL, e não por jogo.
+
+- **Identificação da DLL.** A análise extrai `tmp/ISDone.dll` com o innoextract, sem
+  executar o setup, e grava o SHA-256 em `analysis.isdone_sha256`.
+- **Catálogo** (`planning/isdone_catalog.py`). Cada versão analisada registra a
+  evidência, as exportações cujo retorno verdadeiro significa sucesso
+  (`ISDoneInit`, `PrecompInit`, `FileSearchInit`, `ChangeLanguage` na `c652b4b5…`) e
+  o que `PrecompInit` e `ISDoneStop` fazem. Uma DLL fora do catálogo mantém os três
+  bloqueios.
+- **Caminho de sucesso** (`planning/success_path.py`). Interpreta `CurStepChanged` em
+  cada passo do Inno supondo sucesso de toda ação do plano e das exportações do
+  catálogo, como em qualquer execução nativa concluída, já que o executor para na
+  primeira falha. A pilha IFPS é rastreada pela profundidade (o slot `s+n` é o n-ésimo
+  push). Valores indecidíveis mantêm os dois ramos. O módulo prova a **ordem**, quando
+  nenhum salto para trás é alcançável, e que o **desinstalador** `Exec2({uninstallexe})`
+  nunca é alcançado, acompanhando a global que o guarda entre os passos.
+- **Resolução dos efeitos**, cada uma valendo só para DLL catalogada e com a checagem
+  do próprio script:
+  - `PrecompInit` é ajuste de recursos do codec precomp (Memory e TempPath de
+    `[Precomp]`): decide se a decodificação cabe, nunca os bytes;
+  - `ISDoneStop` só apaga o `records.inf` do `ISDoneInit`, aceito quando o script o
+    põe fora de `{app}` (`{src}\records.inf` nos dez setups);
+  - o desinstalador exige a prova do caminho de sucesso.
+- **Escopo de rollback inferido.** Comandos `{cmd} /C` de ferramentas do payload
+  (`{tmp}\x2.exe`, `fsb`, `x5`, `x6`, `fgpack`, `sfk`) encadeados com `del`, `move`,
+  `copy /b`, `ren` ou `rd` recebem como escopo todo operando nomeado (regra
+  `named_operands`). Pipes, redirecionamentos, `%`, curingas fora do `copy`, caminhos
+  absolutos ou `..` ficam sem escopo. Limite: um arquivo que a ferramenta crie sem
+  nomeá-lo na linha de comando não entra no snapshot.
+- **Política `isdone-catalog-v1`** (`audit.automatic_acceptance`). O plano gerado só
+  deixa de ser rascunho se todas estas condições valerem: nenhuma inconsistência de
+  auditoria; proveniência completa; disassembly reproduzido do `CompiledCode.bin`;
+  toda ação planejada; DLL catalogada; ações sob guarda de evento provada; condições
+  de checkbox provadas; componentes coerentes com os bits de seleção; ordem provada
+  pelo caminho de sucesso; e escopo de rollback em todo programa. O status passa a
+  `MATCH_AUTO_ACCEPTED`, o plano registra `acceptance` com cada requisito, e o
+  assistente segue para a instalação. Um plano aceito automaticamente que deixa de se
+  provar volta a rascunho. Um plano aprovado à mão por um revisor não é alterado. O
+  portão final continua sendo o MD5 do próprio repack.
+
+Situação do corpus local: 6 aceitos automaticamente (Children of Morta, DRIVECLUB,
+Directive 8020, Star Trucker, Subnautica e Subverse) e 2 com plano auditado no
+repositório (Mirage 7 e FM7). God of War III fica para revisão, porque os
+componentes não batem com os bits de seleção. DMC5 e GTA IV usam a DLL
+`bb8a0245…`, ainda fora do catálogo, e o GTA IV tem também uma lacuna de
+cobertura. **Validação real ainda pendente:** a primeira instalação do Children of
+Morta com o plano aceito parou na etapa 21 (`x2.exe` sem escopo de rollback). Isso
+levou à regra `named_operands` e ao requisito de escopo. A instalação precisa ser
+repetida com o código atual antes de considerar a política validada.
 
 ## Compatibilidade do host
 

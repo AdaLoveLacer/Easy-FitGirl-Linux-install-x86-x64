@@ -13,11 +13,11 @@ Estados: `PASS`, `PARCIAL`, `PENDENTE`, `BLOQUEADO` ou `N/A`.
 <!-- BEGIN GENERATED:PROJECT_STATUS -->
 
 Fonte canônica: [`status/project-status.json`](../status/project-status.json).  
-Suíte automatizada descoberta: **190/190 testes**.
+Suíte automatizada descoberta: **200/200 testes**.
 
 | Requisito | Estado | Veredito |
 |---|---:|---|
-| Qualquer instalador FitGirl | PARCIAL | Não há alegação universal: só planos auditados são aceitos; planos novos sem prova ficam bloqueados para revisão. |
+| Qualquer instalador FitGirl | PARCIAL | Sem alegação universal. Planos auditados no repositório, ou aceitos pela política isdone-catalog-v1 (ISDone.dll catalogada e todas as provas automáticas), seguem para instalação; os demais ficam bloqueados para revisão. No corpus local: 2 auditados e 6 aceitos automaticamente de 11; validação real da política ainda pendente. |
 | Repacks integralmente validados | PASS | FM7, Mirage 7 e The Darkness 2 |
 | Retomada por etapa | PASS | Falhas e sinais reais preservam a menor etapa reiniciável |
 | Seleção de opcionais | PASS | Idiomas do The Darkness 2 e ramo 4K do FM7 validados |

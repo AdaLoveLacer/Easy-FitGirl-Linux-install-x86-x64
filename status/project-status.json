@@ -5,7 +5,7 @@
     [
       "Qualquer instalador FitGirl",
       "PARCIAL",
-      "Não há alegação universal: só planos auditados são aceitos; planos novos sem prova ficam bloqueados para revisão."
+      "Sem alegação universal. Planos auditados no repositório, ou aceitos pela política isdone-catalog-v1 (ISDone.dll catalogada e todas as provas automáticas), seguem para instalação; os demais ficam bloqueados para revisão. No corpus local: 2 auditados e 6 aceitos automaticamente de 11; validação real da política ainda pendente."
     ],
     [
       "Repacks integralmente validados",
@@ -486,6 +486,48 @@
       ]
     },
     {
+      "title": "Compatibilidade ampla por catálogo da ISDone.dll",
+      "status": "IMPLEMENTADA — VALIDAÇÃO REAL PENDENTE",
+      "items": [
+        [
+          true,
+          "Levantar o corpus local: 11 repacks FitGirl, 9 sem plano auditado com os mesmos três bloqueios, duas versões de ISDone.dll (c652b4b5… e bb8a0245…)."
+        ],
+        [
+          true,
+          "Provar ordem e desinstalador inalcançável pelo caminho de sucesso de CurStepChanged (planning/success_path.py); nove mutações dos scripts reais recusadas."
+        ],
+        [
+          true,
+          "Catalogar a ISDone.dll c652b4b5… e resolver PrecompInit, ISDoneStop e o desinstalador por versão de DLL (planning/isdone_catalog.py)."
+        ],
+        [
+          true,
+          "Política isdone-catalog-v1: aceitação automática só com todas as provas; plano aceito que perde prova volta a rascunho; revisão manual preservada."
+        ],
+        [
+          true,
+          "Inferir escopo de rollback dos comandos de pós-processamento pelos operandos nomeados (regra named_operands) e exigir escopo em todo programa."
+        ],
+        [
+          false,
+          "Repetir a instalação real do Children of Morta com o código atual (a primeira parou na etapa 21, x2.exe sem escopo, antes da regra named_operands) e conferir o MD5; depois validar o Subverse."
+        ],
+        [
+          false,
+          "Analisar estaticamente a ISDone.dll bb8a0245… (DMC5 e GTA IV) e incluí-la no catálogo se os mesmos efeitos se provarem."
+        ],
+        [
+          false,
+          "Investigar por que os componentes do God of War III não batem com os bits de seleção e a lacuna de cobertura de ações do GTA IV."
+        ],
+        [
+          false,
+          "Regenerar automaticamente o disassembly em cache quando a reprodução a partir do CompiledCode.bin divergir (caso do Directive 8020, feito à mão)."
+        ]
+      ]
+    },
+    {
       "title": "Bugs encontrados durante a refatoração",
       "status": "REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO",
       "items": [
@@ -623,6 +665,7 @@
     "Correção em 2026-11-08, autorizada pelo usuário, após o primeiro teste real pós-refatoração: o Mirage 7 falhava no fg-01.bin, com o FreeArc lendo o volume inteiro sem gravar e o helper saindo sem final rc. O trace +process do Wine mostrou que xtool.exe, iniciado pelo nome, não era encontrado: o caminho de busca não incluía a pasta atual porque o ambiente tinha NoDefaultCurrentDirectoryInExePath=1, injetado pelo assistente nos comandos que executa e herdado pelo Konsole aberto para o teste; os terminais do usuário não têm a variável. O código anterior à refatoração (ee41227) falhava igual; sem a variável, o mesmo backend extraiu 79 arquivos e 2.432.644.838 bytes, como em 2026-11-03. O cli/main.py remove a variável do ambiente ao iniciar, o que cobre o backend e os pós-processamentos, e o libexec/fitgirl-extract também a remove, por ser quem chama o Wine dos codecs. Um teste novo executa o instalador com a variável e confirma que o backend não a herda; ele falha sem a correção. Validação real com a variável presente: instalação completa do Mirage 7 pelo instalador com MD5 238/238, 2.500.148.966 bytes, zero ausentes e divergências; backend chamado direto no fg-02.bin com 159 arquivos, contra nenhum sem a correção.",
     "Teste real em 2026-11-08 com o Subverse, o repack FitGirl mais recente e sem plano auditado (setup SHA-256 bd6637c7…): o fitgirl analisou o setup sem executá-lo e recusou instalar, como projetado. O rascunho tem 98 etapas (extract, ini-write, isexec, delete-tree, merge-manifests e verify), auditoria MATCH_REVIEW_REQUIRED com cobertura 97/97 e três bloqueios semânticos: PrecompInit grava Memory e TempPath de [Precomp] no CLS.ini fora do plano nativo; ISDoneStop pode apagar o records.inf retido por ISDoneInit; e há um lançamento condicional do desinstalador silencioso. Tornar o Subverse instalável exige revisão do plano como a do Directive 8020, não ajuste de código.",
     "Compatibilidade ampla, passo 1 em 2026-11-08: levantamento estático dos 11 repacks FitGirl locais mostrou que os 9 sem plano auditado têm os mesmos três bloqueios e usam só duas versões de ISDone.dll (c652b4b5… em 9, bb8a0245… em 2) e uma unarc.dll. Criado planning/success_path.py, que interpreta CurStepChanged para cada passo do Inno assumindo sucesso de toda ação do plano e das exportações que o catálogo da DLL declarar booleanas de sucesso, rastreando a profundidade da pilha IFPS (slot s+n = n-ésimo push, confirmado em 5.355 pushes de 4 setups, sem conflito entre caminhos). Prova a ordem (nenhum salto para trás alcançável) e que o Exec2({uninstallexe}) guardado por uma global nunca é alcançado. Com as exportações de inicialização da DLL c652b4b5…, ordem e desinstalador inalcançável foram provados nos 10 setups analisáveis; nove mutações dos scripts reais (zerar trocado por ligar, zerar removido, DLL sem catálogo) foram todas detectadas como não provadas. Seis testes sintéticos. Ainda só relatório; a política de aceitação não mudou.",
-    "Compatibilidade ampla, passo 2 em 2026-11-08: a análise passou a registrar o SHA-256 da ISDone.dll de cada setup, extraída pelo innoextract sem executar o instalador, e planning/isdone_catalog.py guarda as versões analisadas (por ora c652b4b5…, com a evidência de 2026-11-04). Cada efeito só deixa de bloquear se a DLL estiver no catálogo e a prova daquele script passar: PrecompInit é ajuste de recursos do codec precomp (Memory e TempPath de [Precomp]), que decide se a decodificação cabe, nunca os bytes, coberto pelo MD5 final; ISDoneStop só apaga o records.inf de ISDoneInit, que o script põe fora de {app} ({src}\\records.inf nos dez setups); e o desinstalador exige a prova do caminho de sucesso. Resultado: os 7 repacks sem plano auditado com a DLL c652b4b5… (Children of Morta, DRIVECLUB, Directive 8020, God of War III, Star Trucker, Subnautica e Subverse) ficaram sem bloqueio, auditoria MATCH_REVIEW_REQUIRED; DMC5 e GTA IV, com a DLL bb8a0245… fora do catálogo, continuam bloqueados. O disassembly em cache do Directive, alterado depois de gerado, foi regenerado do CompiledCode.bin (cópia antiga em .work/corpus). Cinco testes novos. A aceitação dos planos ainda não mudou."
+    "Compatibilidade ampla, passo 2 em 2026-11-08: a análise passou a registrar o SHA-256 da ISDone.dll de cada setup, extraída pelo innoextract sem executar o instalador, e planning/isdone_catalog.py guarda as versões analisadas (por ora c652b4b5…, com a evidência de 2026-11-04). Cada efeito só deixa de bloquear se a DLL estiver no catálogo e a prova daquele script passar: PrecompInit é ajuste de recursos do codec precomp (Memory e TempPath de [Precomp]), que decide se a decodificação cabe, nunca os bytes, coberto pelo MD5 final; ISDoneStop só apaga o records.inf de ISDoneInit, que o script põe fora de {app} ({src}\\records.inf nos dez setups); e o desinstalador exige a prova do caminho de sucesso. Resultado: os 7 repacks sem plano auditado com a DLL c652b4b5… (Children of Morta, DRIVECLUB, Directive 8020, God of War III, Star Trucker, Subnautica e Subverse) ficaram sem bloqueio, auditoria MATCH_REVIEW_REQUIRED; DMC5 e GTA IV, com a DLL bb8a0245… fora do catálogo, continuam bloqueados. O disassembly em cache do Directive, alterado depois de gerado, foi regenerado do CompiledCode.bin (cópia antiga em .work/corpus). Cinco testes novos. A aceitação dos planos ainda não mudou.",
+    "Compatibilidade ampla, passo 3 em 2026-11-08: política de aceitação automática isdone-catalog-v1 em audit.automatic_acceptance. O plano gerado deixa de ser rascunho só com todas as provas: auditoria sem inconsistência, proveniência, disassembly reproduzido, cobertura, DLL catalogada, guarda de evento, checkbox, componentes, ordem pelo caminho de sucesso e escopo de rollback em todo programa; o status vira MATCH_AUTO_ACCEPTED e o assistente prossegue com a mensagem traduzida de plano aceito. Um plano aceito que perde prova volta a rascunho; um aprovado à mão é preservado. A primeira instalação real com plano aceito (Children of Morta) parou na etapa 21, ISExec x2.exe sem rollback_paths, o que revelou a lacuna: o planejador passou a inferir o escopo pelos operandos nomeados de comandos {cmd} /C de ferramentas do payload encadeadas com del, move, copy /b, ren e rd (regra named_operands, PLAN_COMPILER_VERSION 12), recusando pipes, redirecionamentos, %, curingas fora do copy, caminhos absolutos e .., e a política passou a exigir escopo. Resultado no corpus: 6 aceitos automaticamente (Children of Morta, DRIVECLUB, Directive 8020, Star Trucker, Subnautica, Subverse), God of War III para revisão por componentes, DMC5 e GTA IV bloqueados pela DLL fora do catálogo. Suíte 200/200. Validação real com o código atual fica para a próxima sessão."
   ]
 }

@@ -4,7 +4,7 @@
 > `status/project-status.json` e execute `./tools/sync-docs.py --write`.
 
 Última atualização declarada: 2026-11-08  
-Suíte automatizada descoberta: **190/190 testes**.
+Suíte automatizada descoberta: **200/200 testes**.
 
 ## 1. Monitoramento da ordem em produção
 
@@ -158,7 +158,21 @@ Estado: **CONCLUÍDO — INSTALAÇÃO REAL VALIDADA**
 - [x] Criar ZIP autocontido com executável, dependências compartilhadas do innoextract, instruções e SHA-256; conferir listagem e integridade do ZIP.
 - [x] Validar ZIP atualizado em container Debian limpo e confirmar inicialização do runtime Wine e do innoextract.
 
-## 14. Bugs encontrados durante a refatoração
+## 14. Compatibilidade ampla por catálogo da ISDone.dll
+
+Estado: **IMPLEMENTADA — VALIDAÇÃO REAL PENDENTE**
+
+- [x] Levantar o corpus local: 11 repacks FitGirl, 9 sem plano auditado com os mesmos três bloqueios, duas versões de ISDone.dll (c652b4b5… e bb8a0245…).
+- [x] Provar ordem e desinstalador inalcançável pelo caminho de sucesso de CurStepChanged (planning/success_path.py); nove mutações dos scripts reais recusadas.
+- [x] Catalogar a ISDone.dll c652b4b5… e resolver PrecompInit, ISDoneStop e o desinstalador por versão de DLL (planning/isdone_catalog.py).
+- [x] Política isdone-catalog-v1: aceitação automática só com todas as provas; plano aceito que perde prova volta a rascunho; revisão manual preservada.
+- [x] Inferir escopo de rollback dos comandos de pós-processamento pelos operandos nomeados (regra named_operands) e exigir escopo em todo programa.
+- [ ] Repetir a instalação real do Children of Morta com o código atual (a primeira parou na etapa 21, x2.exe sem escopo, antes da regra named_operands) e conferir o MD5; depois validar o Subverse.
+- [ ] Analisar estaticamente a ISDone.dll bb8a0245… (DMC5 e GTA IV) e incluí-la no catálogo se os mesmos efeitos se provarem.
+- [ ] Investigar por que os componentes do God of War III não batem com os bits de seleção e a lacuna de cobertura de ações do GTA IV.
+- [ ] Regenerar automaticamente o disassembly em cache quando a reprodução a partir do CompiledCode.bin divergir (caso do Directive 8020, feito à mão).
+
+## 15. Bugs encontrados durante a refatoração
 
 Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
 
