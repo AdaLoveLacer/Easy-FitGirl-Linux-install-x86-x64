@@ -157,3 +157,115 @@ def finish_installation(
     else:
         print(f"[GLOBAL] 100.0% {'simulado' if dry_run else 'confirmado'}")
         print(f"[INFO] instalação concluída em {target}" if not dry_run else "[INFO] simulação concluída")
+
+
+@dataclass(frozen=True)
+class InstallRequest:
+    """What to install, already chosen and resumed by the caller."""
+
+    source: Path
+    target: Path
+    scratch: Path
+    prefix: Path
+    manifest_path: Path
+    manifest: dict[str, Any]
+    components: set[str]
+    options: set[str]
+    state_path: Path
+    state: dict[str, Any]
+    wine: Any
+    dry_run: bool
+    memory_max: Any
+    quicksfv_x64: Any
+
+
+@dataclass(frozen=True)
+class InstallServices:
+    """Collaborators the coordination needs from the rest of the installer."""
+
+    save_state: Callable[[Path, dict[str, Any]], None]
+    validate_runtime_order: Callable[..., Any]
+    record_runtime_completion: Callable[..., Any]
+    recover_incomplete_transactions: Callable[..., Any]
+    ensure_wine_prefix: Callable[..., Any]
+    discover_setup: Callable[[Path], Path]
+    materialize_temporary_payload: Callable[..., Any]
+    materialize_application_payload: Callable[..., Any]
+    component_label: Callable[[str, dict[str, Any]], str]
+    resolve_destination: Callable[[str, Path, Path], Path]
+    safe_child: Callable[[Path, str], Path]
+    preserve_verifier: Callable[..., Any]
+    write_integration_report: Callable[[Path, Path], dict[str, Any]]
+    finalize_transactions: Callable[[Path, Path, dict[str, Any]], Any]
+    error_type: type[RuntimeError]
+
+
+def run_installation(
+    request: InstallRequest, *, handlers: Mapping[str, Callable[[StepRun], None]],
+    verify_source: Callable[[dict[str, Any]], None], services: InstallServices,
+) -> None:
+    """Prepare the destination and scratch, run every planned step and finish."""
+    r = request
+    r.target.mkdir(parents=True, exist_ok=True)
+    r.scratch.mkdir(parents=True, exist_ok=True)
+    services.save_state(r.state_path, r.state)
+    execution_plan = selected_steps(r.manifest, r.components, r.options)
+    if not r.dry_run:
+        services.validate_runtime_order(r.scratch, r.manifest, r.state, execution_plan)
+    services.recover_incomplete_transactions(r.target, r.scratch, r.state_path, r.state)
+    if any(
+        step.get("type") in {"batch", "exec", "isexec"}
+        and enabled(step, r.components, r.options)
+        for step in r.manifest.get("steps", [])
+    ):
+        services.ensure_wine_prefix(
+            r.wine, r.prefix, r.scratch, r.state_path, r.state, r.dry_run
+        )
+    if sys.stdout.isatty():
+        print("Plano de instalação validado.")
+    else:
+        print(f"[INFO] plano: {r.manifest_path}")
+    services.materialize_temporary_payload(
+        r.manifest, services.discover_setup(r.source), r.scratch, r.state_path, r.state,
+        r.dry_run,
+    )
+    services.materialize_application_payload(
+        r.manifest, services.discover_setup(r.source), r.scratch, r.state_path, r.state,
+        r.dry_run,
+    )
+    if sys.stdout.isatty():
+        labels = [
+            services.component_label(name, r.manifest.get("components", {}).get(name, {}))
+            for name in sorted(r.components)
+        ]
+        print("Conteúdo: " + ", ".join(labels))
+    else:
+        print(f"[INFO] componentes: {', '.join(sorted(r.components))}")
+    if r.memory_max is not None:
+        print("[AVISO] MemoryMax é um teto rígido: ao atingi-lo, o kernel pode matar o stream ativo")
+    planned = weighted_steps(
+        r.manifest, r.components, r.options, source=r.source, target=r.target,
+        scratch=r.scratch, resolve_destination=services.resolve_destination,
+        safe_child=services.safe_child,
+    )
+    run_planned_steps(
+        planned, r.state, handlers=handlers, verify_source=verify_source,
+        check_order=None if r.dry_run else (
+            lambda index, step, key: services.validate_runtime_order(
+                r.scratch, r.manifest, r.state, execution_plan, current=(index, step, key),
+            )
+        ),
+        record_completion=None if r.dry_run else (
+            lambda index, step, key: services.record_runtime_completion(
+                r.scratch, r.state, index, step, key,
+            )
+        ),
+        error_type=services.error_type,
+    )
+    finish_installation(
+        planned, target=r.target, scratch=r.scratch, state_path=r.state_path, state=r.state,
+        dry_run=r.dry_run, quicksfv_x64=r.quicksfv_x64,
+        preserve_verifier=services.preserve_verifier,
+        write_integration_report=services.write_integration_report,
+        finalize_transactions=services.finalize_transactions,
+    )

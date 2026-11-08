@@ -2028,6 +2028,22 @@ def _step_handlers(
     }
 
 
+def _install_services() -> installer.InstallServices:
+    """Bind the coordination to this module's helpers, looked up at call time."""
+    return installer.InstallServices(
+        save_state=atomic_json, validate_runtime_order=validate_runtime_order,
+        record_runtime_completion=record_runtime_completion,
+        recover_incomplete_transactions=recover_incomplete_transactions,
+        ensure_wine_prefix=ensure_wine_prefix, discover_setup=discover_setup,
+        materialize_temporary_payload=materialize_temporary_payload,
+        materialize_application_payload=materialize_application_payload,
+        component_label=_component_label, resolve_destination=resolve_destination,
+        safe_child=safe_child, preserve_verifier=preserve_verifier,
+        write_integration_report=write_integration_report,
+        finalize_transactions=finalize_transactions, error_type=InstallerError,
+    )
+
+
 def install(args: argparse.Namespace) -> int:
     source, target, scratch, prefix = map(Path.resolve, (args.source, args.target, args.scratch, args.prefix))
     validate_external_game_target(target, prefix)
@@ -2058,64 +2074,16 @@ def install(args: argparse.Namespace) -> int:
             state["active"] = None
     else:
         state = expected
-    target.mkdir(parents=True, exist_ok=True)
-    scratch.mkdir(parents=True, exist_ok=True)
-    atomic_json(state_path, state)
-    execution_plan = installer.selected_steps(manifest, components, options)
-    if not args.dry_run:
-        validate_runtime_order(scratch, manifest, state, execution_plan)
-    recover_incomplete_transactions(target, scratch, state_path, state)
-    if any(
-        step.get("type") in {"batch", "exec", "isexec"}
-        and enabled(step, components, options)
-        for step in manifest.get("steps", [])
-    ):
-        ensure_wine_prefix(
-            args.wine, prefix, scratch, state_path, state, args.dry_run
-        )
-    if sys.stdout.isatty():
-        print("Plano de instalação validado.")
-    else:
-        print(f"[INFO] plano: {manifest_path}")
-    materialize_temporary_payload(
-        manifest, discover_setup(source), scratch, state_path, state, args.dry_run
-    )
-    materialize_application_payload(
-        manifest, discover_setup(source), scratch, state_path, state, args.dry_run
-    )
-    if sys.stdout.isatty():
-        labels = [
-            _component_label(name, manifest.get("components", {}).get(name, {}))
-            for name in sorted(components)
-        ]
-        print("Conteúdo: " + ", ".join(labels))
-    else:
-        print(f"[INFO] componentes: {', '.join(sorted(components))}")
-    if args.memory_max is not None:
-        print("[AVISO] MemoryMax é um teto rígido: ao atingi-lo, o kernel pode matar o stream ativo")
-    planned = installer.weighted_steps(
-        manifest, components, options, source=source, target=target, scratch=scratch,
-        resolve_destination=resolve_destination, safe_child=safe_child,
-    )
-    installer.run_planned_steps(
-        planned, state,
+    installer.run_installation(
+        installer.InstallRequest(
+            source=source, target=target, scratch=scratch, prefix=prefix,
+            manifest_path=manifest_path, manifest=manifest, components=components,
+            options=options, state_path=state_path, state=state, wine=args.wine,
+            dry_run=args.dry_run, memory_max=args.memory_max, quicksfv_x64=args.quicksfv_x64,
+        ),
         handlers=_step_handlers(args, manifest, source, target, scratch, prefix, state_path, state),
         verify_source=lambda step: verify_archive(step, args, source, state_path, state),
-        check_order=None if args.dry_run else (
-            lambda index, step, key: validate_runtime_order(
-                scratch, manifest, state, execution_plan, current=(index, step, key),
-            )
-        ),
-        record_completion=None if args.dry_run else (
-            lambda index, step, key: record_runtime_completion(scratch, state, index, step, key)
-        ),
-        error_type=InstallerError,
-    )
-    installer.finish_installation(
-        planned, target=target, scratch=scratch, state_path=state_path, state=state,
-        dry_run=args.dry_run, quicksfv_x64=args.quicksfv_x64,
-        preserve_verifier=preserve_verifier, write_integration_report=write_integration_report,
-        finalize_transactions=finalize_transactions,
+        services=_install_services(),
     )
     return 0
 

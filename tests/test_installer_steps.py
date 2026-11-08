@@ -146,5 +146,65 @@ class FinishInstallationTests(unittest.TestCase):
         self.assertEqual(events, ["verifier"])
 
 
+class RunInstallationTests(unittest.TestCase):
+    def run_case(self, steps, dry_run=False):
+        events = []
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+
+            def record(name):
+                return lambda *args, **kwargs: events.append(name)
+
+            services = installer.InstallServices(
+                save_state=record("save_state"),
+                validate_runtime_order=lambda *a, **k: events.append(
+                    "order:" + ("current" if "current" in k else "initial")
+                ),
+                record_runtime_completion=record("record"),
+                recover_incomplete_transactions=record("recover"),
+                ensure_wine_prefix=record("wine_prefix"),
+                discover_setup=lambda source: source / "setup.exe",
+                materialize_temporary_payload=record("tmp_payload"),
+                materialize_application_payload=record("app_payload"),
+                component_label=lambda name, data: name,
+                resolve_destination=resolve, safe_child=child,
+                preserve_verifier=record("verifier"),
+                write_integration_report=lambda target, path: events.append("report") or {
+                    "game_executable_candidates": [], "redistributables": [],
+                },
+                finalize_transactions=record("finalize"), error_type=RuntimeError,
+            )
+            request = installer.InstallRequest(
+                source=root, target=root / "target", scratch=root / "scratch",
+                prefix=root / "prefix", manifest_path=root / "m.json",
+                manifest={"steps": steps}, components=set(), options=set(),
+                state_path=root / "scratch" / "state.json", state={"completed": {}},
+                wine="/bin/true", dry_run=dry_run, memory_max=None, quicksfv_x64=None,
+            )
+            with redirect_stdout(io.StringIO()):
+                installer.run_installation(
+                    request, handlers={"batch": record("batch"), "copy": record("copy")},
+                    verify_source=record("verify_source"), services=services,
+                )
+            self.assertTrue(request.target.is_dir() and request.scratch.is_dir())
+        return events
+
+    def test_real_run_calls_collaborators_in_order(self):
+        self.assertEqual(self.run_case([{"id": "b", "type": "batch"}]), [
+            "save_state", "order:initial", "recover", "wine_prefix", "tmp_payload",
+            "app_payload", "order:current", "batch", "record", "verifier", "report",
+            "finalize",
+        ])
+
+    def test_wine_prefix_only_for_steps_that_run_programs(self):
+        self.assertNotIn("wine_prefix", self.run_case([{"id": "c", "type": "copy"}]))
+
+    def test_dry_run_skips_order_checks_recording_and_finalization(self):
+        self.assertEqual(self.run_case([{"id": "b", "type": "batch"}], dry_run=True), [
+            "save_state", "recover", "wine_prefix", "tmp_payload", "app_payload",
+            "batch", "verifier",
+        ])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

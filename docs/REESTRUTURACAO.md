@@ -138,18 +138,19 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     as etapas 8 a 11, o pacote `planning/` está completo; o manifesto, o
     grafo de controle e o relatório de auditoria de um repack sintético saem
     idênticos aos do código anterior à sequência.
-12. **Em andamento:** mover a coordenação das etapas para
-    `execution/installer.py`. Como `install()` depende de cerca de 40 funções
-    que ainda estão no CLI, a coordenação sai em partes. Primeiro saíram a
-    seleção das etapas habilitadas (`enabled`, `step_key`, `selected_steps`)
-    e o cálculo do peso de cada etapa no progresso global (`weighted_steps`),
-    com o CLI reexportando `enabled` e `step_key`. Depois saiu o laço que
-    executa as etapas (`run_planned_steps`): progresso global, retomada das
-    concluídas, checagem de ordem, despacho por tipo numa tabela de
-    tratadores e registro de conclusão. Os `run_*` seguem no CLI, ligados por
-    adaptadores, até as etapas 13 a 15. Em seguida saiu o fechamento
-    (`finish_installation`): preservar o verificador, gerar o relatório de
-    integração, finalizar as transações e as mensagens finais.
+12. **Concluída:** mover a coordenação das etapas para
+    `execution/installer.py`. Como `install()` dependia de cerca de 40
+    funções do CLI, a coordenação saiu em partes: a seleção das etapas
+    (`enabled`, `step_key`, `selected_steps`) e o peso de cada uma no
+    progresso global (`weighted_steps`) em `5bfd614`; o laço que executa as
+    etapas, com despacho por tipo numa tabela de tratadores
+    (`run_planned_steps`), em `8f03159`; o fechamento (`finish_installation`)
+    em `e4ae25a`; e, por fim, a preparação do destino e do scratch e a
+    execução completa (`run_installation`), com o pedido em `InstallRequest`
+    e os colaboradores em `InstallServices`. O `install()` do CLI ficou com a
+    escolha do plano e dos componentes e com a retomada do journal, que vai
+    para `journal.py` na etapa 13; os `run_*` seguem no CLI, ligados por
+    adaptadores, até as etapas 13 a 15.
 13. Separar a persistência e retomada em `execution/journal.py`.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.
@@ -172,7 +173,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado
