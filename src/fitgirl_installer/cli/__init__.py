@@ -44,7 +44,7 @@ from ..runtime import ensure_bundled_wine
 from ..verification import manifests
 from ..verification import checksums
 from ..verification.checksums import sha256
-from ..platform.resources import detect_limits, parse_cpu_list
+from ..platform.resources import command_prefix, detect_limits, parse_cpu_list
 from .presentation import _wizard_page, _component_label, format_size
 from . import menus
 from .menus import (
@@ -659,21 +659,6 @@ def run_ini_write(
             "sha256": sha256(path),
         }
         atomic_json(state_path, state)
-
-
-def command_prefix(args: argparse.Namespace) -> list[str]:
-    command: list[str] = []
-    if args.memory_high is not None or args.memory_max is not None:
-        command.extend(["systemd-run", "--user", "--scope", "--quiet"])
-        if args.memory_high is not None:
-            command.extend(["-p", f"MemoryHigh={args.memory_high}M"])
-        if args.memory_max is not None:
-            command.extend(["-p", f"MemoryMax={args.memory_max}M"])
-    if args.cpus:
-        command.extend(["taskset", "--cpu-list", args.cpus])
-    if args.nice != 0:
-        command.extend(["nice", "-n", str(args.nice)])
-    return command
 
 
 def ensure_wine_prefix(

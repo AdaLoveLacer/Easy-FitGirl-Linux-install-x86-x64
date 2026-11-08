@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -63,3 +64,19 @@ def parse_cpu_list(value: str, allowed: tuple[int, ...]) -> set[int]:
     if not result or not result.issubset(allowed):
         raise ValueError('CPU não permitida pela afinidade atual')
     return result
+
+
+def command_prefix(args: Any) -> list[str]:
+    """Wrap a codec command with the chosen cgroup memory limits, CPU affinity and nice."""
+    command: list[str] = []
+    if args.memory_high is not None or args.memory_max is not None:
+        command.extend(["systemd-run", "--user", "--scope", "--quiet"])
+        if args.memory_high is not None:
+            command.extend(["-p", f"MemoryHigh={args.memory_high}M"])
+        if args.memory_max is not None:
+            command.extend(["-p", f"MemoryMax={args.memory_max}M"])
+    if args.cpus:
+        command.extend(["taskset", "--cpu-list", args.cpus])
+    if args.nice != 0:
+        command.extend(["nice", "-n", str(args.nice)])
+    return command
