@@ -49,5 +49,18 @@ class VerifyInstallationTests(unittest.TestCase):
             self.assertEqual(complete_required.returncode, 2, complete_required.stdout)
 
 
+    def test_script_does_not_let_the_platform_package_shadow_the_standard_module(self):
+        # Emulate `python3 verify.py`: Python puts the script's directory first.
+        probe = (
+            "import runpy, sys; "
+            f"sys.path.insert(0, {str(VERIFIER.parent)!r}); "
+            f"runpy.run_path({str(VERIFIER)!r}, run_name='probe'); "
+            "import platform; print(platform.__file__)"
+        )
+        result = subprocess.run([sys.executable, "-c", probe], text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn("fitgirl_installer", result.stdout)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

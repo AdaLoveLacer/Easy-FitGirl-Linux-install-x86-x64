@@ -4,7 +4,7 @@
 > `status/project-status.json` e execute `./tools/sync-docs.py --write`.
 
 Última atualização declarada: 2026-11-08  
-Suíte automatizada descoberta: **177/177 testes**.
+Suíte automatizada descoberta: **178/178 testes**.
 
 ## 1. Monitoramento da ordem em produção
 
@@ -167,6 +167,7 @@ Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
 - [ ] Localização incompleta em inglês: o sufixo de [SKIP] ("condição de componente não satisfeita") e a mensagem de divergência da ordem de execução continuam em português; somente o prefixo é traduzido.
 - [x] Erro intermitente da suíte em test_sigint_is_forwarded_and_immediate_resume_is_safe, com duas causas, corrigidas com autorização do usuário: (1) no instalador, a etapa ativa ia para o journal antes de o repasse de SIGINT/SIGTERM ser instalado, deixando o codec órfão; agora forwarding_signals instala o repasse antes de iniciar o processo, guarda um sinal que chegue antes dele e reentrega um que chegue depois de ele terminar, em run_process, run_batch e na extração do payload; (2) no teste, o backend falso em Python podia receber o SIGINT ainda na inicialização, onde o CPython ignora o KeyboardInterrupt num callback de weakref; o teste agora espera o backend registrar a chamada.
 - [ ] test_component_selection_cpu_affinity_nice_and_memory_forwarding depende da memória livre do host: pede --srep-memory 1234 e falha quando o orçamento de memória detectado fica abaixo disso, como em 2026-11-08 com uma instalação real ocupando cerca de 7 GiB; falha igual no commit anterior. O teste não é hermético; correção pendente, em commit separado.
+- [x] Risco introduzido pela própria refatoração ao criar o pacote platform/ (etapa 19): quando verify.py roda como script, o Python põe src/fitgirl_installer no início do sys.path e import platform passaria a resolver para o pacote do projeto, não para o módulo padrão. Nenhuma importação da cadeia do verify.py usava platform, então não houve falha; corrigido em commit separado substituindo, no ponto de entrada, a pasta do script por src/ no sys.path, com teste que falha sem a correção.
 
 ## Baseline validado
 
