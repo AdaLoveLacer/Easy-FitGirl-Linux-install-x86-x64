@@ -165,7 +165,7 @@ Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
 - [x] Relatório de divergência da ordem de execução apontava como expected_next a etapa na posição igual à quantidade de concluídas (com A e C concluídas, dizia C em vez de B). Encontrado pelos testes de caracterização da etapa 13; corrigido em 254e2f7 com autorização do usuário.
 - [ ] No mesmo relatório, observed.index usa a posição entre as etapas selecionadas contada a partir de zero, enquanto expected_next.index usa o número da etapa no plano; os dois campos chamados index não são comparáveis.
 - [ ] Localização incompleta em inglês: o sufixo de [SKIP] ("condição de componente não satisfeita") e a mensagem de divergência da ordem de execução continuam em português; somente o prefixo é traduzido.
-- [ ] Uma execução da suíte, logo após remover i18n.py, terminou com um erro intermitente que não se repetiu em seis execuções seguidas e cujo detalhe não foi capturado; possível teste instável ainda não identificado.
+- [ ] Erro intermitente da suíte, visto uma vez após remover i18n.py e capturado em 2026-11-08: test_sigint_is_forwarded_and_immediate_resume_is_safe estoura o tempo de 10 s. Causa confirmada e anterior à refatoração: run_process (e da mesma forma run_batch e a materialização do payload) grava a etapa ativa no journal antes de wait_process instalar o repasse de SIGINT/SIGTERM; um sinal nessa janela vira KeyboardInterrupt no instalador, o codec, que roda em outra sessão, continua vivo segurando o pipe e o journal fica com a etapa ativa. Reproduzido alargando a janela sem mudar o código; a execução normal encerra o grupo e limpa o journal. Correção pendente de autorização, em commit separado.
 
 ## Baseline validado
 
