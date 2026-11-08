@@ -1183,7 +1183,7 @@ def run_manifest_merge(
     scratch: Path, state_path: Path, state: dict[str, Any],
 ) -> None:
     """Compile the known FitGirl addon merge natively, preserving originals."""
-    from ..verify import parse_manifest
+    from ..verification.manifests import parse_manifest
 
     if (
         step.get("embedded_command", "").strip().casefold()

@@ -184,7 +184,11 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     `sys.path` que localiza o pacote subiu um nível. O backend, o teste e o
     `TROUBLESHOOTING.md` usam o novo caminho, e o arquivo antigo foi
     removido. Com as etapas 12 a 15, o pacote `execution/` está completo.
-16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
+16. **Em andamento:** separar leitura e combinação de manifestos em
+    `verification/manifests.py`. Primeiro saiu a leitura (`parse_manifest`
+    e a expressão `LINE`) do `verify.py`, que continua sendo o script de
+    conferência chamado pela etapa `verify` e passa a importá-la do novo
+    módulo, assim como a combinação de manifestos do CLI.
 17. Separar cálculo e conferência de hashes em `verification/checksums.py`.
 18. Mover o relatório de integração para `verification/integration.py`.
 19. Mover a descoberta e configuração do Wine para `platform/wine.py`.
