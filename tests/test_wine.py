@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from fitgirl_installer.models import InstallerError  # noqa: E402
 from fitgirl_installer.platform import wine  # noqa: E402
-from fitgirl_installer.runtime import RuntimeErrorDetail  # noqa: E402
+from fitgirl_installer.platform.runtime import RuntimeErrorDetail  # noqa: E402
 
 
 def executable(path: Path, body: str) -> Path:

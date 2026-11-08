@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from ..models import InstallerError
-from ..runtime import RuntimeErrorDetail
+from .runtime import RuntimeErrorDetail
 
 
 def discover_wine(

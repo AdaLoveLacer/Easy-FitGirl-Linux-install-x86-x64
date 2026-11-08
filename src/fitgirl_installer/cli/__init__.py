@@ -40,7 +40,7 @@ from ..platform import processes
 from ..platform import wine as platform_wine
 from ..platform.processes import forwarding_signals
 from ..platform.wine import wine_path, wine_z_path
-from ..runtime import ensure_bundled_wine
+from ..platform.runtime import ensure_bundled_wine
 from ..verification import manifests
 from ..verification import checksums
 from ..verification.checksums import sha256

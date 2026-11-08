@@ -11,7 +11,8 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from fitgirl_installer import cli, runtime
+from fitgirl_installer import cli
+from fitgirl_installer.platform import runtime
 
 
 class PrivateRuntimeTests(unittest.TestCase):
