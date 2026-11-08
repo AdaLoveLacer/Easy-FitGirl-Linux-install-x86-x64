@@ -65,5 +65,51 @@ class StepSelectionTests(unittest.TestCase):
         self.assertEqual(planned[0][3], 1024 * 1024)
 
 
+class PlannedStepRunTests(unittest.TestCase):
+    def planned(self):
+        return [
+            (1, {"id": "a", "type": "extract", "archive": "a.bin"}, "001:a", 3),
+            (2, {"id": "b", "type": "batch"}, "002:b", 1),
+        ]
+
+    def test_completed_steps_are_resumed_and_weights_reach_handlers(self):
+        calls, verified, checked, recorded = [], [], [], []
+        state = {"completed": {"001:a": {}}}
+        with redirect_stdout(io.StringIO()):
+            installer.run_planned_steps(
+                self.planned(), state,
+                handlers={"batch": calls.append},
+                verify_source=lambda step: verified.append(step["id"]),
+                check_order=lambda index, step, key: checked.append(key),
+                record_completion=lambda index, step, key: recorded.append(key),
+                error_type=RuntimeError,
+            )
+        self.assertEqual(verified, ["a"])
+        self.assertEqual(checked, ["002:b"])
+        self.assertEqual(recorded, ["002:b"])
+        self.assertEqual(len(calls), 1)
+        self.assertEqual((calls[0].key, calls[0].global_base, calls[0].global_weight), ("002:b", 0.75, 0.25))
+
+    def test_unknown_step_type_is_refused_before_completion(self):
+        recorded = []
+        with redirect_stdout(io.StringIO()), self.assertRaisesRegex(RuntimeError, "não suportado: mystery"):
+            installer.run_planned_steps(
+                [(1, {"id": "x", "type": "mystery"}, "001:x", 1)], {"completed": {}},
+                handlers={}, verify_source=lambda step: None, check_order=None,
+                record_completion=lambda *item: recorded.append(item), error_type=RuntimeError,
+            )
+        self.assertEqual(recorded, [])
+
+    def test_dry_run_skips_order_check_and_recording(self):
+        calls = []
+        with redirect_stdout(io.StringIO()):
+            installer.run_planned_steps(
+                self.planned()[1:], {"completed": {}}, handlers={"batch": calls.append},
+                verify_source=lambda step: None, check_order=None, record_completion=None,
+                error_type=RuntimeError,
+            )
+        self.assertEqual([run.key for run in calls], ["002:b"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

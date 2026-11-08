@@ -143,7 +143,11 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     que ainda estão no CLI, a coordenação sai em partes. Primeiro saíram a
     seleção das etapas habilitadas (`enabled`, `step_key`, `selected_steps`)
     e o cálculo do peso de cada etapa no progresso global (`weighted_steps`),
-    com o CLI reexportando `enabled` e `step_key`.
+    com o CLI reexportando `enabled` e `step_key`. Depois saiu o laço que
+    executa as etapas (`run_planned_steps`): progresso global, retomada das
+    concluídas, checagem de ordem, despacho por tipo numa tabela de
+    tratadores e registro de conclusão. Os `run_*` seguem no CLI, ligados por
+    adaptadores, até as etapas 13 a 15.
 13. Separar a persistência e retomada em `execution/journal.py`.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.

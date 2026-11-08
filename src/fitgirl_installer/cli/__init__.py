@@ -1992,6 +1992,42 @@ def inspect(args: argparse.Namespace) -> int:
     return 0
 
 
+def _step_handlers(
+    args: argparse.Namespace, manifest: dict[str, Any], source: Path, target: Path,
+    scratch: Path, prefix: Path, state_path: Path, state: dict[str, Any],
+) -> dict[str, Any]:
+    """Adapt each step type to the function that runs it, as install() did inline."""
+
+    def extract(run: installer.StepRun) -> None:
+        run_extract(
+            run.step, args, source, target, scratch, prefix, state_path, state,
+            run.global_base, run.global_weight,
+            bool(manifest.get("temporary_payload_files")),
+        )
+
+    def delete(run: installer.StepRun) -> None:
+        run_delete(run.key, run.step, target, scratch, state_path, state, args.dry_run)
+
+    return {
+        "extract": extract,
+        "batch": lambda run: run_batch(run.step, args, target, scratch, prefix, state_path, state),
+        "exec": lambda run: run_exec(run.step, args, target, scratch, prefix, state_path, state),
+        "isexec": lambda run: run_isexec(
+            run.key, run.step, args, source, target, scratch, prefix, state_path, state,
+        ),
+        "delete-file": delete,
+        "delete-tree": delete,
+        "copy": lambda run: run_copy(run.step, target, scratch, args.dry_run),
+        "merge-manifests": lambda run: run_manifest_merge(
+            run.key, run.step, args, target, scratch, state_path, state,
+        ),
+        "ini-write": lambda run: run_ini_write(
+            run.step, args, source, target, scratch, prefix, state_path, state,
+        ),
+        "verify": lambda run: run_verify(run.step, args, target, scratch, state_path, state),
+    }
+
+
 def install(args: argparse.Namespace) -> int:
     source, target, scratch, prefix = map(Path.resolve, (args.source, args.target, args.scratch, args.prefix))
     validate_external_game_target(target, prefix)
@@ -2061,69 +2097,20 @@ def install(args: argparse.Namespace) -> int:
         manifest, components, options, source=source, target=target, scratch=scratch,
         resolve_destination=resolve_destination, safe_child=safe_child,
     )
-    total_weight = max(1, sum(item[3] for item in planned))
-    finished_weight = sum(
-        weight for _, _, key, weight in planned if key in state["completed"]
+    installer.run_planned_steps(
+        planned, state,
+        handlers=_step_handlers(args, manifest, source, target, scratch, prefix, state_path, state),
+        verify_source=lambda step: verify_archive(step, args, source, state_path, state),
+        check_order=None if args.dry_run else (
+            lambda index, step, key: validate_runtime_order(
+                scratch, manifest, state, execution_plan, current=(index, step, key),
+            )
+        ),
+        record_completion=None if args.dry_run else (
+            lambda index, step, key: record_runtime_completion(scratch, state, index, step, key)
+        ),
+        error_type=InstallerError,
     )
-    for visible_index, (index, step, key, weight) in enumerate(planned, 1):
-        global_base = finished_weight / total_weight
-        global_weight = weight / total_weight
-        if not sys.stdout.isatty():
-            print(f"[GLOBAL] {min(99.9, global_base * 100):5.1f}% antes de {key}")
-        if step.get("type") == "extract" and not step.get("archive_root"):
-            verify_archive(step, args, source, state_path, state)
-        if key in state["completed"]:
-            if sys.stdout.isatty():
-                print(f"Etapa {visible_index}/{len(planned)} já validada; retomando.")
-            else:
-                print(f"[OK] {key}: já concluída")
-            continue
-        if not args.dry_run:
-            validate_runtime_order(
-                scratch, manifest, state, execution_plan,
-                current=(index, step, key),
-            )
-        kind = step.get("type")
-        if sys.stdout.isatty():
-            print(f"Etapa {visible_index}/{len(planned)}: {step.get('description', key)}")
-        else:
-            print(f"[ETAPA {index}] {step.get('description', key)}")
-        if kind == "extract":
-            run_extract(
-                step, args, source, target, scratch, prefix, state_path, state,
-                global_base, global_weight,
-                bool(manifest.get("temporary_payload_files")),
-            )
-        elif kind == "batch":
-            run_batch(step, args, target, scratch, prefix, state_path, state)
-        elif kind == "exec":
-            run_exec(step, args, target, scratch, prefix, state_path, state)
-        elif kind == "isexec":
-            run_isexec(
-                key, step, args, source, target, scratch, prefix,
-                state_path, state,
-            )
-        elif kind in {"delete-file", "delete-tree"}:
-            run_delete(key, step, target, scratch, state_path, state, args.dry_run)
-        elif kind == "copy":
-            run_copy(step, target, scratch, args.dry_run)
-        elif kind == "merge-manifests":
-            run_manifest_merge(key, step, args, target, scratch, state_path, state)
-        elif kind == "ini-write":
-            run_ini_write(
-                step, args, source, target, scratch, prefix, state_path, state
-            )
-        elif kind == "verify":
-            run_verify(step, args, target, scratch, state_path, state)
-        else:
-            raise InstallerError(f"tipo de etapa não suportado: {kind}")
-        if not args.dry_run:
-            record_runtime_completion(scratch, state, index, step, key)
-        finished_weight += weight
-        if sys.stdout.isatty():
-            print(f"Etapa concluída · {min(100, finished_weight / total_weight * 100):.0f}% geral")
-        else:
-            print(f"[GLOBAL] {min(99.9, finished_weight / total_weight * 100):5.1f}% confirmado")
     preserve_verifier(
         target, scratch, args.dry_run, args.quicksfv_x64,
         preserve_existing_manifest=any(s.get("type") == "merge-manifests" for _, s, _, _ in planned),
