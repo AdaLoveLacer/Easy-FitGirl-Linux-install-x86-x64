@@ -211,7 +211,13 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     de lógica; o CLI e o teste da política de integração importam o novo
     caminho, e o arquivo antigo foi removido. Com as etapas 16 a 18, o
     pacote `verification/` está completo.
-19. Mover a descoberta e configuração do Wine para `platform/wine.py`.
+19. **Em andamento:** mover a descoberta e configuração do Wine para
+    `platform/wine.py`. Primeiro saiu a descoberta (`discover_wine`, com o
+    override de desenvolvimento, o Wine privado, `/mnt`, o Wine do sistema e
+    o Proton, e `select_codec_runtime`, que escolhe o primeiro que responde
+    a `--version`). A raiz do projeto, a preparação do Wine privado e a
+    própria descoberta chegam como parâmetros, para que o CLI continue
+    resolvendo-os na hora da chamada.
 20. Mover controle de processos e sinais para `platform/processes.py`.
 21. Mover limites e detecção de recursos para `platform/resources.py`.
 22. Mover checagens de compatibilidade para `platform/compatibility.py`.

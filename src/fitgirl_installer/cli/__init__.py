@@ -37,7 +37,8 @@ from ..execution.installer import enabled, step_key
 from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
 from ..planning.audit import write_audit
-from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
+from ..platform import wine
+from ..runtime import ensure_bundled_wine
 from ..verification import manifests
 from ..verification import checksums
 from ..verification.checksums import sha256
@@ -148,63 +149,12 @@ def parse_components(manifest: dict[str, Any], source: Path, requested: list[str
 
 
 def discover_wine() -> list[Path]:
-    candidates: list[Path] = []
-    configured = os.environ.get("FITGIRL_WINE_BIN")
-    if configured:
-        selected = Path(configured).expanduser().resolve()
-        if not selected.is_file() or not os.access(selected, os.X_OK):
-            raise InstallerError(f"override de desenvolvimento FITGIRL_WINE_BIN inválido: {selected}")
-        return [selected]
-    try:
-        bundled = ensure_bundled_wine(ROOT)
-    except RuntimeErrorDetail as error:
-        raise InstallerError(str(error)) from error
-    if bundled is not None:
-        return [bundled]
-    mnt = Path("/mnt")
-    if mnt.is_dir():
-        candidates.extend(sorted(mnt.glob("*/Tools/fitgirl-wine/*/bin/wine")))
-    system_wine = shutil.which("wine")
-    if system_wine:
-        candidates.append(Path(system_wine))
-    steam_roots = [
-        Path.home() / ".steam/root", Path.home() / ".steam/steam",
-        Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")) / "Steam",
-        Path.home() / ".var/app/com.valvesoftware.Steam/.local/share/Steam",
-    ]
-    for steam in steam_roots:
-        for pattern in (
-            "compatibilitytools.d/*/files/bin/wine", "compatibilitytools.d/*/dist/bin/wine",
-            "steamapps/common/Proton*/files/bin/wine", "steamapps/common/Proton*/dist/bin/wine",
-        ):
-            candidates.extend(sorted(steam.glob(pattern)))
-    unique: list[Path] = []
-    seen: set[Path] = set()
-    for candidate in candidates:
-        resolved = candidate.resolve()
-        if resolved not in seen and resolved.is_file() and os.access(resolved, os.X_OK):
-            seen.add(resolved)
-            unique.append(resolved)
-    return unique
+    return wine.discover_wine(root=ROOT, ensure_bundled_wine=ensure_bundled_wine)
 
 
 def select_codec_runtime() -> Path:
     """No technical runtime prompt in the normal extraction workflow."""
-    candidates = discover_wine()
-    for wine in candidates:
-        try:
-            result = subprocess.run(
-                [str(wine), "--version"], text=True, stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE, timeout=10, check=False,
-            )
-        except (OSError, subprocess.TimeoutExpired):
-            continue
-        if result.returncode == 0:
-            return wine
-    raise InstallerError(
-        "nenhum Wine/Proton utilizável foi encontrado. Instale Wine/Proton "
-        "compatível ou configure FITGIRL_WINE_BIN para um executável existente"
-    )
+    return wine.select_codec_runtime(discover_wine)
 
 
 def discover_analysis_tool(environment: str, bundled_name: str, command: str) -> Path | None:
