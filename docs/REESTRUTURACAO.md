@@ -222,7 +222,14 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     `wine_path`, com `C:`, `W:` e `winepath`) e a preparação do prefixo
     (`ensure_wine_prefix`, com `wineboot` e o drive `W:` apontando para
     `/mnt`), que recebe a execução do processo e o diretório de trabalho.
-20. Mover controle de processos e sinais para `platform/processes.py`.
+20. **Concluída:** mover controle de processos e sinais para
+    `platform/processes.py`: a execução de um processo registrado no journal
+    (`run_process` e `wait_process`), o repasse de SIGINT/SIGTERM
+    (`SignalForwarder` e `forwarding_signals`) e o envio de sinal ao grupo
+    ativo usado por `fitgirl pause` e `resume` (`signal_active_group`). A
+    gravação do journal chega como colaborador (`save_state`), para que
+    `platform/` não dependa de `execution/`; o CLI mantém invólucros com as
+    assinaturas antigas.
 21. Mover limites e detecção de recursos para `platform/resources.py`.
 22. Mover checagens de compatibilidade para `platform/compatibility.py`.
 23. Mover a preparação do runtime para `platform/runtime.py`.
@@ -237,7 +244,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**. Com a etapa 16, são dezesseis de 23: **70%**. Com a etapa 17, são dezessete de 23: **74%**. Com a etapa 18, são dezoito de 23: **78%**. Com a etapa 19, são dezenove de 23: **83%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**. Com a etapa 16, são dezesseis de 23: **70%**. Com a etapa 17, são dezessete de 23: **74%**. Com a etapa 18, são dezoito de 23: **78%**. Com a etapa 19, são dezenove de 23: **83%**. Com a etapa 20, são vinte de 23: **87%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado
