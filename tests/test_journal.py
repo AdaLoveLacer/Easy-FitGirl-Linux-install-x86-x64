@@ -58,5 +58,59 @@ class JournalFileTests(unittest.TestCase):
                 journal.load_state(path)
 
 
+class ResumeTests(unittest.TestCase):
+    def expected(self, **changes):
+        state = {
+            "version": journal.STATE_VERSION, "setup_sha256": "s", "manifest_sha256": "m",
+            "source": "/src", "target": "/dst", "components": ["core"], "settings": {},
+            "completed": {}, "verified": {}, "active": None, "created_at": 0,
+        }
+        state.update(changes)
+        return state
+
+    def test_missing_journal_starts_from_expected_state(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            expected = self.expected()
+            self.assertIs(journal.resume_or_start(Path(temporary) / "s.json", expected), expected)
+
+    def test_journal_for_other_plan_is_refused(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "s.json"
+            journal.atomic_json(path, self.expected(manifest_sha256="other"))
+            with self.assertRaisesRegex(InstallerError, r"outro plano/opções \(manifest_sha256\)"):
+                journal.resume_or_start(path, self.expected())
+
+    def test_dead_active_step_is_cleared_and_completed_steps_kept(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "s.json"
+            journal.atomic_json(path, self.expected(
+                completed={"001:a": {}}, active={"pgid": 2 ** 22 + 12345},
+            ))
+            with redirect_stdout(io.StringIO()) as output:
+                state = journal.resume_or_start(path, self.expected())
+            self.assertIsNone(state["active"])
+            self.assertEqual(state["completed"], {"001:a": {}})
+            self.assertIn("não está mais ativa", output.getvalue())
+
+    def test_live_active_step_blocks_a_concurrent_run(self):
+        import os
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "s.json"
+            journal.atomic_json(path, self.expected(active={"pgid": os.getpgrp()}))
+            with self.assertRaisesRegex(InstallerError, "ainda está ativa"):
+                journal.resume_or_start(path, self.expected())
+
+    def test_initial_state_records_only_given_optional_limits(self):
+        from types import SimpleNamespace
+        args = SimpleNamespace(srep_memory="1g", cpus=None, nice=5, limit_2gb=True,
+                               bzip3_threads=None, memory_high="2G", memory_max=None)
+        state = journal.initial_state("s", "m", Path("/src"), Path("/dst"), {"b", "a"}, args)
+        self.assertEqual(state["components"], ["a", "b"])
+        self.assertEqual(state["settings"], {
+            "srep_memory": "1g", "cpus": None, "nice": 5, "limit_2gb": True, "memory_high": "2G",
+        })
+        self.assertEqual((state["completed"], state["active"]), ({}, None))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

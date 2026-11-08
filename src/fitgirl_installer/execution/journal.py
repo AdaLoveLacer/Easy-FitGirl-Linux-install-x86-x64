@@ -12,6 +12,9 @@ from typing import Any
 from ..models import InstallerError
 
 
+STATE_VERSION = 1
+
+
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
     """Write JSON durably: fsync a temporary file, keep the previous one as .bak, then replace."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -74,3 +77,62 @@ def load_state(path: Path) -> dict[str, Any]:
         atomic_json(path, state)
         print(f"[AVISO] journal inválido preservado em {corrupt}; backup restaurado")
         return state
+
+
+def initial_state(setup_hash: str, plan_hash: str, source: Path, target: Path, components: set[str], args: Any) -> dict[str, Any]:
+    """Fresh journal for this plan, components and resource settings."""
+    settings = {
+        "srep_memory": args.srep_memory, "cpus": args.cpus, "nice": args.nice,
+        "limit_2gb": bool(getattr(args, "limit_2gb", False)),
+    }
+    if args.bzip3_threads is not None:
+        settings["bzip3_threads"] = args.bzip3_threads
+    if args.memory_high is not None:
+        settings["memory_high"] = args.memory_high
+    if args.memory_max is not None:
+        settings["memory_max"] = args.memory_max
+    return {
+        "version": STATE_VERSION,
+        "setup_sha256": setup_hash,
+        "manifest_sha256": plan_hash,
+        "source": str(source),
+        "target": str(target),
+        "components": sorted(components),
+        "settings": settings,
+        "completed": {},
+        "verified": {},
+        "active": None,
+        "created_at": time.time(),
+    }
+
+
+def validate_state(state: dict[str, Any], expected: dict[str, Any]) -> None:
+    """Refuse a journal written for another plan, source, target or settings."""
+    immutable = ("version", "setup_sha256", "manifest_sha256", "source", "target", "components", "settings")
+    differences = [key for key in immutable if state.get(key) != expected.get(key)]
+    if differences:
+        raise InstallerError(
+            "o journal pertence a outro plano/opções (" + ", ".join(differences) + "); "
+            "use o mesmo comando ou um scratch diferente"
+        )
+
+
+def resume_or_start(state_path: Path, expected: dict[str, Any]) -> dict[str, Any]:
+    """Continue a compatible journal, refusing to run beside a still-live step."""
+    if state_path.exists():
+        state = load_state(state_path)
+        validate_state(state, expected)
+        if state.get("active"):
+            pgid = int(state["active"].get("pgid", 0))
+            try:
+                os.killpg(pgid, 0)
+            except ProcessLookupError:
+                print("[AVISO] etapa anterior não está mais ativa; ela será repetida desde o início")
+            else:
+                raise InstallerError(
+                    f"a etapa anterior ainda está ativa no grupo {pgid}; não iniciarei uma cópia concorrente"
+                )
+            state["active"] = None
+    else:
+        state = expected
+    return state

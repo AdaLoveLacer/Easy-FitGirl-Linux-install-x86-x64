@@ -26,7 +26,8 @@ from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
 from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
 from ..execution import installer
-from ..execution.journal import atomic_json, load_json, load_state
+from ..execution import journal
+from ..execution.journal import atomic_json, initial_state, load_json, load_state
 from ..models import InstallerError
 from ..execution.installer import enabled, step_key
 from ..planning import analyzer
@@ -44,7 +45,6 @@ from .menus import (
 
 ROOT = Path(__file__).resolve().parents[3]
 MANIFEST_DIR = ROOT / "manifests"
-STATE_VERSION = 1
 
 
 def file_hash(path: Path, algorithm: str = "sha256") -> str:
@@ -1864,42 +1864,6 @@ def run_verify(
     run_process(command, ROOT, state_path, state, args.dry_run)
 
 
-def initial_state(setup_hash: str, plan_hash: str, source: Path, target: Path, components: set[str], args: argparse.Namespace) -> dict[str, Any]:
-    settings = {
-        "srep_memory": args.srep_memory, "cpus": args.cpus, "nice": args.nice,
-        "limit_2gb": bool(getattr(args, "limit_2gb", False)),
-    }
-    if args.bzip3_threads is not None:
-        settings["bzip3_threads"] = args.bzip3_threads
-    if args.memory_high is not None:
-        settings["memory_high"] = args.memory_high
-    if args.memory_max is not None:
-        settings["memory_max"] = args.memory_max
-    return {
-        "version": STATE_VERSION,
-        "setup_sha256": setup_hash,
-        "manifest_sha256": plan_hash,
-        "source": str(source),
-        "target": str(target),
-        "components": sorted(components),
-        "settings": settings,
-        "completed": {},
-        "verified": {},
-        "active": None,
-        "created_at": time.time(),
-    }
-
-
-def validate_state(state: dict[str, Any], expected: dict[str, Any]) -> None:
-    immutable = ("version", "setup_sha256", "manifest_sha256", "source", "target", "components", "settings")
-    differences = [key for key in immutable if state.get(key) != expected.get(key)]
-    if differences:
-        raise InstallerError(
-            "o journal pertence a outro plano/opções (" + ", ".join(differences) + "); "
-            "use o mesmo comando ou um scratch diferente"
-        )
-
-
 def inspect(args: argparse.Namespace) -> int:
     source = args.source.resolve()
     setup = discover_setup(source)
@@ -1995,22 +1959,7 @@ def install(args: argparse.Namespace) -> int:
     plan_hash = manifest_hash(manifest)
     state_path = scratch / "install-state.json"
     expected = initial_state(setup_hash, plan_hash, source, target, components, args)
-    if state_path.exists():
-        state = load_state(state_path)
-        validate_state(state, expected)
-        if state.get("active"):
-            pgid = int(state["active"].get("pgid", 0))
-            try:
-                os.killpg(pgid, 0)
-            except ProcessLookupError:
-                print("[AVISO] etapa anterior não está mais ativa; ela será repetida desde o início")
-            else:
-                raise InstallerError(
-                    f"a etapa anterior ainda está ativa no grupo {pgid}; não iniciarei uma cópia concorrente"
-                )
-            state["active"] = None
-    else:
-        state = expected
+    state = journal.resume_or_start(state_path, expected)
     installer.run_installation(
         installer.InstallRequest(
             source=source, target=target, scratch=scratch, prefix=prefix,

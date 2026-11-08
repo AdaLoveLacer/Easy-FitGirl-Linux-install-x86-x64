@@ -158,6 +158,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     Depois saíram a gravação atômica de JSON com `.bak` (`atomic_json`), a
     leitura (`load_json`) e a recuperação do journal corrompido
     (`load_state`), com o mesmo corpo; o CLI as reexporta.
+    Em seguida saíram o estado inicial (`initial_state`, com `STATE_VERSION`),
+    a validação contra o journal salvo (`validate_state`) e a retomada que
+    recusa rodar ao lado de uma etapa ainda viva (`resume_or_start`).
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.
 16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
