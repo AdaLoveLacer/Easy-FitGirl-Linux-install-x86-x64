@@ -151,7 +151,10 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     escolha do plano e dos componentes e com a retomada do journal, que vai
     para `journal.py` na etapa 13; os `run_*` seguem no CLI, ligados por
     adaptadores, até as etapas 13 a 15.
-13. Separar a persistência e retomada em `execution/journal.py`.
+13. **Em andamento:** separar a persistência e retomada em
+    `execution/journal.py`. Passo preparatório: `InstallerError` saiu do CLI
+    para `models.py`, por ser o tipo compartilhado que o journal e o CLI
+    precisam sem import circular; o CLI o reexporta, e a classe é a mesma.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.
 16. Separar leitura e combinação de manifestos em `verification/manifests.py`.

@@ -26,6 +26,7 @@ from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
 from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
 from ..execution import installer
+from ..models import InstallerError
 from ..execution.installer import enabled, step_key
 from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
@@ -43,10 +44,6 @@ from .menus import (
 ROOT = Path(__file__).resolve().parents[3]
 MANIFEST_DIR = ROOT / "manifests"
 STATE_VERSION = 1
-
-
-class InstallerError(RuntimeError):
-    pass
 
 
 def file_hash(path: Path, algorithm: str = "sha256") -> str:
