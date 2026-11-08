@@ -38,6 +38,7 @@ from ..planning.analyzer import disk_space_from_iss
 from ..planning.audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
 from ..verification import manifests
+from ..verification.checksums import file_hash, sha256
 from ..resource_limits import detect_limits, parse_cpu_list
 from .presentation import _wizard_page, _component_label, format_size
 from . import menus
@@ -49,18 +50,6 @@ from .menus import (
 
 ROOT = Path(__file__).resolve().parents[3]
 MANIFEST_DIR = ROOT / "manifests"
-
-
-def file_hash(path: Path, algorithm: str = "sha256") -> str:
-    digest = hashlib.new(algorithm)
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def sha256(path: Path) -> str:
-    return file_hash(path, "sha256")
 
 
 def pe_machine(path: Path) -> int | None:

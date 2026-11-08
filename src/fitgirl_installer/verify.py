@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import sys
@@ -16,6 +15,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from fitgirl_installer import translations
+from fitgirl_installer.verification.checksums import md5
 from fitgirl_installer.verification.manifests import parse_manifest
 
 
@@ -34,14 +34,6 @@ def atomic_json(path: Path, value: dict[str, Any]) -> None:
             os.unlink(temporary)
         except FileNotFoundError:
             pass
-
-
-def md5(path: Path) -> str:
-    digest = hashlib.md5()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(16 * 1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def main() -> int:
