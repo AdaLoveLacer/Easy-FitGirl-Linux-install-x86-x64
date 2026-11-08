@@ -11,14 +11,15 @@ import re
 import subprocess
 from typing import Any
 
-from . import ifps_ir, planner
+from . import planner
+from .planning import script_flow
 
 
 SCHEMA_VERSION = 2
 IGNORED_STEP_FIELDS = {"id", "description", "bytecode"}
 
 
-def _action_at(instruction: ifps_ir.Instruction) -> bool:
+def _action_at(instruction: script_flow.Instruction) -> bool:
     return instruction.opcode == "call" and (
         planner.ISDONE_EXPORT.match(instruction.operands) is not None
         or instruction.operands.casefold() in planner.MUTATING_CALLS
@@ -27,7 +28,7 @@ def _action_at(instruction: ifps_ir.Instruction) -> bool:
 
 def _tokens_for_block(
     procedure_name: str,
-    block: ifps_ir.BasicBlock,
+    block: script_flow.BasicBlock,
     named: set[str],
 ) -> list[dict[str, Any]]:
     tokens: list[dict[str, Any]] = []
@@ -152,12 +153,12 @@ def interprocedural_action_path_report(
     direct name that resolves to a parsed procedure. Loops are represented by
     explicit CYCLE markers and are never unrolled indefinitely.
     """
-    parsed = ifps_ir.parse_disassembly(disassembly)
+    parsed = script_flow.parse_disassembly(disassembly)
     named = {procedure.name.casefold() for procedure in parsed}
     frames = {}
     unresolved_total = 0
     for procedure in parsed:
-        cfg = ifps_ir.build_cfg(procedure)
+        cfg = script_flow.build_cfg(procedure)
         unresolved_total += len(cfg.unresolved_targets)
         blocks = []
         for block in cfg.blocks:
@@ -254,8 +255,8 @@ def interprocedural_action_path_report(
 def action_path_report(disassembly: Path, limit: int = 4096) -> dict[str, Any]:
     """Enumerate intraprocedural action orders without unrolling loops."""
     procedures = []
-    for procedure in ifps_ir.parse_disassembly(disassembly):
-        cfg = ifps_ir.build_cfg(procedure)
+    for procedure in script_flow.parse_disassembly(disassembly):
+        cfg = script_flow.build_cfg(procedure)
         actions = {
             instruction.address: instruction.operands
             for instruction in procedure.instructions
@@ -330,7 +331,7 @@ def semantic_guard_report(disassembly: Path) -> dict[str, Any]:
     setup_steps = {
         0: "ssPreInstall", 1: "ssInstall", 2: "ssPostInstall", 3: "ssDone",
     }
-    procedures = ifps_ir.parse_disassembly(disassembly)
+    procedures = script_flow.parse_disassembly(disassembly)
     callback = next(
         (proc for proc in procedures if proc.name.casefold() == "curstepchanged"),
         None,
@@ -372,7 +373,7 @@ def semantic_guard_report(disassembly: Path) -> dict[str, Any]:
              if item.opcode == "flag-goto"),
             None,
         )
-        targets = ifps_ir.control_targets(branch) if branch else []
+        targets = script_flow.control_targets(branch) if branch else []
         if parameter != "s-1" or value not in setup_steps or not targets:
             continue
         skip_target = targets[0][0]
@@ -422,7 +423,7 @@ def semantic_guard_report(disassembly: Path) -> dict[str, Any]:
             "modeled_by_plan_audit": False,
         })
 
-    component_analysis = ifps_ir.component_bitmask(callback)
+    component_analysis = script_flow.component_bitmask(callback)
     recovered_steps = planner.steps_from_disassembly(disassembly, {}, {})
     component_steps = [
         {
@@ -666,7 +667,7 @@ def audit_plan(
             "detail": effect.get("detail", "An external ISDone.dll effect is absent from the native plan and must be resolved before review acceptance."),
         })
 
-    cfg = ifps_ir.cfg_report(disassembly)
+    cfg = script_flow.cfg_report(disassembly)
     action_paths = action_path_report(disassembly)
     if not cfg["totals"]["procedures"] or not cfg["totals"]["instructions"]:
         issues.append({"kind": "unparsed_control_flow"})

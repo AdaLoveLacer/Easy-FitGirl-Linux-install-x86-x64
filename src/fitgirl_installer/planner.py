@@ -560,7 +560,7 @@ def temporary_payload_files(
     disassembly: Path, iss: Path
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Recover every ExtractTemporaryFile dependency across all procedures."""
-    from .ifps_ir import parse_disassembly
+    from .planning.script_flow import parse_disassembly
 
     calls: list[dict[str, Any]] = []
     for procedure in parse_disassembly(disassembly):

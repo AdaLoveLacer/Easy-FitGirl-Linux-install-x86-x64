@@ -21,7 +21,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from ..ifps_ir import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
+from ..planning.script_flow import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
 from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
 from ..planner import PLAN_COMPILER_VERSION, write_manifest

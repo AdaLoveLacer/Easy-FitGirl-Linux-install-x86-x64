@@ -119,7 +119,12 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
    `generate_manifest_draft` (reaproveitar, regenerar ou analisar do zero) foi
    movida para o analisador, com os colaboradores declarados em
    `AnalysisServices`; o CLI mantém uma fachada que monta esses serviços.
-9. Mover o fluxo do script compilado para `planning/script_flow.py`.
+9. **Concluída:** mover o fluxo do script compilado para
+   `planning/script_flow.py`. O antigo `ifps_ir.py` (leitura do disassembly
+   IFPS, grafo de controle conservador, condições constantes e máscara de
+   componentes) foi movido inteiro, sem mudança de lógica; `planner.py`,
+   `plan_audit.py`, o CLI e os testes passaram a importar o novo módulo, e o
+   arquivo antigo foi removido por não ter mais consumidores.
 10. Mover a geração de plano para `planning/planner.py`.
 11. Mover a auditoria para `planning/audit.py`.
 12. Mover a coordenação das etapas para `execution/installer.py`.
@@ -145,7 +150,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

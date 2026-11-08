@@ -8,7 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fitgirl_installer import ifps_ir, plan_audit, planner
+from fitgirl_installer import plan_audit, planner
+from fitgirl_installer.planning import script_flow
 
 
 class PlanAuditTests(unittest.TestCase):
@@ -55,8 +56,8 @@ CURSTEPCHANGED  bytecode @0x100 (48 bytes, 3 instructions)
   0x110  if not      s+13 goto 0x100
   0x120  ret
 ''')
-        procedure = ifps_ir.parse_disassembly(self.asm)[0]
-        cfg = ifps_ir.build_cfg(procedure)
+        procedure = script_flow.parse_disassembly(self.asm)[0]
+        cfg = script_flow.build_cfg(procedure)
         self.assertEqual(len(cfg.blocks), 2)
         self.assertEqual(
             [(edge.kind, edge.target) for edge in cfg.blocks[0].successors],
@@ -71,8 +72,8 @@ CURSTEPCHANGED  bytecode @0x100 (64 bytes, 5 instructions)
   0x120  if not      s+13 goto 0x100
   0x130  ret
 ''')
-        procedure = ifps_ir.parse_disassembly(self.asm)[0]
-        cfg = ifps_ir.build_cfg(procedure)
+        procedure = script_flow.parse_disassembly(self.asm)[0]
+        cfg = script_flow.build_cfg(procedure)
         self.assertEqual(
             {(edge.kind, edge.target) for edge in cfg.blocks[0].successors},
             {("branch-true", 0x100), ("branch-false", 0x130)},

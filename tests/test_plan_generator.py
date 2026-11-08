@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fitgirl_installer import cli as CLI  # noqa: E402
-from fitgirl_installer import ifps_ir as IFPS_IR  # noqa: E402
+from fitgirl_installer.planning import script_flow as IFPS_IR  # noqa: E402
 from fitgirl_installer import planner as PLANNER  # noqa: E402
 
 
