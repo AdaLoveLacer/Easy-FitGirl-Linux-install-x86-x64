@@ -25,6 +25,8 @@ from ..planning.script_flow import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, wri
 from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
 from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
+from ..execution import installer
+from ..execution.installer import enabled, step_key
 from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
 from ..planning.audit import write_audit
@@ -639,25 +641,6 @@ def interactive_install(source: Path) -> int:
         dry_run=False,
     )
     return install(args)
-
-
-def enabled(
-    step: dict[str, Any], components: set[str], options: set[str] | None = None
-) -> bool:
-    required = step.get("if_component")
-    excluded = step.get("unless_component")
-    condition = step.get("condition")
-    option = condition.get("option") if isinstance(condition, dict) else None
-    condition_ok = condition is None or bool(option and option in (options or set()))
-    return (
-        (not required or required in components)
-        and (not excluded or excluded not in components)
-        and condition_ok
-    )
-
-
-def step_key(index: int, step: dict[str, Any]) -> str:
-    return f"{index:03d}:{step.get('id', step.get('archive', step.get('type', 'step')))}"
 
 
 def _runtime_order_report(
@@ -2042,11 +2025,7 @@ def install(args: argparse.Namespace) -> int:
     target.mkdir(parents=True, exist_ok=True)
     scratch.mkdir(parents=True, exist_ok=True)
     atomic_json(state_path, state)
-    execution_plan = [
-        (index, step, step_key(index, step))
-        for index, step in enumerate(manifest.get("steps", []), 1)
-        if enabled(step, components, options)
-    ]
+    execution_plan = installer.selected_steps(manifest, components, options)
     if not args.dry_run:
         validate_runtime_order(scratch, manifest, state, execution_plan)
     recover_incomplete_transactions(target, scratch, state_path, state)
@@ -2078,24 +2057,10 @@ def install(args: argparse.Namespace) -> int:
         print(f"[INFO] componentes: {', '.join(sorted(components))}")
     if args.memory_max is not None:
         print("[AVISO] MemoryMax é um teto rígido: ao atingi-lo, o kernel pode matar o stream ativo")
-    planned: list[tuple[int, dict[str, Any], str, int]] = []
-    for index, step in enumerate(manifest.get("steps", []), 1):
-        key = step_key(index, step)
-        if not enabled(step, components, options):
-            print(f"[PULA] {key}: condição de componente não satisfeita")
-            continue
-        weight = 1024 * 1024
-        if step.get("type") == "extract":
-            if step.get("archive_root"):
-                candidate = safe_child(
-                    resolve_destination(step["archive_root"], target, scratch),
-                    step["archive"],
-                )
-            else:
-                candidate = safe_child(source, step["archive"])
-            if candidate.is_file():
-                weight = max(1, candidate.stat().st_size)
-        planned.append((index, step, key, weight))
+    planned = installer.weighted_steps(
+        manifest, components, options, source=source, target=target, scratch=scratch,
+        resolve_destination=resolve_destination, safe_child=safe_child,
+    )
     total_weight = max(1, sum(item[3] for item in planned))
     finished_weight = sum(
         weight for _, _, key, weight in planned if key in state["completed"]

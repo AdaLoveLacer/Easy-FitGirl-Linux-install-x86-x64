@@ -138,7 +138,12 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     as etapas 8 a 11, o pacote `planning/` está completo; o manifesto, o
     grafo de controle e o relatório de auditoria de um repack sintético saem
     idênticos aos do código anterior à sequência.
-12. Mover a coordenação das etapas para `execution/installer.py`.
+12. **Em andamento:** mover a coordenação das etapas para
+    `execution/installer.py`. Como `install()` depende de cerca de 40 funções
+    que ainda estão no CLI, a coordenação sai em partes. Primeiro saíram a
+    seleção das etapas habilitadas (`enabled`, `step_key`, `selected_steps`)
+    e o cálculo do peso de cada etapa no progresso global (`weighted_steps`),
+    com o CLI reexportando `enabled` e `step_key`.
 13. Separar a persistência e retomada em `execution/journal.py`.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.
