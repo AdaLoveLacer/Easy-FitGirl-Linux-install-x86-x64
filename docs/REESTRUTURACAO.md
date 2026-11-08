@@ -155,6 +155,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     `execution/journal.py`. Passo preparatório: `InstallerError` saiu do CLI
     para `models.py`, por ser o tipo compartilhado que o journal e o CLI
     precisam sem import circular; o CLI o reexporta, e a classe é a mesma.
+    Depois saíram a gravação atômica de JSON com `.bak` (`atomic_json`), a
+    leitura (`load_json`) e a recuperação do journal corrompido
+    (`load_state`), com o mesmo corpo; o CLI as reexporta.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.
 16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
