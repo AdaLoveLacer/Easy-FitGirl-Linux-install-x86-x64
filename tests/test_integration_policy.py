@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fitgirl_installer.integration import integration_report, write_integration_report
+from fitgirl_installer.verification.integration import integration_report, write_integration_report
 
 
 class IntegrationPolicyTests(unittest.TestCase):

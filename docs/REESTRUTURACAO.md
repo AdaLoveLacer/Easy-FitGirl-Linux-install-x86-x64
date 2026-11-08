@@ -206,7 +206,11 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     do estado de verificação): o `verify.py` ficou como ponto de entrada
     mínimo no mesmo caminho, para que o comando da etapa `verify`, a saída
     do `--dry-run` e o `--help` continuem iguais.
-18. Mover o relatório de integração para `verification/integration.py`.
+18. **Concluída:** mover o relatório de integração para
+    `verification/integration.py`. O módulo foi movido inteiro, sem mudança
+    de lógica; o CLI e o teste da política de integração importam o novo
+    caminho, e o arquivo antigo foi removido. Com as etapas 16 a 18, o
+    pacote `verification/` está completo.
 19. Mover a descoberta e configuração do Wine para `platform/wine.py`.
 20. Mover controle de processos e sinais para `platform/processes.py`.
 21. Mover limites e detecção de recursos para `platform/resources.py`.
@@ -223,7 +227,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**. Com a etapa 16, são dezesseis de 23: **70%**. Com a etapa 17, são dezessete de 23: **74%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**. Com a etapa 16, são dezesseis de 23: **70%**. Com a etapa 17, são dezessete de 23: **74%**. Com a etapa 18, são dezoito de 23: **78%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

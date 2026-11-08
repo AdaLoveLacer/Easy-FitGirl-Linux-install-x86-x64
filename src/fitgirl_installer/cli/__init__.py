@@ -21,7 +21,7 @@ from typing import Any
 
 from ..planning.script_flow import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, write_cfg_report
 from ..compatibility import compatibility_error, report_json
-from ..integration import write_integration_report
+from ..verification.integration import write_integration_report
 from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
 from ..execution import extractor
 from ..execution import installer
