@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 INSTALLER = ROOT / "fitgirl"
 sys.path.insert(0, str(ROOT / "src"))
 
-from fitgirl_installer.resource_limits import detect_limits
+from fitgirl_installer.platform.resources import detect_limits
 
 
 def digest(path: Path, algorithm: str) -> str:

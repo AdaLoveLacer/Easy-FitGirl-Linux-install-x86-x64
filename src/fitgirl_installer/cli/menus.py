@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
-from ..resource_limits import parse_cpu_list
+from ..platform.resources import parse_cpu_list
 from .presentation import _component_label, _wizard_page
 
 

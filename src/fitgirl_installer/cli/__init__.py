@@ -44,7 +44,7 @@ from ..runtime import ensure_bundled_wine
 from ..verification import manifests
 from ..verification import checksums
 from ..verification.checksums import sha256
-from ..resource_limits import detect_limits, parse_cpu_list
+from ..platform.resources import detect_limits, parse_cpu_list
 from .presentation import _wizard_page, _component_label, format_size
 from . import menus
 from .menus import (

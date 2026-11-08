@@ -230,7 +230,11 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     gravação do journal chega como colaborador (`save_state`), para que
     `platform/` não dependa de `execution/`; o CLI mantém invólucros com as
     assinaturas antigas.
-21. Mover limites e detecção de recursos para `platform/resources.py`.
+21. **Em andamento:** mover limites e detecção de recursos para
+    `platform/resources.py`. Primeiro o antigo `resource_limits.py`
+    (detecção de CPUs, memória e limite do cgroup, e leitura da lista de
+    CPUs) foi movido inteiro, sem mudança de lógica; o CLI, os menus e os
+    testes importam o novo caminho, e o arquivo antigo foi removido.
 22. Mover checagens de compatibilidade para `platform/compatibility.py`.
 23. Mover a preparação do runtime para `platform/runtime.py`.
 

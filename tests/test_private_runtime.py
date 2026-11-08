@@ -100,7 +100,7 @@ class PortableMenuTests(unittest.TestCase):
                 self.assertEqual(cli.discover_game_roots(), [home / "Games", Path("/mnt/A/Games"), Path("/mnt/B/Games")])
 
     def test_cpu_list_parser_rejects_unavailable_processors(self):
-        from fitgirl_installer.resource_limits import parse_cpu_list
+        from fitgirl_installer.platform.resources import parse_cpu_list
         self.assertEqual(parse_cpu_list("0-2,4", (0, 1, 2, 4)), {0, 1, 2, 4})
         with self.assertRaises(ValueError):
             parse_cpu_list("0-8", (0, 1, 2, 3))
