@@ -111,5 +111,40 @@ class PlannedStepRunTests(unittest.TestCase):
         self.assertEqual([run.key for run in calls], ["002:b"])
 
 
+class FinishInstallationTests(unittest.TestCase):
+    def test_real_run_reports_and_finalizes_after_preserving_verifier(self):
+        events = []
+        output = io.StringIO()
+        with redirect_stdout(output):
+            installer.finish_installation(
+                [(1, {"type": "merge-manifests"}, "001:m", 1)], target=Path("/t"),
+                scratch=Path("/s"), state_path=Path("/s/state"), state={}, dry_run=False,
+                quicksfv_x64=None,
+                preserve_verifier=lambda *a, **k: events.append(("verifier", k)),
+                write_integration_report=lambda target, path: events.append(("report", path)) or {
+                    "game_executable_candidates": ["a"], "redistributables": [],
+                },
+                finalize_transactions=lambda *a: events.append(("finalize",)),
+            )
+        self.assertEqual(
+            events,
+            [("verifier", {"preserve_existing_manifest": True}),
+             ("report", Path("/s/integration-report.json")), ("finalize",)],
+        )
+        self.assertIn("[INTEGRAÇÃO] 1 executáveis candidatos", output.getvalue())
+
+    def test_dry_run_neither_reports_nor_finalizes(self):
+        events = []
+        with redirect_stdout(io.StringIO()):
+            installer.finish_installation(
+                [], target=Path("/t"), scratch=Path("/s"), state_path=Path("/s/state"),
+                state={}, dry_run=True, quicksfv_x64=None,
+                preserve_verifier=lambda *a, **k: events.append("verifier"),
+                write_integration_report=lambda *a: events.append("report"),
+                finalize_transactions=lambda *a: events.append("finalize"),
+            )
+        self.assertEqual(events, ["verifier"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -147,7 +147,9 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     executa as etapas (`run_planned_steps`): progresso global, retomada das
     concluídas, checagem de ordem, despacho por tipo numa tabela de
     tratadores e registro de conclusão. Os `run_*` seguem no CLI, ligados por
-    adaptadores, até as etapas 13 a 15.
+    adaptadores, até as etapas 13 a 15. Em seguida saiu o fechamento
+    (`finish_installation`): preservar o verificador, gerar o relatório de
+    integração, finalizar as transações e as mensagens finais.
 13. Separar a persistência e retomada em `execution/journal.py`.
 14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
 15. Mover o monitor de progresso para `execution/monitor.py`.

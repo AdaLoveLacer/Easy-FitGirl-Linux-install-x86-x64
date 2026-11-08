@@ -130,3 +130,30 @@ def run_planned_steps(
             print(f"Etapa concluída · {min(100, finished_weight / total_weight * 100):.0f}% geral")
         else:
             print(f"[GLOBAL] {min(99.9, finished_weight / total_weight * 100):5.1f}% confirmado")
+
+
+def finish_installation(
+    planned: list[tuple[int, dict[str, Any], str, int]], *, target: Path, scratch: Path,
+    state_path: Path, state: dict[str, Any], dry_run: bool, quicksfv_x64: Any,
+    preserve_verifier: Callable[..., Any],
+    write_integration_report: Callable[[Path, Path], dict[str, Any]],
+    finalize_transactions: Callable[[Path, Path, dict[str, Any]], Any],
+) -> None:
+    """Keep the verifier, report the installed files and commit pending transactions."""
+    preserve_verifier(
+        target, scratch, dry_run, quicksfv_x64,
+        preserve_existing_manifest=any(s.get("type") == "merge-manifests" for _, s, _, _ in planned),
+    )
+    if not dry_run:
+        report_path = scratch / "integration-report.json"
+        report = write_integration_report(target, report_path)
+        print(
+            f"[INTEGRAÇÃO] {len(report['game_executable_candidates'])} executáveis candidatos; "
+            f"{len(report['redistributables'])} redistribuíveis não executados; relatório: {report_path}"
+        )
+        finalize_transactions(scratch, state_path, state)
+    if sys.stdout.isatty():
+        print("Instalação concluída e arquivos verificados." if not dry_run else "Simulação concluída.")
+    else:
+        print(f"[GLOBAL] 100.0% {'simulado' if dry_run else 'confirmado'}")
+        print(f"[INFO] instalação concluída em {target}" if not dry_run else "[INFO] simulação concluída")

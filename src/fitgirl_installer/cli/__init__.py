@@ -2111,23 +2111,12 @@ def install(args: argparse.Namespace) -> int:
         ),
         error_type=InstallerError,
     )
-    preserve_verifier(
-        target, scratch, args.dry_run, args.quicksfv_x64,
-        preserve_existing_manifest=any(s.get("type") == "merge-manifests" for _, s, _, _ in planned),
+    installer.finish_installation(
+        planned, target=target, scratch=scratch, state_path=state_path, state=state,
+        dry_run=args.dry_run, quicksfv_x64=args.quicksfv_x64,
+        preserve_verifier=preserve_verifier, write_integration_report=write_integration_report,
+        finalize_transactions=finalize_transactions,
     )
-    if not args.dry_run:
-        report_path = scratch / "integration-report.json"
-        report = write_integration_report(target, report_path)
-        print(
-            f"[INTEGRAÇÃO] {len(report['game_executable_candidates'])} executáveis candidatos; "
-            f"{len(report['redistributables'])} redistribuíveis não executados; relatório: {report_path}"
-        )
-        finalize_transactions(scratch, state_path, state)
-    if sys.stdout.isatty():
-        print("Instalação concluída e arquivos verificados." if not args.dry_run else "Simulação concluída.")
-    else:
-        print(f"[GLOBAL] 100.0% {'simulado' if args.dry_run else 'confirmado'}")
-        print(f"[INFO] instalação concluída em {target}" if not args.dry_run else "[INFO] simulação concluída")
     return 0
 
 
