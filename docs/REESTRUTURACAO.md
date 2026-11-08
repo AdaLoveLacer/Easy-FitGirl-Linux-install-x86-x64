@@ -184,11 +184,16 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     `sys.path` que localiza o pacote subiu um nível. O backend, o teste e o
     `TROUBLESHOOTING.md` usam o novo caminho, e o arquivo antigo foi
     removido. Com as etapas 12 a 15, o pacote `execution/` está completo.
-16. **Em andamento:** separar leitura e combinação de manifestos em
+16. **Concluída:** separar leitura e combinação de manifestos em
     `verification/manifests.py`. Primeiro saiu a leitura (`parse_manifest`
-    e a expressão `LINE`) do `verify.py`, que continua sendo o script de
-    conferência chamado pela etapa `verify` e passa a importá-la do novo
-    módulo, assim como a combinação de manifestos do CLI.
+    e a expressão `LINE`) do `verify.py` (`c453bf3`), que continua sendo o
+    script de conferência chamado pela etapa `verify` e passa a importá-la
+    do novo módulo. Depois saiu a combinação: `manifest_parts` escolhe o
+    manifesto base e os addons ativos e recusa addon incompleto ou hash
+    conflitante; `write_combined_manifest` grava o resultado de forma
+    atômica e o valida antes de publicar. O `run_manifest_merge` do CLI
+    mantém a checagem do comando comprovado, a transação, a preservação do
+    verificador e a cópia do manifesto base, na mesma ordem.
 17. Separar cálculo e conferência de hashes em `verification/checksums.py`.
 18. Mover o relatório de integração para `verification/integration.py`.
 19. Mover a descoberta e configuração do Wine para `platform/wine.py`.
@@ -207,7 +212,7 @@ por 23, arredondado ao inteiro mais próximo. O atalho desktop opcional e
 `models.py` (condicional à necessidade de tipos compartilhados) não entram na
 métrica. Antes da etapa 6, cinco etapas estavam concluídas: **22%**. Com a
 etapa 6, são seis de 23: **26%**. Com a etapa 7, são sete de 23: **30%**.
-Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**.
+Com a etapa 8, são oito de 23: **35%**. Com a etapa 9, são nove de 23: **39%**. Com a etapa 10, são dez de 23: **43%**. Com a etapa 11, são onze de 23: **48%**. Com a etapa 12, são doze de 23: **52%**. Com a etapa 13, são treze de 23: **57%**. Com a etapa 14, são catorze de 23: **61%**. Com a etapa 15, são quinze de 23: **65%**. Com a etapa 16, são dezesseis de 23: **70%**.
 
 Esta ordem não autoriza juntar responsabilidades em um commit. Se um grupo
 apresentar dependências cruzadas, reduzi-lo antes da movimentação. O estado

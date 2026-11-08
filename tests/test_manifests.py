@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 
+import io
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
+from types import SimpleNamespace
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from fitgirl_installer import cli as CLI  # noqa: E402
+from fitgirl_installer.models import InstallerError  # noqa: E402
 from fitgirl_installer.verification import manifests  # noqa: E402
 
 
@@ -34,6 +39,73 @@ class ParseManifestTests(unittest.TestCase):
     def test_rejects_line_that_is_not_a_digest_entry(self):
         with self.assertRaisesRegex(ValueError, "linha MD5 inválida 2"):
             self.parse(b"; ok\nnot-a-digest *file.bin\n")
+
+
+class CombineManifestsTests(unittest.TestCase):
+    """Characterize the addon merge as the merge-manifests step runs it."""
+
+    STEP = {
+        "embedded_command": "copy /b fitgirl.md5+*.addon&&del *.addon",
+        "cwd": "app", "cwd_suffix": "_Redist",
+        "rollback_paths": [{"root": "app", "path": "_Redist"}],
+    }
+
+    def setUp(self):
+        self._temporary = tempfile.TemporaryDirectory()
+        root = Path(self._temporary.name)
+        self.scratch, self.target = root / "scratch", root / "target"
+        self.source = self.scratch / "setup-payload/app/_Redist"
+        self.source.mkdir(parents=True)
+        self.target.mkdir()
+        (self.target / "main.bin").write_bytes(b"main")
+        self.base = "a" * 32 + " *main.bin\r\n"
+        (self.source / "fitgirl.md5").write_bytes(self.base.encode())
+        self.state = {"completed": {}, "components": []}
+
+    def tearDown(self):
+        self._temporary.cleanup()
+
+    def merge(self, key="merge", step=None):
+        output = io.StringIO()
+        with redirect_stdout(output):
+            CLI.run_manifest_merge(
+                key, step or self.STEP, SimpleNamespace(dry_run=False), self.target,
+                self.scratch, self.scratch / "install-state.json", self.state,
+            )
+        return output.getvalue()
+
+    def merged(self):
+        return (self.target / "_Redist/fitgirl.md5").read_bytes()
+
+    def test_inactive_addon_is_skipped_and_empty_addon_is_kept(self):
+        (self.source / "bonus.addon").write_bytes(("b" * 32 + " *bonus.bin\n").encode())
+        (self.source / "empty.addon").write_bytes(b"; nothing\n")
+        output = self.merge()
+        self.assertIn("[MANIFESTOS] addon inativo: bonus.addon", output)
+        self.assertEqual(self.merged(), (self.base + "; nothing\r\n").encode())
+
+    def test_selected_addon_without_files_is_incomplete(self):
+        (self.source / "bonus.addon").write_bytes(("b" * 32 + " *bonus.bin\n").encode())
+        self.state["components"] = ["bonus"]
+        with self.assertRaisesRegex(InstallerError, "addon incompleto: bonus.addon"):
+            self.merge()
+        self.assertFalse((self.target / "_Redist").exists())
+
+    def test_conflicting_hashes_stop_before_touching_the_target(self):
+        (self.source / "bonus.addon").write_bytes(("c" * 32 + " *main.bin\n").encode())
+        with self.assertRaisesRegex(InstallerError, "hashes conflitantes nos manifestos: main.bin"):
+            self.merge()
+        self.assertFalse((self.target / "_Redist").exists())
+        self.assertNotIn("transactions", self.state)
+
+    def test_missing_base_manifest_is_refused(self):
+        (self.source / "fitgirl.md5").unlink()
+        with self.assertRaisesRegex(InstallerError, "manifesto base ausente"):
+            self.merge()
+
+    def test_unproven_command_is_refused(self):
+        with self.assertRaisesRegex(InstallerError, "combinação de manifestos não comprovada"):
+            self.merge(step={**self.STEP, "embedded_command": "copy /b *.md5 all.md5"})
 
 
 if __name__ == "__main__":

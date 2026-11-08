@@ -37,6 +37,7 @@ from ..planning import analyzer
 from ..planning.analyzer import disk_space_from_iss
 from ..planning.audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
+from ..verification import manifests
 from ..resource_limits import detect_limits, parse_cpu_list
 from .presentation import _wizard_page, _component_label, format_size
 from . import menus
@@ -1183,8 +1184,6 @@ def run_manifest_merge(
     scratch: Path, state_path: Path, state: dict[str, Any],
 ) -> None:
     """Compile the known FitGirl addon merge natively, preserving originals."""
-    from ..verification.manifests import parse_manifest
-
     if (
         step.get("embedded_command", "").strip().casefold()
         != "copy /b fitgirl.md5+*.addon&&del *.addon"
@@ -1195,41 +1194,17 @@ def run_manifest_merge(
     print("[MANIFESTOS] combinar base e addons presentes, preservando originais")
     if args.dry_run:
         return
-    source = scratch / "setup-payload/app/_Redist"
-    base = source / "fitgirl.md5"
-    if not base.is_file():
-        raise InstallerError(f"manifesto base ausente: {base}")
-    parts = [base]
-    seen = dict((relative.casefold(), digest) for digest, relative in parse_manifest(base))
-    for addon in sorted(source.glob("*.addon"), key=lambda p: p.name.casefold()):
-        rows = parse_manifest(addon)
-        present = [safe_child(target, relative).is_file() for _, relative in rows]
-        if rows and not any(present) and addon.stem not in state.get("components", []):
-            print(f"[MANIFESTOS] addon inativo: {addon.name}")
-            continue
-        if not all(present):
-            raise InstallerError(f"addon incompleto: {addon.name}")
-        for digest, relative in rows:
-            previous = seen.setdefault(relative.casefold(), digest)
-            if previous != digest:
-                raise InstallerError(f"hashes conflitantes nos manifestos: {relative}")
-        parts.append(addon)
+    parts = manifests.manifest_parts(
+        scratch / "setup-payload/app/_Redist", target, state.get("components", []),
+        safe_child=safe_child,
+    )
+    base = parts[0]
     begin_transaction(key, step, target, scratch, state_path, state, False)
     try:
         preserve_verifier(target, scratch, False)
         destination = target / "_Redist"
         shutil.copy2(base, destination / "fitgirl.base.md5")
-        content = b"".join(p.read_bytes().rstrip(b"\r\n") + b"\r\n" for p in parts)
-        temporary = destination / f".fitgirl.md5.merge-{os.getpid()}"
-        try:
-            with temporary.open("wb") as stream:
-                stream.write(content)
-                stream.flush()
-                os.fsync(stream.fileno())
-            parse_manifest(temporary)
-            os.replace(temporary, destination / "fitgirl.md5")
-        finally:
-            temporary.unlink(missing_ok=True)
+        manifests.write_combined_manifest(parts, destination)
     except BaseException:
         restore_transaction(key, target, scratch, state_path, state)
         raise
