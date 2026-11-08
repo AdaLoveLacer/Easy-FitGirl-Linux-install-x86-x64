@@ -198,7 +198,10 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     `verification/checksums.py`. Primeiro saiu o cálculo: `file_hash` e
     `sha256` do CLI e `md5` do `verify.py`, com os corpos idênticos; o CLI
     os reexporta. As cópias de `sha256` em `planning/` não foram unificadas,
-    porque isso seria simplificação, não movimentação.
+    porque isso seria simplificação, não movimentação. Depois saiu a
+    conferência MD5 dos volumes de origem (`verify_archive`), que recebe o
+    confinamento de caminhos e a gravação do journal como colaboradores; o
+    CLI mantém um invólucro com a assinatura antiga.
 18. Mover o relatório de integração para `verification/integration.py`.
 19. Mover a descoberta e configuração do Wine para `platform/wine.py`.
 20. Mover controle de processos e sinais para `platform/processes.py`.

@@ -38,7 +38,8 @@ from ..planning.analyzer import disk_space_from_iss
 from ..planning.audit import write_audit
 from ..runtime import RuntimeErrorDetail, ensure_bundled_wine
 from ..verification import manifests
-from ..verification.checksums import file_hash, sha256
+from ..verification import checksums
+from ..verification.checksums import sha256
 from ..resource_limits import detect_limits, parse_cpu_list
 from .presentation import _wizard_page, _component_label, format_size
 from . import menus
@@ -850,25 +851,10 @@ def verify_archive(
     step: dict[str, Any], args: argparse.Namespace, source: Path,
     state_path: Path, state: dict[str, Any]
 ) -> Path:
-    archive = safe_child(source, step["archive"])
-    if not archive.is_file():
-        raise InstallerError(f"volume ausente: {archive}")
-    expected_md5 = step.get("md5")
-    archive_stat = archive.stat()
-    identity = {"size": archive_stat.st_size, "mtime_ns": archive_stat.st_mtime_ns, "md5": expected_md5}
-    if expected_md5 and state.setdefault("verified", {}).get(archive.name) != identity:
-        if args.dry_run:
-            print(f"[VALIDA] MD5 {archive.name}: {expected_md5}")
-        else:
-            print(f"[VALIDA] calculando MD5 de {archive.name}...")
-            actual_md5 = file_hash(archive, "md5")
-            if actual_md5.lower() != expected_md5.lower():
-                raise InstallerError(
-                    f"MD5 inválido em {archive.name}: esperado {expected_md5}, obtido {actual_md5}"
-                )
-            state["verified"][archive.name] = identity
-            atomic_json(state_path, state)
-    return archive
+    return checksums.verify_archive(
+        step, source, state_path, state, args.dry_run,
+        safe_child=safe_child, save_state=atomic_json,
+    )
 
 
 def run_batch(
