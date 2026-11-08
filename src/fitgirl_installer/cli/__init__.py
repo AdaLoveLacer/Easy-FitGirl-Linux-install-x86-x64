@@ -24,6 +24,7 @@ from ..planning.script_flow import SCHEMA_VERSION as IFPS_IR_SCHEMA_VERSION, wri
 from ..compatibility import compatibility_error, report_json
 from ..integration import write_integration_report
 from ..planning.planner import PLAN_COMPILER_VERSION, write_manifest
+from ..execution import extractor
 from ..execution import installer
 from ..execution import journal
 from ..execution.journal import (
@@ -1093,41 +1094,16 @@ def run_extract(
     global_base: float = 0.0, global_weight: float = 1.0,
     payload_ready: bool = False,
 ) -> None:
-    archive_root = step.get("archive_root")
-    if archive_root:
-        archive = safe_child(resolve_destination(archive_root, target, scratch), step["archive"])
-        if not archive.is_file() and not args.dry_run:
-            raise InstallerError(f"arquivo intermediário ausente: {archive}")
-        archive_arguments = ["--archive-path", str(archive)]
-    else:
-        archive = verify_archive(step, args, source, state_path, state)
-        archive_arguments = ["--archive", archive.name]
-    destination = resolve_destination(step.get("destination", "app"), target, scratch)
-    if step.get("destination_suffix"):
-        destination = safe_child(destination, step["destination_suffix"])
-    command = command_prefix(args) + [
-        str(args.backend), "-d", str(source), "-t", str(destination),
-        "-w", str(scratch), *archive_arguments, "--wine", str(args.wine),
-        "--prefix", str(prefix), "--monitor-interval", str(args.monitor_interval),
-        "--global-base", f"{global_base:.9f}",
-        "--global-weight", f"{global_weight:.9f}",
-    ]
-    if payload_ready:
-        command.append("--payload-ready")
-    if step.get("archive_path_filter"):
-        command.extend(["--archive-path-filter", str(step["archive_path_filter"])])
-    if args.srep_memory:
-        command.extend(["--srep-memory", str(args.srep_memory)])
-    if args.bzip3_threads:
-        command.extend(["--bzip3-threads", str(args.bzip3_threads)])
-    if step.get("archive_workdir"):
-        archive_workdir = safe_child(target, step["archive_workdir"])
-        command.extend(["--archive-workdir", str(archive_workdir)])
-    for pattern in step.get("filters", []):
-        command.extend(["--include", str(pattern)])
-    run_process(command, ROOT, state_path, state, args.dry_run)
-    if step.get("delete_archive_after") and not args.dry_run:
-        archive.unlink(missing_ok=True)
+    extractor.run_extract(
+        step, args, source, target, scratch, prefix, state_path, state,
+        global_base, global_weight, payload_ready,
+        services=extractor.ExtractionServices(
+            resolve_destination=resolve_destination, safe_child=safe_child,
+            verify_source=lambda planned: verify_archive(planned, args, source, state_path, state),
+            command_prefix=lambda: command_prefix(args), run_process=run_process,
+            working_directory=ROOT,
+        ),
+    )
 
 
 def verify_archive(

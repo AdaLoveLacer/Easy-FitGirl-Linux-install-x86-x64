@@ -164,7 +164,14 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
     só depois da checagem de `rollback_paths`; o CLI mantém um invólucro com a
     assinatura antiga e o `transaction_paths`, que depende da resolução de
     caminhos das etapas e segue com os executores.
-14. Mover a chamada de ferramentas de extração para `execution/extractor.py`.
+14. **Em andamento:** mover a chamada de ferramentas de extração para
+    `execution/extractor.py`. Primeiro saiu a chamada do backend
+    `libexec/fitgirl-extract` (`run_extract`), com os colaboradores em
+    `ExtractionServices`: resolução e confinamento de caminhos, conferência
+    do volume de origem, prefixo de recursos e execução do processo. A
+    conferência MD5 do volume segue no CLI até a etapa 17, e o controle de
+    processos até a etapa 20; o CLI mantém um invólucro com a assinatura
+    antiga.
 15. Mover o monitor de progresso para `execution/monitor.py`.
 16. Separar leitura e combinação de manifestos em `verification/manifests.py`.
 17. Separar cálculo e conferência de hashes em `verification/checksums.py`.
