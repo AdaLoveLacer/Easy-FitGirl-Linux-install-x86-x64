@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_on": "2026-11-08",
+  "updated_on": "2026-11-09",
   "verdicts": [
     [
       "Qualquer instalador FitGirl",
@@ -536,8 +536,8 @@
           "Relatório de divergência da ordem de execução apontava como expected_next a etapa na posição igual à quantidade de concluídas (com A e C concluídas, dizia C em vez de B). Encontrado pelos testes de caracterização da etapa 13; corrigido em 254e2f7 com autorização do usuário."
         ],
         [
-          false,
-          "No mesmo relatório, observed.index usa a posição entre as etapas selecionadas contada a partir de zero, enquanto expected_next.index usa o número da etapa no plano; os dois campos chamados index não são comparáveis."
+          true,
+          "No mesmo relatório, observed.index usava a posição entre as etapas selecionadas contada a partir de zero, enquanto expected_next.index usa o número da etapa no plano; os dois campos chamados index não eram comparáveis. Com A e C concluídas, a etapa 003:c era relatada com index 2, justamente o número que expected_next dava para a etapa diferente 002:b. Corrigido em commit separado, com autorização do usuário: o único ponto afetado passou a relatar o número da etapa no plano, igual ao que expected_next e os eventos do rastro já usavam; teste que falha sem a correção em tests/test_runtime_order.py."
         ],
         [
           false,

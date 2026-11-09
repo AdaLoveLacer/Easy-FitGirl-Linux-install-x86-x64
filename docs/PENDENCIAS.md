@@ -3,8 +3,8 @@
 > ARQUIVO GERADO. Não edite diretamente. Atualize
 > `status/project-status.json` e execute `./tools/sync-docs.py --write`.
 
-Última atualização declarada: 2026-11-08  
-Suíte automatizada descoberta: **200/200 testes**.
+Última atualização declarada: 2026-11-09  
+Suíte automatizada descoberta: **201/201 testes**.
 
 ## 1. Monitoramento da ordem em produção
 
@@ -177,7 +177,7 @@ Estado: **IMPLEMENTADA — VALIDAÇÃO REAL PENDENTE**
 Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
 
 - [x] Relatório de divergência da ordem de execução apontava como expected_next a etapa na posição igual à quantidade de concluídas (com A e C concluídas, dizia C em vez de B). Encontrado pelos testes de caracterização da etapa 13; corrigido em 254e2f7 com autorização do usuário.
-- [ ] No mesmo relatório, observed.index usa a posição entre as etapas selecionadas contada a partir de zero, enquanto expected_next.index usa o número da etapa no plano; os dois campos chamados index não são comparáveis.
+- [x] No mesmo relatório, observed.index usava a posição entre as etapas selecionadas contada a partir de zero, enquanto expected_next.index usa o número da etapa no plano; os dois campos chamados index não eram comparáveis. Com A e C concluídas, a etapa 003:c era relatada com index 2, justamente o número que expected_next dava para a etapa diferente 002:b. Corrigido em commit separado, com autorização do usuário: o único ponto afetado passou a relatar o número da etapa no plano, igual ao que expected_next e os eventos do rastro já usavam; teste que falha sem a correção em tests/test_runtime_order.py.
 - [ ] Localização incompleta em inglês: o sufixo de [SKIP] ("condição de componente não satisfeita") e a mensagem de divergência da ordem de execução continuam em português; somente o prefixo é traduzido; também ficam em português, vistos em 2026-11-08 nas comparações da refatoração: o aviso "[VALIDA] calculando MD5 de …", os erros de fitgirl pause/resume ("não há etapa ativa registrada", "o grupo de processos registrado não existe mais") e o conector "e" em "--srep-memory must be between 128 e … MiB".
 - [x] Erro intermitente da suíte em test_sigint_is_forwarded_and_immediate_resume_is_safe, com duas causas, corrigidas com autorização do usuário: (1) no instalador, a etapa ativa ia para o journal antes de o repasse de SIGINT/SIGTERM ser instalado, deixando o codec órfão; agora forwarding_signals instala o repasse antes de iniciar o processo, guarda um sinal que chegue antes dele e reentrega um que chegue depois de ele terminar, em run_process, run_batch e na extração do payload; (2) no teste, o backend falso em Python podia receber o SIGINT ainda na inicialização, onde o CPython ignora o KeyboardInterrupt num callback de weakref; o teste agora espera o backend registrar a chamada.
 - [ ] test_component_selection_cpu_affinity_nice_and_memory_forwarding depende da memória livre do host: pede --srep-memory 1234 e falha quando o orçamento de memória detectado fica abaixo disso, como em 2026-11-08 com uma instalação real ocupando cerca de 7 GiB; falha igual no commit anterior. O teste não é hermético; correção pendente, em commit separado.

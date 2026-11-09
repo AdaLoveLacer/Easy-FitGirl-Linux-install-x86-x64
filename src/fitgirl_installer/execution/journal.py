@@ -210,7 +210,10 @@ def validate_runtime_order(
         later = next(key for key in completed_keys if positions[key] > missing)
         _runtime_order_report(
             scratch, manifest, state, planned, expected_key,
-            {"step": later, "event": "completed_in_journal", "index": positions[later]},
+            # Report the plan step number, the same meaning expected_next and
+            # the trace events give to index; the position among the selected
+            # steps would not be comparable with them.
+            {"step": later, "event": "completed_in_journal", "index": planned[positions[later]][0]},
             "o journal marca uma etapa posterior como concluída antes da etapa esperada",
         )
 

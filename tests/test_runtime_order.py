@@ -67,6 +67,19 @@ class RuntimeOrderTests(unittest.TestCase):
         self.assertEqual(report["reason"], "o journal marca uma etapa posterior como concluída antes da etapa esperada")
         self.assertNotIn(str(self.scratch), json.dumps(report))
 
+    def test_both_index_fields_use_the_plan_step_number(self):
+        # Without this, observed.index was the zero-based position among the
+        # selected steps: step 003:c reported index 2, the very number
+        # expected_next uses for the different step 002:b.
+        with self.assertRaisesRegex(InstallerError, "etapa posterior como concluída"):
+            order.validate_runtime_order(
+                self.scratch, MANIFEST, journal(["001:a", "003:c"]), PLANNED,
+            )
+        report = self.report()
+        self.assertEqual(report["expected_next"], {"step": "002:b", "index": 2})
+        self.assertEqual(report["observed"]["step"], "003:c")
+        self.assertEqual(report["observed"]["index"], 3)
+
     def test_missing_first_step_is_the_expected_next(self):
         with self.assertRaisesRegex(InstallerError, "etapa posterior como concluída"):
             order.validate_runtime_order(self.scratch, MANIFEST, journal(["002:b", "003:c"]), PLANNED)
