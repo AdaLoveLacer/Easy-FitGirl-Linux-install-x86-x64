@@ -159,12 +159,23 @@ class OrchestratorIntegrationTests(unittest.TestCase):
         self.manifest.write_text(json.dumps(manifest))
         allowed_cpu = min(os.sched_getaffinity(0))
         parent_nice = os.getpriority(os.PRIO_PROCESS, 0)
+        # What matters here is that the chosen value reaches the backend, and
+        # the backend gets no --srep-memory at all unless it is asked for. So
+        # ask for the accepted minimum instead of a fixed 1234 MiB, which the
+        # installer rejects whenever the detected budget is smaller. A value
+        # derived from the budget would not do: the installer measures it
+        # again, and by then memory.current has grown. Skip below a margin,
+        # where even the minimum may stop being accepted.
+        limits = detect_limits()
+        if limits.memory_budget_mib < 512:
+            self.skipTest("host memory budget leaves no margin above the minimum --srep-memory")
+        srep_memory = 128
         result = self.run_installer(
             self.root / "options-work",
             "--component", "optional",
             "--cpus", str(allowed_cpu),
             "--nice", "5",
-            "--srep-memory", "1234",
+            "--srep-memory", str(srep_memory),
             "--bzip3-threads", "4",
         )
         self.assertEqual(result.returncode, 0, result.stdout)
@@ -175,7 +186,7 @@ class OrchestratorIntegrationTests(unittest.TestCase):
             self.assertEqual(call["affinity"], [allowed_cpu])
             self.assertEqual(call["nice"], min(19, parent_nice + 5))
             self.assertIn("--srep-memory", call["argv"])
-            self.assertEqual(call["argv"][call["argv"].index("--srep-memory") + 1], "1234")
+            self.assertEqual(call["argv"][call["argv"].index("--srep-memory") + 1], str(srep_memory))
             self.assertIn("--bzip3-threads", call["argv"])
             self.assertEqual(call["argv"][call["argv"].index("--bzip3-threads") + 1], "4")
             self.assertIn("--global-base", call["argv"])

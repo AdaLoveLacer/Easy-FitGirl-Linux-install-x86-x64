@@ -548,8 +548,8 @@
           "Erro intermitente da suíte em test_sigint_is_forwarded_and_immediate_resume_is_safe, com duas causas, corrigidas com autorização do usuário: (1) no instalador, a etapa ativa ia para o journal antes de o repasse de SIGINT/SIGTERM ser instalado, deixando o codec órfão; agora forwarding_signals instala o repasse antes de iniciar o processo, guarda um sinal que chegue antes dele e reentrega um que chegue depois de ele terminar, em run_process, run_batch e na extração do payload; (2) no teste, o backend falso em Python podia receber o SIGINT ainda na inicialização, onde o CPython ignora o KeyboardInterrupt num callback de weakref; o teste agora espera o backend registrar a chamada."
         ],
         [
-          false,
-          "test_component_selection_cpu_affinity_nice_and_memory_forwarding depende da memória livre do host: pede --srep-memory 1234 e falha quando o orçamento de memória detectado fica abaixo disso, como em 2026-11-08 com uma instalação real ocupando cerca de 7 GiB; falha igual no commit anterior. O teste não é hermético; correção pendente, em commit separado."
+          true,
+          "test_component_selection_cpu_affinity_nice_and_memory_forwarding dependia da memória livre do host: pedia --srep-memory 1234 e falhava quando o orçamento de memória detectado ficava abaixo disso, como em 2026-11-08 com uma instalação real ocupando cerca de 7 GiB. Corrigido em commit separado, com autorização do usuário: o teste passou a pedir o mínimo aceito de 128 MiB, que ainda prova o repasse porque sem a opção o backend não recebe --srep-memory, e pula quando o orçamento detectado fica abaixo de 512 MiB, como já fazia test_cgroup_limits_are_explicit_in_dry_run. Um valor derivado do orçamento não resolveria: o instalador o mede de novo, já com memory.current maior. Verificado em escopo systemd real: com MemoryMax=1300M o orçamento cai para 775 MiB, onde 1234 era recusado e o teste agora passa; com 700M ele pula em vez de falhar."
         ],
         [
           true,
