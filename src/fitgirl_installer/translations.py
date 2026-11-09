@@ -132,6 +132,22 @@ _TEXT = {
     "invocação FART não comprovada": "FART invocation has not been verified",
     "FART: padrão vazio": "FART: empty pattern",
     "combinação de manifestos não comprovada": "Manifest combination has not been verified",
+    "o journal contém uma etapa que não pertence ao plano selecionado":
+        "the journal contains a step that does not belong to the selected plan",
+    "o journal marca uma etapa posterior como concluída antes da etapa esperada":
+        "the journal marks a later step as completed before the expected one",
+    "o rastro de execução do journal está inválido":
+        "the journal's execution trace is invalid",
+    "o rastro contém uma etapa desconhecida ou malformada":
+        "the trace contains an unknown or malformed step",
+    "o rastro registra uma etapa fora da ordem do plano":
+        "the trace records a step out of the plan's order",
+    "o rastro contém um tipo de evento desconhecido":
+        "the trace contains an unknown event type",
+    "o journal e o rastro discordam sobre uma etapa concluída":
+        "the journal and the trace disagree about a completed step",
+    "a etapa que seria iniciada não é a próxima etapa pendente do plano":
+        "the step about to start is not the plan's next pending step",
     "não há etapa ativa registrada": "No active step is recorded",
     "--memory-high não pode exceder --memory-max": "--memory-high cannot exceed --memory-max",
     "Opção inválida. Digite 1 para português ou 2 para English.":
@@ -188,11 +204,18 @@ _PATTERNS: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], .
     (re.compile(r"Valor inválido: (.*)\. Use, por exemplo, (.*)\."), r"Invalid value: \1. Use a format such as \2."),
     (re.compile(r"Use um valor entre (.*) e (.*)\."), r"Enter a value between \1 and \2."),
     (re.compile(r"O mínimo é (.*)\."), r"The minimum is \1."),
-    (re.compile(r"[\[]AVISO[\]] (.*)"), r"[WARNING] \1"),
-    (re.compile(r"[\[]ERRO[\]] (.*)"), r"[ERROR] \1"),
     (re.compile(r"[\[]INFO[\]] (.*)"), r"[INFO] \1"),
     (re.compile(r"[\[]OK[\]] (.*)"), r"[OK] \1"),
-    (re.compile(r"[\[]PULA[\]] (.*)"), r"[SKIP] \1"),
+    (re.compile(r"(.*): condição de componente não satisfeita"), r"\1: component condition not satisfied"),
+    (re.compile(r"calculando MD5 de (.*)\.\.\."), r"Calculating MD5 of \1..."),
+    (re.compile(
+        r"divergência na ordem de execução detectada: (.*)\n"
+        r"A instalação foi interrompida antes de iniciar outra etapa\. Diagnóstico: (.*)\n"
+        r"Se puder, envie esse relatório ao suporte para ajudar a corrigir o problema\."),
+     lambda m: (
+         f"Execution order divergence detected: {translate(m.group(1))}\n"
+         f"The installation stopped before starting another step. Diagnostic report: {m.group(2)}\n"
+         "If you can, send this report to support to help fix the problem.")),
     (re.compile(r"não foi possível ler (.*?): (.*)"), r"Could not read \1: \2"),
     (re.compile(r"objeto JSON esperado em (.*)"), r"Expected a JSON object in \1"),
     (re.compile(r"\[AVISO\] journal inválido preservado em (.*); backup restaurado"),
@@ -237,7 +260,6 @@ _PATTERNS: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], .
     (re.compile(r"rollback recusou caminho não confinado: (.*)"), r"Rollback refused an unconfined path: \1"),
     (re.compile(r"\[ROLLBACK\] (.*) restaurado"), r"[ROLLBACK] \1 restored"),
     (re.compile(r"[\[]FALHOU[\]] (.*): esperado=(.*) obtido=(.*)"), r"[FAILED] \1: expected=\2 got=\3"),
-    (re.compile(r"[\[]FALHOU[\]] (.*)"), r"[FAILED] \1"),
     (re.compile(r"\[VERIFICADOR\] mantendo manifesto combinado validado: (.*)"), r"[VERIFIER] Keeping validated combined manifest: \1"),
     (re.compile(r"\[VERIFICADOR\] mantendo QuickSFV x64 compatível: (.*)"), r"[VERIFIER] Keeping compatible QuickSFV x64: \1"),
     (re.compile(r"\[AVISO\] payload _Redist ausente; verificador original não foi preservado"),
@@ -247,10 +269,10 @@ _PATTERNS: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], .
     (re.compile(r"etapa anterior ainda está ativa no grupo (\d+); não iniciarei uma cópia concorrente"),
      r"Previous step is still active in process group \1; refusing to start a concurrent copy"),
     (re.compile(r"tipo de etapa não suportado: (.*)"), r"Unsupported step type: \1"),
-    (re.compile(r"--srep-memory deve ficar entre (.*) MiB nesta máquina"), r"--srep-memory must be between \1 MiB on this machine"),
-    (re.compile(r"--bzip3-threads deve ficar entre (.*)"), r"--bzip3-threads must be between \1"),
-    (re.compile(r"--memory-high deve ficar entre (.*) MiB nesta máquina"), r"--memory-high must be between \1 MiB on this machine"),
-    (re.compile(r"--memory-max deve ficar entre (.*) MiB nesta máquina"), r"--memory-max must be between \1 MiB on this machine"),
+    (re.compile(r"--srep-memory deve ficar entre (\d+) e (\d+) MiB nesta máquina"), r"--srep-memory must be between \1 and \2 MiB on this machine"),
+    (re.compile(r"--bzip3-threads deve ficar entre (\d+) e (\d+)"), r"--bzip3-threads must be between \1 and \2"),
+    (re.compile(r"--memory-high deve ficar entre (\d+) e (\d+) MiB nesta máquina"), r"--memory-high must be between \1 and \2 MiB on this machine"),
+    (re.compile(r"--memory-max deve ficar entre (\d+) e (\d+) MiB nesta máquina"), r"--memory-max must be between \1 and \2 MiB on this machine"),
     (re.compile(r"--cpus inválido: (.*)"), r"Invalid --cpus value: \1"),
     (re.compile(r"ISExec (.*) sem expressão de parâmetros comprovada"), r"ISExec \1 has no verified parameter expression"),
     (re.compile(r"CPUs permitidas para todo o trabalho \[(.*) = todas\]"), r"CPUs allowed for all tasks [\1 = all]"),
@@ -323,6 +345,26 @@ _PATTERNS: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], .
 )
 
 
+_MARKERS = {
+    "AVISO": "WARNING",
+    "ERRO": "ERROR",
+    "FALHOU": "FAILED",
+    "PULA": "SKIP",
+    "VALIDA": "VALIDATE",
+}
+_MARKER = re.compile(r"\[(?P<marker>" + "|".join(_MARKERS) + r")\] (?P<body>.*)", re.DOTALL)
+
+
+def _match_patterns(value: str) -> str | None:
+    is_monitor_line = value.startswith("[MONITOR]")
+    for pattern, replacement in sorted(_PATTERNS, key=lambda item: len(item[0].pattern), reverse=True):
+        if pattern.pattern in _MONITOR_PATTERN_NAMES and not is_monitor_line:
+            continue
+        if pattern.search(value):
+            return pattern.sub(replacement, value)
+    return None
+
+
 def translate(value: str) -> str:
     if LANGUAGE != "en":
         return value
@@ -346,12 +388,19 @@ def translate(value: str) -> str:
         ):
             value = value.replace(source, translated)
         return value
-    is_monitor_line = value.startswith("[MONITOR]")
-    for pattern, replacement in sorted(_PATTERNS, key=lambda item: len(item[0].pattern), reverse=True):
-        if pattern.pattern in _MONITOR_PATTERN_NAMES and not is_monitor_line:
-            continue
-        if pattern.search(value):
-            return pattern.sub(replacement, value)
+    # A marker such as [ERRO] carries a message of its own, so translate the
+    # two parts: the body first, because a pattern written for the whole line
+    # is more specific than one written for the body alone.
+    marker = _MARKER.match(value)
+    if marker:
+        body = translate(marker.group("body"))
+        if body != marker.group("body"):
+            return f"[{_MARKERS[marker.group('marker')]}] {body}"
+    matched = _match_patterns(value)
+    if matched is not None:
+        return matched
+    if marker:
+        return f"[{_MARKERS[marker.group('marker')]}] {marker.group('body')}"
     return value
 
 
