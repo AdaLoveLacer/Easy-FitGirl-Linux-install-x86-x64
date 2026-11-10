@@ -185,6 +185,15 @@ Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
 - [x] Extração real do Mirage 7 falhava no fg-01.bin com "helper encerrou antes de FreeArcExtract retornar" quando o ambiente tinha NoDefaultCurrentDirectoryInExePath=1: o Wine deixa de procurar programas na pasta atual, e o FreeArc inicia xtool.exe pelo nome a partir dela. A variável vinha do ambiente do assistente, herdado pelo terminal aberto para o teste; o código anterior à refatoração falhava igual. Corrigido com autorização do usuário: o fitgirl e o backend removem a variável antes de chamar o Wine.
 - [ ] Falha intermitente sem causa identificada: em 2026-11-08 03:56, no Konsole, a retomada do Mirage 7 parou no fg-01.bin na pós-leitura com o helper saindo com código 58, sem final rc, com os codecs já ativos (xtool encontrado). Sem OOM nem segfault no journal; duas reproduções do mesmo estado, uma com pseudoterminal, concluíram com MD5 238/238. Log em .work/teste-real/; investigar se voltar a ocorrer.
 
+## 16. Release de arquivo único
+
+Estado: **PENDENTE — PLANEJADA**
+
+- [ ] Publicar a release como um único arquivo que o usuário baixa e executa, sem clonar o repositório nem descompactar pasta: um binário ou um .sh autoextraível. Hoje o único caminho documentado no README é git clone ou o ZIP do GitHub, e o pacote publicado tem 24 arquivos.
+- [ ] Decidir como o arquivo único cumpre as obrigações de licença dos componentes de terceiros. Hoje elas são cumpridas pelo ZIP, que carrega LICENSES/ e SOURCE-CODE.tar.gz; um arquivo só precisa de outra forma de entregar avisos e fontes correspondentes, por exemplo emitindo-os por uma opção própria. Ver docs/THIRD_PARTY.md.
+- [ ] Resolver os programas de extração no arquivo único: o dist/fitgirl standalone já embute src/ e manifests/, mas o libexec/ (innoextract, unarc, unarc-helper.exe) precisa ser materializado em algum lugar gravável antes de rodar.
+- [ ] Documentar no README o uso pela release, como caminho principal, mantendo o clone como alternativa para quem quer o código. A seção "Como usar — do zero" passa a começar pelo download da release.
+
 ## Baseline validado
 
 - FM7 1080p: 4.416/4.416 arquivos válidos.
