@@ -20,7 +20,16 @@ class InteractiveLocalizationTests(unittest.TestCase):
         self.assertEqual(translations.translate("Origem: Mirage 7"), "Source: Mirage 7")
         self.assertEqual(translations.translate("Arquivos compactados: 899.97 MiB"), "Compressed files: 899.97 MiB")
         self.assertEqual(translations.translate("Espaço declarado pelo instalador: 2.33 GiB"), "Installer-declared space: 2.33 GiB")
-        self.assertEqual(translations.translate("  7. Escolher outro caminho"), "  7. Choose another path")
+
+    def test_destination_prompt_is_localized(self):
+        self.assertEqual(
+            translations.translate("Caminho completo para instalar Mirage 7: "),
+            "Full path to install Mirage 7: ",
+        )
+        self.assertEqual(
+            translations.translate("Espaço livre em /dev/sdb1, ext4: 57.90 GiB"),
+            "Free space on /dev/sdb1, ext4: 57.90 GiB",
+        )
 
     def test_component_prompt_uses_english_and_english_yes_no_markers(self):
         self.assertEqual(translations.translate("  Incluir Inglês? [s/N] "), "  Include English? [y/N] ")

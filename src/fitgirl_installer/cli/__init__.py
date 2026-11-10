@@ -299,14 +299,24 @@ def _destination_validation_message(target: Path) -> str | None:
     return None
 
 
+def _destination_free_space_label(target: Path) -> str | None:
+    probe = target
+    while not probe.exists() and probe != probe.parent:
+        probe = probe.parent
+    try:
+        free = shutil.disk_usage(probe).free
+    except OSError:
+        return None
+    return format_size(free)
+
+
 def prompt_destination(
     game_name: str, *, wizard: bool = False, details: list[str] | None = None,
 ) -> Path:
     services = DestinationMenuServices(
-        roots=tuple(discover_game_roots()),
         storage_label=storage_label,
-        is_writable=destination_is_writable,
         validation_message=_destination_validation_message,
+        free_space_label=_destination_free_space_label,
     )
     return menus.prompt_destination(
         game_name, services=services, wizard=wizard, details=details

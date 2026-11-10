@@ -292,13 +292,13 @@ class OrchestratorIntegrationTests(unittest.TestCase):
         environment.update({
             "FITGIRL_MANIFEST": str(self.manifest),
             "FITGIRL_WINE_BIN": "/bin/true",
-            "FITGIRL_GAMES_DIR": str(self.root / "games"),
             "FITGIRL_BACKEND": str(self.backend),
         })
+        destination = self.root / "games" / "Synthetic repack"
         result = subprocess.run(
             [str(INSTALLER), str(self.source)],
             text=True,
-            input="\nn\nn\n\n",
+            input=f"{destination}\nn\nn\n\n",
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             env=environment,

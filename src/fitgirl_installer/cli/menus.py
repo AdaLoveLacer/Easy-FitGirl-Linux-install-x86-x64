@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import shutil
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
@@ -13,10 +12,38 @@ from .presentation import _component_label, _wizard_page
 
 @dataclass(frozen=True)
 class DestinationMenuServices:
-    roots: tuple[Path, ...]
     storage_label: Callable[[Path], str]
-    is_writable: Callable[[Path], bool]
     validation_message: Callable[[Path], str | None]
+    free_space_label: Callable[[Path], str | None]
+
+
+def prompt_destination(
+    game_name: str, *, services: DestinationMenuServices,
+    wizard: bool = False, details: list[str] | None = None,
+) -> Path:
+    """Ask for the destination path directly, with no disk enumeration.
+
+    Listing every mounted disk with a proposed "Games" folder only makes
+    sense on a machine already set up that way; a user who just downloaded
+    the tool has none of that. The only thing checked here is free space at
+    whatever path they choose.
+    """
+    if wizard:
+        _wizard_page(1, "Destino", details or ["Escolha onde instalar. A pasta será criada após a confirmação."])
+    while True:
+        answer = input(f"Caminho completo para instalar {game_name}: ").strip()
+        if not answer:
+            print("Informe um caminho.")
+            continue
+        target = Path(answer).expanduser().resolve()
+        message = services.validation_message(target)
+        if message is not None:
+            print(f"Destino indisponível: {message}")
+            continue
+        free_space = services.free_space_label(target)
+        if free_space is not None:
+            print(f"Espaço livre em {services.storage_label(target)}: {free_space}")
+        return target
 
 
 def prompt_components(
@@ -60,50 +87,6 @@ def prompt_components(
     if skipped_redists:
         print("  Redistribuíveis mantidos sem executar: " + ", ".join(skipped_redists))
     return requested, disabled
-
-
-def prompt_destination(
-    game_name: str, *, services: DestinationMenuServices,
-    wizard: bool = False, details: list[str] | None = None,
-) -> Path:
-    roots = services.roots
-    if wizard:
-        _wizard_page(1, "Destino", details or ["Escolha onde instalar. A pasta será criada após a confirmação."])
-    if roots:
-        if not wizard:
-            print("\nOnde instalar? (fora do prefixo Wine)")
-        for index, root in enumerate(roots, 1):
-            probe = root
-            while not probe.exists() and probe != probe.parent:
-                probe = probe.parent
-            try:
-                free_gib = shutil.disk_usage(probe).free / (1024 ** 3)
-                free_text = f" ({free_gib:.1f} GiB livres)"
-            except OSError:
-                free_text = ""
-            storage = services.storage_label(root).replace(", ", " · ")
-            warning = " · sem permissão" if not services.is_writable(root) else ""
-            print(f"  {index}. {root / game_name}{free_text} · {storage}{warning}")
-        print(f"  {len(roots) + 1}. Escolher outro caminho")
-        while True:
-            answer = input("Destino (número ou caminho) [1]: ").strip()
-            if not answer:
-                target = (roots[0] / game_name).resolve()
-            elif answer.isdigit() and 1 <= int(answer) <= len(roots):
-                target = (roots[int(answer) - 1] / game_name).resolve()
-            elif answer == str(len(roots) + 1):
-                target = prompt_path("Caminho completo da pasta do jogo")
-            elif answer.isdigit():
-                print("Opção inválida.")
-                continue
-            else:
-                target = Path(answer).expanduser().resolve()
-            message = services.validation_message(target)
-            if message is not None:
-                print(f"Destino indisponível: {message}")
-                continue
-            return target
-    return prompt_path("Caminho completo da pasta do jogo")
 
 
 def prompt_yes_no(message: str, default: bool = False) -> bool:

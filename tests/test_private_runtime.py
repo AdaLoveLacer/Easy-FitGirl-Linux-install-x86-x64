@@ -6,6 +6,7 @@ import sys
 import tarfile
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -106,12 +107,28 @@ class PortableMenuTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             parse_cpu_list("0-8", (0, 1, 2, 3))
 
-    def test_custom_destination_is_exact_and_has_no_implicit_game_suffix(self):
+    def test_destination_prompt_asks_directly_with_no_disk_menu(self):
+        """Listar todo disco montado só faz sentido na máquina de quem já usa
+        essa convenção; um usuário recém-chegado não tem nada disso."""
         with tempfile.TemporaryDirectory() as temporary:
             custom = Path(temporary) / "My chosen folder"
-            with patch.object(cli, "discover_game_roots", return_value=[Path(temporary) / "Games", Path(temporary) / "other"]), patch("builtins.input", side_effect=["3", str(custom)]):
+            with patch("builtins.input", side_effect=[str(custom)]):
                 self.assertEqual(cli.prompt_destination("Game"), custom)
             self.assertFalse(custom.exists())
+
+    def test_destination_prompt_repeats_on_empty_answer(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            custom = Path(temporary) / "Chosen"
+            with patch("builtins.input", side_effect=["", str(custom)]):
+                self.assertEqual(cli.prompt_destination("Game"), custom)
+
+    def test_destination_prompt_reports_free_space(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            custom = Path(temporary) / "Chosen"
+            output = io.StringIO()
+            with patch("builtins.input", side_effect=[str(custom)]), redirect_stdout(output):
+                cli.prompt_destination("Game")
+            self.assertIn("Espaço livre em", output.getvalue())
 
     def test_sibling_custom_destinations_have_distinct_resume_ids(self):
         first = cli.target_work_id(Path("/games/Mirage 7"), "a" * 64)

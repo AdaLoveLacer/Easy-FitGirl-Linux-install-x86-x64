@@ -13,7 +13,7 @@ Estados: `PASS`, `PARCIAL`, `PENDENTE`, `BLOQUEADO` ou `N/A`.
 <!-- BEGIN GENERATED:PROJECT_STATUS -->
 
 Fonte canônica: [`status/project-status.json`](../status/project-status.json).  
-Suíte automatizada descoberta: **209/209 testes**.
+Suíte automatizada descoberta: **212/212 testes**.
 
 | Requisito | Estado | Veredito |
 |---|---:|---|
