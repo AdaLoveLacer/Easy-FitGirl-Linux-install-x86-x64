@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from contextlib import redirect_stdout
+from importlib import import_module
 from pathlib import Path
 from unittest.mock import patch
 
@@ -105,6 +106,25 @@ class PlanStateTests(unittest.TestCase):
         analyzer.apply_semantic_blockers(candidate, report)
         self.assertTrue(candidate["draft"])
         self.assertIn("semantic_blockers", candidate)
+
+
+class EntryPointTests(unittest.TestCase):
+    def test_exhausted_input_explains_both_ways_to_call(self):
+        """Sem isto, stdin fechado numa pergunta subia um traceback."""
+        # cli.main é também o nome da função reexportada; pegar o módulo.
+        cli_main = import_module("fitgirl_installer.cli.main")
+
+        erro = io.StringIO()
+        with (
+            patch.object(cli_main, "compatibility_error", return_value=None),
+            patch.object(cli_main, "prompt_path", side_effect=EOFError),
+            patch("sys.stderr", erro),
+        ):
+            codigo = cli_main.main([])
+        self.assertEqual(codigo, 2)
+        self.assertIn("nada foi alterado", erro.getvalue())
+        self.assertIn("fitgirl /caminho/do/repack", erro.getvalue())
+        self.assertNotIn("Traceback", erro.getvalue())
 
 
 class WizardTests(unittest.TestCase):

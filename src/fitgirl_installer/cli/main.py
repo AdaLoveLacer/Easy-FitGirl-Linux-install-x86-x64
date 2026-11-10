@@ -191,6 +191,16 @@ def main(argv: list[str] | None = None) -> int:
     except (InstallerError, OSError, subprocess.SubprocessError) as error:
         print(f"[ERRO] {error}", file=sys.stderr)
         return 2
+    except EOFError:
+        # Entrada esgotada numa pergunta: acontece com stdin redirecionado ou
+        # Ctrl+D. Antes subia um traceback; nada foi escrito de qualquer forma.
+        print(file=sys.stderr)
+        print(translations.translate(
+            "[ERRO] a entrada terminou antes da resposta; nada foi alterado"), file=sys.stderr)
+        print(translations.translate(
+            "Chame de dentro da pasta do repack, ou informe a pasta: "
+            "fitgirl /caminho/do/repack"), file=sys.stderr)
+        return 2
     finally:
         translations.restore(previous)
 

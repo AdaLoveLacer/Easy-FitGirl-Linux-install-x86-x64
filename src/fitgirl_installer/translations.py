@@ -148,6 +148,10 @@ _TEXT = {
         "the journal and the trace disagree about a completed step",
     "a etapa que seria iniciada não é a próxima etapa pendente do plano":
         "the step about to start is not the plan's next pending step",
+    "[ERRO] a entrada terminou antes da resposta; nada foi alterado":
+        "[ERROR] Input ended before the answer; nothing was changed",
+    "Chame de dentro da pasta do repack, ou informe a pasta: fitgirl /caminho/do/repack":
+        "Call it from inside the repack folder, or name the folder: fitgirl /path/to/repack",
     "não há etapa ativa registrada": "No active step is recorded",
     "--memory-high não pode exceder --memory-max": "--memory-high cannot exceed --memory-max",
     "Opção inválida. Digite 1 para português ou 2 para English.":
