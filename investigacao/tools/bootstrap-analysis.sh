@@ -16,12 +16,12 @@ fi
     echo 'Fonte existente diverge do commit fixado; não será sobrescrito.' >&2
     exit 1
 }
-if git -C "$SRC" apply --check "$ROOT/tools/pascalscript-dll-function-names.patch"; then
-    git -C "$SRC" apply "$ROOT/tools/pascalscript-dll-function-names.patch"
+if git -C "$SRC" apply --check "$ROOT/investigacao/tools/pascalscript-dll-function-names.patch"; then
+    git -C "$SRC" apply "$ROOT/investigacao/tools/pascalscript-dll-function-names.patch"
 else
-    git -C "$SRC" apply --reverse --check "$ROOT/tools/pascalscript-dll-function-names.patch"
+    git -C "$SRC" apply --reverse --check "$ROOT/investigacao/tools/pascalscript-dll-function-names.patch"
 fi
-cp "$ROOT/tools/pascalscript-cli.rs" "$SRC/src/main.rs"
+cp "$ROOT/investigacao/tools/pascalscript-cli.rs" "$SRC/src/main.rs"
 cargo generate-lockfile --offline --manifest-path "$SRC/Cargo.toml"
 cargo test --locked --manifest-path "$SRC/Cargo.toml"
 cargo build --release --locked --manifest-path "$SRC/Cargo.toml"

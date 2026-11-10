@@ -25,7 +25,7 @@ O relatório verifica:
 Ferramenta interna de desenvolvimento:
 
 ```bash
-python3 tools/audit-plan.py \
+python3 investigacao/tools/audit-plan.py \
   --manifest caminho/manifest.draft.json \
   --iss caminho/innounp/install_script.iss \
   --compiled caminho/innounp/embedded/CompiledCode.bin \
@@ -47,11 +47,11 @@ demonstra que o texto auditado saiu daqueles bytes com a ferramenta configurada,
 mas não constitui um segundo decoder independente. Ordem estática das instruções não equivale à ordem de
 execução em condições, loops e chamadas entre procedimentos.
 
-A validação de 2026-11-04 provou, com escopo limitado, a ordem das chamadas mutantes reconhecidas nos drafts de Star Trucker, Children of Morta e Subnautica: todas ficam em `CurStepChanged`; após dobrar somente o padrão local `assign variável, 0/1` seguido por `if`/`if not` da mesma variável, o CFG desse procedimento tem apenas arestas para endereços posteriores. Os endereços das 19, 43 e 28 chamadas coincidem com as sequências dos respectivos manifests. Não há `call-var` nem alvo CFG não resolvido nesses disassemblies. Evidência e hashes: `evidence/interprocedural-action-order-2026-11-04.json`.
+A validação de 2026-11-04 provou, com escopo limitado, a ordem das chamadas mutantes reconhecidas nos drafts de Star Trucker, Children of Morta e Subnautica: todas ficam em `CurStepChanged`; após dobrar somente o padrão local `assign variável, 0/1` seguido por `if`/`if not` da mesma variável, o CFG desse procedimento tem apenas arestas para endereços posteriores. Os endereços das 19, 43 e 28 chamadas coincidem com as sequências dos respectivos manifests. Não há `call-var` nem alvo CFG não resolvido nesses disassemblies. Evidência e hashes: `investigacao/evidence/interprocedural-action-order-2026-11-04.json`.
 
 Isso prova a ordem relativa das ações catalogadas dentro desses três procedimentos, não qual guarda será verdadeira, a correspondência semântica dos valores de evento, nem efeitos externos não catalogados. `review_required` permanece ativo. Ainda faltam interpretação independente das guardas/condições, equivalência semântica e ampliação do corpus real.
 As ferramentas foram recuperadas em diretório persistente; consulte
-[`THIRD_PARTY.md`](THIRD_PARTY.md) e `tools/bootstrap-analysis.sh`. Star Trucker,
+[`THIRD_PARTY.md`](THIRD_PARTY.md) e `investigacao/tools/bootstrap-analysis.sh`. Star Trucker,
 Children of Morta e Subnautica já tiveram ISS/IFPS extraídos e auditados. Esses
 resultados, sozinhos, não liberam um plano; desde 2026-11-08 a liberação automática
 segue a política descrita em
@@ -67,7 +67,7 @@ Os três setups amostrados carregam a mesma `ISDone.dll` (SHA-256 registrado na 
 
 Em `Exec2`, o slot de ponteiro `0x45C504` aponta para o byte global `0x45DDAA`. `ISDoneInit` e `Exec2` o zeram; `Exec2` o define como 1 quando `CreateProcessA` falha, consulta-o na lógica de término e devolve-o ao chamador. Busca completa de referências na DLL não encontrou outros escritores internos. Nos três bytecodes, o ponteiro de callback de `ISDoneInit` é `PROGRESSCALLBACK`: a rotina só atualiza barra, taskbar e rótulos e não chama `Exec2`; cada setup tem uma única chamada `Exec2`, no ramo `CurStepChanged(ssPostInstall)`. Assim, o callback IFPS registrado não escreve essa flag. `Exec2` também bombeia mensagens Win32 com `DispatchMessageA`; reentrada iniciada por um procedimento nativo da janela permanece fora do escopo estático.
 
-A auditoria estática solicitada está concluída para os cinco exports e os três bytecodes exatos. O auditor bloqueia os três efeitos externos ausentes do plano nativo: tentativa de desinstalação silenciosa, gravação de `CLS.ini` por `PrecompInit` e possível remoção de `records.inf` por `ISDoneStop`. Os drafts de Star Trucker, Children of Morta e Subnautica persistem esses bloqueios; o CLI os recusa antes da instalação. As limitações finais são reentrada possível por procedimento nativo da janela e resultados em runtime da resolução de caminhos e guardas de cleanup. Não foi executada a DLL nem o instalador. O estado final é `STATIC_AUDIT_COMPLETE_WITH_RUNTIME_LIMITS`, sem equivalência total alegada. Escopo, hashes, argumentos e endereços: `evidence/semantic-guard-audit-2026-11-04.json`.
+A auditoria estática solicitada está concluída para os cinco exports e os três bytecodes exatos. O auditor bloqueia os três efeitos externos ausentes do plano nativo: tentativa de desinstalação silenciosa, gravação de `CLS.ini` por `PrecompInit` e possível remoção de `records.inf` por `ISDoneStop`. Os drafts de Star Trucker, Children of Morta e Subnautica persistem esses bloqueios; o CLI os recusa antes da instalação. As limitações finais são reentrada possível por procedimento nativo da janela e resultados em runtime da resolução de caminhos e guardas de cleanup. Não foi executada a DLL nem o instalador. O estado final é `STATIC_AUDIT_COMPLETE_WITH_RUNTIME_LIMITS`, sem equivalência total alegada. Escopo, hashes, argumentos e endereços: `investigacao/evidence/semantic-guard-audit-2026-11-04.json`.
 
 ## Aceitação automática por catálogo da ISDone.dll
 
@@ -129,18 +129,18 @@ repetida com o código atual antes de considerar a política validada.
 
 A checagem global antes de prompts/operações exige Linux x86-64, glibc 2.38+, Python 3.12+, `libstdc++`, `libgcc_s` e comandos de sistema usados pelo launcher/backend. `fitgirl doctor` mostra os valores encontrados. O limite 2.38 foi extraído dos símbolos requeridos pelos binários Wine/`unarc` fixados. Debian 13, Ubuntu 24.04 LTS e CachyOS rolling foram exercitados; outros sistemas não são promovidos a suportados apenas por satisfazerem os mínimos. O gate não substitui a análise de bibliotecas carregadas dinamicamente.
 
-Evidência completa, com hashes e limites: `evidence/semantic-guard-audit-2026-11-04.json`. Fontes de referência: [declaração oficial de `TSetupStep`](https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas), [eventos do Inno Setup](https://jrsoftware.org/ishelp/topic_scriptevents.htm), [ordinais de enumeração Pascal](https://docwiki.embarcadero.com/RADStudio/Athens/en/Simple_Types) e [runtime PascalScript do Inno Setup](https://github.com/jrsoftware/issrc/blob/main/Components/UniPs/Source/uPSRuntime.pas).
+Evidência completa, com hashes e limites: `investigacao/evidence/semantic-guard-audit-2026-11-04.json`. Fontes de referência: [declaração oficial de `TSetupStep`](https://github.com/jrsoftware/issrc/blob/main/Projects/Src/Shared.SetupSteps.pas), [eventos do Inno Setup](https://jrsoftware.org/ishelp/topic_scriptevents.htm), [ordinais de enumeração Pascal](https://docwiki.embarcadero.com/RADStudio/Athens/en/Simple_Types) e [runtime PascalScript do Inno Setup](https://github.com/jrsoftware/issrc/blob/main/Components/UniPs/Source/uPSRuntime.pas).
 
 ## Evidências
 
-Em `evidence/plan-audit-2026-11-01/`:
+Em `investigacao/evidence/plan-audit-2026-11-01/`:
 
 - `directive-report.json`: candidato real com zero divergências, ainda sujeito
   a revisão semântica;
 - `directive-mutations.json`: nove variantes adulteradas detectadas;
 - `tests.log`: suíte automatizada da revisão.
 
-Em `evidence/compiled-binding-2026-11-02/`, Star Trucker, Children of Morta e
+Em `investigacao/evidence/compiled-binding-2026-11-02/`, Star Trucker, Children of Morta e
 Subnautica foram redesmontados a partir dos respectivos `CompiledCode.bin`; os
 três resultados coincidiram byte a byte, com zero divergências de plano. O estado
 continua `MATCH_REVIEW_REQUIRED` porque isso vincula os artefatos, não prova a

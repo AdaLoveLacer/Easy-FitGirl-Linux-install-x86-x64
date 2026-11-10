@@ -19,7 +19,7 @@ Política atual:
 - a validação MD5 permanece independente de QuickSFV e desses componentes.
 
 Existem relatórios empíricos de Directive 8020, Star Trucker e Mirage 7 em
-`evidence/integration-policy-2026-11-02/`. A seleção do executável é apenas uma
+`investigacao/evidence/integration-policy-2026-11-02/`. A seleção do executável é apenas uma
 lista ordenada de candidatos; não comprova jogabilidade.
 
 Não existe etapa posterior de validação do runner. Falha ou sucesso de

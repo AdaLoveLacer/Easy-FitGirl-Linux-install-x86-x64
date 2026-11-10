@@ -127,22 +127,21 @@ To **use** it, only these matter:
 | `libexec/` | extraction programs, shipped ready to run |
 | `manifests/` | installation plans already reviewed |
 
-Everything else exists to **maintain and audit** the tool, and is not needed
-to extract anything:
+Everything else exists to **maintain the tool**, and is not needed to extract
+anything:
 
 | Path | What it is |
 |---|---|
-| `tools/` | build, packaging and installer-analysis scripts |
+| `tools/` | build and packaging |
 | `tests/` | automated suite |
-| `docs/` | architecture, validation and open-work documentation |
-| `evidence/` | records of validations run against real repacks |
+| `docs/` | architecture, validation, open work and troubleshooting |
 | `third_party/` | licenses and corresponding sources of third-party components |
-| `legacy/` | preserved older material |
+| [`investigacao/`](investigacao/) | **all research material**: evidence, installer analysis and older work |
 
-Static installer analysis (`tools/bootstrap-analysis.sh`,
-[docs/ANALYSIS_TOOLS.md](docs/ANALYSIS_TOOLS.md), [docs/PLAN_AUDIT.md](docs/PLAN_AUDIT.md))
-exists to **build and fix the tool**. Anyone who just wants to extract a
-repack needs none of it.
+The [`investigacao/`](investigacao/) folder (Portuguese for *investigation*) is
+the part of the repository that exists to **find out how the installers work**
+and to prove the tool reproduces them correctly. It is maintainer work. Anyone
+who just wants to extract a repack needs nothing from it.
 
 ## Build the standalone package
 

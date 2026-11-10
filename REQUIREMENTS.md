@@ -64,7 +64,7 @@ ambíguo**. Scripts auxiliares não podem parecer instaladores alternativos.
 - Um único arquivo distribuível em `dist/` para o usuário final.
 - Código-fonte interno organizado como pacote sob `src/`.
 - Testes somente sob `tests/`; ferramentas de desenvolvimento somente sob
-  `tools/`; evidências somente sob `evidence/`; documentação somente sob `docs/`
+  `tools/`; evidências somente sob `investigacao/evidence/`; documentação somente sob `docs/`
   ou arquivos canônicos claramente nomeados.
 - A raiz não deve conter vários `.py`/`.sh` que pareçam entrypoints concorrentes.
 - O backend, monitor e verificador devem ser detalhes internos, não comandos
@@ -72,7 +72,7 @@ ambíguo**. Scripts auxiliares não podem parecer instaladores alternativos.
 
 ## Reestruturação incremental do código-fonte
 
-A estrutura alvo acordada está em [docs/REESTRUTURACAO.md](docs/REESTRUTURACAO.md).
+A estrutura alvo acordada está em [investigacao/docs/REESTRUTURACAO.md](investigacao/docs/REESTRUTURACAO.md).
 Ela organiza o pacote em `cli/`, `planning/`, `execution/`, `verification/` e
 `platform/`, com `translations.py` e `script_flow.py` como nomes escolhidos.
 A migração deve ocorrer em pequenas etapas com uma responsabilidade por função
@@ -82,7 +82,7 @@ cria um commit local atômico após validar cada etapa, com mensagem natural em
 português, faz o push em seguida e informa por voz o usuário a cada commit.
 Pode continuar para a próxima etapa sem aguardar revisão, salvo bloqueio.
 Ao relatar cada etapa, informar também o progresso global como percentual das
-23 etapas conceituais listadas em `docs/REESTRUTURACAO.md`.
+23 etapas conceituais listadas em `investigacao/docs/REESTRUTURACAO.md`.
 
 Um atalho futuro de ambiente gráfico pode abrir um terminal e executar
 `fitgirl`; isso não cria uma interface gráfica do instalador nem altera o

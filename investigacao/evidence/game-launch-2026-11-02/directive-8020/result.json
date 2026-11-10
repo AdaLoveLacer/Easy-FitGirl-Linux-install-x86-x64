@@ -11,6 +11,6 @@
   "elapsed_seconds": 20.01,
   "survived_observation_window": false,
   "returncode_after_cleanup": 41,
-  "log": "$PROJECT_ROOT/evidence/game-launch-2026-11-02/directive-8020/umu.log",
+  "log": "$PROJECT_ROOT/investigacao/evidence/game-launch-2026-11-02/directive-8020/umu.log",
   "limitations": "Process survival does not prove rendering, input, audio or full gameplay."
 }

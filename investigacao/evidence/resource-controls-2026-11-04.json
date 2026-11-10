@@ -8,7 +8,7 @@
     "result": "PASS: o cgroup ativo expôs exatamente 768 MiB. Isso valida a aplicação do teto, não estabilidade nem extração completa sob OOM."
   },
   "cpu_affinity": {
-    "evidence": "evidence/performance-resources-2026-11-02/affinity-0-1.json",
+    "evidence": "investigacao/evidence/performance-resources-2026-11-02/affinity-0-1.json",
     "result": "96 amostras, todas cpus=0-1; workers observados: unarc-helper.exe, cls-magic2_x64.exe, CLS-srep_x64.exe, xtool.exe; extração completa e validação final passaram."
   },
   "scope": "Os resultados comprovam o caminho/corpus observado, sem alegar todos os codecs, workers ou repacks existentes."

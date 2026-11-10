@@ -48,7 +48,7 @@ tools/                            # Análise, build e manutenção
 docs/                             # Documentação
 manifests/                        # Planos auditados
 third_party/                      # Fontes e licenças de terceiros
-evidence/                         # Evidências técnicas
+investigacao/evidence/                         # Evidências técnicas
 status/                           # Estado canônico do projeto
 .work/                            # Desenvolvimento local ignorado pelo Git
 ```
@@ -129,11 +129,11 @@ artefato público em `dist/`. O código do CLI não deve depender do atalho.
 10. **Concluída:** mover a geração de plano para `planning/planner.py`. O
     módulo foi movido inteiro, sem mudança de lógica, e seus imports internos
     passaram a apontar para `analyzer` e `script_flow` no mesmo pacote. O CLI,
-    `plan_audit.py`, `tools/plan-from-disassembly.py` e os testes importam o
+    `plan_audit.py`, `investigacao/tools/plan-from-disassembly.py` e os testes importam o
     novo caminho; o `planner.py` antigo foi removido.
 11. **Concluída:** mover a auditoria para `planning/audit.py`. O antigo
     `plan_audit.py` foi movido inteiro, sem mudar regras, mensagens nem o
-    formato de `plan-audit.json`; o CLI, `tools/audit-plan.py`, os testes e
+    formato de `plan-audit.json`; o CLI, `investigacao/tools/audit-plan.py`, os testes e
     `PLAN_AUDIT.md` usam o novo caminho, e o arquivo antigo foi removido. Com
     as etapas 8 a 11, o pacote `planning/` está completo; o manifesto, o
     grafo de controle e o relatório de auditoria de um repack sintético saem

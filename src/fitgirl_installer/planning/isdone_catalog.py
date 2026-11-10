@@ -27,7 +27,7 @@ class IsdoneVersion:
 CATALOG: dict[str, IsdoneVersion] = {
     "c652b4b564b3c85c399155cbb45c6fb5a9f56f074e566bfd20f01da6e0412c74": IsdoneVersion(
         label="ISDone.dll c652b4b5 (Star Trucker, Children of Morta, Subnautica and others)",
-        evidence="evidence/semantic-guard-audit-2026-11-04.json",
+        evidence="investigacao/evidence/semantic-guard-audit-2026-11-04.json",
         # Boolean exports whose true result means success; analysed in the
         # binary together with the extraction actions.
         successful_exports=frozenset({"isdoneinit", "precompinit", "filesearchinit", "changelanguage"}),

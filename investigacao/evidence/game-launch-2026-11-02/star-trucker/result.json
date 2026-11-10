@@ -11,6 +11,6 @@
   "elapsed_seconds": 18.883,
   "survived_observation_window": false,
   "returncode_after_cleanup": 1,
-  "log": "$PROJECT_ROOT/evidence/game-launch-2026-11-02/star-trucker/umu.log",
+  "log": "$PROJECT_ROOT/investigacao/evidence/game-launch-2026-11-02/star-trucker/umu.log",
   "limitations": "Process survival does not prove rendering, input, audio or full gameplay."
 }

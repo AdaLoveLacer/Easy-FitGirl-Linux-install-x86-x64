@@ -3,7 +3,7 @@
 Instalação local (não é outro instalador de jogos):
 
 ```bash
-bash tools/bootstrap-analysis.sh
+bash investigacao/tools/bootstrap-analysis.sh
 ```
 
 O bootstrap fixa o commit do parser IFPS, aplica o patch de nomes de exports,

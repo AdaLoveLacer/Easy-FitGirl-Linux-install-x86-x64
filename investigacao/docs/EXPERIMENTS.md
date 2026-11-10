@@ -220,7 +220,7 @@ esperada no retorno e valida o resultado de cada arquivo byte a byte. Outras
 formas não comprovadas são recusadas. Não se aceita qualquer código não zero.
 
 Suíte após as correções: 57 testes aprovados. Evidências:
-`evidence/auto-plan-directive-8020-2026-10-31/fg07-recovery.log` e
+`investigacao/evidence/auto-plan-directive-8020-2026-10-31/fg07-recovery.log` e
 `filter-regression.log` no mesmo diretório.
 
 Após queda de energia, a retomada concluiu `build01.bat`, `x5n.exe` e a extração
@@ -244,7 +244,7 @@ Esse resultado comprova o plano revisado usado no ensaio, incluindo retomada
 após queda de energia durante `build01.bat`; não comprova execução do jogo nem
 compatibilidade universal. Evidência compacta: `installation-success.log` e
 `completed-install-state.json` em
-`evidence/auto-plan-directive-8020-2026-10-31/`.
+`investigacao/evidence/auto-plan-directive-8020-2026-10-31/`.
 
 ## Corpus novo e extração entre discos
 
@@ -353,7 +353,7 @@ seus `CompiledCode.bin`. As três saídas coincidiram byte a byte com os textos
 usados pelo planner e mantiveram zero divergências na auditoria. Isso fecha a
 proveniência binário→disassembly, sem promover os drafts: condições e ordem por
 caminho ainda exigem prova independente. Evidência em
-`evidence/compiled-binding-2026-11-02/`.
+`investigacao/evidence/compiled-binding-2026-11-02/`.
 
 O monitor passou a registrar RSS, PSS, picos e afinidade agregados dos workers e
 a sinalizar retrocesso real da posição de leitura para o mesmo PID sobrevivente.
@@ -361,7 +361,7 @@ No `fg-01.bin` do Mirage 7, três extrações completas produziram exatamente
 2.432.644.838 bytes cada. Picos medidos: automático, 4.017 MiB RSS e 3.946 MiB
 PSS; SREP 2.048 MiB, 4.180/4.106 MiB; SREP 4.096 MiB, 4.181/4.107 MiB. Portanto,
 `Memory` do SREP não funciona como teto global do pipeline e não reduziu o pico
-neste corpus. Evidência em `evidence/performance-resources-2026-11-02/`.
+neste corpus. Evidência em `investigacao/evidence/performance-resources-2026-11-02/`.
 
 Uma execução adicional com afinidade `0-1` e BZip3 em duas threads concluiu em
 232,781 segundos. Todos os 96 samples de helper, Magic2, SREP e XTool permaneceram
@@ -395,4 +395,4 @@ Também foi adicionada uma política operacional de integração. Após sucesso,
 scratch recebe inventário de executáveis, redistribuíveis e arquivos de registro.
 DirectX/VC++ são preservados sem execução, registros não são importados e atalhos
 ou runners não são configurados, pois executar o jogo está fora do escopo. Relatórios de Directive 8020,
-Star Trucker e Mirage 7 estão em `evidence/integration-policy-2026-11-02/`.
+Star Trucker e Mirage 7 estão em `investigacao/evidence/integration-policy-2026-11-02/`.

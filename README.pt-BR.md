@@ -128,22 +128,21 @@ Para **usar**, só interessam estes:
 | `libexec/` | programas de extração que já vêm prontos |
 | `manifests/` | planos de instalação já revisados |
 
-O resto existe para **manter e auditar** a ferramenta, e não é necessário
-para descompactar nada:
+O resto existe para **manter a ferramenta**, e não é necessário para
+descompactar nada:
 
 | Caminho | O que é |
 |---|---|
-| `tools/` | scripts de build, empacotamento e análise de instaladores |
+| `tools/` | build e empacotamento |
 | `tests/` | suíte automatizada |
-| `docs/` | documentação de arquitetura, validação e pendências |
-| `evidence/` | registros das validações feitas em repacks reais |
+| `docs/` | arquitetura, validação, pendências e solução de problemas |
 | `third_party/` | licenças e fontes correspondentes dos componentes de terceiros |
-| `legacy/` | material antigo preservado |
+| [`investigacao/`](investigacao/) | **tudo o que é pesquisa**: evidências, análise de instaladores e material antigo |
 
-A análise estática de instaladores (`tools/bootstrap-analysis.sh`,
-[docs/ANALYSIS_TOOLS.md](docs/ANALYSIS_TOOLS.md), [docs/PLAN_AUDIT.md](docs/PLAN_AUDIT.md))
-serve para **construir e corrigir a ferramenta**. Quem só quer descompactar um
-repack não precisa de nada disso.
+A pasta [`investigacao/`](investigacao/) é a parte do repositório que existe
+para **descobrir como os instaladores funcionam** e provar que a ferramenta os
+reproduz corretamente. É trabalho de quem mantém o projeto. Quem só quer
+descompactar um repack não precisa de nada que esteja lá.
 
 ## Gerar o pacote standalone
 
