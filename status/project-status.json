@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_on": "2026-11-09",
+  "updated_on": "2026-11-10",
   "verdicts": [
     [
       "Qualquer instalador FitGirl",
@@ -571,19 +571,15 @@
       "items": [
         [
           false,
-          "Publicar a release como um único arquivo que o usuário baixa e executa, sem clonar o repositório nem descompactar pasta: um binário ou um .sh autoextraível. Hoje o único caminho documentado no README é git clone ou o ZIP do GitHub, e o pacote publicado tem 24 arquivos."
+          "Publicar a release no GitHub com o arquivo único. O dist/fitgirl do build-standalone.sh já é esse arquivo: autoextraível de 1,51 MiB que materializa src/, manifests/ e o libexec/ completo (innoextract com Boost/lzma/zstd, unarc, unarc-helper.exe) em ~/.cache/fitgirl-installer/runtime/<id>, endereçado pelo SHA-256 do payload. Verificado com cache limpo: fitgirl doctor respondeu supported sem problemas. Falta versionar — não há nenhuma tag no repositório — e publicar."
         ],
         [
           false,
-          "Decidir como o arquivo único cumpre as obrigações de licença dos componentes de terceiros. Hoje elas são cumpridas pelo ZIP, que carrega LICENSES/ e SOURCE-CODE.tar.gz; um arquivo só precisa de outra forma de entregar avisos e fontes correspondentes, por exemplo emitindo-os por uma opção própria. Ver docs/THIRD_PARTY.md."
+          "Levar avisos e licenças para dentro do arquivo único. O payload hoje tem fitgirl, src/, manifests/, libexec/ e THIRD-PARTY-BINARIES.json, sem LICENSE nem LICENSES/; quem baixa só o arquivo não recebe os avisos que o ZIP entrega. Incluí-los no stage e oferecer como exibi-los offline; anexar SOURCE-CODE.tar.gz à mesma release cobre a fonte correspondente dos componentes LGPL/GPL."
         ],
         [
           false,
-          "Resolver os programas de extração no arquivo único: o dist/fitgirl standalone já embute src/ e manifests/, mas o libexec/ (innoextract, unarc, unarc-helper.exe) precisa ser materializado em algum lugar gravável antes de rodar."
-        ],
-        [
-          false,
-          "Documentar no README o uso pela release, como caminho principal, mantendo o clone como alternativa para quem quer o código. A seção \"Como usar — do zero\" passa a começar pelo download da release."
+          "Documentar no README o uso pela release como caminho principal — baixar, chmod +x, executar — mantendo o clone como alternativa para quem quer o código. O chmod precisa estar na instrução porque o GitHub não preserva o bit de execução no download."
         ]
       ]
     }
