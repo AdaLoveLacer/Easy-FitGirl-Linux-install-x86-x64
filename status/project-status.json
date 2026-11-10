@@ -510,8 +510,8 @@
           "Inferir escopo de rollback dos comandos de pós-processamento pelos operandos nomeados (regra named_operands) e exigir escopo em todo programa."
         ],
         [
-          false,
-          "Repetir a instalação real do Children of Morta com o código atual (a primeira parou na etapa 21, x2.exe sem escopo, antes da regra named_operands) e conferir o MD5; depois validar o Subverse."
+          true,
+          "Repetida a instalação real do Children of Morta com o código atual, no disco SSD: plano aceito automaticamente pela política isdone-catalog-v1 (10/10 requisitos, sem revisão manual), 44 etapas, concluída sem travar na etapa 21 (a regra named_operands resolveu o x2.exe sem escopo). Verificação final: 670/670 arquivos com MD5 válido, zero divergências. O journal da primeira tentativa (parada em 2026-11-08 na etapa 20/21) foi preservado intocado em outro disco, sem necessidade de retomada. Falta ainda validar o Subverse."
         ],
         [
           false,
@@ -605,7 +605,8 @@
     "Análise estática aprofundada da ISDone.dll: Exec2 espera o processo, mas não devolve seu exit code; nos três drafts, ISExec falso mantém a flag de erro e o ramo ssPostInstall tenta iniciar {uninstallexe} /VERYSILENT, ignorando o retorno de Exec2. Efeito identificado como ação externa de alto impacto ausente do plano nativo; drafts mantidos em revisão. Evidência em investigacao/evidence/semantic-guard-audit-2026-11-04.json.",
     "Correção de bloqueio semântico: chamadas Exec2 para {uninstallexe} /VERYSILENT agora geram efeito crítico e MISMATCH; semantic_blockers são persistidos e recusados pelo CLI. Atualizados os três drafts existentes no cache. Não se executou nenhum instalador. Ver investigacao/evidence/semantic-guard-audit-2026-11-04.json.",
     "Preparação de publicação em 2026-11-04: Wine privado e QuickSFV removidos do pacote; fontes/licenças de innoextract, unarc e liblzma incluídas, hashes dos binários inventariados. Git inicializado localmente; pacote dist/FitGirlInstaller-Linux-x86_64.zip preparado e checksum verificado. Nenhum envio externo foi feito.",
-    "Pacote de publicação final em 2026-11-04: SHA-256 f89cfd45fc64ec440cb4af9f5f83974b36b38fcc21f48bf052d931794d1a60f9, 15 arquivos, 2,125,782 bytes; executável standalone SHA-256 7bc921bd090b60e282273799117c046f94906dc3fed0ae8ff9a0cb757e27c578; source bundle SHA-256 bf7c25d394b38764d8a6b6228476643ddfdf0cfb3b3a34e16212ea0244e2edef. Hashes e fontes registrados em investigacao/evidence/release-preparation-2026-11-04.json."
+    "Pacote de publicação final em 2026-11-04: SHA-256 f89cfd45fc64ec440cb4af9f5f83974b36b38fcc21f48bf052d931794d1a60f9, 15 arquivos, 2,125,782 bytes; executável standalone SHA-256 7bc921bd090b60e282273799117c046f94906dc3fed0ae8ff9a0cb757e27c578; source bundle SHA-256 bf7c25d394b38764d8a6b6228476643ddfdf0cfb3b3a34e16212ea0244e2edef. Hashes e fontes registrados em investigacao/evidence/release-preparation-2026-11-04.json.",
+    "Children of Morta (plano aceito automaticamente por isdone-catalog-v1): 670/670 arquivos MD5 válidos, zero ausentes e divergências, em 2026-11-10. Primeira instalação real concluída sem travar na etapa 21 desde a regra named_operands; testada pela release v0.1.1 (fitgirl copiado para dentro da pasta do repack)."
   ],
   "history": [
     "Atualização 2026-11-04: empacotamento de liblzma corrigido para incluir liblzma.so.5 compilada de XZ Utils 5.8.4, com source release SHA-256 0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9, avisos e receita de build. Validação do artefato pendente nesta execução.",
