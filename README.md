@@ -7,30 +7,44 @@ Extracts FitGirl repacks on Linux without running `setup.exe`.
 Point it at the repack folder and it extracts. There is nothing to analyse,
 configure, compile or install first.
 
-## How to use it
+## How to use it — from scratch
 
-Download the project (GitHub ZIP or `git clone`) and unpack it anywhere. Then
-use whichever of the two forms below you prefer.
+**1. Install Wine** from your distribution. You also need Python 3.12 or
+newer, which most current distributions already ship.
 
-**Calling it from inside the repack folder:**
+**2. Download the project.** Either the GitHub ZIP, or:
 
 ```bash
-cd "/path/to/repack"
+git clone https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64.git ~/FitGirlWine
+```
+
+The trailing `~/FitGirlWine` only gives the folder a short name; without it,
+the clone creates a folder named after the long repository name.
+
+**3. Enter the repack folder** — the one holding `setup.exe` next to the
+`fg-01.bin`, `fg-02.bin` volumes:
+
+```bash
+cd "/mnt/games/Game Name [FitGirl Repack]"
+```
+
+**4. Call the extractor:**
+
+```bash
 ~/FitGirlWine/fitgirl
 ```
 
-**Or passing the repack folder:**
+That's it. If you would rather not enter the folder, pass it as an argument:
 
 ```bash
-~/FitGirlWine/fitgirl "/path/to/repack"
+~/FitGirlWine/fitgirl "/mnt/games/Game Name [FitGirl Repack]"
 ```
 
-The repack folder is the one holding `setup.exe` next to the `fg-01.bin`,
-`fg-02.bin` volumes.
+If it stops midway — power cut, you cancelled, anything — run the same
+command again and it continues where it left off.
 
-It then asks for the interface language and walks you through the rest in the
-terminal: where to install, which languages and optional content to include,
-and how much CPU and memory to use. Enter accepts the default everywhere.
+If something does not work, `~/FitGirlWine/fitgirl doctor` reports what your
+system is missing.
 
 ### To type just `fitgirl`
 
@@ -42,6 +56,29 @@ mkdir -p ~/.local/bin && ln -s ~/FitGirlWine/fitgirl ~/.local/bin/fitgirl
 
 If `~/.local/bin` is already on your `PATH` — it is on most distributions —
 `fitgirl` then works from any folder.
+
+## What happens when you run it
+
+The tool walks you through everything in the terminal, in this order:
+
+| Question | What Enter does |
+|---|---|
+| Interface language | picks Portuguese |
+| Where to install | accepts the first disk on the list |
+| Game languages and optional content | keeps the repack's default for each item |
+| Limit CPU and memory manually | answers "no": the tool tunes itself |
+| Review and start | **starts extracting** |
+
+So you can go through the whole flow pressing only Enter — bearing in mind
+that the last Enter is what starts the work. Until then, nothing is written
+to disk.
+
+Two exceptions to "Enter accepts": if no writable disk is detected, or if the
+chosen destination fails validation, it asks for a full path instead, and
+there is no default to accept.
+
+For scripted runs, `FITGIRL_LANGUAGE=en` or `FITGIRL_LANGUAGE=pt` skips the
+language question.
 
 ## Requirements
 

@@ -7,30 +7,44 @@ Descompacta repacks da FitGirl no Linux, sem executar o `setup.exe`.
 Você aponta para a pasta do repack e ela descompacta. Não há nada para
 analisar, configurar, compilar ou instalar antes.
 
-## Como usar
+## Como usar — do zero
 
-Baixe o projeto (ZIP do GitHub ou `git clone`) e descompacte onde quiser.
-Depois, das duas formas abaixo, use a que preferir.
+**1. Instale o Wine** pela sua distribuição. Você também precisa de Python
+3.12 ou mais novo, que já vem na maioria das distribuições atuais.
 
-**Chamando de dentro da pasta do repack:**
+**2. Baixe o projeto.** Pelo ZIP do GitHub, ou:
 
 ```bash
-cd "/caminho/do/repack"
+git clone https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64.git ~/FitGirlWine
+```
+
+O `~/FitGirlWine` no fim é só para a pasta ter um nome curto; sem ele, o
+clone cria uma pasta com o nome longo do repositório.
+
+**3. Entre na pasta do repack** — aquela onde está o `setup.exe` junto dos
+volumes `fg-01.bin`, `fg-02.bin` e assim por diante:
+
+```bash
+cd "/mnt/jogos/Nome Do Jogo [FitGirl Repack]"
+```
+
+**4. Chame o descompactador:**
+
+```bash
 ~/FitGirlWine/fitgirl
 ```
 
-**Ou passando a pasta do repack:**
+É isso. Se preferir não entrar na pasta, passe ela como argumento:
 
 ```bash
-~/FitGirlWine/fitgirl "/caminho/do/repack"
+~/FitGirlWine/fitgirl "/mnt/jogos/Nome Do Jogo [FitGirl Repack]"
 ```
 
-A pasta do repack é aquela onde está o `setup.exe`, junto dos volumes
-`fg-01.bin`, `fg-02.bin` e assim por diante.
+Se parar no meio — queda de energia, você cancelou, qualquer coisa — rode o
+mesmo comando de novo e ele continua de onde estava.
 
-Em seguida a ferramenta pergunta o idioma e conduz o resto pelo terminal:
-onde instalar, quais idiomas e opcionais incluir, e quanto de CPU e memória
-usar. Enter aceita o padrão em todas as perguntas.
+Se algo não funcionar, `~/FitGirlWine/fitgirl doctor` diz o que falta no seu
+sistema.
 
 ### Para digitar só `fitgirl`
 
@@ -42,6 +56,28 @@ mkdir -p ~/.local/bin && ln -s ~/FitGirlWine/fitgirl ~/.local/bin/fitgirl
 
 Se `~/.local/bin` já estiver no seu `PATH` — é o caso na maioria das
 distribuições — a partir daí basta `fitgirl` em qualquer pasta.
+
+## O que acontece quando você roda
+
+A ferramenta conduz tudo pelo terminal, nesta ordem:
+
+| Pergunta | O que Enter faz |
+|---|---|
+| Idioma da interface | escolhe português |
+| Onde instalar | aceita o primeiro disco da lista |
+| Idiomas e opcionais do jogo | mantém o padrão do repack para cada item |
+| Limitar CPU e memória manualmente | responde "não": a ferramenta se ajusta sozinha |
+| Revisar e iniciar | **começa a descompactar** |
+
+Ou seja, dá para atravessar o fluxo inteiro só dando Enter — lembrando que o
+último Enter é o que inicia o trabalho. Até ali, nada é escrito no disco.
+
+Duas exceções ao "Enter aceita": se nenhum disco gravável for detectado, ou
+se o destino escolhido não passar na validação, aí ele pede um caminho
+completo, e aí não há padrão a aceitar.
+
+Para automatizar, `FITGIRL_LANGUAGE=pt` ou `FITGIRL_LANGUAGE=en` dispensa a
+pergunta de idioma.
 
 ## Requisitos
 
