@@ -4,7 +4,7 @@
 > `status/project-status.json` e execute `./tools/sync-docs.py --write`.
 
 Última atualização declarada: 2026-11-10  
-Suíte automatizada descoberta: **206/206 testes**.
+Suíte automatizada descoberta: **208/208 testes**.
 
 ## 1. Monitoramento da ordem em produção
 

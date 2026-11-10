@@ -31,6 +31,13 @@ cp "$ROOT/libexec/unarc" "$STAGE/libexec/unarc"
 cp "$ROOT/libexec/unarc-helper.exe" "$STAGE/libexec/unarc-helper.exe"
 python3 "$ROOT/tools/write-third-party-manifest.py" \
   "$STAGE" "$STAGE/THIRD-PARTY-BINARIES.json"
+# Quem baixa apenas o arquivo único também precisa dos avisos: sem isto, só
+# o ZIP entregaria LICENSE e LICENSES/. Exibidos por `fitgirl licenses`.
+mkdir -p "$STAGE/LICENSES"
+cp "$ROOT/LICENSE" "$STAGE/LICENSE"
+cp "$ROOT/docs/THIRD_PARTY.md" "$STAGE/LICENSES/THIRD_PARTY.md"
+cp "$ROOT/third_party/licenses/"* "$STAGE/LICENSES/"
+cp "$ROOT/third_party/components.json" "$STAGE/LICENSES/components.json"
 find "$STAGE" -type d -name __pycache__ -prune -exec rm -rf {} +
 chmod +x "$STAGE/fitgirl" "$STAGE/libexec/fitgirl-extract" \
   "$STAGE/libexec/innoextract" "$STAGE/libexec/unarc" \

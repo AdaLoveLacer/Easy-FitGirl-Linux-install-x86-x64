@@ -28,10 +28,43 @@ from . import (
 )
 
 
+LICENSE_SOURCES = "https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64"
+
+
+def report_licenses() -> int:
+    """Show the notices from the running copy, bundle or checkout alike.
+
+    The single-file release carries LICENSE and LICENSES/ beside the code, so
+    whoever downloads only that file still gets the notices offline; in a
+    checkout the same texts live in third_party/licenses.
+    """
+    own = ROOT / "LICENSE"
+    notices = ROOT / "LICENSES"
+    if not notices.is_dir():
+        notices = ROOT / "third_party" / "licenses"
+    print(translations.translate("Material original do projeto: 0BSD"))
+    if own.is_file():
+        print()
+        print(own.read_text(encoding="utf-8").strip())
+    print()
+    if not notices.is_dir():
+        print(translations.translate("avisos de terceiros não encontrados nesta cópia"))
+        return 2
+    arquivos = sorted(p for p in notices.iterdir() if p.is_file())
+    print(translations.translate("Componentes de terceiros, com licença própria:"))
+    for arquivo in arquivos:
+        print(f"  {arquivo.name}")
+    print()
+    print(translations.translate("Texto completo de cada aviso:") + f" {notices}")
+    print(translations.translate("Fontes correspondentes:") + f" {LICENSE_SOURCES}")
+    return 0
+
+
 def parser() -> argparse.ArgumentParser:
     main = argparse.ArgumentParser(description=__doc__)
     subparsers = main.add_subparsers(dest="command", required=True)
     subparsers.add_parser("doctor", help=translations.translate("verificar requisitos deste Linux"))
+    subparsers.add_parser("licenses", help=translations.translate("mostrar licenças e avisos de terceiros"))
     inspect_parser = subparsers.add_parser("inspect", help=translations.translate("identificar setup, opções e plano"))
     inspect_parser.add_argument("--source", type=Path, default=Path.cwd())
     inspect_parser.add_argument("--manifest", type=Path)
@@ -78,7 +111,7 @@ def parser() -> argparse.ArgumentParser:
 
 
 def _run(arguments: list[str]) -> int:
-    internal_commands = {"doctor", "inspect", "install", "status", "pause", "resume"}
+    internal_commands = {"doctor", "licenses", "inspect", "install", "status", "pause", "resume"}
     if arguments in (["-h"], ["--help"]):
         print("Uso: fitgirl /caminho/do/repack")
         print("\nO menu terminal solicitará destino, componentes e configurações.")
@@ -94,6 +127,8 @@ def _run(arguments: list[str]) -> int:
             raise InstallerError("use somente: fitgirl /caminho/do/repack")
         return interactive_install(Path(arguments[0]))
     args = parser().parse_args(arguments)
+    if args.command == "licenses":
+        return report_licenses()
     if args.command == "doctor":
         report = json.loads(report_json())
         print(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True))
