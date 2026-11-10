@@ -21,6 +21,10 @@ git clone https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64.git
 O `~/FitGirlWine` no fim é só para a pasta ter um nome curto; sem ele, o
 clone cria uma pasta com o nome longo do repositório.
 
+> Nos comandos abaixo, **`~/FitGirlWine` é a pasta onde você baixou o
+> projeto**. Se você já tem o projeto em outro lugar, troque por esse
+> caminho — por exemplo `~/Documentos/FitGirlWine/fitgirl`.
+
 **3. Entre na pasta do repack** — aquela onde está o `setup.exe` junto dos
 volumes `fg-01.bin`, `fg-02.bin` e assim por diante:
 
