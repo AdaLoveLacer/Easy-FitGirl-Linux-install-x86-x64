@@ -3,7 +3,7 @@
 > ARQUIVO GERADO. Não edite diretamente. Atualize
 > `status/project-status.json` e execute `./tools/sync-docs.py --write`.
 
-Última atualização declarada: 2026-11-10  
+Última atualização declarada: 2026-11-14  
 Suíte automatizada descoberta: **212/212 testes**.
 
 ## 1. Monitoramento da ordem em produção
@@ -187,10 +187,10 @@ Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
 
 ## 16. Release de arquivo único
 
-Estado: **PENDENTE — PLANEJADA**
+Estado: **PUBLICADA EM v0.1.1 — FALTA DOCUMENTAR NO README**
 
-- [ ] Publicar a release no GitHub com o arquivo único. O dist/fitgirl do build-standalone.sh já é esse arquivo: autoextraível de 1,51 MiB que materializa src/, manifests/ e o libexec/ completo (innoextract com Boost/lzma/zstd, unarc, unarc-helper.exe) em ~/.cache/fitgirl-installer/runtime/<id>, endereçado pelo SHA-256 do payload. Verificado com cache limpo: fitgirl doctor respondeu supported sem problemas. Falta versionar — não há nenhuma tag no repositório — e publicar.
-- [ ] Levar avisos e licenças para dentro do arquivo único. O payload hoje tem fitgirl, src/, manifests/, libexec/ e THIRD-PARTY-BINARIES.json, sem LICENSE nem LICENSES/; quem baixa só o arquivo não recebe os avisos que o ZIP entrega. Incluí-los no stage e oferecer como exibi-los offline; anexar SOURCE-CODE.tar.gz à mesma release cobre a fonte correspondente dos componentes LGPL/GPL.
+- [x] Publicar a release no GitHub com o arquivo único. O dist/fitgirl do build-standalone.sh é esse arquivo: autoextraível que materializa src/, manifests/ e o libexec/ completo (innoextract com Boost/lzma/zstd, unarc, unarc-helper.exe) em ~/.cache/fitgirl-installer/runtime/<id>, endereçado pelo SHA-256 do payload. Concluído em 2026-11-10: o repositório foi versionado com as tags v0.1.0 e v0.1.1 e as releases foram publicadas; tools/make-release.sh automatiza o processo. A v0.1.1 leva três ativos — fitgirl (1.637.117 bytes), FitGirlInstaller-Linux-x86_64.zip (5.181.174 bytes) e SHA256SUMS.
+- [x] Levar avisos e licenças para dentro do arquivo único. Concluído em 2026-11-10: build-standalone.sh passou a copiar LICENSE, LICENSES/THIRD_PARTY.md, third_party/licenses/* e components.json para o stage, e o comando fitgirl licenses os exibe offline. A fonte correspondente dos componentes LGPL/GPL continua no SOURCE-CODE.tar.gz dentro do ZIP, anexado à mesma release.
 - [ ] Documentar no README o uso pela release como caminho principal — baixar, chmod +x, executar — mantendo o clone como alternativa para quem quer o código. O chmod precisa estar na instrução porque o GitHub não preserva o bit de execução no download.
 
 ## Baseline validado
