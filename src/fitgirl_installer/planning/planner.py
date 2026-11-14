@@ -260,6 +260,20 @@ def _isarc_step(
          if re.search(r"\.(?:bin|fgpack)$", item["value"], re.IGNORECASE)),
         None,
     )
+    if archive_item is None:
+        # Repacks also decompress archives that earlier steps already put in
+        # the destination, under names this rule does not know: GTA IV passes
+        # level_1.img_. The archive is then the last logical path argument that
+        # is not the destination directory, which always ends in a backslash.
+        # Only reached when the rule above found nothing, so no plan that it
+        # already recognized can change.
+        archive_item = next(
+            (item for item in reversed(strings)
+             if not item["value"].endswith("\\")
+             and _logical(item["value"]) is not None
+             and Path(_logical(item["value"])[1]).suffix),
+            None,
+        )
     if archive_item is None or _logical(archive_item["value"]) is None:
         return None
     archive_root, archive_path = _logical(archive_item["value"]) or ("", "")

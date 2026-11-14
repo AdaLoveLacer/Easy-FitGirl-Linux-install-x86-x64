@@ -607,6 +607,37 @@ CURSTEPCHANGED  bytecode
         self.assertTrue(coverage["complete"])
         self.assertEqual(coverage["relevant_calls"], 4)
 
+    def test_archive_already_in_the_destination_without_a_known_suffix(self):
+        # GTA IV decompresses files that earlier steps put inside {app}, such
+        # as level_1.img_, whose name ends in no extension the generator knows.
+        # Four of its thirteen ISArcExtract calls looked like this and produced
+        # no step at all, leaving the action coverage incomplete.
+        disassembly = """\
+CURSTEPCHANGED  bytecode
+  0x100  assign      s+19, "{tmp}\\arc.ini"
+  0x110  assign      s+18, "{tmp}\\unarc.dll"
+  0x120  assign      s+20, ""
+  0x130  assign      s+23, "{app}\\pc\\data\\maps\\interiors\\mission\\"
+  0x140  assign      s+24, "{app}\\pc\\data\\maps\\interiors\\mission\\level_1.img_"
+  0x150  assign      s+23, 0i32
+  0x160  assign      s+24, 0i32
+  0x170  call        dll:files:ISDone.dll!ISArcExtract
+"""
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "compiled.txt"
+            path.write_text(disassembly)
+            steps = PLANNER.steps_from_disassembly(path, {}, {})
+
+        self.assertEqual([step["type"] for step in steps], ["extract"])
+        self.assertEqual(steps[0]["archive_root"], "app")
+        self.assertEqual(steps[0]["archive"], "pc/data/maps/interiors/mission/level_1.img_")
+        self.assertEqual(
+            steps[0]["destination_suffix"], "pc/data/maps/interiors/mission",
+        )
+        coverage = PLANNER.action_coverage(disassembly.splitlines(), steps)
+        self.assertTrue(coverage["complete"])
+        self.assertEqual(coverage["relevant_calls"], 1)
+
     def test_bitmask_accepts_enriched_isdone_init_name(self):
         disassembly = """\
 ===== proc #5 =====
