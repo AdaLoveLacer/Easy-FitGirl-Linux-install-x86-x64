@@ -187,11 +187,11 @@ Estado: **REGISTRADOS — CORREÇÃO SEMPRE EM COMMIT SEPARADO**
 
 ## 16. Release de arquivo único
 
-Estado: **PUBLICADA EM v0.1.1 — FALTA DOCUMENTAR NO README**
+Estado: **CONCLUÍDA — PUBLICADA EM v0.1.1**
 
 - [x] Publicar a release no GitHub com o arquivo único. O dist/fitgirl do build-standalone.sh é esse arquivo: autoextraível que materializa src/, manifests/ e o libexec/ completo (innoextract com Boost/lzma/zstd, unarc, unarc-helper.exe) em ~/.cache/fitgirl-installer/runtime/<id>, endereçado pelo SHA-256 do payload. Concluído em 2026-11-10: o repositório foi versionado com as tags v0.1.0 e v0.1.1 e as releases foram publicadas; tools/make-release.sh automatiza o processo. A v0.1.1 leva três ativos — fitgirl (1.637.117 bytes), FitGirlInstaller-Linux-x86_64.zip (5.181.174 bytes) e SHA256SUMS.
 - [x] Levar avisos e licenças para dentro do arquivo único. Concluído em 2026-11-10: build-standalone.sh passou a copiar LICENSE, LICENSES/THIRD_PARTY.md, third_party/licenses/* e components.json para o stage, e o comando fitgirl licenses os exibe offline. A fonte correspondente dos componentes LGPL/GPL continua no SOURCE-CODE.tar.gz dentro do ZIP, anexado à mesma release.
-- [ ] Documentar no README o uso pela release como caminho principal — baixar, chmod +x, executar — mantendo o clone como alternativa para quem quer o código. O chmod precisa estar na instrução porque o GitHub não preserva o bit de execução no download.
+- [x] Documentar no README o uso pela release como caminho principal. Concluído em 2026-11-14: o passo 2 dos dois READMEs passou a baixar o arquivo único por curl da última release, com o chmod +x explicado — o GitHub não preserva o bit de execução. A conferência pelo SHA256SUMS publicado e o clone do código-fonte foram para um bloco recolhível, de modo que o clone continua disponível sem competir com o caminho principal. A seção de manutenção passou a citar tools/make-release.sh, que não aparecia em lugar nenhum.
 
 ## Baseline validado
 

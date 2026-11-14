@@ -567,7 +567,7 @@
     },
     {
       "title": "Release de arquivo único",
-      "status": "PUBLICADA EM v0.1.1 — FALTA DOCUMENTAR NO README",
+      "status": "CONCLUÍDA — PUBLICADA EM v0.1.1",
       "items": [
         [
           true,
@@ -578,8 +578,8 @@
           "Levar avisos e licenças para dentro do arquivo único. Concluído em 2026-11-10: build-standalone.sh passou a copiar LICENSE, LICENSES/THIRD_PARTY.md, third_party/licenses/* e components.json para o stage, e o comando fitgirl licenses os exibe offline. A fonte correspondente dos componentes LGPL/GPL continua no SOURCE-CODE.tar.gz dentro do ZIP, anexado à mesma release."
         ],
         [
-          false,
-          "Documentar no README o uso pela release como caminho principal — baixar, chmod +x, executar — mantendo o clone como alternativa para quem quer o código. O chmod precisa estar na instrução porque o GitHub não preserva o bit de execução no download."
+          true,
+          "Documentar no README o uso pela release como caminho principal. Concluído em 2026-11-14: o passo 2 dos dois READMEs passou a baixar o arquivo único por curl da última release, com o chmod +x explicado — o GitHub não preserva o bit de execução. A conferência pelo SHA256SUMS publicado e o clone do código-fonte foram para um bloco recolhível, de modo que o clone continua disponível sem competir com o caminho principal. A seção de manutenção passou a citar tools/make-release.sh, que não aparecia em lugar nenhum."
         ]
       ]
     }

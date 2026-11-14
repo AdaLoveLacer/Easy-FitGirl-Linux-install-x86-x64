@@ -12,7 +12,37 @@ analisar, configurar, compilar ou instalar antes.
 **1. Instale o Wine** pela sua distribuição. Você também precisa de Python
 3.12 ou mais novo, que já vem na maioria das distribuições atuais.
 
-**2. Baixe o projeto.** Pelo ZIP do GitHub, ou:
+**2. Baixe o descompactador** — um arquivo só, pela
+[última release](https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64/releases/latest):
+
+```bash
+mkdir -p ~/FitGirlWine && cd ~/FitGirlWine
+curl -LO https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64/releases/latest/download/fitgirl
+chmod +x fitgirl
+```
+
+O `chmod +x` não é opcional: o GitHub não preserva a permissão de execução,
+então o arquivo chega sem poder ser executado.
+
+Ele já leva tudo o que precisa — não há mais nada para instalar, e a primeira
+execução desempacota as ferramentas dele em `~/.cache/fitgirl-installer`.
+
+> Nos comandos abaixo, **`~/FitGirlWine` é a pasta onde você colocou esse
+> arquivo**. Se escolheu outra pasta, troque por esse caminho — por exemplo
+> `~/Documentos/FitGirlWine/fitgirl`.
+
+<details>
+<summary>Conferir o que você baixou, ou pegar o código-fonte</summary>
+
+A release publica um `SHA256SUMS` ao lado do arquivo:
+
+```bash
+curl -LO https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64/releases/latest/download/SHA256SUMS
+sha256sum --check --ignore-missing SHA256SUMS
+```
+
+Para rodar pelo código-fonte, clone o repositório — todos os comandos abaixo
+funcionam igual, e o lançador acha os próprios fontes:
 
 ```bash
 git clone https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64.git ~/FitGirlWine
@@ -21,9 +51,7 @@ git clone https://github.com/AdaLoveLacer/Easy-FitGirl-Linux-install-x86-x64.git
 O `~/FitGirlWine` no fim é só para a pasta ter um nome curto; sem ele, o
 clone cria uma pasta com o nome longo do repositório.
 
-> Nos comandos abaixo, **`~/FitGirlWine` é a pasta onde você baixou o
-> projeto**. Se você já tem o projeto em outro lugar, troque por esse
-> caminho — por exemplo `~/Documentos/FitGirlWine/fitgirl`.
+</details>
 
 **3. Entre na pasta do repack** — aquela onde está o `setup.exe` junto dos
 volumes `fg-01.bin`, `fg-02.bin` e assim por diante:
@@ -155,6 +183,9 @@ Para manutenção, não para uso:
 O ZIP sai em `dist/FitGirlInstaller-Linux-x86_64.zip`, com o launcher, as
 bibliotecas de extração, avisos de licença e os fontes correspondentes dos
 componentes de terceiros. O Wine não é incluído.
+
+`./tools/make-release.sh <tag>` gera os mesmos artefatos, cria a tag e publica
+a release do GitHub de onde o passo 2 baixa.
 
 ## Licença
 
