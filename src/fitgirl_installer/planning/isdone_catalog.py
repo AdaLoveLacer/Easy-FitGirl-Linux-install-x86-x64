@@ -36,6 +36,20 @@ CATALOG: dict[str, IsdoneVersion] = {
         # ISDoneStop may delete the records file retained by ISDoneInit.
         records_deleted_by_isdonestop=True,
     ),
+    "bb8a0245dcc5c10a1c7181bad509b65959855009a8105863ef14f2bb5b38ac71": IsdoneVersion(
+        label="ISDone.dll bb8a0245 (Devil May Cry 5, GTA IV and others)",
+        evidence="investigacao/evidence/isdone-bb8a0245-2026-11-14.json",
+        # A wider codec surface than c652b4b5 — it adds ISRarExtract,
+        # ISSrepExtract and ISPrecompExtract and drops ISbinkExtract — but the
+        # exports below are the same code: PrecompInit, FileSearchInit and
+        # ChangeLanguage match instruction for instruction, and ISDoneInit
+        # differs only by register allocation while writing the same state.
+        successful_exports=frozenset({"isdoneinit", "precompinit", "filesearchinit", "changelanguage"}),
+        # Same identical PrecompInit, writing the same two keys.
+        precomp_init_section="Precomp",
+        # ISDoneStop is identical here and reaches DeleteFileA the same way.
+        records_deleted_by_isdonestop=True,
+    ),
 }
 
 OUTSIDE_INSTALLATION = ("{src}\\", "{tmp}\\")

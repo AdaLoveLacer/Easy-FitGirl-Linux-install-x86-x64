@@ -4,7 +4,7 @@
 > `status/project-status.json` e execute `./tools/sync-docs.py --write`.
 
 Última atualização declarada: 2026-11-14  
-Suíte automatizada descoberta: **212/212 testes**.
+Suíte automatizada descoberta: **214/214 testes**.
 
 ## 1. Monitoramento da ordem em produção
 
@@ -168,8 +168,8 @@ Estado: **IMPLEMENTADA — VALIDAÇÃO REAL PENDENTE**
 - [x] Política isdone-catalog-v1: aceitação automática só com todas as provas; plano aceito que perde prova volta a rascunho; revisão manual preservada.
 - [x] Inferir escopo de rollback dos comandos de pós-processamento pelos operandos nomeados (regra named_operands) e exigir escopo em todo programa.
 - [x] Repetida a instalação real do Children of Morta com o código atual, no disco SSD: plano aceito automaticamente pela política isdone-catalog-v1 (10/10 requisitos, sem revisão manual), 44 etapas, concluída sem travar na etapa 21 (a regra named_operands resolveu o x2.exe sem escopo). Verificação final: 670/670 arquivos com MD5 válido, zero divergências. O journal da primeira tentativa (parada em 2026-11-08 na etapa 20/21) foi preservado intocado em outro disco, sem necessidade de retomada. Falta ainda validar o Subverse.
-- [ ] Analisar estaticamente a ISDone.dll bb8a0245… (DMC5 e GTA IV) e incluí-la no catálogo se os mesmos efeitos se provarem.
-- [ ] Investigar por que os componentes do God of War III não batem com os bits de seleção e a lacuna de cobertura de ações do GTA IV.
+- [x] Analisar estaticamente a ISDone.dll bb8a0245… (DMC5 e GTA IV) e incluí-la no catálogo. Concluído em 2026-11-14: a build tem superfície de codecs mais larga que a c652b4b5 — acrescenta ISRarExtract, ISSrepExtract e ISPrecompExtract e perde ISbinkExtract — mas os exports de que o catálogo depende são o mesmo código. PrecompInit (184 instruções), FileSearchInit (7), ChangeLanguage (113) e ISDoneStop (197) são idênticos instrução a instrução depois de mascarar endereços; ISDoneInit difere só por realocação de registradores, escrevendo os mesmos 64 globais e lendo os mesmos 70. O bloco de estado da DLL está 0x11000 acima, e todos os sete marcos citados na evidência da primeira build têm correspondente exato. A única escrita sem par, 0x46EDAD, tem uma referência em toda a seção CODE — a própria escrita — portanto nenhum leitor. A superfície de APIs externas alcançáveis é igual export a export. Efeito prático: o GTA IV deixou de ser recusado pelos três bloqueios semânticos e agora para só na cobertura de ações. Evidência em investigacao/evidence/isdone-bb8a0245-2026-11-14.json; ferramentas em .work/isdone-bb8a0245/.
+- [ ] Investigar por que os componentes do God of War III não batem com os bits de seleção e a lacuna de cobertura de ações do GTA IV. A lacuna do GTA IV foi localizada em 2026-11-14, depois de catalogar a bb8a0245: o plano cobre 132 das 136 chamadas relevantes e deixa de fora quatro ISArcExtract, em 0x21207, 0x218b7, 0x21f5b e 0x22605. Falta explicar por que essas quatro não viram etapa. O God of War III usa a c652b4b5, então o descasamento dele é de bits de seleção, não de versão de DLL.
 - [ ] Regenerar automaticamente o disassembly em cache quando a reprodução a partir do CompiledCode.bin divergir (caso do Directive 8020, feito à mão).
 
 ## 15. Bugs encontrados durante a refatoração

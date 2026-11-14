@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "validated_on": "2026-11-14",
+  "status": "STATIC_AUDIT_COMPLETE_FOR_CATALOG_FIELDS",
+  "subject": {
+    "sha256": "bb8a0245dcc5c10a1c7181bad509b65959855009a8105863ef14f2bb5b38ac71",
+    "size_bytes": 463360,
+    "format": "PE32 i386 DLL, 7 sections, ImageBase 0x400000",
+    "sampled_setups": [
+      "Devil May Cry 5 [FitGirl Repack]",
+      "GTA IV - Complete Edition [FitGirl Repack]"
+    ],
+    "identity": "The extracted ISDone.dll bytes are identical in both setups."
+  },
+  "reference": {
+    "sha256": "c652b4b564b3c85c399155cbb45c6fb5a9f56f074e566bfd20f01da6e0412c74",
+    "evidence": "investigacao/evidence/semantic-guard-audit-2026-11-04.json",
+    "size_bytes": 389120
+  },
+  "method": [
+    "Static PE export/import inspection plus objdump disassembly anchored at each export address. Linear disassembly of the whole file misaligns — it swallowed the 55 8b ec prologue of ISDoneStop into the preceding instruction — so every body is decoded starting at its own export address. Each export body is walked depth-first through its branches, and internal calls are followed to depth 4 to reach the Win32 APIs behind the import thunks. The method was calibrated against the already catalogued DLL: it reproduces that build's known result (ISDoneStop reaches DeleteFileA) before being applied to the candidate. Tools in .work/isdone-bb8a0245/."
+  ],
+  "export_surface": {
+    "shared_with_reference": [
+      "ChangeLanguage",
+      "Exec2",
+      "FileSearchInit",
+      "IS7zipExtract",
+      "ISArcExtract",
+      "ISDoneInit",
+      "ISDoneStop",
+      "ISExec",
+      "ISFindFiles",
+      "ISFindFree",
+      "ISGetName",
+      "ISPackZIP",
+      "ISPickFilename",
+      "ISxDeltaExtract",
+      "PrecompInit",
+      "ResumeProc",
+      "ShowChangeDiskWindow",
+      "SrepInit",
+      "SuspendProc",
+      "wrapcallback"
+    ],
+    "only_in_reference": [
+      "ISbinkExtract"
+    ],
+    "only_in_subject": [
+      "ISPrecompExtract",
+      "ISRarExtract",
+      "ISSrepExtract"
+    ],
+    "imports": "Identical imported DLL set and identical imported function set.",
+    "note": "The three extra extract exports are a wider codec surface, not a different effect model. They matter for the action vocabulary of the plan generator, not for the catalog fields."
+  },
+  "structural_comparison": {
+    "normalisation": "Addresses and immediates masked; mnemonic and operand shape compared.",
+    "identical_instruction_sequences": {
+      "PrecompInit": {
+        "instructions": 184,
+        "similarity": 1.0
+      },
+      "FileSearchInit": {
+        "instructions": 7,
+        "similarity": 1.0
+      },
+      "ChangeLanguage": {
+        "instructions": 113,
+        "similarity": 1.0
+      },
+      "ISDoneStop": {
+        "instructions": 197,
+        "similarity": 1.0
+      }
+    },
+    "differing": {
+      "ISDoneInit": {
+        "instructions": "434 vs 431",
+        "similarity": 0.904,
+        "nature": "register allocation (eax/edx, ebx/esi) plus one early failure branch"
+      },
+      "ISExec": {
+        "instructions": "306 vs 303",
+        "similarity": 0.923
+      },
+      "Exec2": {
+        "instructions": "95 vs 93",
+        "similarity": 0.894
+      }
+    }
+  },
+  "external_effect_surface": {
+    "method": "Win32 APIs reachable from each export, following internal calls to depth 4.",
+    "identical_for_every_export": true,
+    "per_export": {
+      "ISDoneInit": [],
+      "PrecompInit": [
+        "kernel32.dll!WritePrivateProfileStringA"
+      ],
+      "FileSearchInit": [],
+      "ChangeLanguage": [],
+      "ISDoneStop": [
+        "kernel32.dll!DeleteFileA"
+      ],
+      "ISExec": [
+        "kernel32.dll!CreateProcessA",
+        "kernel32.dll!GetExitCodeProcess",
+        "kernel32.dll!TerminateProcess"
+      ],
+      "Exec2": [
+        "kernel32.dll!WaitForSingleObject"
+      ]
+    }
+  },
+  "global_state_mapping": {
+    "finding": "The DLL-owned state block sits 0x11000 higher than in the reference build.",
+    "anchor": "FileSearchInit writes 0x45DD82 in the reference and 0x46ED82 in the subject.",
+    "landmarks_from_reference_evidence": {
+      "component_selection_mask_1": {
+        "reference": "0x45DD54",
+        "subject": "0x46ED54"
+      },
+      "component_selection_mask_2": {
+        "reference": "0x45DD58",
+        "subject": "0x46ED58"
+      },
+      "component_selection_mask_3": {
+        "reference": "0x45DD5C",
+        "subject": "0x46ED5C"
+      },
+      "records_missing_flag": {
+        "reference": "0x45DD40",
+        "subject": "0x46ED40"
+      },
+      "retained_records_path": {
+        "reference": "0x45DDF8",
+        "subject": "0x46EDF8"
+      },
+      "exec2_result_byte": {
+        "reference": "0x45DDAA",
+        "subject": "0x46EDAA"
+      },
+      "filesearchinit_byte": {
+        "reference": "0x45DD82",
+        "subject": "0x46ED82"
+      }
+    },
+    "all_landmarks_written_by_isdoneinit_in_both": true,
+    "isdoneinit_global_counts": {
+      "writes": "64 in both",
+      "reads": "70 in both"
+    },
+    "unmatched_write": {
+      "address": "0x46EDAD",
+      "finding": "One write in the subject's ISDoneInit has no counterpart in the reference. A byte-pattern search of the whole CODE section finds exactly one reference to it — that write. It has no reader, so it cannot change any external effect, the same shape already documented for the FileSearchInit byte in the reference build."
+    },
+    "exec2_pointer_slot": {
+      "reference": "0x45C504 holds 0x45DDAA",
+      "subject": "0x46DD20 holds 0x46EDAA",
+      "note": "The arrangement is present but the slot does not follow the 0x11000 shift."
+    }
+  },
+  "catalog_fields_proven": {
+    "precomp_init_section": {
+      "value": "Precomp",
+      "basis": "PrecompInit is instruction-for-instruction identical to the reference, references the same literals CLS.ini, Precomp, Memory and TempPath, and reaches WritePrivateProfileStringA."
+    },
+    "records_deleted_by_isdonestop": {
+      "value": true,
+      "basis": "ISDoneStop is instruction-for-instruction identical to the reference and reaches DeleteFileA one call deep, with GetFileAttributesA below it, as in the reference."
+    },
+    "successful_exports": {
+      "value": [
+        "isdoneinit",
+        "precompinit",
+        "filesearchinit",
+        "changelanguage"
+      ],
+      "basis": "PrecompInit, FileSearchInit and ChangeLanguage are identical to the reference. ISDoneInit differs only by register allocation and one early failure branch: it writes the same 64 globals and reads the same 70, writes every landmark the reference evidence names, and ends in a single ret with the same Delphi string-cleanup epilogue."
+    }
+  },
+  "limits": [
+    "Full DLL API equivalence is not proven; only the exports the catalog depends on were compared.",
+    "ISExec and Exec2 differ structurally (92.3% and 89.4%). Their external API surface is identical and the Exec2 result-byte pointer arrangement is present, but the internal write sites of that byte were not re-traced for this build. No catalog field depends on them: resolve_effects settles the silent uninstaller launch from the script's success path, never from the DLL.",
+    "No runtime verification. Exec2 pumps Win32 messages through DispatchMessageA, so external window procedure re-entry cannot be excluded statically, exactly as recorded for the reference build.",
+    "Static analysis of this exact binary only. A different ISDone.dll build stays uncatalogued and keeps every effect blocked."
+  ]
+}
